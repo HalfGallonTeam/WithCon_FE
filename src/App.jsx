@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./App.css";
+import "./assets/css/styles.css";
 import Home from "./components/Home";
 import ConLists from "./components/ConLists";
 import ConDetail from "./components/ConDetail";
