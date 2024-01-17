@@ -1,0 +1,267 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+body {
+  min-width: 320px;
+  line-height: normal;
+  font-size: 14px;
+  color: #603535;
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+input,
+textarea,
+select,
+table,
+button,
+code {
+  font-size: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.hidden,
+[hidden] {
+  display: none !important;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+a:hover, a:focus {
+  text-decoration: none;
+}
+
+button {
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+
+select,
+input,
+textarea,
+button {
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input:disabled {
+  background-color: rgba(255, 255, 255, 0);
+  cursor: not-allowed;
+}
+
+select {
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+select::-ms-expand {
+  display: none;
+}
+
+input,
+textarea {
+  font-size: inherit;
+  border: 0;
+}
+input::placeholder,
+textarea::placeholder {
+  /* Chrome, Safari, Firefox */
+  color: #c9c9c9;
+  opacity: 1;
+}
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  /* IE, Edge */
+  color: #c9c9c9;
+  opacity: 1;
+}
+input[readonly]::placeholder, input:disabled::placeholder,
+textarea[readonly]::placeholder,
+textarea:disabled::placeholder {
+  /* Chrome, Safari, Firefox */
+  color: rgba(0, 0, 0, 0.2);
+  opacity: 1;
+}
+input[readonly]:-ms-input-placeholder, input:disabled:-ms-input-placeholder,
+textarea[readonly]:-ms-input-placeholder,
+textarea:disabled:-ms-input-placeholder {
+  /* IE, Edge */
+  color: rgba(0, 0, 0, 0.2);
+  opacity: 1;
+}
+input::-ms-clear, input::-ms-reveal,
+textarea::-ms-clear,
+textarea::-ms-reveal {
+  /* IE, Edge */
+  display: none;
+}
+input::-webkit-inner-spin-button, input::-webkit-outer-spin-button,
+textarea::-webkit-inner-spin-button,
+textarea::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.header {
+  background-color: #36DA93;
+}
+.header .container {
+  margin: 0 auto;
+  padding: 10px;
+  max-width: 1020px;
+}
+.header .title {
+  color: white;
+  font-size: 32px;
+  text-align: center;
+  margin-top: 14px;
+  letter-spacing: 0.2em;
+}
+.header .login-area {
+  text-align: right;
+}
+.header .login-area .login-button {
+  padding: 5px 10px;
+  color: white;
+  font-weight: 700;
+  border: 1px solid #36DA93;
+  transition: 0.3s;
+}
+.header .login-area .login-button:hover {
+  background-color: #279c69;
+  border: 1px solid #279c69;
+  border-radius: 4px;
+}
+.header .search-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header .search-area .filter-category {
+  width: 5rem;
+  height: 1.5rem;
+  text-indent: 4px;
+  font-size: 0.8rem;
+  background-color: white;
+  border: 1px solid #E6E6E6;
+  border-radius: 2px;
+  margin-right: 2px;
+}
+.header .search-area .search-keyword-box {
+  height: 1.5rem;
+  width: 60%;
+  min-width: 160px;
+  text-indent: 4px;
+  font-size: 0.8rem;
+  background-color: white;
+  border: 1px solid #E6E6E6;
+  border-radius: 2px;
+}
+.header .search-area .search-keyword-box .search-keyword-input {
+  height: 100%;
+  width: calc(100% - 2rem);
+}
+.header .search-area .search-keyword-box .submit {
+  height: 100%;
+  width: 1.5rem;
+}
+
+.middle-outlet {
+  min-height: calc(100vh - 278px);
+}
+
+.footer {
+  width: 100vw;
+  background-color: #E6E6E6;
+}
+.footer .container {
+  margin: 0 auto;
+  padding: 10px;
+  max-width: 1020px;
+}
+.footer .footer-desc {
+  text-align: center;
+}
+.footer .developers {
+  display: flex;
+  font-size: 0.8em;
+}
+.footer .developers .frontend, .footer .developers .backend {
+  flex-grow: 1;
+  padding: 5px;
+  text-align: center;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1020px;
+}
+
+.ad-carousel {
+  width: 100%;
+  height: 25px;
+  background-color: #E6E6E6;
+}
+
+.concert-category {
+  color: #36DA93;
+  text-indent: 20px;
+  margin-top: 20px;
+}
+
+.concert-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.concert-card {
+  margin: 10px;
+  min-width: 160px;
+}
+.concert-card .concert-poster {
+  margin: 0 auto;
+}
+.concert-card .concert-mini-info {
+  width: 100%;
+}
+.concert-card .concert-mini-info .info-top-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.concert-card .concert-mini-info .concert-place {
+  display: inline-block;
+}
+.concert-card .concert-mini-info .concert-date {
+  display: inline-block;
+}
+.concert-card .concert-mini-info .concert-date::before {
+  content: "|";
+}

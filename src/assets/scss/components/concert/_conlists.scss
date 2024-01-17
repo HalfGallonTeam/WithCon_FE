@@ -1,0 +1,44 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+.container {
+	margin: 0 auto;
+	max-width: 1020px;
+}
+
+.ad-carousel  {
+	width: 100%;
+	height: 25px;
+	background-color: $background-color;
+}
+
+.concert-category {
+	color: $main-color;
+	text-indent: 20px;
+	margin-top: 20px;
+}
+
+.concert-list {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.concert-card {
+	margin: 10px;
+	min-width: 160px;
+	.concert-poster {
+		margin: 0 auto;
+	}
+	.concert-mini-info {
+		width: 100%;
+		.info-top-line {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.concert-place {display: inline-block;}
+		.concert-date {display: inline-block;}
+		.concert-date::before {content: '|';}
+	}
+}
