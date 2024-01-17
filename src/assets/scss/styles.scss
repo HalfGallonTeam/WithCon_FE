@@ -1,6 +1,9 @@
+@import "./abstracts/mixin_common";
 @import "./base/variables";
 @import "./base/reset";
+@import "./base/preset";
 
 @import "./components/common/header";
 @import "./components/common/footer";
 @import "./components/concert/conlists";
+@import "./components/concert/adCarousel";

@@ -127,6 +127,15 @@ textarea::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
 
+button {
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
 .header {
   background-color: #36DA93;
 }
@@ -142,6 +151,11 @@ textarea::-webkit-outer-spin-button {
   margin-top: 14px;
   letter-spacing: 0.2em;
 }
+.header .title .logo {
+  height: 32px;
+  margin-left: 4px;
+  color: transparent;
+}
 .header .login-area {
   text-align: right;
 }
@@ -150,12 +164,6 @@ textarea::-webkit-outer-spin-button {
   color: white;
   font-weight: 700;
   border: 1px solid #36DA93;
-  transition: 0.3s;
-}
-.header .login-area .login-button:hover {
-  background-color: #279c69;
-  border: 1px solid #279c69;
-  border-radius: 4px;
 }
 .header .search-area {
   display: flex;
@@ -222,10 +230,10 @@ textarea::-webkit-outer-spin-button {
   max-width: 1020px;
 }
 
-.ad-carousel {
-  width: 100%;
-  height: 25px;
-  background-color: #E6E6E6;
+.concert-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .concert-category {
@@ -234,34 +242,144 @@ textarea::-webkit-outer-spin-button {
   margin-top: 20px;
 }
 
-.concert-list {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
 .concert-card {
-  margin: 10px;
-  min-width: 160px;
+  width: 200px;
+  height: 380px;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+}
+.concert-card .poster-box {
+  text-align: center;
 }
 .concert-card .concert-poster {
+  display: inline-block;
   margin: 0 auto;
-}
-.concert-card .concert-mini-info {
-  width: 100%;
 }
 .concert-card .concert-mini-info .info-top-line {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.concert-card .concert-mini-info .concert-place {
-  display: inline-block;
+.concert-card .concert-mini-info .info-top-line .concert-title {
+  font-size: 1em;
+  margin: 8px 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
-.concert-card .concert-mini-info .concert-date {
-  display: inline-block;
+.concert-card .concert-mini-info .info-top-line .like {
+  cursor: pointer;
+  font-size: 1.2em;
+  margin-left: 4px;
+  font-weight: 700;
+  transition: none;
 }
-.concert-card .concert-mini-info .concert-date::before {
-  content: "|";
+.concert-card .concert-mini-info .info-top-line .like:hover {
+  background-color: transparent;
+}
+.concert-card .concert-mini-info .info-bottom-line .reservation-tip {
+  font-size: 0.8em;
+  display: inline-block;
+  padding: 2px;
+  margin-top: 6px;
+  font-weight: 700;
+  color: #36DA93;
+  border: 1px solid #36DA93;
+  border-radius: 2px;
+}
+.concert-card .concert-mini-info .info-bottom-line .reservation-tip.hot {
+  color: red;
+  border-color: red;
+}
+
+.concert-card:hover {
+  box-shadow: 4px 4px 10px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 1016px) {
+  .concert-card {
+    margin: 0 calc((50vw - 416px) / 4);
+  }
+}
+@media (max-width: 800px) {
+  .concert-card {
+    margin: 0 calc((50vw - 312px) / 3);
+  }
+}
+@media (max-width: 600px) {
+  .concert-card {
+    margin: 0 calc((50vw - 210px) / 2);
+  }
+}
+@media (max-width: 400px) {
+  .concert-card {
+    margin: 0 calc(50vw - 104px);
+  }
+}
+.ad-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.ad-carousel .ad-list {
+  transition: transform 1s;
+}
+.ad-carousel .ad-list .slide {
+  display: inline-block;
+  padding: 30px 50px;
+  background-color: pink;
+  border: 1px solid blue;
+}
+.ad-carousel .ad-list .ad-desc {
+  margin: 20px 0;
+  height: 50px;
+  font-size: 1em;
+  line-height: 1.2em;
+  max-height: 2.4em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; /* autoprefixer: off */
+}
+.ad-carousel .ad-list .ad-link {
+  text-align: right;
+  font-weight: 700;
+}
+.ad-carousel .ad-list .ad-link .ad-link-button {
+  padding: 5px 10px;
+}
+.ad-carousel .ad-bullets {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.ad-carousel .ad-bullets .bullet {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #E6E6E6;
+  background-color: #E6E6E6;
+  box-shadow: 1px 2px 6px 0 rgba(0, 0, 0, 0.2);
+  margin: 0 4px;
+  border-radius: 50%;
+}
+.ad-carousel .ad-bullets .active {
+  background-color: white;
+}
+.ad-carousel .ad-button-left, .ad-carousel .ad-button-right {
+  position: absolute;
+  top: 0;
+  z-index: 0;
+  height: 100%;
+  width: 50px;
+  color: white;
+  font-weight: 700;
+}
+.ad-carousel .ad-button-left {
+  left: 0;
+}
+.ad-carousel .ad-button-right {
+  right: 0;
 }
