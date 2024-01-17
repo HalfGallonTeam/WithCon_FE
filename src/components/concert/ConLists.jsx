@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import AdCarousel from "./AdCarousel";
 
 const ConcertCard = () => {
   return (
@@ -17,7 +18,7 @@ const ConcertCard = () => {
             <button className="like">7</button>
           </div>
           <div className="info-bottom-line">
-            <p className="artist">공연자</p>
+            <p className="concert-place">공연위치</p>
             <p className="concert-date">2024-01-01</p>
           </div>
         </div>
@@ -30,7 +31,7 @@ const ConLists = () => {
   return (
     <>
       <div className="container">
-        <div className="ad-carousel">광고가 들어갑니다.</div>
+        <AdCarousel />
         <h2 className="concert-category">콘서트</h2>
         <div className="concert-list">
           <ConcertCard />

@@ -1,18 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./assets/css/styles.css";
-import Home from "./components/Home";
-import ConLists from "./components/ConLists";
-import ConDetail from "./components/ConDetail";
-import ConInfo from "./components/ConInfo";
-import ChatList from "./components/ChatList";
-import MyPage from "./components/Mypage";
-import MyConcert from "./components/MyConcert";
-import MyChat from "./components/MyChat";
-import Profile from "./components/Profile";
-import Login from "./components/Login";
-import Membership from "./components/Membership";
-import FindPW from "./components/FindPW";
-import PageNotForFound from "./components/PageNotForFound";
+import Home from "./components/common/Home";
+import ConLists from "./components/concert/ConLists";
+import ConDetail from "./components/concert/ConDetail";
+import ConInfo from "./components/concert/ConInfo";
+import ChatList from "./components/chat/ChatList";
+import MyPage from "./components/mypage/Mypage";
+import MyConcert from "./components/mypage/MyConcert";
+import MyChat from "./components/chat/MyChat";
+import Profile from "./components/mypage/Profile";
+import Login from "./components/login/Login";
+import Signup from "./components/login/Signup";
+import FindPW from "./components/login/FindPW";
+import PageNotForFound from "./components/common/PageNotForFound";
 
 function App() {
   return (
@@ -36,7 +36,7 @@ function App() {
         </Route>
 
         <Route path="/login/" element={<Login />} />
-        <Route path="/membership/" element={<Membership />} />
+        <Route path="/Signup/" element={<Signup />} />
         <Route path="/findpassword/" element={<FindPW />} />
 
         <Route path="*" element={<PageNotForFound />} />

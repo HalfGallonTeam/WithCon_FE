@@ -37,7 +37,7 @@
 			align-items: center;
 			justify-content: space-between;
 		}
-		.artist {display: inline-block;}
+		.concert-place {display: inline-block;}
 		.concert-date {display: inline-block;}
 		.concert-date::before {content: '|';}
 	}

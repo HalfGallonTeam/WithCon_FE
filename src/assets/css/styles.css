@@ -256,7 +256,7 @@ textarea::-webkit-outer-spin-button {
   align-items: center;
   justify-content: space-between;
 }
-.concert-card .concert-mini-info .artist {
+.concert-card .concert-mini-info .concert-place {
   display: inline-block;
 }
 .concert-card .concert-mini-info .concert-date {
