@@ -1,0 +1,36 @@
+.middle-container {
+	display: flex;
+	align-items: center;
+	height: 100vh;
+}
+
+.login-box {
+	max-width: 700px;
+	padding: 20px;
+	.title {
+		color: $main-color;
+		text-align: center;
+	}
+	
+	.login-form {
+		font-weight: 700;
+	}
+
+	.login-form tr {
+		display: block;
+		margin: 4px;
+		padding: 6px;
+		border: 1px solid $background-color;
+		border-radius: 4px;
+	}
+	.login-button-box {
+		margin: 20px 0;
+		padding: 0;
+		.login-button {
+			display: block;
+			text-align: center;
+			padding: 6px;
+		}
+	}
+
+}

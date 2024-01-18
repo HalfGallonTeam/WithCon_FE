@@ -127,6 +127,10 @@ textarea::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 button {
   transition: 0.3s;
 }
@@ -134,6 +138,11 @@ button {
 button:hover {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
+}
+
+.container {
+  max-width: 1020px;
+  margin: 0 auto;
 }
 
 .header {
@@ -239,7 +248,7 @@ button:hover {
 .concert-category {
   color: #36DA93;
   text-indent: 20px;
-  margin-top: 20px;
+  margin: 24px 0 8px 8px;
 }
 
 .concert-card {
@@ -344,10 +353,13 @@ button:hover {
 }
 .ad-carousel .ad-list .ad-link {
   text-align: right;
-  font-weight: 700;
 }
 .ad-carousel .ad-list .ad-link .ad-link-button {
   padding: 5px 10px;
+  font-weight: 700;
+  color: white;
+  border-radius: 4px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 }
 .ad-carousel .ad-bullets {
   position: absolute;
@@ -371,7 +383,7 @@ button:hover {
 .ad-carousel .ad-button-left, .ad-carousel .ad-button-right {
   position: absolute;
   top: 0;
-  z-index: 0;
+  z-index: 1;
   height: 100%;
   width: 50px;
   color: white;
@@ -382,4 +394,109 @@ button:hover {
 }
 .ad-carousel .ad-button-right {
   right: 0;
+}
+
+.scroll-x {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  touch-action: cross-slide-x;
+}
+
+.scroll-x::-webkit-scrollbar {
+  height: 12px;
+}
+
+.scroll-x::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.scroll-x::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.scroll-x::-webkit-scrollbar-button {
+  display: none;
+}
+
+.scroll-x:hover.scroll-x::-webkit-scrollbar-thumb {
+  background-color: #36DA93;
+}
+
+@media (max-device-width: 800px) {
+  .scroll-x::-webkit-scrollbar {
+    display: none;
+  }
+}
+.main-carousel-container {
+  position: relative;
+  width: 100%;
+}
+.main-carousel-container .responsible-carousel .concert-list {
+  width: 1020px;
+}
+.main-carousel-container .responsible-carousel .concert-card {
+  margin: 0;
+}
+.main-carousel-container .main-button-left, .main-carousel-container .main-button-right {
+  position: absolute;
+  display: inline-block;
+  visibility: hidden;
+  width: 40px;
+  height: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  font-weight: 700;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+.main-carousel-container .main-button-left {
+  left: 0;
+}
+.main-carousel-container .main-button-right {
+  right: 0;
+}
+
+@media (max-width: 1016px) {
+  .main-carousel-container {
+    padding: 0 10px;
+  }
+  .main-carousel-container .main-button-left, .main-carousel-container .main-button-right {
+    visibility: visible;
+  }
+}
+.middle-container {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-box {
+  max-width: 700px;
+  padding: 20px;
+}
+.login-box .title {
+  color: #36DA93;
+  text-align: center;
+}
+.login-box .login-form {
+  font-weight: 700;
+}
+.login-box .login-form tr {
+  display: block;
+  margin: 4px;
+  padding: 6px;
+  border: 1px solid #E6E6E6;
+  border-radius: 4px;
+}
+.login-box .login-button-box {
+  margin: 20px 0;
+  padding: 0;
+}
+.login-box .login-button-box .login-button {
+  display: block;
+  text-align: center;
+  padding: 6px;
 }
