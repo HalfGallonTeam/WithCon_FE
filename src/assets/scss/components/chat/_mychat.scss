@@ -1,0 +1,11 @@
+@import "../../base/mixin";
+.mychat-container {
+  @include main;
+  align-items: flex-start;
+  @media (max-width: 768px) {
+    width: 450px;
+  }
+  @media (max-width: 480px) {
+    width: 350px;
+  }
+}
