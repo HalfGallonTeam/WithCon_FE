@@ -1,0 +1,17 @@
+body {
+	overflow-x: hidden;
+}
+
+button {
+	transition: 0.3s;
+}
+button:hover {
+	background-color: rgba(0,0,0,0.2);
+	border-radius: 4px;
+}
+
+.container {
+	max-width: 1020px;
+	margin: 0 auto;
+}
+

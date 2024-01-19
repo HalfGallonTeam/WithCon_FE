@@ -18,7 +18,12 @@ const Header = () => {
     <>
       <header className="header">
         <div className="container">
-          <h1 className="title">위드콘</h1>
+          <Link to="/">
+            <h1 className="title">
+              위드콘
+              <img className="logo" src="withconLogo.png" alt="로고" />
+            </h1>
+          </Link>
           <div className="login-area">
             <button onClick={loginChange}>!로그인 테스트용 버튼입니다!</button>
             <Link to={path}>
