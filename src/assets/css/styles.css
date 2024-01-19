@@ -210,7 +210,7 @@ button:hover {
 }
 
 .middle-outlet {
-  min-height: calc(100vh - 278px);
+  min-height: calc(100vh - 241px);
 }
 
 .footer {
@@ -229,7 +229,8 @@ button:hover {
   display: flex;
   font-size: 0.8em;
 }
-.footer .developers .frontend, .footer .developers .backend {
+.footer .developers .frontend,
+.footer .developers .backend {
   flex-grow: 1;
   padding: 5px;
   text-align: center;
@@ -1045,3 +1046,79 @@ button:hover {
     width: 350px;
   }
 }
+
+.main-container {
+  height: calc(100vh - 241px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-container .profile-edit-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid black;
+  width: 768px;
+}
+@media (max-width: 768px) {
+  .main-container .profile-edit-form {
+    width: 480px;
+  }
+}
+@media (max-width: 480px) {
+  .main-container .profile-edit-form {
+    width: 350px;
+  }
+}
+
+.profile-modal-container {
+  position: absolute;
+  right: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 40px 0px;
+  border-radius: 8px;
+  background-color: white;
+  padding-top: 20px;
+}
+.profile-modal-container .profile-modal-title {
+  margin-bottom: 5px;
+  padding: 0 40px;
+  color: #279c69;
+}
+.profile-modal-container .profile-modal-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 40px;
+  margin-bottom: 10px;
+}
+.profile-modal-container .profile-modal-info .profile-modal-img {
+  border-radius: 100%;
+  margin-bottom: 10px;
+}
+.profile-modal-container .profile-modal-info .profile-modal-nickname {
+  font-weight: bold;
+}
+.profile-modal-container .profile-modal-btn {
+  border-top: 1px solid #603535;
+  width: 100%;
+  padding: 10px 40px;
+  color: #603535;
+  font-size: 12px;
+}
+.profile-modal-container .profile-modal-btn:hover {
+  background-color: #36DA93;
+  color: white;
+}
+.profile-modal-container .profile-modal-btn:active {
+  background-color: #279c69;
+  position: relative;
+  top: 2px;
+}
+.profile-modal-container .logout-btn {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}/*# sourceMappingURL=styles.css.map */
