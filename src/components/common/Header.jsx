@@ -1,20 +1,31 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
 
 const Header = () => {
-  const [path, setPath] = useState("/login/");
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState("로그인하세요");
   const loginChange = () => {
-    if (path === "/mypage/") {
-      setPath("/login/");
+    if (isLogin) {
+      setIsLogin(false);
       setUserName("로그인하세요");
     } else {
-      setPath("/mypage/");
+      setIsLogin(true);
       setUserName("테스터 님");
     }
+  };
+
+  const keywordIn = (e) => {
+    const keyword = e.target.keyword.value;
+    if (!keyword) {
+      e.preventDefault();
+      window.alert("검색어를 입력하세요");
+      return;
+    }
+    navigate("/search/keyword");
   };
 
   return (
@@ -29,14 +40,17 @@ const Header = () => {
           </Link>
           <div className="login-area">
             <button onClick={loginChange}>!로그인 테스트용 버튼입니다!</button>
-            {/* <Link to={path}> */}
-            <button className="login-button" onClick={() => setOpen(!open)}>
+            <button
+              className="login-button"
+              onClick={() => {
+                isLogin ? setOpen(!open) : navigate("/login/");
+              }}
+            >
               {userName}
             </button>
             {open === true ? <ProfileModal /> : <></>}
-            {/* </Link> */}
           </div>
-          <form className="search-area">
+          <form className="search-area" onSubmit={keywordIn}>
             <select
               className="filter-category"
               name="category"

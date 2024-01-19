@@ -21,12 +21,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}>
           <Route index element={<MainPage />} />
-          <Route path="/:category/" element={<ConLists />} />
-          <Route path="/:search/" element={<ConLists />} />
+          <Route path="/performance/:category" element={<ConLists />} />
+          <Route path="/search/:keyword" element={<ConLists />} />
 
-          <Route path="/:concert-title/" element={<ConDetail />}>
+          <Route path="/title/:concert-title/" element={<ConDetail />}>
             <Route index element={<ConInfo />} />
-            <Route path="/:concert-title/chat/" element={<ChatList />} />
+            <Route path="/title/:concert-title/chat/" element={<ChatList />} />
           </Route>
 
           <Route path="/mypage/" element={<MyPage />}>

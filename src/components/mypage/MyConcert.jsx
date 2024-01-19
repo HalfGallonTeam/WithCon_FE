@@ -1,5 +1,9 @@
 import { Link } from "react-router-dom";
+import ConcertCard from "../concert/ConcertCard";
+import { concertInfos as info } from "../concert/ConLists";
 
+{
+  /**
 const ConcertCard = () => {
   return (
     <Link to="/thisConcert/">
@@ -24,18 +28,20 @@ const ConcertCard = () => {
       </div>
     </Link>
   );
-};
+}; 
+*/
+}
 
 const MyConcert = () => {
   return (
     <div>
       <div className="concert-list">
-        <ConcertCard />
-        <ConcertCard />
-        <ConcertCard />
-        <ConcertCard />
-        <ConcertCard />
-        <ConcertCard />
+        <ConcertCard info={info[0]} />
+        <ConcertCard info={info[1]} />
+        <ConcertCard info={info[2]} />
+        <ConcertCard info={info[3]} />
+        <ConcertCard info={info[4]} />
+        <ConcertCard info={info[5]} />
       </div>
     </div>
   );
