@@ -1,0 +1,39 @@
+@mixin container {
+  margin: 0 auto;
+  padding: 10px;
+  max-width: 1020px;
+}
+
+@mixin main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 580px;
+}
+
+@mixin click-css {
+  &:hover {
+    background-color: $main-color;
+    color: white;
+  }
+  &:active {
+    background-color: $main-color-dark;
+    position: relative;
+    top: 2px;
+  }
+}
+
+@mixin btn-square {
+  color: $main-color;
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5rem;
+  border: 1px solid $main-color;
+  @include click-css;
+}
+
+@mixin btn-circle-square {
+  color: $text-color;
+  @include click-css;
+}
