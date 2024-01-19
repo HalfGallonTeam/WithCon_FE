@@ -1,28 +1,28 @@
 .middle-outlet {
-	min-height: calc(100vh - 278px);
+  min-height: calc(100vh - 241px);
 }
 
 .footer {
-	width: 100vw;
-	background-color: $background-color;
-	.container {
-		margin: 0 auto;
-		padding: 10px;
-		max-width: 1020px;
-	}
+  width: 100vw;
+  background-color: $background-color;
+  .container {
+    margin: 0 auto;
+    padding: 10px;
+    max-width: 1020px;
+  }
 
-	.footer-desc {
-		text-align: center;
-	}
+  .footer-desc {
+    text-align: center;
+  }
 
-	.developers {
-		display: flex;
-		font-size: 0.8em;
-		.frontend, .backend {
-			flex-grow: 1;
-			padding: 5px;
-			text-align: center;
-		}
-	}
-
+  .developers {
+    display: flex;
+    font-size: 0.8em;
+    .frontend,
+    .backend {
+      flex-grow: 1;
+      padding: 5px;
+      text-align: center;
+    }
+  }
 }

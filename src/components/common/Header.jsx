@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import ProfileModal from "../mypage/ProfileModal";
 
 const Header = () => {
   const [path, setPath] = useState("/login/");
+  const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState("로그인하세요");
   const loginChange = () => {
     if (path === "/mypage/") {
@@ -26,9 +28,12 @@ const Header = () => {
           </Link>
           <div className="login-area">
             <button onClick={loginChange}>!로그인 테스트용 버튼입니다!</button>
-            <Link to={path}>
-              <button className="login-button">{userName}</button>
-            </Link>
+            {/* <Link to={path}> */}
+            <button className="login-button" onClick={() => setOpen(!open)}>
+              {userName}
+            </button>
+            {open === true ? <ProfileModal /> : <></>}
+            {/* </Link> */}
           </div>
           <form className="search-area">
             <select className="filter-category">
