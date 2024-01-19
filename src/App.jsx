@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./assets/css/styles.css";
 import Home from "./components/common/Home";
+import MainPage from "./components/concert/MainPage";
 import ConLists from "./components/concert/ConLists";
 import ConDetail from "./components/concert/ConDetail";
 import ConInfo from "./components/concert/ConInfo";
@@ -19,7 +20,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />}>
-          <Route index element={<ConLists />} />
+          <Route index element={<MainPage />} />
           <Route path="/:category/" element={<ConLists />} />
           <Route path="/:search/" element={<ConLists />} />
 
@@ -36,7 +37,7 @@ function App() {
         </Route>
 
         <Route path="/login/" element={<Login />} />
-        <Route path="/Signup/" element={<Signup />} />
+        <Route path="/signup/" element={<Signup />} />
         <Route path="/findpassword/" element={<FindPW />} />
 
         <Route path="*" element={<PageNotForFound />} />

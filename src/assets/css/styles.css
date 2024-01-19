@@ -786,7 +786,7 @@ button:hover {
 }
 .chatlist-container .chat-btn-container .check #checkroom:checked + label::before {
   content: "";
-  background-image: url("/src/assets/checkmark.png");
+  background-image: url("/src/assets/images/checkmark.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: 50%;
@@ -944,29 +944,78 @@ button:hover {
 .login-box {
   max-width: 700px;
   padding: 20px;
+  text-align: center;
+  font-size: 0.8em;
 }
 .login-box .title {
+  font-size: 2rem;
   color: #36DA93;
   text-align: center;
+  margin-bottom: 12px;
 }
 .login-box .login-form {
   font-weight: 700;
 }
-.login-box .login-form tr {
-  display: block;
-  margin: 4px;
+.login-box .login-form table {
+  min-width: 300px;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  text-align: left;
+  text-indent: 8px;
+}
+.login-box .login-form tr td:first-child {
+  border: 1px solid #E6E6E6;
+  border-right: 0;
+  border-radius: 4px 0 0 4px;
+}
+.login-box .login-form tr td:last-child {
+  border: 1px solid #E6E6E6;
+  border-left: 0;
+  border-radius: 0 4px 4px 0;
+}
+.login-box .login-form td.required::after {
+  content: "*";
+  color: red;
+}
+.login-box .login-form input {
+  width: 100%;
   padding: 6px;
+  text-indent: 8px;
+  line-height: 2em;
+}
+.login-box .login-form .login-button {
+  display: block;
+  width: 100%;
+  padding: 6px;
+  font-weight: 700;
+  line-height: 2em;
+  color: #36DA93;
+  margin: 16px 0;
+  background-color: transparent;
   border: 1px solid #E6E6E6;
   border-radius: 4px;
 }
-.login-box .login-button-box {
-  margin: 20px 0;
-  padding: 0;
+.login-box span[aria-hidden] {
+  margin: 0 10px;
 }
-.login-box .login-button-box .login-button {
-  display: block;
+.login-box hr {
+  margin: 12px 0;
+}
+.login-box .find-password-modal {
+  width: 320px;
+  padding: 20px;
+  border: 2px solid #36DA93;
+  border-radius: 10px;
+  font-size: 1rem;
   text-align: center;
-  padding: 6px;
+}
+.login-box .find-password-modal .find-password-modal-btn {
+  margin: 10px 0 0 0;
+  padding: 8px;
+  color: white;
+  font-weight: 700;
+  background-color: #36DA93;
+  border-radius: 4px;
 }
 
 .mypage-container {
@@ -1121,4 +1170,4 @@ button:hover {
 .profile-modal-container .logout-btn {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-}/*# sourceMappingURL=styles.css.map */
+}

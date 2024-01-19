@@ -28,7 +28,7 @@
         vertical-align: center;
         &:checked + label::before {
           content: "";
-          background-image: url("/src/assets/checkmark.png");
+          background-image: url("/src/assets/images/checkmark.png");
           background-repeat: no-repeat;
           background-size: contain;
           background-position: 50%;
