@@ -1,0 +1,130 @@
+@import "../../base/mixin";
+
+.chatlist-container {
+  @include main;
+  align-items: flex-start;
+  @media (max-width: 768px) {
+    width: 450px;
+  }
+  @media (max-width: 480px) {
+    width: 350px;
+  }
+  h1 {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  .chat-btn-container {
+    width: 100%;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      #checkroom {
+        display: none;
+        vertical-align: center;
+        &:checked + label::before {
+          content: "";
+          background-image: url("/src/assets/checkmark.png");
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: 50%;
+        }
+      }
+      label {
+        cursor: pointer;
+        span {
+          font-size: 12px;
+          vertical-align: middle;
+          padding-left: 0.5rem;
+        }
+        &::before {
+          content: "";
+          display: inline-block;
+          width: 1rem;
+          height: 1rem;
+          border: 2px solid $main-color;
+          vertical-align: middle;
+        }
+      }
+    }
+    .nearby {
+      @include btn-circle-square;
+      padding: 0.3rem;
+      color: $main-color;
+      border: 1px solid $main-color;
+      border-radius: 0.5rem;
+      font-size: 14px;
+      line-height: 18px;
+    }
+  }
+}
+
+.list-container {
+  width: 100%;
+  padding: 10px;
+  .chat-room {
+    @include click-css;
+    cursor: pointer;
+    border: 2px solid $main-color;
+    border-radius: 16px;
+    margin: 16px 0 0;
+    padding: 16px 0 0;
+    .chat-top {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      span {
+        font-size: 20px;
+        font-weight: bold;
+        @media (max-width: 768px) {
+          font-size: 18px;
+        }
+        @media (max-width: 480px) {
+          font-size: 16px;
+        }
+      }
+    }
+    .chat-bottom {
+      padding: 1rem;
+      margin: 0 16px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      @media (max-width: 768px) {
+        font-size: 14px;
+        margin: 0 10px;
+      }
+      @media (max-width: 480px) {
+        font-size: 12px;
+        margin: 0 8px;
+      }
+    }
+  }
+}
+
+.page {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  @media (max-width: 768px) {
+    margin: 8px 0;
+  }
+  @media (max-width: 480px) {
+    margin: 5px 0 10px;
+  }
+  span {
+    font-size: 24px;
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
+    @media (max-width: 480px) {
+      font-size: 16px;
+    }
+  }
+}
