@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./assets/css/styles.css";
+import ScrollToTop from "./components/common/ScrollToTop";
 import Home from "./components/common/Home";
 import MainPage from "./components/concert/MainPage";
 import ConLists from "./components/concert/ConLists";
@@ -18,6 +19,7 @@ import PageNotForFound from "./components/common/PageNotForFound";
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />}>
           <Route index element={<MainPage />} />

@@ -978,7 +978,7 @@ button:hover {
   color: red;
 }
 .login-box .login-form input {
-  width: 100%;
+  width: 95%;
   padding: 6px;
   text-indent: 8px;
   line-height: 2em;
@@ -1016,6 +1016,23 @@ button:hover {
   font-weight: 700;
   background-color: #36DA93;
   border-radius: 4px;
+}
+.login-box .have-to-check {
+  position: relative;
+}
+.login-box .have-to-check .signup-check {
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 0;
+  font-size: 0.8em;
+  font-weight: 700;
+  color: #36DA93;
+  padding: 6px;
+  border: 1px solid #36DA93;
+  border-radius: 4px;
+  background-color: white;
 }
 
 .mypage-container {

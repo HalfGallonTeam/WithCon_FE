@@ -1,67 +1,86 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
+  const getFormData = (e) => {
+    e.preventDefault();
+    var formData = new FormData(e.currentTarget);
+    // output as an object
+    console.log(Object.fromEntries(formData));
+  };
+
   return (
     <div className="middle-container">
       <div className="container">
         <div className="login-box">
           <h1 className="title">위드콘</h1>
-          <form className="login-form">
+          <form
+            className="login-form"
+            name="signup-form"
+            action=""
+            method="GET"
+            onSubmit={getFormData}
+          >
             <table>
-              <tr>
-                <td className="required">아이디</td>
-                <td>
-                  <input
-                    type="text"
-                    name="id"
-                    placeholder="아이디를 입력하세요"
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="required">비밀번호</td>
-                <td>
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="비밀번호를 입력하세요"
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="required">비밀번호 확인</td>
-                <td>
-                  <input
-                    type="password"
-                    name="password2"
-                    placeholder="비밀번호를 입력하세요"
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="required">이메일</td>
-                <td>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="이메일을 입력하세요"
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>닉네임</td>
-                <td>
-                  <input
-                    type="text"
-                    name="nickname"
-                    placeholder="닉네임을 입력하세요"
-                  />
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td className="required">
+                    <label htmlFor="username">아이디</label>
+                  </td>
+                  <td className="have-to-check">
+                    <input
+                      type="text"
+                      id="username"
+                      name="id"
+                      autoComplete="username"
+                    />
+                    <button className="signup-check">중복확인</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="required">
+                    <label htmlFor="password">비밀번호</label>
+                  </td>
+                  <td>
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      autoComplete="new-password"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td className="required">
+                    <label htmlFor="password2">비밀번호 확인</label>
+                  </td>
+                  <td>
+                    <input
+                      type="password"
+                      id="password2"
+                      name="password2"
+                      autoComplete="new-password"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td className="required">
+                    <label htmlFor="email">이메일</label>
+                  </td>
+                  <td className="have-to-check">
+                    <input type="email" id="email" name="email" />
+                    <button className="signup-check">인증</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="nickname">닉네임</label>
+                  </td>
+                  <td>
+                    <input type="text" id="nickname" name="nickname" />
+                  </td>
+                </tr>
+              </tbody>
             </table>
             <button className="login-button">회원가입하기</button>
           </form>
