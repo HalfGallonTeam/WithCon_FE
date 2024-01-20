@@ -1,0 +1,28 @@
+.paging-box {
+	align-items: center;
+	width: 320px;
+	margin: 10px auto;
+	
+	button {
+		width: 40px;
+		margin: 2px;
+		padding: 2px;
+		font-size: 16px;
+		transition: none;
+	}
+	button.active {
+		color: $main-color;
+		font-weight: 700;
+	}
+	
+	.prev {float: left;}
+	.next {float: right;}
+	.invisible {
+		visibility: hidden;
+	}
+	.page-numbers {
+		display: inline-block;
+		width: 220px;
+		text-align: left;
+	}
+}

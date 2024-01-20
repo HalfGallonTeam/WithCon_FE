@@ -236,6 +236,37 @@ button:hover {
   text-align: center;
 }
 
+.paging-box {
+  align-items: center;
+  width: 320px;
+  margin: 10px auto;
+}
+.paging-box button {
+  width: 40px;
+  margin: 2px;
+  padding: 2px;
+  font-size: 16px;
+  transition: none;
+}
+.paging-box button.active {
+  color: #36DA93;
+  font-weight: 700;
+}
+.paging-box .prev {
+  float: left;
+}
+.paging-box .next {
+  float: right;
+}
+.paging-box .invisible {
+  visibility: hidden;
+}
+.paging-box .page-numbers {
+  display: inline-block;
+  width: 220px;
+  text-align: left;
+}
+
 .container {
   margin: 0 auto;
   max-width: 1020px;
@@ -943,9 +974,11 @@ button:hover {
 
 .login-box {
   max-width: 700px;
+  min-height: 400px;
   padding: 20px;
   text-align: center;
   font-size: 0.8em;
+  box-shadow: 4px 10px 10px 10px rgba(0, 0, 0, 0.2);
 }
 .login-box .title {
   font-size: 2rem;
@@ -1025,7 +1058,7 @@ button:hover {
   right: 2px;
   top: 50%;
   transform: translateY(-50%);
-  transition: 0;
+  transition: none;
   font-size: 0.8em;
   font-weight: 700;
   color: #36DA93;
