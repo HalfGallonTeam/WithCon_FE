@@ -23,19 +23,19 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}>
           <Route index element={<MainPage />} />
+
           <Route path="/performance/:category" element={<ConLists />} />
           <Route path="/search/:keyword" element={<ConLists />} />
-
           <Route path="/title/:concert-title/" element={<ConDetail />}>
+
             <Route index element={<ConInfo />} />
             <Route path="/title/:concert-title/chat/" element={<ChatList />} />
           </Route>
-
           <Route path="/mypage/" element={<MyPage />}>
             <Route index element={<MyConcert />} />
             <Route path="/mypage/mychat/" element={<MyChat />} />
+            <Route path="/mypage/profile/" element={<Profile />} />
           </Route>
-          <Route path="/profile/" element={<Profile />} />
         </Route>
 
         <Route path="/login/" element={<Login />} />
