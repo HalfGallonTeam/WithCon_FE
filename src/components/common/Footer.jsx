@@ -12,7 +12,7 @@ const Footer = () => {
             <p>BE_민경담 email@email.com</p>
             <p>BE_박상욱 email@email.com</p>
             <p>BE_박중후 email@email.com</p>
-            <p>BE_박중후 email@email.com</p>
+            <p>BE_최진영 email@email.com</p>
           </div>
         </div>
       </div>

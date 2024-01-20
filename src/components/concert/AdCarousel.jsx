@@ -39,7 +39,7 @@ const AdCarousel = () => {
         <h3 className="ad-title">{ad.title}</h3>
         <p className="ad-desc">{ad.desc}</p>
         <div className="ad-link">
-          <Link to={ad.link}>
+          <Link to={`/title/${ad.link}`}>
             <button className="ad-link-button">바로가기</button>
           </Link>
         </div>

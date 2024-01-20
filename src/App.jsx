@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./assets/css/styles.css";
+import ScrollToTop from "./components/common/ScrollToTop";
 import Home from "./components/common/Home";
 import MainPage from "./components/concert/MainPage";
 import ConLists from "./components/concert/ConLists";
@@ -18,14 +19,17 @@ import PageNotForFound from "./components/common/PageNotForFound";
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />}>
           <Route index element={<MainPage />} />
-          <Route path="/:category/" element={<ConLists />} />
-          <Route path="/:search/" element={<ConLists />} />
-          <Route path="/:concert-title/" element={<ConDetail />}>
+
+          <Route path="/performance/:category" element={<ConLists />} />
+          <Route path="/search/:keyword" element={<ConLists />} />
+          <Route path="/title/:concert-title/" element={<ConDetail />}>
+
             <Route index element={<ConInfo />} />
-            <Route path="/:concert-title/chat/" element={<ChatList />} />
+            <Route path="/title/:concert-title/chat/" element={<ChatList />} />
           </Route>
           <Route path="/mypage/" element={<MyPage />}>
             <Route index element={<MyConcert />} />
@@ -35,7 +39,7 @@ function App() {
         </Route>
 
         <Route path="/login/" element={<Login />} />
-        <Route path="/Signup/" element={<Signup />} />
+        <Route path="/signup/" element={<Signup />} />
         <Route path="/findpassword/" element={<FindPW />} />
 
         <Route path="*" element={<PageNotForFound />} />
