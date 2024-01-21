@@ -1,4 +1,6 @@
+@import "../../base/mixin";
 .main-container {
+  width: 100%;
   height: calc(100vh - 241px);
   display: flex;
   justify-content: center;
@@ -7,13 +9,78 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid black;
-    width: 768px;
-    @media (max-width: 768px) {
-      width: 480px;
+    box-shadow: 0px 1px 4px 0px;
+    border-radius: 16px;
+    width: 300px;
+    padding: 20px;
+    margin-top: -100px;
+    .title-logo {
+      display: flex;
+      margin: 20px 0;
+      .title {
+        margin-right: 10px;
+        font-size: 32px;
+        color: $main-color;
+      }
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
     }
-    @media (max-width: 480px) {
-      width: 350px;
+    .edit-img-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+      .profile-img {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+        height: 100px;
+        border-radius: 100%;
+        border: 1px solid black;
+        vertical-align: middle;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .edit-img {
+        @include btn-square;
+        border-radius: 4px;
+        padding: 3px;
+      }
+    }
+    .edit-user-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .info-edit-container {
+        margin-top: 10px;
+        display: flex;
+        align-items: flex-start;
+        .info-edit-input {
+          border: 1px solid $main-color;
+          padding: 2px;
+          margin-right: 3px;
+        }
+        .info-edit-btn {
+          @include btn-square;
+          width: 80px;
+          border-radius: 4px;
+          padding: 3px;
+        }
+      }
+      .user-pw-edit {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        .change-pw-btn {
+          @include btn-square;
+          width: auto;
+          border-radius: 4px;
+          padding: 3px;
+        }
+      }
     }
   }
 }

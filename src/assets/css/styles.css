@@ -168,6 +168,7 @@ button:hover {
 }
 .header .login-area {
   text-align: right;
+  position: relative;
 }
 .header .login-area .login-button {
   padding: 5px 10px;
@@ -579,6 +580,7 @@ button:hover {
   font-weight: bold;
   padding: 0.5rem;
   border: 1px solid #36DA93;
+  border-radius: 0%;
   width: 160px;
 }
 .detail-container .con-detail .btn-mid:hover {
@@ -747,6 +749,7 @@ button:hover {
 }
 
 .chatlist-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -935,6 +938,115 @@ button:hover {
   }
 }
 
+.create-room-container {
+  z-index: 100;
+  width: 400px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+  background-color: white;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+}
+@media (max-width: 480px) {
+  .create-room-container {
+    width: 300px;
+  }
+}
+.create-room-container h1 {
+  color: #36DA93;
+  text-align: center;
+  font-size: 32px;
+  margin-top: 30px;
+}
+.create-room-container .create-room {
+  padding-bottom: 45px;
+  width: 300px;
+}
+.create-room-container .create-room .input-container {
+  border: 1px solid #36DA93;
+  border-radius: 4px;
+  padding: 10px;
+  margin-top: 30px;
+}
+.create-room-container .create-room .input-container label {
+  margin-bottom: 2px;
+}
+.create-room-container .create-room .input-container input {
+  outline: none;
+  width: 100%;
+}
+.create-room-container .create-room .room-member {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0;
+}
+.create-room-container .create-room .room-member label {
+  vertical-align: middle;
+  margin-right: 20px;
+}
+.create-room-container .create-room .room-member #member-num {
+  width: 30px;
+  margin-right: 10px;
+  color: #603535;
+}
+.create-room-container .create-room .room-member .member-num-btn {
+  display: flex;
+}
+.create-room-container .create-room .room-member .member-num-btn button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+  border: 1px solid #36DA93;
+  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  color: #36DA93;
+}
+.create-room-container .create-room .room-member .member-num-btn button:hover {
+  background-color: #36DA93;
+  color: white;
+}
+.create-room-container .create-room .room-member .member-num-btn button:active {
+  background-color: #279c69;
+  position: relative;
+  top: 2px;
+}
+.create-room-container .create-room .submit-btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.create-room-container .create-room .submit-btn-container button {
+  color: #36DA93;
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5rem;
+  border: 1px solid #36DA93;
+  border-radius: 0%;
+  margin: 0 10px;
+  border: 1px solid #36DA93;
+}
+.create-room-container .create-room .submit-btn-container button:hover {
+  background-color: #36DA93;
+  color: white;
+}
+.create-room-container .create-room .submit-btn-container button:active {
+  background-color: #279c69;
+  position: relative;
+  top: 2px;
+}
+
 .middle-container {
   display: flex;
   align-items: center;
@@ -1064,7 +1176,6 @@ button:hover {
 .mypage-container .btn-container {
   display: flex;
   justify-content: center;
-  border-radius: 0.5rem;
   margin: 10px 0;
 }
 .mypage-container .btn-container .btn-mid {
@@ -1073,6 +1184,7 @@ button:hover {
   font-weight: bold;
   padding: 0.5rem;
   border: 1px solid #36DA93;
+  border-radius: 0%;
   width: 160px;
 }
 .mypage-container .btn-container .btn-mid:hover {
@@ -1098,22 +1210,39 @@ button:hover {
   border-left: 0;
 }
 .mypage-container .mypage-like-list {
-  width: 580px;
   display: flex;
+  width: 100%;
   align-items: center;
+  justify-content: center;
 }
-@media (max-width: 768px) {
+@media (max-width: 1036px) {
   .mypage-container .mypage-like-list {
-    width: 450px;
+    width: 800px;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 1016px) {
+  .mypage-container .mypage-like-list .concert-card {
+    margin: 10px 0;
+  }
+}
+@media (max-width: 830px) {
   .mypage-container .mypage-like-list {
-    width: 350px;
+    width: 600px;
+  }
+}
+@media (max-width: 630px) {
+  .mypage-container .mypage-like-list {
+    width: 400px;
+  }
+}
+@media (max-width: 450px) {
+  .mypage-container .mypage-like-list {
+    width: 200px;
   }
 }
 
 .main-container {
+  width: 100%;
   height: calc(100vh - 241px);
   display: flex;
   justify-content: center;
@@ -1123,23 +1252,127 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0px 1px 4px 0px;
+  border-radius: 16px;
+  width: 300px;
+  padding: 20px;
+  margin-top: -100px;
+}
+.main-container .profile-edit-form .title-logo {
+  display: flex;
+  margin: 20px 0;
+}
+.main-container .profile-edit-form .title-logo .title {
+  margin-right: 10px;
+  font-size: 32px;
+  color: #36DA93;
+}
+.main-container .profile-edit-form .title-logo .logo-img {
+  width: 32px;
+  height: 32px;
+}
+.main-container .profile-edit-form .edit-img-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.main-container .profile-edit-form .edit-img-container .profile-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
   border: 1px solid black;
-  width: 768px;
+  vertical-align: middle;
+  text-align: center;
+  margin-bottom: 10px;
 }
-@media (max-width: 768px) {
-  .main-container .profile-edit-form {
-    width: 480px;
-  }
+.main-container .profile-edit-form .edit-img-container .edit-img {
+  color: #36DA93;
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5rem;
+  border: 1px solid #36DA93;
+  border-radius: 0%;
+  border-radius: 4px;
+  padding: 3px;
 }
-@media (max-width: 480px) {
-  .main-container .profile-edit-form {
-    width: 350px;
-  }
+.main-container .profile-edit-form .edit-img-container .edit-img:hover {
+  background-color: #36DA93;
+  color: white;
+}
+.main-container .profile-edit-form .edit-img-container .edit-img:active {
+  background-color: #279c69;
+  position: relative;
+  top: 2px;
+}
+.main-container .profile-edit-form .edit-user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.main-container .profile-edit-form .edit-user-info .info-edit-container {
+  margin-top: 10px;
+  display: flex;
+  align-items: flex-start;
+}
+.main-container .profile-edit-form .edit-user-info .info-edit-container .info-edit-input {
+  border: 1px solid #36DA93;
+  padding: 2px;
+  margin-right: 3px;
+}
+.main-container .profile-edit-form .edit-user-info .info-edit-container .info-edit-btn {
+  color: #36DA93;
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5rem;
+  border: 1px solid #36DA93;
+  border-radius: 0%;
+  width: 80px;
+  border-radius: 4px;
+  padding: 3px;
+}
+.main-container .profile-edit-form .edit-user-info .info-edit-container .info-edit-btn:hover {
+  background-color: #36DA93;
+  color: white;
+}
+.main-container .profile-edit-form .edit-user-info .info-edit-container .info-edit-btn:active {
+  background-color: #279c69;
+  position: relative;
+  top: 2px;
+}
+.main-container .profile-edit-form .edit-user-info .user-pw-edit {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.main-container .profile-edit-form .edit-user-info .user-pw-edit .change-pw-btn {
+  color: #36DA93;
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5rem;
+  border: 1px solid #36DA93;
+  border-radius: 0%;
+  width: auto;
+  border-radius: 4px;
+  padding: 3px;
+}
+.main-container .profile-edit-form .edit-user-info .user-pw-edit .change-pw-btn:hover {
+  background-color: #36DA93;
+  color: white;
+}
+.main-container .profile-edit-form .edit-user-info .user-pw-edit .change-pw-btn:active {
+  background-color: #279c69;
+  position: relative;
+  top: 2px;
 }
 
 .profile-modal-container {
   position: absolute;
-  right: 5px;
+  right: 0;
+  z-index: 99;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1187,4 +1420,4 @@ button:hover {
 .profile-modal-container .logout-btn {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-}
+}/*# sourceMappingURL=styles.css.map */
