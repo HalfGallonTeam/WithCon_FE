@@ -1,6 +1,15 @@
+import { useState } from "react";
 import ChatRoom from "./ChatRoom";
+import CreateChatRoom from "./CreateChatRoom";
 
 const ChatList = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div className="chatlist-container">
       <h1>아이유 드론쇼 콘서트</h1>
@@ -11,7 +20,10 @@ const ChatList = () => {
             <span>마감된 방 보지 않기</span>
           </label>
         </div>
-        <button className="nearby"> 내 근처 채팅방</button>
+        <button className="nearby" onClick={openModal}>
+          채팅방 만들기
+        </button>
+        {isModalOpen && <CreateChatRoom onClose={closeModal} />}
       </div>
       <div className="list-container">
         <ChatRoom />
