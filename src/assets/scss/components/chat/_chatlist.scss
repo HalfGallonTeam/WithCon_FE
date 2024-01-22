@@ -1,6 +1,7 @@
 @import "../../base/mixin";
 
 .chatlist-container {
+  position: relative;
   @include main;
   align-items: flex-start;
   @media (max-width: 768px) {
