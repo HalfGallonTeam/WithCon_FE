@@ -22,7 +22,6 @@
   .btn-container {
     display: flex;
     justify-content: center;
-    border-radius: 0.5rem;
     margin: 10px 0;
     .btn-mid {
       @include btn-square;
@@ -39,14 +38,26 @@
     }
   }
   .mypage-like-list {
-    width: 580px;
     display: flex;
+    width: 100%;
     align-items: center;
-    @media (max-width: 768px) {
-      width: 450px;
+    justify-content: center;
+    @media (max-width: 1036px) {
+      width: 800px;
     }
-    @media (max-width: 480px) {
-      width: 350px;
+    @media (max-width: 1016px) {
+      .concert-card {
+        margin: 10px 0;
+      }
+    }
+    @media (max-width: 830px) {
+      width: 600px;
+    }
+    @media (max-width: 630px) {
+      width: 400px;
+    }
+    @media (max-width: 450px) {
+      width: 200px;
     }
   }
 }

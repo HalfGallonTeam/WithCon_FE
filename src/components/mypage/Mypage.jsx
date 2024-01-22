@@ -15,13 +15,8 @@ const MyPage = () => {
             <Link to="/mypage/mychat/">내 채팅방</Link>
           </button>
         </div>
-        {/* <button>
-          <Link to="/mypage/profile/">프로필 변경</Link>
-        </button> */}
       </div>
-      <div className="mypage-like-list">
-        <Outlet />
-      </div>
+      <Outlet />
     </div>
   );
 };

@@ -1,0 +1,158 @@
+@import "../../base/mixin";
+.chat-container {
+  max-width: 800px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .title {
+    color: $main-color;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 24px;
+  }
+  .chat-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    .chat-room-name {
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      padding: 10px;
+      h1 {
+        font-size: 18px;
+      }
+      h2 {
+        font-size: 16px;
+      }
+    }
+    .toggle {
+      @include btn-square;
+      display: flex;
+      justify-content: center;
+      border: none;
+    }
+    .toggle-lists {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 300px;
+      height: 664px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-top-right-radius: 16px;
+      border-bottom-right-radius: 16px;
+      border-left: 1px solid black;
+      background-color: white;
+      .toggle-close {
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px;
+        button {
+          width: 20px;
+          height: 20px;
+          @include click-css;
+        }
+      }
+      .member-lists {
+        padding: 20px;
+        .member-info {
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          .member-img {
+            width: 30px;
+            height: 30px;
+            background-color: $main-color;
+            border-radius: 100%;
+            text-align: center;
+            margin-right: 10px;
+          }
+        }
+      }
+      .chat-exit {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+
+        button {
+          @include btn-square;
+          width: 100px;
+          border-radius: 16px;
+        }
+      }
+    }
+  }
+  .chat-wrap {
+    width: 400px;
+    height: 667px;
+    border: 1px solid black;
+    border-radius: 16px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+    @media (max-width: 450px) {
+      width: 375px;
+    }
+    .text-area {
+      padding: 20px;
+      height: 490px;
+      font-size: 14px;
+      .member-other {
+        display: flex;
+        align-items: center;
+        .profile-img {
+          width: 30px;
+          height: 30px;
+          background-color: rosybrown;
+          border-radius: 100%;
+          margin-right: 10px;
+        }
+        margin-bottom: 10px;
+      }
+      .member-me {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .profile-img {
+          width: 30px;
+          height: 30px;
+          background-color: blueviolet;
+          border-radius: 100%;
+          margin-left: 10px;
+        }
+        margin-bottom: 10px;
+      }
+    }
+    .send-area {
+      padding: 0 20px;
+      height: 100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid black;
+      textarea {
+        width: 300px;
+        height: 80px;
+        padding: 10px;
+        line-height: 60px;
+      }
+      button {
+        @include btn-square;
+        border-radius: 4px;
+      }
+    }
+  }
+}

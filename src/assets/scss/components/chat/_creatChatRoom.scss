@@ -1,0 +1,85 @@
+@import "../../base/mixin";
+.create-room-container {
+  z-index: 100;
+  width: 400px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+  background-color: white;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+  @media (max-width: 480px) {
+    width: 300px;
+  }
+  h1 {
+    color: $main-color;
+    text-align: center;
+    font-size: 32px;
+    margin-top: 30px;
+  }
+  .create-room {
+    padding-bottom: 45px;
+    width: 300px;
+    .input-container {
+      border: 1px solid $main-color;
+      border-radius: 4px;
+      padding: 10px;
+      margin-top: 30px;
+      label {
+        margin-bottom: 2px;
+      }
+      input {
+        outline: none;
+        width: 100%;
+      }
+    }
+    .room-member {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 30px 0;
+      label {
+        vertical-align: middle;
+        margin-right: 20px;
+      }
+      #member-num {
+        width: 30px;
+        margin-right: 10px;
+        color: $text-color;
+      }
+      .member-num-btn {
+        display: flex;
+        button {
+          @include click-css;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0 10px;
+          border: 1px solid $main-color;
+          border-radius: 4px;
+          width: 20px;
+          height: 20px;
+          padding: 2px;
+          color: $main-color;
+        }
+      }
+    }
+    .submit-btn-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      button {
+        @include btn-square;
+        margin: 0 10px;
+        border: 1px solid $main-color;
+      }
+    }
+  }
+}
