@@ -3,6 +3,7 @@ import "./assets/css/styles.css";
 import ScrollToTop from "./components/common/ScrollToTop";
 import Home from "./components/common/Home";
 import MainPage from "./components/concert/MainPage";
+import AdCarousel from "./components/concert/AdCarousel";
 import ConLists from "./components/concert/ConLists";
 import ConDetail from "./components/concert/ConDetail";
 import ConInfo from "./components/concert/ConInfo";
@@ -23,7 +24,14 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />}>
-          <Route index element={<MainPage />} />
+          <Route
+            index
+            element={
+              <MainPage>
+                <AdCarousel />
+              </MainPage>
+            }
+          />
 
           <Route path="/performance/:category" element={<ConLists />} />
           <Route path="/search/:keyword" element={<ConLists />} />

@@ -1,9 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import AdCarousel from "./AdCarousel";
 import ConLists from "./ConLists";
 import { useEffect } from "react";
 
-const MainPage = () => {
+const MainPage = (props) => {
   const navigate = useNavigate();
   const getKeyword = useLocation().search;
   let category = new URLSearchParams(getKeyword).get("category");
@@ -15,7 +14,7 @@ const MainPage = () => {
 
   return (
     <div className="container">
-      <AdCarousel />
+      {props.children}
       <h2 className="concert-category">
         <Link to="/performance/concert">콘서트</Link>
       </h2>
