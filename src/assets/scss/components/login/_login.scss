@@ -6,9 +6,11 @@
 
 .login-box {
 	max-width: 700px;
+	min-height: 400px;
 	padding: 20px;
 	text-align: center;
 	font-size: 0.8em;
+	box-shadow: 4px 10px 10px 10px rgba(0,0,0,0.2);
 	.title {
 		font-size: 2rem;
 		color: $main-color;
@@ -93,7 +95,7 @@
 			right: 2px;
 			top: 50%;
 			transform: translateY(-50%);
-			transition: 0;
+			transition: none;
 			font-size: 0.8em;
 			font-weight: 700;
 			color: $main-color;

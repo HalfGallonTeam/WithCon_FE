@@ -1,5 +1,7 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ConcertCard from "./ConcertCard";
+import Paging from "../common/Paging";
+import { useEffect, useState } from "react";
 
 const concertInfos = [
   {
@@ -110,12 +112,20 @@ const concertInfos = [
 ];
 
 const ConLists = (props) => {
+  const getKeyword = useLocation().search;
+  let forCurrentPage = new URLSearchParams(getKeyword).get("page") || 1;
   let { category } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(65); //나중에 data.length로 바꿔서 정리하기.
   const categoryToText = {
     concert: "콘서트",
     musical: "뮤지컬",
     play: "연극",
   };
+
+  useEffect(() => {
+    setCurrentPage(forCurrentPage);
+  }, [forCurrentPage]);
 
   const length = props.length;
   //concertInfos는 length가 있으면 main page용으로 5개 끊고, 아닌 경우 page length로 끝장보기.
@@ -141,6 +151,9 @@ const ConLists = (props) => {
           <h2 className="concert-category">{categoryToText[category]}</h2>
         )}
         <div className="concert-list">{concertCards}</div>
+        {!length && (
+          <Paging totalCount={totalCount} currentPage={currentPage} />
+        )}
       </div>
     </>
   );
