@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
+
 const ChatRoom = () => {
+  const navigate = useNavigate();
   return (
-    <div className="chat-room">
+    <div className="chat-room" onClick={() => navigate("/chat/")}>
       <div className="chat-top">
         <span className="title">토요일 콘서트 같이 갈 사람? 무반응시 강퇴</span>
       </div>

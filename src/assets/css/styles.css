@@ -1045,6 +1045,211 @@ button:hover {
   top: 2px;
 }
 
+.chat-container {
+  max-width: 800px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.chat-container .title {
+  color: #36DA93;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 24px;
+}
+.chat-container .chat-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+.chat-container .chat-header .chat-room-name {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+.chat-container .chat-header .chat-room-name h1 {
+  font-size: 18px;
+}
+.chat-container .chat-header .chat-room-name h2 {
+  font-size: 16px;
+}
+.chat-container .chat-header .toggle {
+  color: #36DA93;
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5rem;
+  border: 1px solid #36DA93;
+  display: flex;
+  justify-content: center;
+  border: none;
+}
+.chat-container .chat-header .toggle:hover {
+  background-color: #36DA93;
+  color: white;
+}
+.chat-container .chat-header .toggle:active {
+  background-color: #279c69;
+  position: relative;
+  top: 2px;
+}
+.chat-container .chat-header .toggle-lists {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 664px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-left: 1px solid black;
+  background-color: white;
+}
+.chat-container .chat-header .toggle-lists .toggle-close {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+.chat-container .chat-header .toggle-lists .toggle-close button {
+  width: 20px;
+  height: 20px;
+}
+.chat-container .chat-header .toggle-lists .toggle-close button:hover {
+  background-color: #36DA93;
+  color: white;
+}
+.chat-container .chat-header .toggle-lists .toggle-close button:active {
+  background-color: #279c69;
+  position: relative;
+  top: 2px;
+}
+.chat-container .chat-header .toggle-lists .member-lists {
+  padding: 20px;
+}
+.chat-container .chat-header .toggle-lists .member-lists .member-info {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+.chat-container .chat-header .toggle-lists .member-lists .member-info .member-img {
+  width: 30px;
+  height: 30px;
+  background-color: #36DA93;
+  border-radius: 100%;
+  text-align: center;
+  margin-right: 10px;
+}
+.chat-container .chat-header .toggle-lists .chat-exit {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.chat-container .chat-header .toggle-lists .chat-exit button {
+  color: #36DA93;
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5rem;
+  border: 1px solid #36DA93;
+  width: 100px;
+  border-radius: 16px;
+}
+.chat-container .chat-header .toggle-lists .chat-exit button:hover {
+  background-color: #36DA93;
+  color: white;
+}
+.chat-container .chat-header .toggle-lists .chat-exit button:active {
+  background-color: #279c69;
+  position: relative;
+  top: 2px;
+}
+.chat-container .chat-wrap {
+  width: 400px;
+  height: 667px;
+  border: 1px solid black;
+  border-radius: 16px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+}
+@media (max-width: 450px) {
+  .chat-container .chat-wrap {
+    width: 375px;
+  }
+}
+.chat-container .chat-wrap .text-area {
+  padding: 20px;
+  height: 490px;
+  font-size: 14px;
+}
+.chat-container .chat-wrap .text-area .member-other {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.chat-container .chat-wrap .text-area .member-other .profile-img {
+  width: 30px;
+  height: 30px;
+  background-color: rosybrown;
+  border-radius: 100%;
+  margin-right: 10px;
+}
+.chat-container .chat-wrap .text-area .member-me {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+.chat-container .chat-wrap .text-area .member-me .profile-img {
+  width: 30px;
+  height: 30px;
+  background-color: blueviolet;
+  border-radius: 100%;
+  margin-left: 10px;
+}
+.chat-container .chat-wrap .send-area {
+  padding: 0 20px;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid black;
+}
+.chat-container .chat-wrap .send-area textarea {
+  width: 300px;
+  height: 80px;
+  padding: 10px;
+  line-height: 60px;
+}
+.chat-container .chat-wrap .send-area button {
+  color: #36DA93;
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5rem;
+  border: 1px solid #36DA93;
+  border-radius: 4px;
+}
+.chat-container .chat-wrap .send-area button:hover {
+  background-color: #36DA93;
+  color: white;
+}
+.chat-container .chat-wrap .send-area button:active {
+  background-color: #279c69;
+  position: relative;
+  top: 2px;
+}
+
 .middle-container {
   display: flex;
   align-items: center;
