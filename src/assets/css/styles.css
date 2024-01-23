@@ -1343,6 +1343,14 @@ button:hover {
   border: 1px solid #E6E6E6;
   border-radius: 4px;
 }
+.login-box .social-login-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-box .social-login-area img {
+  height: 40px;
+}
 .login-box span[aria-hidden] {
   margin: 0 10px;
 }
@@ -1652,4 +1660,4 @@ button:hover {
 .profile-modal-container .logout-btn {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-}/*# sourceMappingURL=styles.css.map */
+}

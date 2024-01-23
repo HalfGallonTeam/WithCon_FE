@@ -64,6 +64,15 @@
 		}
 	}
 
+	.social-login-area {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		img {
+			height: 40px;
+		}
+	}
+
 	span[aria-hidden] {
 		margin: 0 10px;
 	}
