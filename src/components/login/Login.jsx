@@ -74,13 +74,17 @@ const Login = () => {
             <Link to="/findpassword/">비밀번호찾기</Link>
             <hr aria-hidden="true" />
             <p className="login-desc">소셜아이디로 간편로그인</p>
-            <div className="social-login-area">
-              <div id="kakao_id_login">
-                <img src={kakaoBtn} title="카카오톡 아이디로 로그인" />
-              </div>
-              <div id="naver_id_login">
-                <img src={naverBtn} title="네이버 아이디로 로그인" />
-              </div>
+            <img
+              src={kakaoBtn}
+              title="카카오 로그인 버튼"
+              style={{ height: "40px", margin: "10px 4px" }}
+            />
+            <div id="naver_id_login">
+              <img
+                src={naverBtn}
+                title="네이버 아이디로 로그인"
+                style={{ height: "40px", margin: "10px 4px" }}
+              />
             </div>
           </div>
         </div>

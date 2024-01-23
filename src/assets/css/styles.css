@@ -1287,6 +1287,10 @@ button:hover {
   height: 100vh;
 }
 
+#naver_id_login {
+  display: inline-block;
+}
+
 .login-box {
   max-width: 700px;
   min-height: 400px;
@@ -1342,14 +1346,6 @@ button:hover {
   background-color: transparent;
   border: 1px solid #E6E6E6;
   border-radius: 4px;
-}
-.login-box .social-login-area {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.login-box .social-login-area img {
-  height: 40px;
 }
 .login-box span[aria-hidden] {
   margin: 0 10px;
