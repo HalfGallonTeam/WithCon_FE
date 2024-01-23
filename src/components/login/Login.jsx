@@ -5,7 +5,7 @@ import naverBtn from "../../assets/images/naver-login.png";
 
 const naverLogin = () => {
   const ClientID = "EbpEEUuGnuKMtgt1URzI";
-  const callbackURL = "https://withcon.netlify.app";
+  const callbackURL = "https://monumental-maamoul-ad99a8.netlify.app/";
   var naver_id_login = new window.naver_id_login(ClientID, callbackURL);
   //팝업 형태의 로그인 인증
   naver_id_login.setPopup();
