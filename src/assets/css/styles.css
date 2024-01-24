@@ -1287,6 +1287,10 @@ button:hover {
   height: 100vh;
 }
 
+#naver_id_login {
+  display: inline-block;
+}
+
 .login-box {
   max-width: 700px;
   min-height: 400px;
@@ -1652,4 +1656,4 @@ button:hover {
 .profile-modal-container .logout-btn {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-}/*# sourceMappingURL=styles.css.map */
+}
