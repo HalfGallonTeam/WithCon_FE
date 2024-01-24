@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
-const ProfileModal = () => {
+const ProfileModal = (props) => {
   const navigate = useNavigate();
+
   return (
     <div className="profile-modal-container">
       <div className="profile-modal-title">내 정보</div>
@@ -23,7 +24,9 @@ const ProfileModal = () => {
       <button className="profile-modal-btn" onClick={() => navigate("/mypage")}>
         마이페이지
       </button>
-      <button className="profile-modal-btn logout-btn">로그아웃</button>
+      <button className="profile-modal-btn logout-btn" onClick={props.logout}>
+        로그아웃
+      </button>
     </div>
   );
 };

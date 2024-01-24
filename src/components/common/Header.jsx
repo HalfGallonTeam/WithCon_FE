@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useRecoilValue, useResetRecoilState } from "recoil";
+import { access_token } from "../../assets/constants/atoms";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
 
@@ -7,16 +9,34 @@ const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [open, setOpen] = useState(false);
-  const [userName, setUserName] = useState("로그인하세요");
+  const [userName, setUserName] = useState("테스터 님");
   const loginChange = () => {
-    if (isLogin) {
-      setIsLogin(false);
-      setUserName("로그인하세요");
-    } else {
-      setIsLogin(true);
-      setUserName("테스터 님");
-    }
+    setIsLogin(!isLogin);
   };
+
+  //로그인을 판단함
+  let withconToken = localStorage.getItem("withcon_token");
+  if (withconToken) {
+    setIsLogin(true);
+  }
+  //로그아웃을 실행함
+  const logoutFunc = () => {
+    setIsLogin(false);
+    localStorage.removeItem("withcon_token");
+  };
+
+  /**
+   * 판단 기준이 recoil atom이라면,
+   * //로그인을 판단함
+   * let withconToken = useRecoilValue(access_token)
+   * if(withconToken) {setIsLogin(true)}
+   * //로그아웃을 실행함
+   * const resetAccessToken = useResetRecoilState(access_token)
+   * const logoutFunc = () => {
+   *  setIsLogin(false)
+   *  resetAccessToken()
+   * }
+   */
 
   const keywordIn = (e) => {
     const keyword = e.target.keyword.value;
@@ -25,7 +45,7 @@ const Header = () => {
       window.alert("검색어를 입력하세요");
       return;
     }
-    navigate("/search/keyword");
+    navigate("/search/");
   };
 
   return (
@@ -46,9 +66,9 @@ const Header = () => {
                 isLogin ? setOpen(!open) : navigate("/login/");
               }}
             >
-              {userName}
+              {isLogin ? userName : "로그인하세요"}
             </button>
-            {open === true ? <ProfileModal /> : <></>}
+            {open === true ? <ProfileModal logout={logoutFunc} /> : <></>}
           </div>
           <form className="search-area" onSubmit={keywordIn}>
             <select

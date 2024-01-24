@@ -1,30 +1,41 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { access_token } from "../../assets/constants/atoms";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
+import naverLogin from "./NaverLogin";
 
-const naverLogin = () => {
-  const ClientID = "EbpEEUuGnuKMtgt1URzI";
-  const callbackURL = "https://withcon.netlify.app/";
-  var naver_id_login = new window.naver_id_login(ClientID, callbackURL);
-  //서비스와 callback url의 subdomain 불일치 문제 해결. 상태 토큰 비교를 위한 domain 설정
-  naver_id_login.setDomain(".service.com");
-  var state = naver_id_login.getUniqState();
-  naver_id_login.setState(state);
-  naver_id_login.init_naver_id_login();
-
-  return;
-};
 const Login = () => {
+  //카카오 로그인
   const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
   const REDIRECT_URI = "http://localhost:5173/kakao-login";
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   const kakaoLogin = () => {
     window.location.href = kakaoURL;
   };
+
+  //네이버 로그인
+  const [accessToken, setAccessToken] = useRecoilState(access_token);
+  const [naverAccessToken, setNaverAccessToken] = useState(null);
   useEffect(() => {
-    naverLogin();
+    naverLogin(setNaverAccessToken);
   }, []);
+  useEffect(() => {
+    if (naverAccessToken) {
+      console.log("naver_access_token", naverAccessToken);
+      console.log(
+        "네이버 access token이 존재하므로, 이 토큰을 backend에 POST로 전달합니다. 그리고 response를 받아, '위드콘'의 access token과 refresh token을 전역 상태(recoil atom)에 저장합니다. 이 과정은 보내는 데이터가 id 및 pw가 아닐 뿐 로그인 동작과 동일할 것으로 예상됩니다."
+      );
+      setAccessToken(() => "가공된" + naverAccessToken);
+    }
+  }, [naverAccessToken]);
+  useEffect(() => {
+    if (accessToken) {
+      localStorage.setItem("withcon_token", accessToken);
+      window.alert("로컬스토리지에 토큰이 저장되었습니다.");
+    }
+  }, [accessToken]);
 
   return (
     <>
