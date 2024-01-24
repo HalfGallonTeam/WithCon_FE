@@ -146,6 +146,10 @@ button:hover {
   margin: 0 auto;
 }
 
+input {
+  outline: none;
+}
+
 .header {
   background-color: #36DA93;
 }
@@ -1299,6 +1303,11 @@ button:hover {
   font-size: 0.8em;
   box-shadow: 4px 10px 10px 10px rgba(0, 0, 0, 0.2);
 }
+@media (max-width: 450px) {
+  .login-box {
+    box-shadow: none;
+  }
+}
 .login-box .title {
   font-size: 2rem;
   color: #36DA93;
@@ -1329,7 +1338,7 @@ button:hover {
   content: "*";
   color: red;
 }
-.login-box .login-form input {
+.login-box .login-form td input {
   width: 95%;
   padding: 6px;
   text-indent: 8px;
@@ -1385,6 +1394,73 @@ button:hover {
   border: 1px solid #36DA93;
   border-radius: 4px;
   background-color: white;
+}
+
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  padding: 0 20px;
+}
+.signup-container .signup-box {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 20px 0;
+}
+.signup-container .signup-box .required::after {
+  content: "*";
+  color: red;
+}
+.signup-container .signup-box .input-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 31px;
+  padding: 0 5px;
+  border-bottom: 1px solid #E6E6E6;
+}
+.signup-container .signup-box .input-container input {
+  outline: none;
+  font-size: 14px;
+}
+.signup-container .signup-box .input-container button {
+  color: #36DA93;
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5rem;
+  border: 1px solid #36DA93;
+  width: 50px;
+  border-radius: 4px;
+  padding: 4px 1px;
+  margin: 2px;
+  border: 1px solid #E6E6E6;
+}
+.signup-container .signup-box .input-container button:hover {
+  background-color: #36DA93;
+  color: white;
+}
+.signup-container .signup-box .input-container button:active {
+  background-color: #279c69;
+  position: relative;
+  top: 2px;
+}
+.signup-container .signup-box span {
+  vertical-align: middle;
+  margin-left: 5px;
+  font-size: 10px;
+  font-weight: 500;
+  color: red;
+}
+
+.social-login-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kakao-login {
+  cursor: pointer;
 }
 
 .mypage-container {
@@ -1656,4 +1732,4 @@ button:hover {
 .profile-modal-container .logout-btn {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-}
+}/*# sourceMappingURL=styles.css.map */

@@ -17,6 +17,7 @@ import Signup from "./components/login/Signup";
 import FindPW from "./components/login/FindPW";
 import PageNotForFound from "./components/common/PageNotForFound";
 import Chat from "./components/chat/Chat";
+import KakaoLogin from "./components/login/KakaoLogin";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
         </Route>
         <Route path="/chat/" element={<Chat />} />
 
+        <Route path="/kakao-login/" element={<KakaoLogin />} />
         <Route path="/login/" element={<Login />} />
         <Route path="/signup/" element={<Signup />} />
         <Route path="/findpassword/" element={<FindPW />} />
