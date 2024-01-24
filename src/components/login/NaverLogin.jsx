@@ -1,5 +1,7 @@
+import { VITE_NAVER_CLIENT_ID } from "../../assets/constants/social_login";
+
 const naverLogin = (setToken) => {
-  const ClientID = import.meta.env.VITE_NAVER_CLIENT_ID;
+  const ClientID = VITE_NAVER_CLIENT_ID;
   const callbackURL = "https://withcon.netlify.app/";
   var naver_id_login = new window.naver_id_login(ClientID, callbackURL);
 

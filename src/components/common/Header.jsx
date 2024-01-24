@@ -10,9 +10,6 @@ const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState("테스터 님");
-  const loginChange = () => {
-    setIsLogin(!isLogin);
-  };
 
   //로그인을 판단함
   let withconToken = localStorage.getItem("withcon_token");
@@ -59,7 +56,9 @@ const Header = () => {
             </h1>
           </Link>
           <div className="login-area">
-            <button onClick={loginChange}>!로그인 테스트용 버튼입니다!</button>
+            <button onClick={() => setIsLogin(true)}>
+              !누르면 로그인됩니다.!
+            </button>
             <button
               className="login-button"
               onClick={() => {
@@ -68,7 +67,11 @@ const Header = () => {
             >
               {isLogin ? userName : "로그인하세요"}
             </button>
-            {open === true ? <ProfileModal logout={logoutFunc} /> : <></>}
+            {open === true ? (
+              <ProfileModal logout={logoutFunc} modalOpen={setOpen} />
+            ) : (
+              <></>
+            )}
           </div>
           <form className="search-area" onSubmit={keywordIn}>
             <select

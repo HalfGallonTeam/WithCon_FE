@@ -1,0 +1,3 @@
+const VITE_NAVER_CLIENT_ID = "EbpEEUuGnuKMtgt1URzI";
+
+export { VITE_NAVER_CLIENT_ID };
