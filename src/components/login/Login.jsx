@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { save_naver_id_login } from "../../assets/constants/atoms";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
 import naverLogin from "./NaverLogin";
@@ -16,9 +14,8 @@ const Login = () => {
   };
 
   //네이버 로그인
-  const setNaverAtom = useSetRecoilState(save_naver_id_login);
   useEffect(() => {
-    naverLogin(setNaverAtom);
+    naverLogin();
   }, []);
 
   return (

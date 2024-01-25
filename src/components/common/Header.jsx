@@ -39,7 +39,7 @@ const Header = () => {
           "withcon_token",
           JSON.stringify("가공된" + naverAccessToken)
         );
-        window.alert("로컬스토리지에 토큰이 저장되었습니다.");
+        console.log("로컬스토리지에 토큰이 저장되었습니다.");
         setIsLogin(true);
       } else {
         console.log("naver_access_token이 없습니다");
