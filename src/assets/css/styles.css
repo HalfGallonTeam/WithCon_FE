@@ -1406,7 +1406,7 @@ input {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  padding: 20px 0;
+  padding-top: 10px;
 }
 .signup-container .signup-box .required::after {
   content: "*";
@@ -1451,6 +1451,9 @@ input {
   font-size: 10px;
   font-weight: 500;
   color: red;
+}
+.signup-container .signup-box .available {
+  color: blue;
 }
 
 .social-login-box {

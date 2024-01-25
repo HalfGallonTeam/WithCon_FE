@@ -1,0 +1,26 @@
+[
+  {
+    "userId": "user1",
+    "pw": "user1pw",
+    "email": "user1@naver.com",
+    "nickName": "user1nick"
+  },
+  {
+    "userId": "user2",
+    "pw": "user2pw",
+    "email": "user2@naver.com",
+    "nickName": "user2nick"
+  },
+  {
+    "userId": "user3",
+    "pw": "user3pw",
+    "email": "user3@naver.com",
+    "nickName": "user3nick"
+  },
+  {
+    "userId": "user4",
+    "pw": "user4pw",
+    "email": "user4@naver.com",
+    "nickName": "user4nick"
+  }
+]
