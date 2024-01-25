@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { access_token } from "../../assets/constants/atoms";
+import { useSetRecoilState } from "recoil";
+import { save_naver_id_login } from "../../assets/constants/atoms";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
 import naverLogin from "./NaverLogin";
@@ -16,26 +16,10 @@ const Login = () => {
   };
 
   //네이버 로그인
-  const [accessToken, setAccessToken] = useRecoilState(access_token);
-  const [naverAccessToken, setNaverAccessToken] = useState(null);
+  const setNaverAtom = useSetRecoilState(save_naver_id_login);
   useEffect(() => {
-    naverLogin(setNaverAccessToken);
+    naverLogin(setNaverAtom);
   }, []);
-  useEffect(() => {
-    if (naverAccessToken) {
-      console.log("naver_access_token", naverAccessToken);
-      console.log(
-        "네이버 access token이 존재하므로, 이 토큰을 backend에 POST로 전달합니다. 그리고 response를 받아, '위드콘'의 access token과 refresh token을 전역 상태(recoil atom)에 저장합니다. 이 과정은 보내는 데이터가 id 및 pw가 아닐 뿐 로그인 동작과 동일할 것으로 예상됩니다."
-      );
-      setAccessToken(() => "가공된" + naverAccessToken);
-    }
-  }, [naverAccessToken]);
-  useEffect(() => {
-    if (accessToken) {
-      localStorage.setItem("withcon_token", accessToken);
-      window.alert("로컬스토리지에 토큰이 저장되었습니다.");
-    }
-  }, [accessToken]);
 
   return (
     <>
