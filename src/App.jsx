@@ -37,7 +37,7 @@ function App() {
             />
 
             <Route path="/performance/:category" element={<ConLists />} />
-            <Route path="/search/:keyword" element={<ConLists />} />
+            <Route path="/search/" element={<ConLists />} />
             <Route path="/title/:concert-title/" element={<ConDetail />}>
               <Route index element={<ConInfo />} />
               <Route

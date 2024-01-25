@@ -2,7 +2,7 @@ import { VITE_NAVER_CLIENT_ID } from "../../assets/constants/social_login";
 
 const naverLogin = (setAtom) => {
   const ClientID = VITE_NAVER_CLIENT_ID;
-  const callbackURL = "https://withcon.netlify.app/";
+  const callbackURL = "https://withconjs.netlify.app/";
   var naver_id_login = new window.naver_id_login(ClientID, callbackURL);
   setAtom(() => naver_id_login);
   var state = naver_id_login.getUniqState();
