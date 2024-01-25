@@ -125,7 +125,7 @@
     align-items: flex-start;
     flex-direction: column;
 
-    padding: 20px 0;
+    padding-top: 10px;
 
     .required {
       &::after {
@@ -159,6 +159,9 @@
       font-size: 10px;
       font-weight: 500;
       color: red;
+    }
+    .available {
+      color: blue;
     }
   }
 }
