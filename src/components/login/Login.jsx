@@ -2,26 +2,18 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
+import naverLogin from "./NaverLogin";
 
-const naverLogin = () => {
-  const ClientID = "EbpEEUuGnuKMtgt1URzI";
-  const callbackURL = "https://withcon.netlify.app/";
-  var naver_id_login = new window.naver_id_login(ClientID, callbackURL);
-  //서비스와 callback url의 subdomain 불일치 문제 해결. 상태 토큰 비교를 위한 domain 설정
-  naver_id_login.setDomain(".service.com");
-  var state = naver_id_login.getUniqState();
-  naver_id_login.setState(state);
-  naver_id_login.init_naver_id_login();
-
-  return;
-};
 const Login = () => {
+  //카카오 로그인
   const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
   const REDIRECT_URI = "http://localhost:5173/kakao-login";
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   const kakaoLogin = () => {
     window.location.href = kakaoURL;
   };
+
+  //네이버 로그인
   useEffect(() => {
     naverLogin();
   }, []);

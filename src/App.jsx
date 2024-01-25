@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 import "./assets/css/styles.css";
 import ScrollToTop from "./components/common/ScrollToTop";
 import Home from "./components/common/Home";
@@ -21,40 +22,45 @@ import KakaoLogin from "./components/login/KakaoLogin";
 
 function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home />}>
-          <Route
-            index
-            element={
-              <MainPage>
-                <AdCarousel />
-              </MainPage>
-            }
-          />
+    <RecoilRoot>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Home />}>
+            <Route
+              index
+              element={
+                <MainPage>
+                  <AdCarousel />
+                </MainPage>
+              }
+            />
 
-          <Route path="/performance/:category" element={<ConLists />} />
-          <Route path="/search/:keyword" element={<ConLists />} />
-          <Route path="/title/:concert-title/" element={<ConDetail />}>
-            <Route index element={<ConInfo />} />
-            <Route path="/title/:concert-title/chat/" element={<ChatList />} />
+            <Route path="/performance/:category" element={<ConLists />} />
+            <Route path="/search/" element={<ConLists />} />
+            <Route path="/title/:concert-title/" element={<ConDetail />}>
+              <Route index element={<ConInfo />} />
+              <Route
+                path="/title/:concert-title/chat/"
+                element={<ChatList />}
+              />
+            </Route>
+            <Route path="/mypage/" element={<MyPage />}>
+              <Route index element={<MyConcert />} />
+              <Route path="/mypage/mychat/" element={<MyChat />} />
+            </Route>
+            <Route path="/profile/" element={<Profile />} />
           </Route>
-          <Route path="/mypage/" element={<MyPage />}>
-            <Route index element={<MyConcert />} />
-            <Route path="/mypage/mychat/" element={<MyChat />} />
-          </Route>
-          <Route path="/profile/" element={<Profile />} />
-        </Route>
-        <Route path="/chat/" element={<Chat />} />
+          <Route path="/chat/" element={<Chat />} />
 
-        <Route path="/kakao-login/" element={<KakaoLogin />} />
-        <Route path="/login/" element={<Login />} />
-        <Route path="/signup/" element={<Signup />} />
-        <Route path="/findpassword/" element={<FindPW />} />
-        <Route path="*" element={<PageNotForFound />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="/kakao-login/" element={<KakaoLogin />} />
+          <Route path="/login/" element={<Login />} />
+          <Route path="/signup/" element={<Signup />} />
+          <Route path="/findpassword/" element={<FindPW />} />
+          <Route path="*" element={<PageNotForFound />} />
+        </Routes>
+      </BrowserRouter>
+    </RecoilRoot>
   );
 }
 
