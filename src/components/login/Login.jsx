@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
 import naverLogin from "./NaverLogin";
+import axios from "axios";
 
 const Login = () => {
   //카카오 로그인
@@ -18,6 +19,34 @@ const Login = () => {
     naverLogin();
   }, []);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const id = e.target.username.value;
+      const pw = e.target.password.value;
+      const response = await axios.post("http://localhost:8000/users", {
+        username: id,
+        password: pw,
+      });
+      const dataObj = await response.data;
+      if (dataObj.accessToken) {
+        localStorage.setItem(
+          "withcon_token",
+          JSON.stringify(dataObj.accessToken)
+        );
+        document.cookie = `withcon_refresh=${dataObj.refreshToken};secure`;
+      } else if (dataObj.result === "NG") {
+        window.alert("아이디 또는 비밀번호가 틀립니다.");
+      } else {
+        window.alert("서버 response가 없으므로 id를 localStorage에 저장");
+        localStorage.setItem("withcon_token", JSON.stringify(dataObj.username));
+        document.cookie = `withcon_refresh=${dataObj.password};secure`;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <div className="middle-container">
@@ -28,7 +57,8 @@ const Login = () => {
               className="login-form"
               name="login-form"
               action=""
-              method="GET"
+              method="POST"
+              onSubmit={handleSubmit}
             >
               <table>
                 <tbody>
