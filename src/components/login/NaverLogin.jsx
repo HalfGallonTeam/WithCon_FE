@@ -1,10 +1,12 @@
-import { VITE_NAVER_CLIENT_ID } from "../../assets/constants/social_login";
+import {
+  VITE_NAVER_CLIENT_ID,
+  NAVER_CALLBACK_URL,
+} from "../../assets/constants/social_login";
 
-const naverLogin = (setAtom) => {
+const naverLogin = () => {
   const ClientID = VITE_NAVER_CLIENT_ID;
-  const callbackURL = "https://withconjs.netlify.app/";
+  const callbackURL = NAVER_CALLBACK_URL;
   var naver_id_login = new window.naver_id_login(ClientID, callbackURL);
-  setAtom(() => naver_id_login);
   var state = naver_id_login.getUniqState();
   naver_id_login.setDomain(".service.com");
   naver_id_login.setState(state);

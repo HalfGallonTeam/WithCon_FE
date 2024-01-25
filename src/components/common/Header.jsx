@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
+import { access_token } from "../../assets/constants/atoms";
 import {
-  save_naver_id_login,
-  access_token,
-} from "../../assets/constants/atoms";
+  VITE_NAVER_CLIENT_ID,
+  NAVER_CALLBACK_URL,
+} from "../../assets/constants/social_login";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
 
@@ -16,7 +17,10 @@ const Header = () => {
 
   //네이버 소셜 로그인을 바탕으로 토큰 받아오기.
   const [accessToken, setAccessToken] = useRecoilState(access_token);
-  const naver_id_login = useRecoilValue(save_naver_id_login);
+  var naver_id_login = new window.naver_id_login(
+    VITE_NAVER_CLIENT_ID,
+    NAVER_CALLBACK_URL
+  );
   useEffect(() => {
     if (naver_id_login) {
       const naverAccessToken = naver_id_login.oauthParams.access_token;
