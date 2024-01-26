@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
+import { KakaoLogout } from "../login/KakaoLogin";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -12,15 +13,22 @@ const Header = () => {
   //로그인을 판단함
   useEffect(() => {
     let withconToken = localStorage.getItem("withcon_token");
-    if (withconToken) {
+    const kakaoToken = localStorage.getItem("kakao_token");
+    if (withconToken || kakaoToken) {
       setIsLogin(true);
     }
   }, []);
 
   //로그아웃을 실행함
   const logoutFunc = () => {
-    setIsLogin(false);
-    localStorage.removeItem("withcon_token");
+    if (localStorage.getItem("kakao_token")) {
+      setIsLogin(false);
+      KakaoLogout();
+      localStorage.removeItem("kakao_token");
+    } else {
+      setIsLogin(false);
+      localStorage.removeItem("withcon_token");
+    }
   };
 
   const keywordIn = (e) => {
