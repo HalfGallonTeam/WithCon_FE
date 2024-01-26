@@ -1,8 +1,25 @@
-import { useNavigate } from "react-router-dom";
+import { useRef, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ProfileModal = (props) => {
+  const location = useLocation();
   const navigate = useNavigate();
   const modalOpen = props.modalOpen;
+  const toggleRef = useRef(null);
+  useEffect(() => {
+    const toggleClose = (e) => {
+      if (
+        toggleRef.current &&
+        !toggleRef.current.parentNode.contains(e.target)
+      ) {
+        modalOpen(false);
+      }
+    };
+    document.addEventListener("click", toggleClose);
+    return () => {
+      document.removeEventListener("click", toggleClose);
+    };
+  }, []);
   const movePage = (root) => {
     modalOpen(false);
     navigate(root);
@@ -10,11 +27,14 @@ const ProfileModal = (props) => {
   const logout = () => {
     modalOpen(false);
     props.logout();
-    navigate("/");
+    const url = location.pathname;
+    if (url.includes("mypage") || url.includes("profile")) {
+      navigate("/");
+    }
   };
 
   return (
-    <div className="profile-modal-container">
+    <div className="profile-modal-container" ref={toggleRef}>
       <div className="profile-modal-title">내 정보</div>
       <div className="profile-modal-info">
         <img
