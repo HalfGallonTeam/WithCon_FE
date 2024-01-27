@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const KakaoLogin = () => {
   const code = new URL(window.location.href).searchParams.get("code");
   const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
-  const REDIRECT_URI = "https://withcon.netlify.app/kakao-login/";
+  const REDIRECT_URI = "https://withcon.netlify.app/kakao-login";
   const navigate = useNavigate();
   let isRequestringToken = false;
   const getToken = async (code) => {
