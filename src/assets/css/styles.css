@@ -141,6 +141,11 @@ button:hover {
   border-radius: 4px;
 }
 
+@media (max-device-width: 800px) {
+  button:hover {
+    background-color: transparent;
+  }
+}
 .container {
   max-width: 1020px;
   margin: 0 auto;
@@ -150,16 +155,13 @@ input {
   outline: none;
 }
 
-.header {
-  background-color: #36DA93;
-}
 .header .container {
   margin: 0 auto;
   padding: 10px;
   max-width: 1020px;
 }
 .header .title {
-  color: white;
+  color: #36DA93;
   font-size: 32px;
   text-align: center;
   margin-top: 14px;
@@ -175,45 +177,50 @@ input {
   position: relative;
 }
 .header .login-area .login-button {
+  color: #36DA93;
   padding: 5px 10px;
-  color: white;
   font-weight: 700;
-  border: 1px solid #36DA93;
 }
 .header .search-area {
-  display: flex;
+  display: block flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: 700px;
+  margin: 0 auto;
+  padding: 0 20px;
+  border: 2px solid #36DA93;
+  border-radius: 20px;
 }
 .header .search-area .filter-category {
-  width: 5rem;
-  height: 1.5rem;
-  text-indent: 4px;
-  font-size: 0.8rem;
-  background-color: white;
-  border: 1px solid #E6E6E6;
-  border-radius: 2px;
-  margin-right: 2px;
+  width: 100px;
+  height: 36px;
+  text-indent: 10px;
+  border-right: 1px solid #36DA93;
 }
 .header .search-area .search-keyword-box {
-  height: 1.5rem;
-  width: 60%;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   min-width: 160px;
-  text-indent: 4px;
-  font-size: 0.8rem;
-  background-color: white;
-  border: 1px solid #E6E6E6;
-  border-radius: 2px;
 }
 .header .search-area .search-keyword-box .search-keyword-input {
-  height: 100%;
-  width: calc(100% - 2rem);
+  height: 36px;
+  flex-grow: 1;
+  text-indent: 14px;
 }
 .header .search-area .search-keyword-box .submit {
-  height: 100%;
-  width: 1.5rem;
+  height: 36px;
+  width: 36px;
+  font-size: 22px;
+  color: #279c69;
 }
 
+@media (max-width: 700px) {
+  .header .search-area {
+    width: calc(100% - 10px);
+  }
+}
 .middle-outlet {
   min-height: calc(100vh - 241px);
 }
@@ -325,6 +332,16 @@ input {
 .concert-card .concert-mini-info .info-top-line .like:hover {
   background-color: transparent;
 }
+.concert-card .concert-mini-info .info-bottom-line .concert-place {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.concert-card .concert-mini-info .info-bottom-line .concert-date {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 .concert-card .concert-mini-info .info-bottom-line .reservation-tip {
   font-size: 0.8em;
   display: inline-block;
@@ -341,7 +358,7 @@ input {
 }
 
 .concert-card:hover {
-  box-shadow: 4px 4px 10px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 1016px) {
@@ -470,11 +487,17 @@ input {
   position: relative;
   width: 100%;
 }
+.main-carousel-container .responsible-carousel {
+  margin-bottom: 4px;
+}
 .main-carousel-container .responsible-carousel .concert-list {
   width: 1020px;
 }
 .main-carousel-container .responsible-carousel .concert-card {
-  margin: 0;
+  margin: 6px 0;
+}
+.main-carousel-container .responsible-carousel .concert-card:first-child {
+  margin-left: 8px;
 }
 .main-carousel-container .main-button-left, .main-carousel-container .main-button-right {
   position: absolute;
@@ -558,6 +581,16 @@ input {
 .concert-card .concert-mini-info .info-top-line .like:hover {
   background-color: transparent;
 }
+.concert-card .concert-mini-info .info-bottom-line .concert-place {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.concert-card .concert-mini-info .info-bottom-line .concert-date {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 .concert-card .concert-mini-info .info-bottom-line .reservation-tip {
   font-size: 0.8em;
   display: inline-block;
@@ -574,7 +607,7 @@ input {
 }
 
 .concert-card:hover {
-  box-shadow: 4px 4px 10px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 1016px) {
@@ -1735,4 +1768,4 @@ input {
 .profile-modal-container .logout-btn {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-}/*# sourceMappingURL=styles.css.map */
+}
