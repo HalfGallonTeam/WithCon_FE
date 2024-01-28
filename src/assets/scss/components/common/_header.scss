@@ -9,9 +9,9 @@
 
   .title {
     color: $main-color;
-    font-size: 32px;
+    font-size: 48px;
     text-align: center;
-    margin-top: 14px;
+    margin-top: 48px;
     letter-spacing: 0.2em;
     .logo {
       height: 32px;
@@ -24,9 +24,12 @@
     text-align: right;
     position: relative;
     .login-button {
-      color: $main-color;
       padding: 5px 10px;
       font-weight: 700;
+    }
+    .login-button:hover {
+      background-color: $main-color;
+      color: white;
     }
   }
 
@@ -35,15 +38,16 @@
     align-items: center;
     justify-content: space-between;
     width: 700px;
-    margin: 0 auto;
+    margin: 10px auto;
     padding: 0 20px;
     border: 2px solid $main-color;
     border-radius: 20px;
     .filter-category {
+      position: relative;
       width: 100px;
       height: 36px;
-      text-indent: 10px;
       border-right: 1px solid $main-color;
+      text-indent: 10px;
     }
 
     .search-keyword-box {

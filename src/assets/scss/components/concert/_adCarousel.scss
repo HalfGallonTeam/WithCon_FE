@@ -1,19 +1,24 @@
 .ad-carousel {
 	position: relative;
-	width: 100%;
+	width: 100vw;
 	overflow: hidden;
 	.ad-list {
 		transition: transform 1s;
 		.slide {
 			display: inline-block;
-			padding: 30px 50px;
-			background-color: pink;
-			border: 1px solid blue;
+			padding: 180px 10vw 70px 10vw;
+			background-size: cover;
+			background-position: center;
+			* {
+				color: white;
+				text-shadow: 1px 1px 2px black;
+			}
 		}
-
 		.ad-desc {
 			margin: 20px 0;
 			height: 50px;
+			color: $text-color;
+			text-shadow: 1px 1px 2px white;
 			@include multi-ellipsis(1em, 1.2em, 2)
 		}
 		.ad-link {
@@ -21,7 +26,6 @@
 			.ad-link-button {
 				padding: 5px 10px;
 				font-weight: 700;
-				color: white;
 				border-radius: 4px;
 				box-shadow: 0 0 4px rgba(0,0,0,0.2);
 			}
@@ -38,8 +42,8 @@
 			width: 8px;
 			height: 8px;
 			border: 1px solid $background-color;
-			background-color: $background-color;
-			box-shadow: 1px 2px 6px 0 rgba(0,0,0,0.2);
+			background-color: rgba(0,0,0,0.2);
+			box-shadow: 1px 1px 2px 0 rgba(0,0,0,0.2);
 			margin: 0 4px;
 			border-radius: 50%;
 		}
@@ -54,8 +58,9 @@
 		z-index: 1;
 		height: 100%;
 		width: 50px;
-		color: white;
 		font-weight: 700;
+		color: white;
+		text-shadow: 0 1px 4px black;
 	}
 	.ad-button-left {
 		left: 0;

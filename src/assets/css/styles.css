@@ -162,9 +162,9 @@ input {
 }
 .header .title {
   color: #36DA93;
-  font-size: 32px;
+  font-size: 48px;
   text-align: center;
-  margin-top: 14px;
+  margin-top: 48px;
   letter-spacing: 0.2em;
 }
 .header .title .logo {
@@ -177,25 +177,29 @@ input {
   position: relative;
 }
 .header .login-area .login-button {
-  color: #36DA93;
   padding: 5px 10px;
   font-weight: 700;
+}
+.header .login-area .login-button:hover {
+  background-color: #36DA93;
+  color: white;
 }
 .header .search-area {
   display: block flex;
   align-items: center;
   justify-content: space-between;
   width: 700px;
-  margin: 0 auto;
+  margin: 10px auto;
   padding: 0 20px;
   border: 2px solid #36DA93;
   border-radius: 20px;
 }
 .header .search-area .filter-category {
+  position: relative;
   width: 100px;
   height: 36px;
-  text-indent: 10px;
   border-right: 1px solid #36DA93;
+  text-indent: 10px;
 }
 .header .search-area .search-keyword-box {
   flex-grow: 1;
@@ -383,7 +387,7 @@ input {
 }
 .ad-carousel {
   position: relative;
-  width: 100%;
+  width: 100vw;
   overflow: hidden;
 }
 .ad-carousel .ad-list {
@@ -391,13 +395,19 @@ input {
 }
 .ad-carousel .ad-list .slide {
   display: inline-block;
-  padding: 30px 50px;
-  background-color: pink;
-  border: 1px solid blue;
+  padding: 180px 10vw 70px 10vw;
+  background-size: cover;
+  background-position: center;
+}
+.ad-carousel .ad-list .slide * {
+  color: white;
+  text-shadow: 1px 1px 2px black;
 }
 .ad-carousel .ad-list .ad-desc {
   margin: 20px 0;
   height: 50px;
+  color: #603535;
+  text-shadow: 1px 1px 2px white;
   font-size: 1em;
   line-height: 1.2em;
   max-height: 2.4em;
@@ -412,7 +422,6 @@ input {
 .ad-carousel .ad-list .ad-link .ad-link-button {
   padding: 5px 10px;
   font-weight: 700;
-  color: white;
   border-radius: 4px;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 }
@@ -427,8 +436,8 @@ input {
   width: 8px;
   height: 8px;
   border: 1px solid #E6E6E6;
-  background-color: #E6E6E6;
-  box-shadow: 1px 2px 6px 0 rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   margin: 0 4px;
   border-radius: 50%;
 }
@@ -441,8 +450,9 @@ input {
   z-index: 1;
   height: 100%;
   width: 50px;
-  color: white;
   font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 4px black;
 }
 .ad-carousel .ad-button-left {
   left: 0;
