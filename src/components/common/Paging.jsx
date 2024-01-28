@@ -18,10 +18,16 @@ const PAGE = {
 
 const Paging = (props) => {
   const navigate = useNavigate();
+  let filterSearch = new URL(window.location.href).search;
   const currentPageChange = (event) => {
     if (!event.target.value) return;
+    console.log(filterSearch);
     navigate("?page=" + event.target.value);
   };
+
+  // console.log(filterSearch);
+  // console.log(filterSearch.search) //search ? 이후의 모든 것. page포함
+  // console.log(filterSearch.pathname) ///search/, /performance/concert
 
   const buttons = [];
   const totalCount = props.totalCount;

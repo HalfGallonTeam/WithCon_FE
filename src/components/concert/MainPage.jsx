@@ -1,20 +1,11 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import AdCarousel from "./AdCarousel";
 import ConLists from "./ConLists";
-import { useEffect } from "react";
 
-const MainPage = (props) => {
-  const navigate = useNavigate();
-  const getKeyword = useLocation().search;
-  let category = new URLSearchParams(getKeyword).get("category");
-  useEffect(() => {
-    if (category) {
-      navigate(`/performance/${category}`);
-    }
-  }, [category]);
-
+const MainPage = () => {
   return (
     <div className="container">
-      {props.children}
+      <AdCarousel />
       <h2 className="concert-category">
         <Link to="/performance/concert">콘서트</Link>
       </h2>
