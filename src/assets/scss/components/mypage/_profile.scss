@@ -1,86 +1,61 @@
 @import "../../base/mixin";
-.main-container {
-  width: 100%;
-  height: calc(100vh - 241px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+  .location-desc {
+    margin: 10px 20px;
+    font-size: small;
+  }
   .profile-edit-form {
     display: flex;
-    flex-direction: column;
+    max-width: 700px;
     align-items: center;
-    box-shadow: 0px 1px 4px 0px;
-    border-radius: 16px;
-    width: 300px;
-    padding: 20px;
-    margin-top: -100px;
-    .title-logo {
-      display: flex;
-      margin: 20px 0;
-      .title {
-        margin-right: 10px;
-        font-size: 32px;
-        color: $main-color;
-      }
-      .logo-img {
-        width: 32px;
-        height: 32px;
-      }
-    }
+    padding: 0 20px;
+    margin: 40px auto 0 auto;
     .edit-img-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
+      width: 300px;
+      margin: 20px;
+      text-align: center;
       .profile-img {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         width: 100px;
         height: 100px;
         border-radius: 100%;
-        border: 1px solid black;
-        vertical-align: middle;
-        text-align: center;
+        box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
         margin-bottom: 10px;
-      }
-      .edit-img {
-        @include btn-square;
-        border-radius: 4px;
-        padding: 3px;
       }
     }
     .edit-user-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      width: 100%;
       .info-edit-container {
-        margin-top: 10px;
+        margin-bottom: 10px;
         display: flex;
-        align-items: flex-start;
-        .info-edit-input {
-          border: 1px solid $main-color;
-          padding: 2px;
-          margin-right: 3px;
+        align-items: center;
+        i {
+          padding: 0 8px;
+          font-size: 1.2em;
         }
-        .info-edit-btn {
-          @include btn-square;
-          width: 80px;
-          border-radius: 4px;
-          padding: 3px;
+        .info-edit-input {
+          flex-grow: 1;
+          border: 2px solid $background-color;
+          padding: 8px;
         }
       }
       .user-pw-edit {
-        display: flex;
-        justify-content: center;
+        text-align: center;
         margin-top: 20px;
-        .change-pw-btn {
-          @include btn-square;
-          width: auto;
-          border-radius: 4px;
-          padding: 3px;
-        }
       }
     }
+    .edit-buttons {
+      text-align: center;
+    }
+    .edit-btn {
+      @include btn-square;
+      font-size: 1em;
+      border-radius: 4px;
+      padding: 3px;
+      margin: 4px;
+    }
   }
-}
+  @media(max-width:800px) {
+    .profile-edit-form {
+      flex-direction: column;
+    }
+  }
