@@ -11,8 +11,12 @@ const ChatList = () => {
     setIsModalOpen(false);
   };
   return (
-    <div className="chatlist-container">
-      <h1>아이유 드론쇼 콘서트</h1>
+    <div className="chat-list-container">
+      <h1>채팅방 목록</h1>
+      <div className="hashtag-search">
+        <label htmlFor="hashtag">해시태그</label>
+        <input id="hashtag" placeholder="해시태그를 입력해 주세요." />
+      </div>
       <div className="chat-btn-container">
         <div className="check">
           <input type="checkbox" id="checkroom" />
