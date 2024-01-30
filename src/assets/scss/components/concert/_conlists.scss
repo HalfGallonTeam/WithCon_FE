@@ -5,6 +5,43 @@
   max-width: 1020px;
 }
 
+.category-buttons {
+  margin-bottom: 10px;
+  background-color: $main-color-dark;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+  .container {display: flex;}
+  .category-button {
+    display: block;
+    position: relative;
+    width: 25%;
+    padding: 8px;
+    color: $background-color;
+    background-color: $main-color-dark;
+    letter-spacing: 2px;
+    transition: 0.3s;
+  }
+  .category-button:hover {
+    background-color: $main-color;
+  }
+  .active {
+    color: white;
+    background-color: $main-color;
+    font-weight: 700;
+  }
+  .active::after {
+    content: "";
+    display: block;
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    bottom: 0;
+    width: 80px;
+    height: 4px;
+    background-color: white;
+    border-radius: 2px;
+  }
+}
+
 .concert-list {
   display: flex;
   align-items: center;
