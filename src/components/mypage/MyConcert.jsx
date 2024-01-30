@@ -1,8 +1,14 @@
+import { useState } from "react";
 import ConcertCard from "../concert/ConcertCard";
-import { concertInfos as info } from "../concert/ConLists";
+import Paging from "../common/Paging";
+import {concertInfos as info} from "../../assets/datas/concertInfos"
 
 const MyConcert = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(65); //나중에 data.length로 바꿔서 정리하기.
+
   return (
+    <>
     <div className="mypage-like-list">
       <div className="concert-list">
         <ConcertCard info={info[0]} />
@@ -13,6 +19,8 @@ const MyConcert = () => {
         <ConcertCard info={info[5]} />
       </div>
     </div>
+    <Paging totalCount={totalCount} currentPage={currentPage} />
+    </>
   );
 };
 

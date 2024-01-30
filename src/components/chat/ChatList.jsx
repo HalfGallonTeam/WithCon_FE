@@ -1,9 +1,13 @@
 import { useState } from "react";
 import ChatRoom from "./ChatRoom";
 import CreateChatRoom from "./CreateChatRoom";
+import Paging from "../common/Paging";
 
 const ChatList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalCount, setTotalCount] = useState(65)
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -38,9 +42,7 @@ const ChatList = () => {
         <ChatRoom />
         <ChatRoom />
       </div>
-      <div className="page">
-        <span> &lt; 1 2 3 4 5 &gt;</span>
-      </div>
+      <Paging totalCount={totalCount} currentPage={currentPage}/>
     </div>
   );
 };
