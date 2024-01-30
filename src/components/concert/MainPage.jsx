@@ -1,45 +1,38 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import AdCarousel from "./AdCarousel";
 import ConLists from "./ConLists";
-import { useEffect } from "react";
 
-const MainPage = (props) => {
-  const navigate = useNavigate();
-  const getKeyword = useLocation().search;
-  let category = new URLSearchParams(getKeyword).get("category");
-  useEffect(() => {
-    if (category) {
-      navigate(`/performance/${category}`);
-    }
-  }, [category]);
-
+const MainPage = () => {
   return (
-    <div className="container">
-      {props.children}
-      <h2 className="concert-category">
-        <Link to="/performance/concert">콘서트</Link>
-      </h2>
-      <div className="main-carousel-container">
-        <div className="responsible-carousel scroll-x">
-          <ConLists length="5" />
+    <>
+      <AdCarousel />
+      <div className="container">
+        <h2 className="concert-category">
+          <Link to="/performance/concert">콘서트</Link>
+        </h2>
+        <div className="main-carousel-container">
+          <div className="responsible-carousel scroll-x">
+            <ConLists length="5" />
+          </div>
+        </div>
+        <h2 className="concert-category">
+          <Link to="/performance/musical">뮤지컬</Link>
+        </h2>
+        <div className="main-carousel-container">
+          <div className="responsible-carousel scroll-x">
+            <ConLists length="5" />
+          </div>
+        </div>
+        <h2 className="concert-category">
+          <Link to="/performance/play">연극</Link>
+        </h2>
+        <div className="main-carousel-container">
+          <div className="responsible-carousel scroll-x">
+            <ConLists length="5" />
+          </div>
         </div>
       </div>
-      <h2 className="concert-category">
-        <Link to="/performance/musical">뮤지컬</Link>
-      </h2>
-      <div className="main-carousel-container">
-        <div className="responsible-carousel scroll-x">
-          <ConLists length="5" />
-        </div>
-      </div>
-      <h2 className="concert-category">
-        <Link to="/performance/play">연극</Link>
-      </h2>
-      <div className="main-carousel-container">
-        <div className="responsible-carousel scroll-x">
-          <ConLists length="5" />
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 
