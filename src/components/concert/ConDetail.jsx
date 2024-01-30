@@ -1,23 +1,36 @@
-import { Outlet, Link } from "react-router-dom";
+import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const ConDetail = () => {
+  const navigate = useNavigate();
+  const [category, setCategory] = useState("detail");
+  const categoryClick = () => {
+    if (category === "detail") {
+      setCategory("chat");
+      navigate("/title/:concert-title/chat/");
+    } else if (category === "chat") {
+      setCategory("detail");
+      navigate("/title/:concert-title/");
+    }
+  };
   return (
     <div className="detail-container">
-      <div className="con-detail">
-        <div className="btn-container">
-          <Link to="/title/:concert-title/">
-            <button className="btn-mid">공연 상세정보</button>
-          </Link>
-          <Link to="/title/:concert-title/chat/">
-            <button className="btn-mid second-btn">채팅방 목록</button>
-          </Link>
-        </div>
-        <div className="con-info">
-          <div className="close">
-            <button className="close-btn">X</button>
+      <div className="con-title-container">
+        <div className="con-title">
+          <h1 className="title">[제주] 2024 장윤정 라이브 콘서트</h1>
+          <div className="mini-data">
+            <span className="date">2024.02.03 ~ 2024.02.03</span>
+            <span className="location">남양주 체육문화센터 실내체육관</span>
           </div>
-          <Outlet />
         </div>
+        <div className="con-category">
+          <button onClick={categoryClick}>
+            {category === "detail" ? "채팅방 목록" : "공연 상세정보"}
+          </button>
+        </div>
+      </div>
+      <div className="con-info">
+        <Outlet />
       </div>
     </div>
   );

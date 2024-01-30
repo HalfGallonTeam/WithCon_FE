@@ -11,8 +11,12 @@ const ChatList = () => {
     setIsModalOpen(false);
   };
   return (
-    <div className="chatlist-container">
-      <h1>아이유 드론쇼 콘서트</h1>
+    <div className="chat-list-container">
+      <h1>채팅방 목록</h1>
+      <div className="hashtag-search">
+        <input id="hashtag" placeholder="해시태그를 입력해 주세요." />
+        <button>검색</button>
+      </div>
       <div className="chat-btn-container">
         <div className="check">
           <input type="checkbox" id="checkroom" />
@@ -20,9 +24,11 @@ const ChatList = () => {
             <span>마감된 방 보지 않기</span>
           </label>
         </div>
-        <button className="nearby" onClick={openModal}>
-          채팅방 만들기
-        </button>
+        <div className="create-chat">
+          <button className="create-chat-btn" onClick={openModal}>
+            채팅방 만들기
+          </button>
+        </div>
         {isModalOpen && <CreateChatRoom onClose={closeModal} />}
       </div>
       <div className="list-container">

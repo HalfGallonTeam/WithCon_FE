@@ -3,58 +3,83 @@
 .detail-container {
   @include container;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  .con-detail {
-    .btn-container {
-      display: flex;
-      justify-content: center;
-      border-radius: 0.5rem;
-    }
-    .btn-mid {
-      @include btn-square;
-      width: 160px;
-      @media (max-width: 768px) {
-        width: 150px;
-      }
-      @media (max-width: 480px) {
-        width: 100px;
-      }
-    }
-    .second-btn {
-      border-left: 0;
-    }
-    .con-info {
-      width: 580px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      @media (max-width: 768px) {
-        width: 450px;
-      }
-      @media (max-width: 480px) {
-        width: 350px;
-      }
-      .close {
-        width: 100%;
-        display: flex;
-        justify-content: end;
-        margin: 10px;
-        .close-btn {
-          width: 24px;
-          height: 24px;
-          padding: 2px;
-          border-radius: 50%;
-          cursor: pointer;
+  width: 900px;
+  @media (max-width: 900px) {
+    width: auto;
+  }
 
-          &:hover {
-            background-color: rgba($main-color, 0.5);
-          }
-          &:active {
-            position: relative;
-            top: 2px;
+  .con-title-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 55px;
+    border-bottom: 2px solid $text-color;
+    .con-title {
+      .mini-data {
+        margin: 10px 0;
+        .date {
+          padding: 0 15px 0 1px;
+          position: relative;
+          &::after {
+            content: "";
+            display: block;
+            width: 1px;
+            height: 14px;
+            background: #d6d6d6;
+            position: absolute;
+            top: 0;
+            right: 0;
           }
         }
+        .location {
+          padding: 0 13px;
+        }
+      }
+      .title {
+        font-size: 28px;
       }
     }
+    .con-category {
+      text-align: center;
+      margin-right: 30px;
+      button {
+        width: 90px;
+        color: $text-color;
+        font-size: small;
+        font-weight: bold;
+        padding: 0.5rem;
+        border: 1px solid $text-color;
+        &:hover {
+          background-color: $text-color;
+          color: white;
+        }
+        &:active {
+          background-color: black;
+          position: relative;
+          top: 2px;
+        }
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .con-info {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@mixin click-css {
+  &:hover {
+    background-color: $main-color;
+    color: white;
+  }
+  &:active {
+    background-color: $main-color-dark;
+    position: relative;
+    top: 2px;
   }
 }

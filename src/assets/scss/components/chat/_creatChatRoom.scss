@@ -39,42 +39,14 @@
         width: 100%;
       }
     }
-    .room-member {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 30px 0;
-      label {
-        vertical-align: middle;
-        margin-right: 20px;
-      }
-      #member-num {
-        width: 30px;
-        margin-right: 10px;
-        color: $text-color;
-      }
-      .member-num-btn {
-        display: flex;
-        button {
-          @include click-css;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin: 0 10px;
-          border: 1px solid $main-color;
-          border-radius: 4px;
-          width: 20px;
-          height: 20px;
-          padding: 2px;
-          color: $main-color;
-        }
-      }
+    .hashtag-lists {
+      margin: 5px;
     }
     .submit-btn-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 20px;
+      margin-top: 30px;
       button {
         @include btn-square;
         margin: 0 10px;
