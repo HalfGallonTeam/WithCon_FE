@@ -169,15 +169,16 @@ input {
   letter-spacing: 0.2em;
 }
 .header .title .logo {
-  height: 32px;
+  height: 48px;
   margin-left: 4px;
   color: transparent;
 }
 .header .login-area {
   text-align: right;
-  position: relative;
+  height: 10px;
 }
 .header .login-area .login-button {
+  transform: translateY(-100%);
   padding: 5px 10px;
   font-weight: 700;
 }

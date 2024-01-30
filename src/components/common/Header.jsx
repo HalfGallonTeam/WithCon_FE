@@ -45,12 +45,12 @@ const Header = () => {
     <>
       <header className="header">
         <div className="container">
-          <Link to="/">
-            <h1 className="title">
+          <h1 className="title">
+            <Link to="/">
               위드콘
               <img className="logo" src={logo} alt="로고" />
-            </h1>
-          </Link>
+            </Link>
+          </h1>
           <div className="login-area">
             <button onClick={() => setIsLogin(true)}>
               !누르면 로그인됩니다.!
