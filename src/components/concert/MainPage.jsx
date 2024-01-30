@@ -1,6 +1,31 @@
 import { Link } from "react-router-dom";
 import AdCarousel from "./AdCarousel";
-import ConLists from "./ConLists";
+import ConcertCard from "./ConcertCard";
+import { concertInfos } from "../../assets/datas/concertInfos";
+
+const ConLists = () => {
+  //나중엔 axios로 데이터를 불러올 것.
+  const newConcertInfos = []
+  for(let i=0; i<5; i++) {
+    newConcertInfos.push(concertInfos[i])
+  }
+  //(끝)나중엔 axios
+
+  const concertCards = []
+  newConcertInfos.map((info, index) => {
+    concertCards.push(<ConcertCard info={info} key={index}/>)
+  })
+
+  return (
+    <>
+      <div className="container">
+        <div className="concert-list">
+          {concertCards}
+        </div>
+      </div>
+    </>
+  )
+}
 
 const MainPage = () => {
   return (
@@ -12,7 +37,7 @@ const MainPage = () => {
         </h2>
         <div className="main-carousel-container">
           <div className="responsible-carousel scroll-x">
-            <ConLists length="5" />
+            <ConLists/>
           </div>
         </div>
         <h2 className="concert-category">
@@ -20,7 +45,7 @@ const MainPage = () => {
         </h2>
         <div className="main-carousel-container">
           <div className="responsible-carousel scroll-x">
-            <ConLists length="5" />
+            <ConLists/>
           </div>
         </div>
         <h2 className="concert-category">
@@ -28,7 +53,7 @@ const MainPage = () => {
         </h2>
         <div className="main-carousel-container">
           <div className="responsible-carousel scroll-x">
-            <ConLists length="5" />
+            <ConLists/>
           </div>
         </div>
       </div>

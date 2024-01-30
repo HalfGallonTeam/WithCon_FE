@@ -32,13 +32,15 @@ const Header = () => {
   };
 
   const keywordIn = (e) => {
+    e.preventDefault()
+    const category = e.target.category.value
     const keyword = e.target.keyword.value;
     if (!keyword) {
       e.preventDefault();
       window.alert("검색어를 입력하세요");
       return;
     }
-    navigate("/search/");
+    navigate(`/search?category=${category}&keyword=${keyword}`);
   };
 
   return (

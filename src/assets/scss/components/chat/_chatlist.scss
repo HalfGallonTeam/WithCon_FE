@@ -160,26 +160,3 @@
     }
   }
 }
-
-.page {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 10px 0;
-  @media (max-width: 768px) {
-    margin: 8px 0;
-  }
-  @media (max-width: 480px) {
-    margin: 5px 0 10px;
-  }
-  span {
-    font-size: 24px;
-    @media (max-width: 768px) {
-      font-size: 20px;
-    }
-    @media (max-width: 480px) {
-      font-size: 16px;
-    }
-  }
-}

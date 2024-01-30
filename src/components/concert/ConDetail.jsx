@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 
 const ConDetail = () => {
   const navigate = useNavigate();
+  const { concertTitle } = useParams();
   const [category, setCategory] = useState("detail");
   const categoryClick = () => {
     if (category === "detail") {
       setCategory("chat");
-      navigate("/title/:concert-title/chat/");
+      navigate(`/title/${concertTitle}/chat`);
     } else if (category === "chat") {
       setCategory("detail");
-      navigate("/title/:concert-title/");
+      navigate(`/title/${concertTitle}`);
     }
   };
   return (

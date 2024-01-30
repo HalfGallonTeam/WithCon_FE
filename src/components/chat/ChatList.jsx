@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import ChatRoom from "./ChatRoom";
 import CreateChatRoom from "./CreateChatRoom";
 import Paging from "../common/Paging";
 
 const ChatList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalCount, setTotalCount] = useState(65)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(65);
+  const url = useLocation();
+  useEffect(() => {
+    setCurrentPage(new URLSearchParams(url.search).get("page") || 1);
+  }, [url]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -42,7 +47,7 @@ const ChatList = () => {
         <ChatRoom />
         <ChatRoom />
       </div>
-      <Paging totalCount={totalCount} currentPage={currentPage}/>
+      <Paging totalCount={totalCount} currentPage={currentPage} />
     </div>
   );
 };

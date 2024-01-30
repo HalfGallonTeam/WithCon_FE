@@ -30,12 +30,9 @@ function App() {
             <Route index element={<MainPage />} />
             <Route path="/performance/:category" element={<ConLists />} />
             <Route path="/search/" element={<ConLists />} />
-            <Route path="/title/:concert-title/" element={<ConDetail />}>
+            <Route path="/title/:concertTitle/" element={<ConDetail />}>
               <Route index element={<ConInfo />} />
-              <Route
-                path="/title/:concert-title/chat/"
-                element={<ChatList />}
-              />
+              <Route path="/title/:concertTitle/chat/" element={<ChatList />} />
             </Route>
             <Route path="/mypage/" element={<MyPage />}>
               <Route index element={<MyConcert />} />
