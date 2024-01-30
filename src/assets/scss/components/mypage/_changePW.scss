@@ -1,0 +1,45 @@
+.password {
+	display: block;
+	max-width: 400px;
+	.change-password-title {
+		margin-bottom: 36px;
+	}
+	.desc {
+		font-size: 0.8em;
+		padding: 8px;
+		width: 100%;
+	}
+	.notice {color: red;}
+	.notice::before {
+		content: "*";
+		color: red;
+	}
+
+	.info-edit-container {
+		flex-direction: column;
+		.info-edit-input {
+			width: 100%;
+			margin: 4px 0;
+		}
+		.edit-btn {
+			width: 100px;
+			margin: 20px 8px;
+		}
+	}
+}
+
+.not-robot {
+	width: 100%;
+	border-collapse: collapse;
+	background-color: $background-color;
+	td {border: 1px solid $text-color;}
+	.not-robot-img {
+		width: 250px;
+		height: 70px;
+	}
+	.not-robot-button {
+		margin: 10px;
+		font-size: 0.8em;
+		cursor: pointer;
+	}
+}

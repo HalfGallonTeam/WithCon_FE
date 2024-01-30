@@ -8,7 +8,11 @@ button {
 button:hover {
   background-color: rgba(0, 0, 0, 0.2);
 }
-
+@media(max-device-width:800px) {
+  button:hover {
+    background-color: transparent;
+  }
+}
 .container {
   max-width: 1020px;
   margin: 0 auto;

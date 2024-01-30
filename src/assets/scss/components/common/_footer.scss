@@ -17,6 +17,7 @@
 
   .developers {
     display: flex;
+    flex-wrap: wrap;
     font-size: 0.8em;
     .frontend,
     .backend {
