@@ -4,42 +4,38 @@
   @include container;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  .mypage-title {
+  padding-top: 20px;
+  .title-container{
+    width: 100%;
     display: flex;
-    justify-content: center;
-    font-size: 16px;
-    margin: 5px 0;
-    padding: 5px;
-    @media (max-width: 768px) {
-      font-size: 12px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid $text-color;
+    margin-bottom: 20px;
+  }
+  .breadcrumb-container{
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    .location-desc{
+      margin: 10px 0;
     }
-    @media (max-width: 480px) {
-      font-size: 10px;
+    .category {
+      font-size: 28px;
+      font-weight: 700;
     }
+  
   }
   .btn-container {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-    .btn-mid {
-      @include btn-square;
-      width: 160px;
-      @media (max-width: 768px) {
-        width: 150px;
-      }
-      @media (max-width: 480px) {
-        width: 100px;
-      }
-    }
-    .second-btn {
-      border-left: 0;
+    button{
+      @include category-btn;
+      width: 100px;
+      margin-right: 20px;
     }
   }
   .mypage-like-list {
     display: flex;
-    width: 100%;
     align-items: center;
     justify-content: center;
     @media (max-width: 1036px) {
@@ -60,4 +56,13 @@
       width: 200px;
     }
   }
+}
+
+.like-list-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
 }

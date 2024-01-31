@@ -46,7 +46,7 @@ const Header = () => {
   return (
     <>
       <header className="header">
-        <div className="container">
+        <div className="header-container">
           <h1 className="title">
             <Link to="/">
               위드콘
@@ -54,23 +54,6 @@ const Header = () => {
             </Link>
           </h1>
           <div className="login-area">
-            <button onClick={() => setIsLogin(true)}>
-              !누르면 로그인됩니다.!
-            </button>
-            <button
-              className="login-button"
-              onClick={() => {
-                isLogin ? setOpen(!open) : navigate("/login/");
-              }}
-            >
-              {isLogin ? userName : "로그인하세요"}
-            </button>
-            {open === true ? (
-              <ProfileModal logout={logoutFunc} modalOpen={setOpen} />
-            ) : (
-              <></>
-            )}
-          </div>
           <form className="search-area" onSubmit={keywordIn}>
             <select
               className="filter-category"
@@ -94,6 +77,23 @@ const Header = () => {
               </button>
             </div>
           </form>
+            <button onClick={() => setIsLogin(true)}>
+              !누르면 로그인됩니다.!
+            </button>
+            <button
+              className="login-button"
+              onClick={() => {
+                isLogin ? setOpen(!open) : navigate("/login/");
+              }}
+            >
+              {isLogin ? userName : "로그인하세요"}
+            </button>
+            {open === true ? (
+              <ProfileModal logout={logoutFunc} modalOpen={setOpen} />
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
       </header>
     </>

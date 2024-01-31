@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 900px;
+  width: 1000px;
   @media (max-width: 900px) {
     width: auto;
   }
@@ -46,22 +46,7 @@
       text-align: center;
       margin-right: 30px;
       button {
-        width: 90px;
-        color: $text-color;
-        font-size: small;
-        font-weight: bold;
-        padding: 0.5rem;
-        border: 1px solid $text-color;
-        &:hover {
-          background-color: $text-color;
-          color: white;
-        }
-        &:active {
-          background-color: black;
-          position: relative;
-          top: 2px;
-        }
-        border-radius: 4px;
+        @include category-btn
       }
     }
   }
@@ -69,17 +54,5 @@
   .con-info {
     display: flex;
     flex-direction: column;
-  }
-}
-
-@mixin click-css {
-  &:hover {
-    background-color: $main-color;
-    color: white;
-  }
-  &:active {
-    background-color: $main-color-dark;
-    position: relative;
-    top: 2px;
   }
 }
