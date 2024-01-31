@@ -81,10 +81,8 @@ const Header = () => {
                 </button>
               </>
             )}
-            {open === true ? (
+            {open && (
               <ProfileModal logout={logoutFunc} modalOpen={setOpen} />
-            ) : (
-              <></>
             )}
           </div>
           <div className="category-buttons">
@@ -116,22 +114,6 @@ const Header = () => {
               </button>
             </div>
           </form>
-          <button onClick={() => setIsLogin(true)}>
-            !누르면 로그인됩니다.!
-          </button>
-          <button
-            className="login-button"
-            onClick={() => {
-              isLogin ? setOpen(!open) : navigate("/login/");
-            }}
-          >
-            {isLogin ? userName : "로그인하세요"}
-          </button>
-          {open === true ? (
-            <ProfileModal logout={logoutFunc} modalOpen={setOpen} />
-          ) : (
-            <></>
-          )}
         </div>
       </header>
     </>
