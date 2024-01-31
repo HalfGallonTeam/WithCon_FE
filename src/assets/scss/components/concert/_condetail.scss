@@ -6,7 +6,7 @@
   flex-direction: column;
   justify-content: center;
   width: 1000px;
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     width: auto;
   }
 
@@ -17,6 +17,9 @@
     align-items: center;
     padding-top: 55px;
     border-bottom: 2px solid $text-color;
+    @media (max-width:480px){
+      flex-direction: column;
+    }
     .con-title {
       .mini-data {
         margin: 10px 0;
@@ -38,8 +41,34 @@
           padding: 0 13px;
         }
       }
-      .title {
+      .title{
         font-size: 28px;
+      }
+      @media(max-width:768px){
+        .title{
+          font-size:24px;
+        }
+          .mini-data{
+            display: flex;
+            flex-direction: column;
+            .date{
+              padding: 0 10px 5px;
+              &::after{
+                display:none;
+              }
+            }
+            .location{
+              padding:0 10px;
+            }
+          }
+      }
+      @media(max-width: 480px){
+        width: 100%;
+        .title{font-size:20px}
+        .mini-data{
+          padding: 0;
+          margin-bottom:0;
+}
       }
     }
     .con-category {
@@ -48,11 +77,26 @@
       button {
         @include category-btn
       }
+      @media(max-width: 768px){
+        margin: 0 0 10px;
+        height: 82px;
+        display: flex;
+        align-items: flex-end;
+      }
+      @media(max-width: 480px){
+        width: 100%;
+        height: auto;
+        justify-content: flex-end;
+      }
     }
   }
 
   .con-info {
     display: flex;
     flex-direction: column;
+    @media(max-width: 768px){
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
