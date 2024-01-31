@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import ConcertCard from "./ConcertCard";
+import Navigation from "../common/Navigation";
 import Paging from "../common/Paging";
 import { concertInfos } from "../../assets/datas/concertInfos";
 
@@ -32,14 +33,7 @@ const ConLists = () => {
               <span className="search-keyword">&quot;{keyword}&quot;</span>
               &nbsp;검색 결과
             </p>
-            <div className="category-buttons">
-              <div className="container">
-                <button className="category-button active">전체</button>
-                <button className="category-button">콘서트</button>
-                <button className="category-button">뮤지컬</button>
-                <button className="category-button">연극</button>
-              </div>
-            </div>
+            <Navigation search={true} />
           </>
         )}
 

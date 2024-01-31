@@ -18,8 +18,8 @@
 
 .category-buttons {
   margin-bottom: 10px;
+  display: flex;
   box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.2);
-  .container {display: flex;}
   .category-button {
     display: block;
     position: relative;

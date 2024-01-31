@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Navigation from "./Navigation";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
 import { KakaoLogout } from "../login/KakaoLogin";
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isLogin, setIsLogin] = useState(false);
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState("테스터 님");
+  const select = useRef(null);
 
   //로그인을 판단함
   useEffect(() => {
-    let withconToken = localStorage.getItem("withcon_token");
+    const withconToken = localStorage.getItem("withcon_token");
     const kakaoToken = localStorage.getItem("kakao_token");
     if (withconToken || kakaoToken) {
       setIsLogin(true);
@@ -32,6 +35,9 @@ const Header = () => {
   };
 
   const keywordIn = (e) => {
+    navigate("search");
+    return;
+
     e.preventDefault();
     const category = e.target.category.value;
     const keyword = e.target.keyword.value;
@@ -40,6 +46,9 @@ const Header = () => {
       window.alert("검색어를 입력하세요");
       return;
     }
+    const opt = select.current;
+    opt.setAttribute();
+    e.target.keyword.value = "";
     navigate(`/search?category=${category}&keyword=${keyword}`);
   };
 
@@ -81,23 +90,18 @@ const Header = () => {
                 </button>
               </>
             )}
-            {open && (
-              <ProfileModal logout={logoutFunc} modalOpen={setOpen} />
-            )}
+            {open && <ProfileModal logout={logoutFunc} modalOpen={setOpen} />}
           </div>
-          <div className="category-buttons">
-            <button className="category-button active">전체</button>
-            <button className="category-button">콘서트</button>
-            <button className="category-button">뮤지컬</button>
-            <button className="category-button">연극</button>
-          </div>
+          <Navigation />
           <form className="search-area" onSubmit={keywordIn}>
             <select
               className="filter-category"
               name="category"
               id="category-select"
             >
-              <option value="all">전체</option>
+              <option value="all" ref={select}>
+                전체
+              </option>
               <option value="musical">뮤지컬</option>
               <option value="play">연극</option>
               <option value="concert">콘서트</option>
