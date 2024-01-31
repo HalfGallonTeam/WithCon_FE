@@ -4,16 +4,26 @@ body {
 
 button {
   transition: 0.3s;
+  color: $text-color;
 }
 button:hover {
   background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
 }
-
+@media(max-device-width:800px) {
+  button:hover {
+    background-color: transparent;
+  }
+}
 .container {
   max-width: 1020px;
   margin: 0 auto;
 }
 input {
   outline: none;
+}
+
+@media (max-width:500px) {
+  .mobile-hidden {
+      display: none !important;
+    }
 }

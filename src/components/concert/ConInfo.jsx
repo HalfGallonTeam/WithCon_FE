@@ -1,42 +1,59 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 const ConInfo = () => {
+  const [infoData, setInfoData] = useState([null]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/test/conInfo.json");
+        setInfoData(response.data);
+      } catch (error) {
+        console.error(error, "에러");
+      }
+    };
+    fetchData();
+  }, []);
+  const infoItems = [];
+  for (let key in infoData[0]) {
+    infoItems.push(
+      <li className="info-item" key={key}>
+        <span className="item-name">{key} </span>
+        <div>
+          <span>
+            {typeof infoData[0][key] === "number" && key === "가격"
+              ? `${infoData[0][key].toLocaleString()} 원`
+              : infoData[0][key]}
+          </span>
+        </div>
+      </li>
+    );
+  }
   return (
     <div className="info-container">
       <div className="info">
-        <img
-          className="info-img"
-          src="https://dummyimage.com/200x300/E6E6E6/0011ff"
-          alt="빈 이미지"
-        />
+        <div className="info-img">
+          <img
+            src="https://dummyimage.com/300x400/E6E6E6/0011ff"
+            alt="빈 이미지"
+          />
+          <span> ❤️ 117</span>
+        </div>
         <div className="description">
-          <h1>공연 이름</h1>
-          <h2>공연자 / 2024.01.17</h2>
-          <p>
-            공연내용을 설명하는 공간입니다.공연내용을 설명하는
-            공간입니다.공연내용을 설명하는 공간입니다.공연내용을 설명하는
-            공간입니다.공연내용을 설명하는 공간입니다.공연내용을 설명하는
-            공간입니다.공연내용을 설명하는 공간입니다.공연내용을 설명하는
-            공간입니다.공연내용을 설명하는 공간입니다.공연내용을 설명하는
-            공간입니다.공연내용을 설명하는 공간입니다.공연내용을 설명하는
-            공간입니다.공연내용을 설명하는 공간입니다.공연내용을 설명하는
-            공간입니다.공연내용을 설명하는 공간입니다.공연내용을 설명하는
-            공간입니다.공연내용을 설명하는 공간입니다.공연내용을 설명하는
-            공간입니다.공연내용을 설명하는 공간입니다.공연내용을 설명하는
-            공간입니다.공연내용을 설명하는 공간입니다.공연내용을 설명하는
-            공간입니다.
-          </p>
+          <ul className="info-items">{infoItems}</ul>
         </div>
       </div>
       <div className="map">
-        <img
-          className="map-img"
-          src="https://dummyimage.com/550x200/E6E6E6/0011ff"
-          alt="빈 이미지"
-        />
-        <p className="contact">
+        <div className="contact">
           <span>위치:OO시 OO길 12-3</span>
-
           <span>Tel : 12 - 345 - 6789</span>
-        </p>
+        </div>
+        <div className="map-img">
+          <img
+            src="https://dummyimage.com/550x400/E6E6E6/0011ff"
+            alt="빈 이미지"
+          />
+        </div>
       </div>
     </div>
   );

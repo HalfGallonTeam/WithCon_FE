@@ -32,42 +32,64 @@ const Header = () => {
   };
 
   const keywordIn = (e) => {
+    e.preventDefault();
+    const category = e.target.category.value;
     const keyword = e.target.keyword.value;
     if (!keyword) {
       e.preventDefault();
       window.alert("검색어를 입력하세요");
       return;
     }
-    navigate("/search/");
+    navigate(`/search?category=${category}&keyword=${keyword}`);
   };
 
   return (
     <>
       <header className="header">
+        <button
+          onClick={() => {
+            setIsLogin(true);
+          }}
+        >
+          누르면 로그인됩니다
+        </button>
         <div className="container">
-          <Link to="/">
-            <h1 className="title">
-              위드콘
-              <img className="logo" src={logo} alt="로고" />
-            </h1>
-          </Link>
+          <h1 className="title">
+            <Link to="/">
+              <span className="mobile-hidden">위드콘</span>
+              <img className="logo" src={logo} alt="위드콘" />
+            </Link>
+          </h1>
           <div className="login-area">
-            <button onClick={() => setIsLogin(true)}>
-              !누르면 로그인됩니다.!
-            </button>
-            <button
-              className="login-button"
-              onClick={() => {
-                isLogin ? setOpen(!open) : navigate("/login/");
-              }}
-            >
-              {isLogin ? userName : "로그인하세요"}
-            </button>
-            {open === true ? (
-              <ProfileModal logout={logoutFunc} modalOpen={setOpen} />
+            {isLogin ? (
+              <button className="login-button" onClick={() => setOpen(!open)}>
+                테스터 님
+              </button>
             ) : (
-              <></>
+              <>
+                <button
+                  className="login-button"
+                  onClick={() => navigate("/login")}
+                >
+                  로그인
+                </button>
+                <button
+                  className="login-button mobile-hidden"
+                  onClick={() => navigate("/signup")}
+                >
+                  회원가입
+                </button>
+              </>
             )}
+            {open && (
+              <ProfileModal logout={logoutFunc} modalOpen={setOpen} />
+            )}
+          </div>
+          <div className="category-buttons">
+            <button className="category-button active">전체</button>
+            <button className="category-button">콘서트</button>
+            <button className="category-button">뮤지컬</button>
+            <button className="category-button">연극</button>
           </div>
           <form className="search-area" onSubmit={keywordIn}>
             <select

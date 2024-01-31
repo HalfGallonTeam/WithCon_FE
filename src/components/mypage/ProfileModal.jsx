@@ -25,6 +25,9 @@ const ProfileModal = (props) => {
     navigate(root);
   };
   const logout = () => {
+    //서버에 로그아웃 요청도 보내야 한다..!!
+    //로그아웃 OK응답을 받고 나서야 토큰을 지워야 한다.
+    //로그아웃 실패 모달도 필요.
     modalOpen(false);
     props.logout();
     const url = location.pathname;

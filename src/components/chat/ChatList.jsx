@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import ChatRoom from "./ChatRoom";
 import CreateChatRoom from "./CreateChatRoom";
+import Paging from "../common/Paging";
 
 const ChatList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(65);
+  const url = useLocation();
+  useEffect(() => {
+    setCurrentPage(new URLSearchParams(url.search).get("page") || 1);
+  }, [url]);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -11,8 +20,12 @@ const ChatList = () => {
     setIsModalOpen(false);
   };
   return (
-    <div className="chatlist-container">
-      <h1>아이유 드론쇼 콘서트</h1>
+    <div className="chat-list-container">
+      <h1>채팅방 목록</h1>
+      <div className="hashtag-search">
+        <input id="hashtag" placeholder="해시태그를 입력해 주세요." />
+        <button>검색</button>
+      </div>
       <div className="chat-btn-container">
         <div className="check">
           <input type="checkbox" id="checkroom" />
@@ -20,9 +33,11 @@ const ChatList = () => {
             <span>마감된 방 보지 않기</span>
           </label>
         </div>
-        <button className="nearby" onClick={openModal}>
-          채팅방 만들기
-        </button>
+        <div className="create-chat">
+          <button className="create-chat-btn" onClick={openModal}>
+            채팅방 만들기
+          </button>
+        </div>
         {isModalOpen && <CreateChatRoom onClose={closeModal} />}
       </div>
       <div className="list-container">
@@ -32,9 +47,7 @@ const ChatList = () => {
         <ChatRoom />
         <ChatRoom />
       </div>
-      <div className="page">
-        <span> &lt; 1 2 3 4 5 &gt;</span>
-      </div>
+      <Paging totalCount={totalCount} currentPage={currentPage} />
     </div>
   );
 };

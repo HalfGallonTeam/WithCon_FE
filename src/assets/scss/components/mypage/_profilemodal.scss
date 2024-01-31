@@ -2,7 +2,7 @@
   position: absolute;
   right: 0;
   z-index: 99;
-  display: flex;
+  display: flex block;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -10,16 +10,16 @@
   border-radius: 8px;
   background-color: white;
   padding-top: 20px;
+  width: 140px;
+  text-align: center;
   .profile-modal-title {
     margin-bottom: 5px;
-    padding: 0 40px;
     color: $main-color-dark;
   }
   .profile-modal-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 40px;
     margin-bottom: 10px;
 
     .profile-modal-img {
@@ -33,7 +33,7 @@
   .profile-modal-btn {
     border-top: 1px solid $text-color;
     width: 100%;
-    padding: 10px 40px;
+    padding: 10px 0;
     color: $text-color;
     font-size: 12px;
     &:hover {

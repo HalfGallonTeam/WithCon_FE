@@ -37,3 +37,22 @@
   color: $text-color;
   @include click-css;
 }
+
+@mixin category-btn{
+  width: 90px;
+  color: $text-color;
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid $text-color;
+    &:hover {
+      background-color: $text-color;
+      color: white;
+    }
+    &:active {
+      background-color: black;
+      position: relative;
+      top: 2px;
+    }
+}

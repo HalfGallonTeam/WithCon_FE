@@ -4,7 +4,6 @@ import "./assets/css/styles.css";
 import ScrollToTop from "./components/common/ScrollToTop";
 import Home from "./components/common/Home";
 import MainPage from "./components/concert/MainPage";
-import AdCarousel from "./components/concert/AdCarousel";
 import ConLists from "./components/concert/ConLists";
 import ConDetail from "./components/concert/ConDetail";
 import ConInfo from "./components/concert/ConInfo";
@@ -19,6 +18,7 @@ import FindPW from "./components/login/FindPW";
 import PageNotForFound from "./components/common/PageNotForFound";
 import Chat from "./components/chat/Chat";
 import KakaoLogin from "./components/login/KakaoLogin";
+import ChangePW from "./components/mypage/ChangePW";
 
 function App() {
   return (
@@ -27,29 +27,21 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />}>
-            <Route
-              index
-              element={
-                <MainPage>
-                  <AdCarousel />
-                </MainPage>
-              }
-            />
-
+            <Route index element={<MainPage />} />
             <Route path="/performance/:category" element={<ConLists />} />
             <Route path="/search/" element={<ConLists />} />
-            <Route path="/title/:concert-title/" element={<ConDetail />}>
+            <Route path="/title/:concertTitle/" element={<ConDetail />}>
               <Route index element={<ConInfo />} />
-              <Route
-                path="/title/:concert-title/chat/"
-                element={<ChatList />}
-              />
+              <Route path="/title/:concertTitle/chat/" element={<ChatList />} />
             </Route>
             <Route path="/mypage/" element={<MyPage />}>
               <Route index element={<MyConcert />} />
               <Route path="/mypage/mychat/" element={<MyChat />} />
             </Route>
-            <Route path="/profile/" element={<Profile />} />
+            <Route path="/profile/">
+              <Route index element={<Profile />} />
+              <Route path="/profile/changepassword/" element={<ChangePW />} />
+            </Route>
           </Route>
           <Route path="/chat/" element={<Chat />} />
 

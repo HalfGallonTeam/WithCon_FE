@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 /**
  * limit = 한 번에 불러오는 데이터량(한 페이지당 그려지는 카드 수)
@@ -18,9 +18,18 @@ const PAGE = {
 
 const Paging = (props) => {
   const navigate = useNavigate();
+  const url = useLocation();
   const currentPageChange = (event) => {
     if (!event.target.value) return;
-    navigate("?page=" + event.target.value);
+    const regnum = /page=[0-9]+/g;
+    const search = url.search;
+    const newSearch = !search
+      ? `?page=${event.target.value}`
+      : search.match(regnum)
+      ? search.replace(regnum, `page=${event.target.value}`)
+      : `${search}&page=${event.target.value}`;
+    const newLocation = url.pathname + newSearch;
+    navigate(newLocation);
   };
 
   const buttons = [];

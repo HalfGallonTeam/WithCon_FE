@@ -29,8 +29,10 @@
 	position: relative;
 	width: 100%;
 	.responsible-carousel {
+		margin-bottom: 4px;
 		.concert-list {width: 1020px;}
-		.concert-card {margin: 0;}
+		.concert-card {margin: 6px 0;}
+		.concert-card:first-child {margin-left: 8px;}
 	}
 	.main-button-left, .main-button-right {
 		position: absolute;
