@@ -13,7 +13,7 @@ const MyConcert = () => {
   }, [url]);
 
   return (
-    <>
+    <div className="like-list-container">
       <div className="mypage-like-list">
         <div className="concert-list">
           <ConcertCard info={info[0]} />
@@ -25,7 +25,7 @@ const MyConcert = () => {
         </div>
       </div>
       <Paging totalCount={totalCount} currentPage={currentPage} />
-    </>
+    </div>
   );
 };
 

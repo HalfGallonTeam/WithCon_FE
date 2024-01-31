@@ -4,6 +4,7 @@ body {
 
 button {
   transition: 0.3s;
+  color: $text-color;
 }
 button:hover {
   background-color: rgba(0, 0, 0, 0.2);
@@ -19,4 +20,10 @@ button:hover {
 }
 input {
   outline: none;
+}
+
+@media (max-width:500px) {
+  .mobile-hidden {
+      display: none !important;
+    }
 }
