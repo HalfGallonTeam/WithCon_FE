@@ -5,6 +5,7 @@ const Navigation = (props) => {
   const url = useLocation();
   const search = props.search;
   const regCategory = /category=[a-z]+/g;
+  const regPage1 = /&page=[0-9]+/g;
   const path = search ? url.search : url.pathname;
   const nav = useRef(null);
   const selected = useRef(null);
@@ -18,7 +19,9 @@ const Navigation = (props) => {
   ];
 
   navValues.map((value) => {
-    const newSearch = url.search.replace(regCategory, `category=${value[0]}`);
+    const newSearch = url.search
+      .replace(regCategory, `category=${value[0]}`)
+      .replace(regPage1, ``);
     const path = search ? `/search${newSearch}` : `/performance/${value[0]}`;
     navButtons.push(
       <button
