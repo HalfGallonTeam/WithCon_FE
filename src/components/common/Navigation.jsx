@@ -2,13 +2,13 @@ import { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 const Navigation = (props) => {
   const navigate = useNavigate();
-  const url = useLocation();
+  const url = useLocation().search;
+  const keyword = new URLSearchParams(url).get("keyword");
   const search = props.search;
-  const regCategory = /category=[a-z]+/g;
-  const regPage1 = /&page=[0-9]+/g;
-  const path = search ? url.search : url.pathname;
   const nav = useRef(null);
   const selected = useRef(null);
+  const regCategory = /category=[a-z]+/g;
+  const regPage1 = /&page=[0-9]+/g;
 
   const navButtons = [];
   const navValues = [
@@ -19,10 +19,14 @@ const Navigation = (props) => {
   ];
 
   navValues.map((value) => {
-    const newSearch = url.search
-      .replace(regCategory, `category=${value[0]}`)
-      .replace(regPage1, ``);
-    const path = search ? `/search${newSearch}` : `/performance/${value[0]}`;
+    const newSearch = search
+      ? url.replace(regCategory, `category=${value[0]}`).replace(regPage1, ``)
+      : value[0]
+      ? `?category=${value[0]}`
+      : "";
+    const path = search
+      ? `/performance/search${newSearch}`
+      : `/performance${newSearch}`;
     navButtons.push(
       <button
         className="category-button"
@@ -40,14 +44,17 @@ const Navigation = (props) => {
     for (const button of buttons) {
       if (selected.current) {
         selected.current.classList.remove("active");
+        selected.current = null;
       }
-      if (path.includes(button.value)) {
-        button.classList.add("active");
-        selected.current = button;
-        break;
+      if ((!search && !keyword) || (search && keyword)) {
+        if (url.includes(button.value)) {
+          button.classList.add("active");
+          selected.current = button;
+          break;
+        }
       }
     }
-  }, [path]);
+  }, [url]);
 
   return (
     <nav className="category-buttons" ref={nav}>

@@ -13,6 +13,7 @@ import PAGE from "../../assets/constants/page";
  */
 
 const Paging = (props) => {
+  if (props.totalCount <= PAGE.limit) return;
   const navigate = useNavigate();
   const url = useLocation();
   const currentPageChange = (event) => {

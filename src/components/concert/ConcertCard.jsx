@@ -19,7 +19,7 @@ const ConcertCard = (props) => {
   return (
     <div
       className="concert-card"
-      onClick={() => navigate(`/title/${info.title}`)}
+      onClick={() => navigate(`/title/${"공연아이디" + info.id}`)}
     >
       <div className="poster-box">
         <img className="concert-poster" src={info.poster} alt={info.title} />

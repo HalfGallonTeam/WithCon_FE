@@ -35,21 +35,15 @@ const Header = () => {
   };
 
   const keywordIn = (e) => {
-    navigate("search");
-    return;
-
     e.preventDefault();
-    const category = e.target.category.value;
     const keyword = e.target.keyword.value;
     if (!keyword) {
-      e.preventDefault();
       window.alert("검색어를 입력하세요");
       return;
     }
-    const opt = select.current;
-    opt.setAttribute();
     e.target.keyword.value = "";
-    navigate(`/search?category=${category}&keyword=${keyword}`);
+    navigate(`/performance/search?category=all&keyword=${keyword}`);
+    return;
   };
 
   return (
@@ -94,7 +88,7 @@ const Header = () => {
           </div>
           <Navigation />
           <form className="search-area" onSubmit={keywordIn}>
-            <select
+            {/**<select
               className="filter-category"
               name="category"
               id="category-select"
@@ -105,7 +99,7 @@ const Header = () => {
               <option value="musical">뮤지컬</option>
               <option value="play">연극</option>
               <option value="concert">콘서트</option>
-            </select>
+            </select>*/}
             <div className="search-keyword-box">
               <input
                 className="search-keyword-input"
