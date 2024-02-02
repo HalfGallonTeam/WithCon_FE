@@ -30,8 +30,8 @@ const getWithconTokenFromNaver = async (token, navigate) => {
       document.cookie = `withcon_refresh=${token.length};secure`;
       navigate("/");
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.error(error, "에러");
   }
 };
 

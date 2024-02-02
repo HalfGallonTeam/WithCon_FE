@@ -10,12 +10,15 @@ const ConLists = (props) => {
 
   useEffect(() => {
     const getInfos = async () => {
-      const response = await instance.get(
-        `/performance-best?category=${props.category}`
-      );
-      const datas = await response.data;
-      setInfos(datas);
-      return;
+      try {
+        const response = await instance.get(
+          `/performance-best?category=${props.category}`
+        );
+        const datas = await response.data;
+        setInfos(datas);
+      } catch (error) {
+        console.error(error, "에러");
+      }
     };
     getInfos();
   }, []);

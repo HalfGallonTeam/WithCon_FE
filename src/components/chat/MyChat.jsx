@@ -17,6 +17,10 @@ const MyChat = () => {
       try {
         const response = await instance.get("/chatRooms?_limit=3");
         setData(response.data);
+        const length = response.headers["x-total-count"];
+        if (length !== totalCount) {
+          setTotalCount(length);
+        }
       } catch (error) {
         console.error("데이터오류", error);
       }
@@ -34,7 +38,6 @@ const MyChat = () => {
     <div className="mychat-container">
       <p className="desc">
         user favorite으로 필터링한 결과물이 없어 임시로 3개만 끊어 그립니다.
-        totalCount나중에 조정할 것.
       </p>
       <div className="list-container">{chatRooms}</div>
       <Paging totalCount={totalCount} currentPage={currentPage} />

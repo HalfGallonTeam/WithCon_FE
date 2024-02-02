@@ -71,8 +71,8 @@ const Login = () => {
         document.cookie = `withcon_refresh=${dataObj.password};secure`;
         navigate("/");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.error(error, "에러");
     }
   };
 

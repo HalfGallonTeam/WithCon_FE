@@ -14,23 +14,20 @@ const MyConcert = () => {
   let pages = urlSearch.get("page") || 1;
 
   useEffect(() => {
-    const getTotalCount = async () => {
-      let request = `/performances?`;
-      request += `&title_like=bts`;
-      const response = await instance.get(request);
-      const datas = await response.data;
-      setTotalCount(datas.length);
-    };
-    getTotalCount();
-  }, []);
-
-  useEffect(() => {
     const getInfos = async () => {
-      let request = `/performances?_page=${pages}&_limit=${PAGE.limit}`;
-      request += `&title_like=bts`;
-      const response = await instance.get(request);
-      const datas = await response.data;
-      setInfos(datas);
+      try {
+        let request = `/performances?_page=${pages}&_limit=${PAGE.limit}`;
+        request += `&title_like=bts`;
+        const response = await instance.get(request);
+        const datas = await response.data;
+        setInfos(datas);
+        const length = response.headers["x-total-count"];
+        if (length !== totalCount) {
+          setTotalCount(length);
+        }
+      } catch (error) {
+        console.error(error, "에러");
+      }
     };
     getInfos();
     setCurrentPage(pages);

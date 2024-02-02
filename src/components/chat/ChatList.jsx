@@ -13,9 +13,8 @@ const ChatList = () => {
   const [data, setData] = useState(null);
   const [filteredData, setFilteredData] = useState(null);
   const url = useLocation();
-  useEffect(() => {
-    setCurrentPage(new URLSearchParams(url.search).get("page") || 1);
-  }, [url]);
+  const urlSearch = new URLSearchParams(url.search);
+  const pages = urlSearch.get("page") || 1;
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -32,12 +31,18 @@ const ChatList = () => {
       try {
         const response = await instance.get("/chatRooms");
         setData(response.data);
+        const length = response.headers["x-total-count"];
+        if (length !== totalCount) {
+          setTotalCount(length);
+        }
       } catch (error) {
         console.error("데이터오류", error);
       }
     };
     getData();
-  }, []);
+    setCurrentPage(pages);
+  }, [url]);
+
   const upDateFilterData = () => {
     const filterData = data
       ? searchHashtag
