@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import PAGE from "../../assets/constants/page";
 
 /**
  * limit = 한 번에 불러오는 데이터량(한 페이지당 그려지는 카드 수)
@@ -11,12 +12,8 @@ import { useLocation, useNavigate } from "react-router-dom";
  * 다음 버튼을 누르면 어디로 가나요? Math.ceil(currentPage/pageCount) * pageCount + 1
  */
 
-const PAGE = {
-  pageCount: 5,
-  limit: 5,
-};
-
 const Paging = (props) => {
+  if (props.totalCount <= PAGE.limit) return;
   const navigate = useNavigate();
   const url = useLocation();
   const currentPageChange = (event) => {

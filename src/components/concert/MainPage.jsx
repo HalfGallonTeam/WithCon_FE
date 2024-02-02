@@ -1,31 +1,37 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import instance from "../../assets/constants/instance";
 import AdCarousel from "./AdCarousel";
 import ConcertCard from "./ConcertCard";
-import { concertInfos } from "../../assets/datas/concertInfos";
 
-const ConLists = () => {
-  //나중엔 axios로 데이터를 불러올 것.
-  const newConcertInfos = []
-  for(let i=0; i<5; i++) {
-    newConcertInfos.push(concertInfos[i])
-  }
-  //(끝)나중엔 axios
+const ConLists = (props) => {
+  const [infos, setInfos] = useState([]);
+  const concertCards = [];
 
-  const concertCards = []
-  newConcertInfos.map((info, index) => {
-    concertCards.push(<ConcertCard info={info} key={index}/>)
-  })
+  useEffect(() => {
+    const getInfos = async () => {
+      const response = await instance.get(
+        `/performance-best?category=${props.category}`
+      );
+      const datas = await response.data;
+      setInfos(datas);
+      return;
+    };
+    getInfos();
+  }, []);
+
+  infos.map((info, index) => {
+    concertCards.push(<ConcertCard info={info} key={index} />);
+  });
 
   return (
     <>
       <div className="container">
-        <div className="concert-list">
-          {concertCards}
-        </div>
+        <div className="concert-list">{concertCards}</div>
       </div>
     </>
-  )
-}
+  );
+};
 
 const MainPage = () => {
   return (
@@ -33,27 +39,27 @@ const MainPage = () => {
       <AdCarousel />
       <div className="container">
         <h2 className="concert-category">
-          <Link to="/performance/concert">콘서트</Link>
+          <Link to="/performance?category=concert">콘서트</Link>
         </h2>
         <div className="main-carousel-container">
           <div className="responsible-carousel scroll-x">
-            <ConLists/>
+            <ConLists category="concert" />
           </div>
         </div>
         <h2 className="concert-category">
-          <Link to="/performance/musical">뮤지컬</Link>
+          <Link to="/performance?category=musical">뮤지컬</Link>
         </h2>
         <div className="main-carousel-container">
           <div className="responsible-carousel scroll-x">
-            <ConLists/>
+            <ConLists category="musical" />
           </div>
         </div>
         <h2 className="concert-category">
-          <Link to="/performance/play">연극</Link>
+          <Link to="/performance?category=play">연극</Link>
         </h2>
         <div className="main-carousel-container">
           <div className="responsible-carousel scroll-x">
-            <ConLists/>
+            <ConLists category="play" />
           </div>
         </div>
       </div>

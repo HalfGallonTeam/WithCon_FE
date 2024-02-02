@@ -28,8 +28,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}>
             <Route index element={<MainPage />} />
-            <Route path="/performance/:category" element={<ConLists />} />
-            <Route path="/search/" element={<ConLists />} />
+            <Route path="/performance/" element={<ConLists />} />
+            <Route path="/performance/search/" element={<ConLists />} />
             <Route path="/title/:concertTitle/" element={<ConDetail />}>
               <Route index element={<ConInfo />} />
               <Route path="/title/:concertTitle/chat/" element={<ChatList />} />

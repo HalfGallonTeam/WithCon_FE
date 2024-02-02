@@ -1,27 +1,57 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ConcertCard from "./ConcertCard";
+import Navigation from "../common/Navigation";
 import Paging from "../common/Paging";
-import { concertInfos } from "../../assets/datas/concertInfos";
+import PAGE from "../../assets/constants/page";
+import instance from "../../assets/constants/instance";
 
 const ConLists = () => {
+  const [infos, setInfos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(65); //나중에 data.length로 바꿔서 정리하기.
-  const { category } = useParams();
+  const [totalCount, setTotalCount] = useState(65);
   const url = useLocation();
-  const pages = new URLSearchParams(url.search).get("page") || 1;
-  const keyword = new URLSearchParams(url.search).get("keyword");
-  useEffect(() => {
-    setCurrentPage(pages);
-  }, [url]);
+  const urlSearch = new URLSearchParams(url.search);
+  let pages = urlSearch.get("page") || 1;
+  let category = urlSearch.get("category");
+  let keyword = urlSearch.get("keyword");
 
-  //concertInfo를 불러오는 단계에서 데이터 총량을 결정하고, 카드 그리기는 .map함수로 끝까지 진행할 것.
-  let newConcertInfos = [];
-  newConcertInfos = concertInfos;
+  useEffect(() => {
+    const getTotalCount = async () => {
+      let request = `/performances?`;
+      request += category !== "all" ? `&category=${category}` : "";
+      request += keyword ? `&title_like=${keyword}` : "";
+      const response = await instance.get(request);
+      const datas = await response.data;
+      setTotalCount(datas.length);
+    };
+    getTotalCount();
+  }, [category, keyword]);
+
+  useEffect(() => {
+    const getInfos = async () => {
+      let request = `/performances?_page=${pages}&_limit=${PAGE.limit}`;
+      request += category !== "all" ? `&category=${category}` : "";
+      request += keyword ? `&title_like=${keyword}` : "";
+      const response = await instance.get(request);
+      const datas = await response.data;
+      setInfos(datas);
+    };
+    getInfos();
+    setCurrentPage(pages);
+  }, [category, keyword, pages]);
+
   const concertCards = [];
-  newConcertInfos.map((info, index) => {
+  infos.map((info, index) => {
     concertCards.push(<ConcertCard info={info} key={index} />);
   });
+  if (!infos.length) {
+    concertCards.push(
+      <div key="1">
+        <h2 className="notice">결과가 없습니다</h2>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -32,14 +62,7 @@ const ConLists = () => {
               <span className="search-keyword">&quot;{keyword}&quot;</span>
               &nbsp;검색 결과
             </p>
-            <div className="category-buttons">
-              <div className="container">
-                <button className="category-button active">전체</button>
-                <button className="category-button">콘서트</button>
-                <button className="category-button">뮤지컬</button>
-                <button className="category-button">연극</button>
-              </div>
-            </div>
+            <Navigation search={true} />
           </>
         )}
 

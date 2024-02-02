@@ -44,18 +44,21 @@ const ChangePW = () => {
               type="password"
               className="info-edit-input"
               placeholder="현재 비밀번호"
+              autoComplete="new-password"
             />
             <input
               name="password2"
               type="password"
               className="info-edit-input"
               placeholder="새로운 비밀번호"
+              autoComplete="new-password"
             />
             <input
               name="password3"
               type="password"
               className="info-edit-input"
               placeholder="새로운 비밀번호 확인"
+              autoComplete="new-password"
             />
             <p className="desc">아래 이미지를 보이는 대로 입력해주세요</p>
             <table className="not-robot">
@@ -88,6 +91,7 @@ const ChangePW = () => {
               type="text"
               className="info-edit-input"
               placeholder="자동입력 방지문자"
+              autoComplete="off"
             />
             <div className="edit-buttons">
               <button className="edit-btn">수정</button>
