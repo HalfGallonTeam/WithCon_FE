@@ -4,9 +4,14 @@ import instance from "../../assets/constants/instance";
 import AdCarousel from "./AdCarousel";
 import ConcertCard from "./ConcertCard";
 
-const ConLists = (props) => {
+const ConListBests = (props) => {
   const [infos, setInfos] = useState([]);
-  const concertCards = [];
+  const category = props.category;
+  const categoryKR = {
+    concert: "콘서트",
+    musical: "뮤지컬",
+    play: "연극",
+  };
 
   useEffect(() => {
     const getInfos = async () => {
@@ -23,49 +28,40 @@ const ConLists = (props) => {
     getInfos();
   }, []);
 
+  const concertCards = [];
   infos.map((info, index) => {
     concertCards.push(<ConcertCard info={info} key={index} />);
   });
 
   return (
     <>
-      <div className="container">
-        <div className="concert-list">{concertCards}</div>
+      <h2 className="concert-category">
+        <Link to={`/performance?category=${category}`}>
+          {categoryKR[category]}
+        </Link>
+      </h2>
+      <div className="main-carousel-container">
+        <div className="responsible-carousel scroll-x">
+          <div className="container">
+            <div className="concert-list">{concertCards}</div>
+          </div>
+        </div>
       </div>
     </>
   );
 };
 
 const MainPage = () => {
+  const categories = ["concert", "musical", "play"];
+  const bestLists = [];
+  categories.map((category) => {
+    bestLists.push(<ConListBests category={category} key={category} />);
+  });
+
   return (
     <>
       <AdCarousel />
-      <div className="container">
-        <h2 className="concert-category">
-          <Link to="/performance?category=concert">콘서트</Link>
-        </h2>
-        <div className="main-carousel-container">
-          <div className="responsible-carousel scroll-x">
-            <ConLists category="concert" />
-          </div>
-        </div>
-        <h2 className="concert-category">
-          <Link to="/performance?category=musical">뮤지컬</Link>
-        </h2>
-        <div className="main-carousel-container">
-          <div className="responsible-carousel scroll-x">
-            <ConLists category="musical" />
-          </div>
-        </div>
-        <h2 className="concert-category">
-          <Link to="/performance?category=play">연극</Link>
-        </h2>
-        <div className="main-carousel-container">
-          <div className="responsible-carousel scroll-x">
-            <ConLists category="play" />
-          </div>
-        </div>
-      </div>
+      <div className="container">{bestLists}</div>
     </>
   );
 };
