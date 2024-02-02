@@ -1,16 +1,22 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const ChatRoom = () => {
+const ChatRoom = ({ searchData }) => {
   const navigate = useNavigate();
+  const { concertTitle } = useParams();
   return (
-    <div className="chat-room" onClick={() => navigate("/chat/")}>
+    <div
+      className="chat-room"
+      onClick={() => navigate(`/title/${concertTitle}/chat/${searchData.id}`)}
+    >
       <div className="chat-top">
-        <span className="title">토요일 콘서트 같이 갈 사람? 무반응시 강퇴</span>
+        <span className="title">{searchData.roomName}</span>
       </div>
       <div className="chat-bottom">
         <div className="chat-tag">
-          <span>#무응답 강퇴</span>
-          <span>#무음 금지</span>
+          {searchData.tags.map((tag, index) => (
+            <span key={index}>#{tag}</span>
+          ))}
         </div>
         <div className="member-num-container">
           <span className="member-num">총 인원</span>
@@ -19,6 +25,12 @@ const ChatRoom = () => {
       </div>
     </div>
   );
+};
+ChatRoom.propTypes = {
+  searchData: PropTypes.oneOfType([
+    PropTypes.object, // 객체 타입
+    PropTypes.arrayOf(PropTypes.object), // 객체의 배열
+  ]).isRequired,
 };
 
 export default ChatRoom;
