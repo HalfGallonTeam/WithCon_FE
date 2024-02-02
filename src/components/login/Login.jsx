@@ -31,7 +31,7 @@ const Login = () => {
   useEffect(() => {
     var naver_id_login = new window.naver_id_login(
       import.meta.env.VITE_NAVER_CLIENT_ID,
-      import.meta.env.NAVER_CALLBACK_URL
+      "http://localhost:5173/login"
     );
     const naverAccessToken = naver_id_login.oauthParams.access_token;
     if (naverAccessToken) {
@@ -57,14 +57,12 @@ const Login = () => {
           "withcon_token",
           JSON.stringify(dataObj.accessToken)
         );
-        document.cookie = `withcon_refresh=${dataObj.refreshToken};secure`;
         navigate("/");
       } else if (dataObj.result === "NG") {
         setWrongPW(true);
       } else {
         window.alert("서버 response가 없으므로 id를 localStorage에 저장");
         localStorage.setItem("withcon_token", JSON.stringify(dataObj.username));
-        document.cookie = `withcon_refresh=${dataObj.password};secure`;
         navigate("/");
       }
     } catch (error) {

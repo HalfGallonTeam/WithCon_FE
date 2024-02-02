@@ -18,7 +18,6 @@ const getWithconTokenFromNaver = async (token, navigate) => {
         "withcon_token",
         JSON.stringify(dataObj.accessToken)
       );
-      document.cookie = `withcon_refresh=${dataObj.refreshToken};secure`;
       navigate("/");
     } else if (dataObj.result === "NG") {
       window.alert("회원가입이 되지 않은 사람입니다. 회원가입하세요.");
@@ -27,7 +26,6 @@ const getWithconTokenFromNaver = async (token, navigate) => {
         "서버 response가 없으므로 naver_access_token을 localStorage에 저장"
       );
       localStorage.setItem("withcon_token", JSON.stringify(token));
-      document.cookie = `withcon_refresh=${token.length};secure`;
       navigate("/");
     }
   } catch (error) {
