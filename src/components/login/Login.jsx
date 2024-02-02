@@ -4,10 +4,6 @@ import instance from "../../assets/constants/instance";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
 import { getNaverToken, getWithconTokenFromNaver } from "./NaverLogin";
-import {
-  VITE_NAVER_CLIENT_ID,
-  NAVER_CALLBACK_URL,
-} from "../../assets/constants/social_login";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -34,8 +30,8 @@ const Login = () => {
   //네이버 로그인
   useEffect(() => {
     var naver_id_login = new window.naver_id_login(
-      VITE_NAVER_CLIENT_ID,
-      NAVER_CALLBACK_URL
+      import.meta.env.VITE_NAVER_CLIENT_ID,
+      import.meta.env.NAVER_CALLBACK_URL
     );
     const naverAccessToken = naver_id_login.oauthParams.access_token;
     if (naverAccessToken) {
