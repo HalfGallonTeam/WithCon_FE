@@ -18,6 +18,7 @@ import FindPW from "./components/login/FindPW";
 import PageNotForFound from "./components/common/PageNotForFound";
 import Chat from "./components/chat/Chat";
 import KakaoLogin from "./components/login/KakaoLogin";
+import NaverLogin from "./components/login/NaverLogin";
 import ChangePW from "./components/mypage/ChangePW";
 
 function App() {
@@ -45,8 +46,9 @@ function App() {
           </Route>
           <Route path="/title/:concertTitle/chat/:id" element={<Chat />} />
 
-          <Route path="/kakao-login/" element={<KakaoLogin />} />
           <Route path="/login/" element={<Login />} />
+          <Route path="/kakao-login/" element={<KakaoLogin />} />
+          <Route path="/naver-login/" element={<NaverLogin />} />
           <Route path="/signup/" element={<Signup />} />
           <Route path="/findpassword/" element={<FindPW />} />
           <Route path="*" element={<PageNotForFound />} />

@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import instance from "../../assets/constants/instance";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
-import { getNaverToken, getWithconTokenFromNaver } from "./NaverLogin";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,14 +30,12 @@ const Login = () => {
   useEffect(() => {
     var naver_id_login = new window.naver_id_login(
       import.meta.env.VITE_NAVER_CLIENT_ID,
-      "http://localhost:5173/login"
+      "http://localhost:5173/naver-login"
     );
-    const naverAccessToken = naver_id_login.oauthParams.access_token;
-    if (naverAccessToken) {
-      getWithconTokenFromNaver(naverAccessToken, navigate);
-    } else {
-      getNaverToken(naver_id_login);
-    }
+    var state = naver_id_login.getUniqState();
+    naver_id_login.response_type = "code";
+    naver_id_login.setState(state);
+    naver_id_login.init_naver_id_login();
   }, []);
 
   //위드콘 로그인
