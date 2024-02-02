@@ -1,0 +1,126 @@
+{
+  "users": [
+    {
+      "id": "user1",
+      "pw": "user1pw",
+      "email": "user1@naver.com",
+      "nickName": "user1nick"
+    },
+    {
+      "id": "205c",
+      "username": "dkssud",
+      "password": "xq2ZZLyD5LwC6v8"
+    },
+    {
+      "id": "0e5d",
+      "naver_access_token": "AAAAOhlhBY35MephazRbXea56_YPWUsjONLk3qowhch8xWDetTdr2lWl808yUw95ocTu2-mKryp0FBygX0L8eSAzQ1g"
+    },
+    {
+      "id": "b5cb",
+      "naver_access_token": "AAAAOhlhBY35MephazRbXea56_YPWUsjONLk3qowhch8xWDetTdr2lWl808yUw95ocTu2-mKryp0FBygX0L8eSAzQ1g"
+    },
+    {
+      "id": "3758",
+      "naver_access_token": "AAAAOhlhBY35MephazRbXea56_YPWUsjONLk3qowhch8xWDetTdr2lWl808yUw95ocTu2-mKryp0FBygX0L8eSAzQ1g"
+    },
+    {
+      "id": "5219",
+      "naver_access_token": "AAAAOhlhBY35MephazRbXea56_YPWUsjONLk3qowhch8xWDetTdr2lWl808yUw95ocTu2-mKryp0FBygX0L8eSAzQ1g"
+    },
+    {
+      "id": "3b9d",
+      "naver_access_token": "AAAAOhlhBY35MephazRbXea56_YPWUsjONLk3qowhch8xWDetTdr2lWl808yUw95ocTu2-mKryp0FBygX0L8eSAzQ1g"
+    },
+    {
+      "id": "de03",
+      "naver_access_token": "AAAAOhlhBY35MephazRbXea56_YPWUsjONLk3qowhch8xWDetTdr2lWl808yUw95ocTu2-mKryp0FBygX0L8eSAzQ1g"
+    },
+    {
+      "id": "206d",
+      "naver_access_token": "AAAAOhlhBY35MephazRbXea56_YPWUsjONLk3qowhch8xWDetTdr2lWl808yUw95ocTu2-mKryp0FBygX0L8eSAzQ1g"
+    },
+    {
+      "id": "72f4",
+      "naver_access_token": "AAAAOhlhBY35MephazRbXea56_YPWUsjONLk3qowhch8xWDetTdr2lWl808yUw95ocTu2-mKryp0FBygX0L8eSAzQ1g"
+    }
+  ],
+  "chatRooms": [
+    {
+      "createDate": "202402020922",
+      "roomName": "test1",
+      "tags": [],
+      "id": 1
+    },
+    {
+      "createDate": "202402020923",
+      "roomName": "test2",
+      "tags": [
+        "##"
+      ],
+      "id": 2
+    },
+    {
+      "createDate": "202402020923",
+      "roomName": "",
+      "tags": [],
+      "id": 3
+    },
+    {
+      "createDate": "202402020925",
+      "roomName": "dk",
+      "tags": [],
+      "id": 4
+    },
+    {
+      "createDate": "202402020930",
+      "roomName": "test4",
+      "tags": [
+        "adf",
+        "adsfa",
+        "adsfdsf"
+      ],
+      "id": 5
+    },
+    {
+      "createDate": "202402020942",
+      "roomName": "test5",
+      "tags": [
+        "오당"
+      ],
+      "id": 6
+    },
+    {
+      "createDate": "202402020943",
+      "roomName": "test6",
+      "tags": [
+        "6",
+        "이당"
+      ],
+      "id": 7
+    },
+    {
+      "createDate": "202402020943",
+      "roomName": "test7",
+      "tags": [
+        "7d이당"
+      ],
+      "id": 8
+    },
+    {
+      "createDate": "202402020944",
+      "roomName": "test8",
+      "tags": [
+        "8"
+      ],
+      "id": 9
+    },
+    {
+      "createDate": "202402020945",
+      "roomName": "test9",
+      "tags": [
+        "9"
+      ],
+      "id": 10
+    }
+  ]
+}
