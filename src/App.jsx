@@ -43,7 +43,7 @@ function App() {
               <Route path="/profile/changepassword/" element={<ChangePW />} />
             </Route>
           </Route>
-          <Route path="/chat/" element={<Chat />} />
+          <Route path="/title/:concertTitle/chat/:id" element={<Chat />} />
 
           <Route path="/kakao-login/" element={<KakaoLogin />} />
           <Route path="/login/" element={<Login />} />

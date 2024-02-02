@@ -1,10 +1,14 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const ChatRoom = ({ searchData }) => {
   const navigate = useNavigate();
+  const { concertTitle } = useParams();
   return (
-    <div className="chat-room" onClick={() => navigate("/chat/")}>
+    <div
+      className="chat-room"
+      onClick={() => navigate(`/title/${concertTitle}/chat/${searchData.id}`)}
+    >
       <div className="chat-top">
         <span className="title">{searchData.roomName}</span>
       </div>
