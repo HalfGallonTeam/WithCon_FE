@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import instance from "../../assets/constants/instance";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
 import { getNaverToken, getWithconTokenFromNaver } from "./NaverLogin";
@@ -51,7 +51,7 @@ const Login = () => {
     try {
       const id = e.target.username.value;
       const pw = e.target.password.value;
-      const response = await axios.post("http://localhost:8000/users", {
+      const response = await instance.post("/user", {
         username: id,
         password: pw,
       });

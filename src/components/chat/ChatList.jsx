@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import ChatRoom from "./ChatRoom";
 import CreateChatRoom from "./CreateChatRoom";
 import Paging from "../common/Paging";
-import axios from "axios";
+import instance from "../../assets/constants/instance";
 
 const ChatList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,8 +30,7 @@ const ChatList = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const server = "http://localhost:8000/chatRooms";
-        const response = await axios.get(server);
+        const response = await instance.get("/chatRooms");
         setData(response.data);
       } catch (error) {
         console.error("데이터오류", error);

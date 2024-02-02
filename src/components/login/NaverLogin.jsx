@@ -8,7 +8,7 @@ const getWithconTokenFromNaver = async (token, navigate) => {
   }
   try {
     isNaverToken = true;
-    const response = await axios.post("http://localhost:8000/users", {
+    const response = await axios.post("http://localhost:8000/user", {
       naver_access_token: token,
     });
     const dataObj = await response.data;
