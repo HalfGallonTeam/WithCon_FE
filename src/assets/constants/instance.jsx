@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const instance = axios.create({ baseURL: "http://localhost:8000" });
+const instance = axios.create({ baseURL: "http://localhost:3000" });
 
 //헤더 인터셉트로 access_token 추가
 instance.interceptors.request.use(
@@ -25,7 +25,6 @@ instance.interceptors.response.use(
     const { response } = error;
     if (response.status === 400) {
       if (response.data.errorCode === "EXPIRED_TOKEN") {
-        localStorage.clear();
         const originalRequest = response.config;
         await tokenRefresh();
         const token = localStorage.getItem("withcon_token");
@@ -49,7 +48,7 @@ const tokenRefresh = async () => {
   try {
     const response = await instance.post("/auth/reissue");
     const datas = await response.data;
-    localStorage.setItem(datas.token);
+    localStorage.setItem("withcon_token", JSON.stringify(datas.token));
   } catch (error) {
     console.error(error, "에러");
   }
