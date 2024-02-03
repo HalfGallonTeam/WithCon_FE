@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import "./assets/css/styles.css";
 import ScrollToTop from "./components/common/ScrollToTop";
-import Home from "./components/common/Home";
 import MainPage from "./components/concert/MainPage";
 import ConLists from "./components/concert/ConLists";
 import ConDetail from "./components/concert/ConDetail";
@@ -12,14 +11,16 @@ import MyPage from "./components/mypage/Mypage";
 import MyConcert from "./components/mypage/MyConcert";
 import MyChat from "./components/chat/MyChat";
 import Profile from "./components/mypage/Profile";
-import Login from "./components/login/Login";
-import Signup from "./components/login/Signup";
-import FindPW from "./components/login/FindPW";
 import PageNotForFound from "./components/common/PageNotForFound";
-import Chat from "./components/chat/Chat";
+
 import KakaoLogin from "./components/login/KakaoLogin";
 import NaverLogin from "./components/login/NaverLogin";
 import ChangePW from "./components/mypage/ChangePW";
+import HomePage from "./components/pages/HomePage";
+import LoginPage from "./components/pages/LoginPage";
+import SignupPage from "./components/pages/SignupPage";
+import ChatPage from "./components/pages/ChatPage";
+import FindPwPage from "./components/pages/FindPwPage";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Home />}>
+          <Route path="/" element={<HomePage />}>
             <Route index element={<MainPage />} />
             <Route path="/performance/" element={<ConLists />} />
             <Route path="/performance/search/" element={<ConLists />} />
@@ -44,13 +45,13 @@ function App() {
               <Route path="/profile/changepassword/" element={<ChangePW />} />
             </Route>
           </Route>
-          <Route path="/title/:concertTitle/chat/:id" element={<Chat />} />
+          <Route path="/title/:concertTitle/chat/:id" element={<ChatPage />} />
 
-          <Route path="/login/" element={<Login />} />
+          <Route path="/login/" element={<LoginPage />} />
           <Route path="/kakao-login/" element={<KakaoLogin />} />
           <Route path="/naver-login/" element={<NaverLogin />} />
-          <Route path="/signup/" element={<Signup />} />
-          <Route path="/findpassword/" element={<FindPW />} />
+          <Route path="/signup/" element={<SignupPage />} />
+          <Route path="/findpassword/" element={<FindPwPage />} />
           <Route path="*" element={<PageNotForFound />} />
         </Routes>
       </BrowserRouter>
