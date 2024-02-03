@@ -17,25 +17,21 @@ const ConLists = () => {
   let keyword = urlSearch.get("keyword");
 
   useEffect(() => {
-    const getTotalCount = async () => {
-      let request = `/performances?`;
-      request += category !== "all" ? `&category=${category}` : "";
-      request += keyword ? `&title_like=${keyword}` : "";
-      const response = await instance.get(request);
-      const datas = await response.data;
-      setTotalCount(datas.length);
-    };
-    getTotalCount();
-  }, [category, keyword]);
-
-  useEffect(() => {
     const getInfos = async () => {
-      let request = `/performances?_page=${pages}&_limit=${PAGE.limit}`;
-      request += category !== "all" ? `&category=${category}` : "";
-      request += keyword ? `&title_like=${keyword}` : "";
-      const response = await instance.get(request);
-      const datas = await response.data;
-      setInfos(datas);
+      try {
+        let request = `/performances?_page=${pages}&_limit=${PAGE.limit}`;
+        request += category !== "all" ? `&category=${category}` : "";
+        request += keyword ? `&title_like=${keyword}` : "";
+        const response = await instance.get(request);
+        const datas = await response.data;
+        setInfos(datas);
+        const length = response.headers["x-total-count"];
+        if (length !== totalCount) {
+          setTotalCount(length);
+        }
+      } catch (error) {
+        console.error(error, "에러");
+      }
     };
     getInfos();
     setCurrentPage(pages);

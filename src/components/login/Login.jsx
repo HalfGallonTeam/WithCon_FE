@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import instance from "../../assets/constants/instance";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
-import { getNaverToken, getWithconTokenFromNaver } from "./NaverLogin";
-import {
-  VITE_NAVER_CLIENT_ID,
-  NAVER_CALLBACK_URL,
-} from "../../assets/constants/social_login";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -34,15 +29,13 @@ const Login = () => {
   //네이버 로그인
   useEffect(() => {
     var naver_id_login = new window.naver_id_login(
-      VITE_NAVER_CLIENT_ID,
-      NAVER_CALLBACK_URL
+      import.meta.env.VITE_NAVER_CLIENT_ID,
+      "http://localhost:5173/naver-login"
     );
-    const naverAccessToken = naver_id_login.oauthParams.access_token;
-    if (naverAccessToken) {
-      getWithconTokenFromNaver(naverAccessToken, navigate);
-    } else {
-      getNaverToken(naver_id_login);
-    }
+    var state = naver_id_login.getUniqState();
+    naver_id_login.response_type = "code";
+    naver_id_login.setState(state);
+    naver_id_login.init_naver_id_login();
   }, []);
 
   //위드콘 로그인
@@ -51,7 +44,7 @@ const Login = () => {
     try {
       const id = e.target.username.value;
       const pw = e.target.password.value;
-      const response = await axios.post("http://localhost:8000/users", {
+      const response = await instance.post("/user", {
         username: id,
         password: pw,
       });
@@ -61,18 +54,16 @@ const Login = () => {
           "withcon_token",
           JSON.stringify(dataObj.accessToken)
         );
-        document.cookie = `withcon_refresh=${dataObj.refreshToken};secure`;
         navigate("/");
       } else if (dataObj.result === "NG") {
         setWrongPW(true);
       } else {
         window.alert("서버 response가 없으므로 id를 localStorage에 저장");
         localStorage.setItem("withcon_token", JSON.stringify(dataObj.username));
-        document.cookie = `withcon_refresh=${dataObj.password};secure`;
         navigate("/");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.error(error, "에러");
     }
   };
 
