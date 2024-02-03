@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
-import axios from "axios";
+import instance from "../../assets/constants/instance";
 
 const CreateChatRoom = ({ onClose }) => {
   const [roomName, setRoomName] = useState("");
@@ -48,7 +48,6 @@ const CreateChatRoom = ({ onClose }) => {
         setRoomMsg("채팅방 제목을 적어주세요");
         return;
       }
-      const server = "http://localhost:8000/chatRooms";
       const currentTime = new Date();
       const formattedDate = format(currentTime, "yyyyMMddHHmm");
       const data = {
@@ -56,7 +55,7 @@ const CreateChatRoom = ({ onClose }) => {
         roomName,
         tags: tagLists,
       };
-      const response = await axios.post(server, data);
+      const response = await instance.post("/chatRooms", data);
       console.log("채팅방이 성공적으로 생성되었습니다.", response.data);
       setShowCompleteModal(true);
       setTimeout(() => {

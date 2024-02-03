@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import instance from "../../assets/constants/instance";
 import { validateInput } from "./Validate";
 
 const Signup = () => {
@@ -18,7 +18,7 @@ const Signup = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/test/user.json");
+        const response = await instance.get("/user");
         setUserData(response.data);
       } catch (error) {
         console.error(error, "에러");

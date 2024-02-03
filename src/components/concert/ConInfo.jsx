@@ -1,12 +1,12 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import instance from "../../assets/constants/instance";
 
 const ConInfo = () => {
   const [infoData, setInfoData] = useState([null]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/test/conInfo.json");
+        const response = await instance.get("/conInfo");
         setInfoData(response.data);
       } catch (error) {
         console.error(error, "에러");
