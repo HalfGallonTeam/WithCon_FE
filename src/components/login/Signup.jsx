@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import instance from "../../assets/constants/instance";
+
+import { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { validateInput } from "./Validate";
+import instance from "../../assets/constants/instance";
 
 const Signup = () => {
   const [userData, setUserData] = useState([]);
@@ -10,11 +11,21 @@ const Signup = () => {
   const [pw2, setPw2] = useState("");
   const [email, setEmail] = useState("");
   const [nickName, setNickName] = useState("");
+  const [phone, setPhone] = useState("");
   const [idMsg, setIdMsg] = useState("");
   const [pwMsg, setPwMsg] = useState("");
   const [pw2Msg, setPw2Msg] = useState("");
   const [emailMsg, setEmailMsg] = useState("");
   const [nickNameMsg, setNickNameMsg] = useState("");
+  const [phoneMsg, setPhoneMsg] = useState("");
+  const [usableUserId, setUsableUserId] = useState(false);
+  const [usableEmail, setUsableEmail] = useState(false);
+  const [usablePhone, setUsablePhone] = useState(false);
+  const [usableNickName, setUsableNickName] = useState(false);
+  const [usablePw, setUsablePw] = useState(false);
+  const [modalMsg, setModalMsg] = useState("");
+  const refFocus = useRef();
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,12 +38,12 @@ const Signup = () => {
     fetchData();
   }, []);
 
-  const getFormData = (e) => {
-    e.preventDefault();
-    var formData = new FormData(e.currentTarget);
-    // output as an object
-    console.log(Object.fromEntries(formData));
-  };
+  // const getFormData = (e) => {
+  //   e.preventDefault();
+  //   var formData = new FormData(e.currentTarget);
+  //   // output as an object
+  //   console.log(Object.fromEntries(formData));
+  // };
   // const confirmEmail = () => {
   //   console.log(
   //     "리액트에서 이메일 인증을 구현하려면 서버 측에서 이메일을 보내고, 클라이언트 측에서는 이메일 링크를 클릭하여 인증하는 방식을 주로 사용"
@@ -42,10 +53,11 @@ const Signup = () => {
     const disUsable = userData.map((x) => x.userId).includes(userId);
     if (disUsable) {
       setIdMsg("이미 존재하는 아이디입니다.");
+    } else if (userId === "") {
+      setIdMsg("아이디를 입력해주세요");
     } else if (validateInput("userId", userId) && !disUsable) {
       setIdMsg("사용가능한 아이디 입니다.");
-    } else if (!disUsable && userId !== "") {
-      setIdMsg("아이디는 대소문자와 숫자만 입력가능합니다.");
+      setUsableUserId(true);
     }
   };
   const onChangeUserId = (e) => {
@@ -69,6 +81,7 @@ const Signup = () => {
       setPwMsg("");
     } else if (validateInput("password", e.target.value) === true) {
       setPwMsg("");
+      setUsablePw(true);
     } else if (e.target.value.length < 8) {
       setPwMsg("비밀번호는 8-12글자여야 합니다.");
     } else {
@@ -90,33 +103,112 @@ const Signup = () => {
       setEmailMsg("");
     } else if (validateInput("email", e.target.value) === true) {
       setEmailMsg("");
+      setUsableEmail(true);
     } else {
       setEmailMsg("이메일을 정확히 입력해 주세요");
     }
   };
   const checkDuplicationNickName = () => {
     const disUsable = userData.map((x) => x.nickName).includes(nickName);
-    if (disUsable) {
+    if (nickName !== "" && disUsable) {
       setNickNameMsg("이미 존재하는 닉네임입니다.");
     } else if (!disUsable) {
       setNickNameMsg("사용가능한 닉네임 입니다.");
+      setUsableNickName(true);
+    } else if (nickName === "") {
+      setNickNameMsg("닉네임을 입력해 주세요");
     }
   };
   const onChangeNickName = (e) => {
     setNickName(e.target.value);
     if (e.target.value === "") {
       setNickNameMsg("");
-    } else if (
-      e.target.value !== "" &&
-      validateInput("nickname", e.target.value) === true
-    ) {
-      setNickNameMsg("닉네임 중복확인을 눌러주세요");
     } else if (e.target.value.length < 2) {
       setNickNameMsg("닉네임은 2글자 이상이어야 합니다.");
+    } else if (validateInput("nickname", e.target.value) === true) {
+      setNickNameMsg("닉네임 중복확인을 눌러주세요");
     } else {
-      setNickNameMsg("닉네임은 영문,한글,숫자만 입력가능합니다. ㅍ");
+      setNickNameMsg("닉네임은 영문,한글,숫자만 입력가능합니다.");
     }
   };
+  const checkDuplicationPhone = () => {
+    const disUsable = userData.map((x) => x.phone).includes(phone);
+    if (phone !== "" && disUsable) {
+      setPhoneMsg("이미 존재하는 번호입니다.");
+    } else if (phone.length < 13 && !disUsable) {
+      setPhoneMsg("번호는 11자리 여야 합니다.");
+    } else if (validateInput("phone", phone) === true) {
+      setPhoneMsg("사용가능한 번호 입니다.");
+      setUsablePhone(true);
+    }
+  };
+
+  const onChangePhone = (e) => {
+    if (e.target.value === "") {
+      setPhoneMsg("");
+    } else if (validateInput("phone", e.target.value) === true) {
+      setPhoneMsg("폰 번호 중복확인을 눌러주세요");
+    } else if (e.target.value.length < 13) {
+      setPhoneMsg("폰 번호는 11자리여야합니다.");
+    } else {
+      setPhoneMsg("010으로 시작해야합니다.");
+    }
+    let inputValue = e.target.value.replace(/[^0-9]/g, "");
+
+    // 정규식을 사용하여 입력된 숫자에 따라 매번 자동으로 하이픈 추가
+    inputValue = inputValue.replace(
+      /(\d{3})(\d{0,4})(\d{0,4})/,
+      function (_, p1, p2, p3) {
+        let parts = [p1, p2, p3].filter(Boolean);
+        return parts.join("-");
+      }
+    );
+
+    setPhone(inputValue);
+  };
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (!usableUserId) {
+        setModalMsg("아이디를 확인해 주세요.");
+      }
+      if (!usableEmail) {
+        setModalMsg("이메일을 확인해주세요.");
+      }
+      if (!usableNickName) {
+        setModalMsg("닉네임을 확인해 주세요");
+      }
+      if (!usablePhone) {
+        setModalMsg("핸드폰 번호를 확인해 주세요");
+      }
+      if (!usablePw) {
+        setModalMsg("비밀번호를 확인해주세요");
+      }
+      if (
+        usableEmail &&
+        usableNickName &&
+        usablePhone &&
+        usablePw &&
+        usableUserId &&
+        pw === pw2
+      ) {
+        const data = {
+          username: userId,
+          email: email,
+          password: pw,
+          nickname: nickName,
+          phoneNumber: `${phone}`,
+          login_type: "HOME",
+        };
+        const response = await instance.post("/join", data);
+        console.log("확인", response.data);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("error");
+    }
+  };
+
   return (
     <div className="middle-container">
       <div className="container">
@@ -127,7 +219,7 @@ const Signup = () => {
             name="signup"
             action=""
             method="POST"
-            onSubmit={getFormData}
+            onSubmit={onSubmit}
           >
             <div className="signup-container">
               <div className="signup-box">
@@ -222,6 +314,36 @@ const Signup = () => {
               </div>
               <div className="signup-box">
                 <div className="label-box">
+                  <label htmlFor="phone">핸드폰 번호</label>
+                  <span
+                    className={
+                      phoneMsg === "사용가능한 번호 입니다." ? "available" : ""
+                    }
+                  >
+                    {phoneMsg}
+                  </span>
+                </div>
+                <div className="input-container">
+                  <input
+                    type="tel"
+                    pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                    id="phone"
+                    name="phone"
+                    value={phone}
+                    onChange={onChangePhone}
+                    maxLength={13}
+                  />
+                  <button
+                    type="button"
+                    className="signup-check"
+                    onClick={checkDuplicationPhone}
+                  >
+                    중복확인
+                  </button>
+                </div>
+              </div>
+              <div className="signup-box">
+                <div className="label-box">
                   <label htmlFor="nickname">닉네임</label>
                   <span
                     className={
@@ -241,7 +363,7 @@ const Signup = () => {
                     value={nickName}
                     onChange={onChangeNickName}
                     minLength={2}
-                    maxLength={6}
+                    maxLength={10}
                   />
                   <button
                     type="button"
@@ -252,7 +374,9 @@ const Signup = () => {
                   </button>
                 </div>
               </div>
-              <button className="login-button">회원가입하기</button>
+              <button type="submit" className="login-button">
+                회원가입하기
+              </button>
             </div>
           </form>
           <hr aria-hidden="true" />
