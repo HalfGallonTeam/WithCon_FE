@@ -10,7 +10,6 @@
 	],
 	"liveSassCompile.settings.generateMap": false,
 	"json.schemas": [],
-	//주석 색깔 설정
 	"editor.tokenColorCustomizations": {
 	  "comments": "#fff"
 	},
@@ -21,7 +20,6 @@
 	  "configurations": [],
 	  "compounds": []
 	},
-	// ESLINT
 	"eslint.validate": [
 	  "html",
 	  "javascript",
@@ -30,12 +28,10 @@
 	  "typescriptreact"
 	],
 	"eslint.alwaysShowStatus": true,
-	// 수정 후 저장할 때 eslint로 autofix 실행 (ex. let => const)
 	"editor.codeActionsOnSave": {
 	  "source.fixAll.eslint": "explicit"
 	},
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	//언어별로 프리티어 자동 지정.
 	"[javascript]": {
 	  "editor.formatOnSave": true
 	},
