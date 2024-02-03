@@ -1,5 +1,4 @@
-
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { validateInput } from "./Validate";
 import instance from "../../assets/constants/instance";
@@ -24,7 +23,7 @@ const Signup = () => {
   const [usableNickName, setUsableNickName] = useState(false);
   const [usablePw, setUsablePw] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
-  const refFocus = useRef();
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
@@ -64,6 +63,7 @@ const Signup = () => {
     setUserId(e.target.value);
     if (e.target.value === "") {
       setIdMsg("");
+      setUsableUserId(false);
     } else if (
       e.target.value !== "" &&
       validateInput("userId", e.target.value) === true
@@ -79,6 +79,7 @@ const Signup = () => {
     setPw(e.target.value);
     if (e.target.value === "") {
       setPwMsg("");
+      setUsablePw(false);
     } else if (validateInput("password", e.target.value) === true) {
       setPwMsg("");
       setUsablePw(true);
@@ -101,6 +102,7 @@ const Signup = () => {
     setEmail(e.target.value);
     if (e.target.value === "") {
       setEmailMsg("");
+      setUsableEmail(false);
     } else if (validateInput("email", e.target.value) === true) {
       setEmailMsg("");
       setUsableEmail(true);
@@ -123,6 +125,7 @@ const Signup = () => {
     setNickName(e.target.value);
     if (e.target.value === "") {
       setNickNameMsg("");
+      setUsableNickName(false);
     } else if (e.target.value.length < 2) {
       setNickNameMsg("닉네임은 2글자 이상이어야 합니다.");
     } else if (validateInput("nickname", e.target.value) === true) {
@@ -146,6 +149,7 @@ const Signup = () => {
   const onChangePhone = (e) => {
     if (e.target.value === "") {
       setPhoneMsg("");
+      setUsablePhone(false);
     } else if (validateInput("phone", e.target.value) === true) {
       setPhoneMsg("폰 번호 중복확인을 눌러주세요");
     } else if (e.target.value.length < 13) {
@@ -168,23 +172,40 @@ const Signup = () => {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
+    setShowModal(true);
+
     try {
       if (!usableUserId) {
         setModalMsg("아이디를 확인해 주세요.");
-      }
-      if (!usableEmail) {
-        setModalMsg("이메일을 확인해주세요.");
-      }
-      if (!usableNickName) {
-        setModalMsg("닉네임을 확인해 주세요");
-      }
-      if (!usablePhone) {
-        setModalMsg("핸드폰 번호를 확인해 주세요");
-      }
-      if (!usablePw) {
+        setTimeout(() => {
+          setShowModal(false);
+          setModalMsg("");
+        }, 1000);
+      } else if (!usablePw || pw !== pw2) {
         setModalMsg("비밀번호를 확인해주세요");
-      }
-      if (
+        setTimeout(() => {
+          setShowModal(false);
+          setModalMsg("");
+        }, 1000);
+      } else if (!usableEmail) {
+        setModalMsg("이메일을 확인해주세요.");
+        setTimeout(() => {
+          setShowModal(false);
+          setModalMsg("");
+        }, 1000);
+      } else if (!usablePhone) {
+        setModalMsg("핸드폰 번호를 확인해 주세요");
+        setTimeout(() => {
+          setShowModal(false);
+          setModalMsg("");
+        }, 1000);
+      } else if (!usableNickName) {
+        setModalMsg("닉네임을 확인해 주세요");
+        setTimeout(() => {
+          setShowModal(false);
+          setModalMsg("");
+        }, 1000);
+      } else if (
         usableEmail &&
         usableNickName &&
         usablePhone &&
@@ -201,8 +222,13 @@ const Signup = () => {
           login_type: "HOME",
         };
         const response = await instance.post("/join", data);
-        console.log("확인", response.data);
-        navigate("/");
+        console.log(response.data);
+        setModalMsg("회원가입이 완료 되었습니다.");
+        setTimeout(() => {
+          setShowModal(false);
+          setModalMsg("");
+          navigate("/login");
+        }, 1000);
       }
     } catch (error) {
       console.error("error");
@@ -379,6 +405,9 @@ const Signup = () => {
               </button>
             </div>
           </form>
+          {showModal === true ? (
+            <div className="signup-modal">{modalMsg}</div>
+          ) : null}
           <hr aria-hidden="true" />
           <p className="login-desc">
             아이디가 있으신가요?{" "}

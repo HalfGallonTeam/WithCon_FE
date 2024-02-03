@@ -9,6 +9,7 @@
 }
 
 .login-box {
+  position: relative;
   max-width: 700px;
   min-height: 400px;
   padding: 20px;
@@ -172,4 +173,20 @@
 }
 .kakao-login {
   cursor: pointer;
+}
+.signup-modal {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 300px;
+  height: 100px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 0 3px $text-color;
 }

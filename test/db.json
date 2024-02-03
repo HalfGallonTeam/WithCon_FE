@@ -11,7 +11,7 @@
       "공연시간": "오후 2시",
       "관람연령": "8세 이상"
     }
-  ],  
+  ],
   "user": [
     {
       "id": 1,
@@ -52,7 +52,9 @@
     {
       "createDate": "202402020923",
       "roomName": "test2",
-      "tags": ["##"],
+      "tags": [
+        "##"
+      ],
       "id": 2
     },
     {
@@ -64,43 +66,61 @@
     {
       "createDate": "202402020930",
       "roomName": "test4",
-      "tags": ["adf", "adsfa", "adsfdsf"],
+      "tags": [
+        "adf",
+        "adsfa",
+        "adsfdsf"
+      ],
       "id": 5
     },
     {
       "createDate": "202402020942",
       "roomName": "test5",
-      "tags": ["오당"],
+      "tags": [
+        "오당"
+      ],
       "id": 6
     },
     {
       "createDate": "202402020943",
       "roomName": "test6",
-      "tags": ["6", "이당"],
+      "tags": [
+        "6",
+        "이당"
+      ],
       "id": 7
     },
     {
       "createDate": "202402020943",
       "roomName": "test7",
-      "tags": ["7d이당"],
+      "tags": [
+        "7d이당"
+      ],
       "id": 8
     },
     {
       "createDate": "202402020944",
       "roomName": "test8",
-      "tags": ["8"],
+      "tags": [
+        "8"
+      ],
       "id": 9
     },
     {
       "createDate": "202402020945",
       "roomName": "test9",
-      "tags": ["9"],
+      "tags": [
+        "9"
+      ],
       "id": 10
     },
     {
       "createDate": "202402021118",
       "roomName": "test10",
-      "tags": ["이당", "할증"],
+      "tags": [
+        "이당",
+        "할증"
+      ],
       "id": 11
     }
   ],
@@ -1240,6 +1260,53 @@
       "place": "부산",
       "date": "2024.4.14-2.4",
       "reservation": ""
+    }
+  ],
+  "join": [
+    {
+      "username": "test1",
+      "email": "dleksql119@123.com",
+      "password": "123QWE!!",
+      "nickname": "test1",
+      "phoneNumber": "010-1171-2234",
+      "login_type": "HOME",
+      "id": 1
+    },
+    {
+      "username": "test2",
+      "email": "test1@naver.com",
+      "password": "123qwe!!",
+      "nickname": "test2",
+      "phoneNumber": "010-1171-2234",
+      "login_type": "HOME",
+      "id": 2
+    },
+    {
+      "username": "test3",
+      "email": "test3@naver.com",
+      "password": "123qwe!!",
+      "nickname": "test3",
+      "phoneNumber": "010-1171-2234",
+      "login_type": "HOME",
+      "id": 3
+    },
+    {
+      "username": "test4",
+      "email": "test4@naver.com",
+      "password": "123qwe!!",
+      "nickname": "test4",
+      "phoneNumber": "010-1171-2234",
+      "login_type": "HOME",
+      "id": 4
+    },
+    {
+      "username": "test5",
+      "email": "test5@naver.com",
+      "password": "123qwe!!",
+      "nickname": "test5",
+      "phoneNumber": "010-1171-2234",
+      "login_type": "HOME",
+      "id": 5
     }
   ]
 }
