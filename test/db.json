@@ -152,6 +152,31 @@
       "id": 13
     }
   ],
+  "chatRoomEnter": [
+    {
+    "id": 1,
+    "chatRoomId": 12,
+    "roomName": "json을 받아와서 바뀜",
+    "userCount": "1",
+    "members": [
+      {
+        "email": "tester@test.com",
+        "username": "abcd7787",
+        "password": "password",
+        "loginType": "HOME",
+        "nickName": "바뀌었습니다",
+        "phoneNumber": "010-7774-4567"
+      },
+      {
+        "email": "tester2@test.com",
+        "username": "abcd2222",
+        "password": "password",
+        "loginType": "HOME",
+        "nickName": "바뀜유저2",
+        "phoneNumber": "010-7774-4567"
+      }
+    ]}
+  ],
   "performance-best": [
     {
       "id": "1",
