@@ -7,6 +7,7 @@ import naverBtn from "../../assets/images/naver-login.png";
 const Login = () => {
   const navigate = useNavigate();
   const [wrongPW, setWrongPW] = useState(false);
+  const [naverURI, setNaverURI] = useState("");
 
   //잘못된 접근 차단
   let isLogined = localStorage.getItem("withcon_token");
@@ -28,14 +29,23 @@ const Login = () => {
 
   //네이버 로그인
   useEffect(() => {
-    var naver_id_login = new window.naver_id_login(
-      import.meta.env.VITE_NAVER_CLIENT_ID,
-      "http://localhost:5173/naver-login"
-    );
-    var state = naver_id_login.getUniqState();
-    naver_id_login.response_type = "code";
-    naver_id_login.setState(state);
-    naver_id_login.init_naver_id_login();
+    const getUniqState = () => {
+      var stat_str = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+        /[xy]/g,
+        function (c) {
+          var r = (Math.random() * 16) | 0,
+            v = c === "x" ? r : (r & 0x3) | 0x8;
+          return v.toString(16);
+        }
+      );
+      return stat_str;
+    };
+    let uri = "https://nid.naver.com/oauth2.0/authorize";
+    uri += "?response_type=code";
+    uri += "&client_id=" + import.meta.env.VITE_NAVER_CLIENT_ID;
+    uri += "&redirect_uri=http://localhost:5173/naver-login";
+    uri += "&state=" + getUniqState();
+    setNaverURI(uri);
   }, []);
 
   //위드콘 로그인
@@ -133,11 +143,13 @@ const Login = () => {
                 />
               </div>
               <div id="naver_id_login">
-                <img
-                  src={naverBtn}
-                  title="네이버 아이디로 로그인"
-                  style={{ height: "40px", margin: "10px 4px" }}
-                />
+                <a href={naverURI} id="naver_id_login_anchor">
+                  <img
+                    src={naverBtn}
+                    title="네이버 아이디로 로그인"
+                    style={{ height: "40px", margin: "10px 4px" }}
+                  />
+                </a>
               </div>
             </div>
           </div>
