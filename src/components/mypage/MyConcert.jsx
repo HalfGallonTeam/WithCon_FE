@@ -16,6 +16,14 @@ const MyConcert = () => {
   useEffect(() => {
     const getInfos = async () => {
       try {
+        //찜한 공연 리스트 조회
+        let memberId = await instance.get("/member").data["username"];
+        let urlFavorite = `/member/${memberId}/performance`;
+        urlFavorite += `?_page=${page}&_limit=${PAGE.limit}`;
+        let favorite = await instance.get(urlFavorite).data;
+        //response형식이 List<performanceDto>이므로 완벽한 공연정보 리스트일 것.
+        //(끝)찜한 공연 리스트 조회
+
         let request = `/performances?_page=${pages}&_limit=${PAGE.limit}`;
         request += `&title_like=bts`;
         const response = await instance.get(request);

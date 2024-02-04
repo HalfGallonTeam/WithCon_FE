@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import instance from "../../assets/constants/instance";
 
 const ConcertCard = (props) => {
   const [likethis, setLikethis] = useState(false);
@@ -11,8 +12,31 @@ const ConcertCard = (props) => {
       : info.reservation === ""
       ? "hidden"
       : "";
-  const likeChange = (e) => {
+
+  const likeChange = async (e) => {
     e.stopPropagation();
+    //비로그인 유저의 사용 막기
+    if (!localStorage.getItem("withcon_token")) {
+      window.alert("로그인이 필요한 서비스입니다. 로그인하시겠습니까?");
+      //모달 필요
+    }
+
+    //하트 상태에 따른 다른 post. 백엔드에서 like/unlike설정할지 상의할 것.
+    if (likethis) {
+      const res = await instance.post(
+        `/performance/favorite/${info.id}`,
+        PageableDefault(size, sort, direction)
+      );
+      const datas = await res.data;
+      //받은 데이터를 세팅해 useRecoil로 찜 설정에 활용할 것.
+    } else {
+      const res = await instance.delete(
+        `/performance/favorite/${info.id}`,
+        PageableDefault(size, sort, direction)
+      );
+      const datas = await res.data;
+      //받은 데이터를 세팅해 useRecoil로 찜 설정에 활용할 것.
+    }
     setLikethis(!likethis);
   };
 
