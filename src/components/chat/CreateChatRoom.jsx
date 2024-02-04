@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
 import instance from "../../assets/constants/instance";
+import { useNavigate } from "react-router-dom";
 
-const CreateChatRoom = ({ onClose }) => {
+const CreateChatRoom = ({ onClose, performanceId }) => {
+  const navigate = useNavigate();
   const [roomName, setRoomName] = useState("");
   const [roomMsg, setRoomMsg] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -54,9 +56,12 @@ const CreateChatRoom = ({ onClose }) => {
         createDate: formattedDate,
         roomName,
         tags: tagLists,
+        performanceId: performanceId,
       };
       const response = await instance.post("/chatRooms", data);
       console.log("채팅방이 성공적으로 생성되었습니다.", response.data);
+      const newChatroom = await response.data.id;
+      navigate(`/title/${performanceId}/chat/${newChatroom}`);
       setShowCompleteModal(true);
       setTimeout(() => {
         onClose();
