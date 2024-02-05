@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import instance from "../../assets/constants/instance";
 import { favorites } from "../../assets/constants/atoms";
@@ -7,7 +7,6 @@ import { useRecoilState } from "recoil";
 const ConcertCard = (props) => {
   const [favoritePerformances, setFavoritePerformances] =
     useRecoilState(favorites);
-  const url = useLocation();
   const [likethis, setLikethis] = useState(false);
   const navigate = useNavigate();
   const info = props.info;
@@ -19,14 +18,12 @@ const ConcertCard = (props) => {
       : "";
 
   useEffect(() => {
-    if (favoritePerformances) {
-      if (favoritePerformances.includes(info.id)) {
-        setLikethis(true);
-      } else {
-        setLikethis(false);
-      }
+    if (favoritePerformances && favoritePerformances.includes(info.id)) {
+      setLikethis(true);
+    } else {
+      setLikethis(false);
     }
-  }, [url]);
+  }, [favoritePerformances, info.id]);
 
   const likeChange = async (e) => {
     e.stopPropagation();
@@ -34,6 +31,7 @@ const ConcertCard = (props) => {
     if (!localStorage.getItem("withcon_token")) {
       window.alert("로그인이 필요한 서비스입니다. 로그인하시겠습니까?");
       //모달 필요
+      return;
     }
 
     try {

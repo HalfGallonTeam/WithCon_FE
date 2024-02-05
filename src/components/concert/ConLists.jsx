@@ -5,8 +5,8 @@ import Navigation from "../common/Navigation";
 import Paging from "../common/Paging";
 import PAGE from "../../assets/constants/page";
 import instance from "../../assets/constants/instance";
-import { favorites } from "../../assets/constants/atoms";
-import { useRecoilState } from "recoil";
+import { favorites, userIn } from "../../assets/constants/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const ConLists = () => {
   const [infos, setInfos] = useState([]);
@@ -19,6 +19,7 @@ const ConLists = () => {
   let keyword = urlSearch.get("keyword");
   const [favoritePerformances, setFavoritePerformances] =
     useRecoilState(favorites);
+  const isLogin = useRecoilValue(userIn);
 
   useEffect(() => {
     const getFavoritPerformances = async () => {
@@ -30,10 +31,10 @@ const ConLists = () => {
       });
       setFavoritePerformances(performanceIds);
     };
-    if (!favoritePerformances) {
+    if (isLogin && !favoritePerformances) {
       getFavoritPerformances();
     }
-  }, []);
+  }, [isLogin, favoritePerformances]);
 
   useEffect(() => {
     const getInfos = async () => {
