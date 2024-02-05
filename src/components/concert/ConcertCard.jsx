@@ -1,8 +1,13 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import instance from "../../assets/constants/instance";
+import { favorites } from "../../assets/constants/atoms";
+import { useRecoilState } from "recoil";
 
 const ConcertCard = (props) => {
+  const [favoritePerformances, setFavoritePerformances] =
+    useRecoilState(favorites);
+  const url = useLocation();
   const [likethis, setLikethis] = useState(false);
   const navigate = useNavigate();
   const info = props.info;
@@ -12,6 +17,16 @@ const ConcertCard = (props) => {
       : info.reservation === ""
       ? "hidden"
       : "";
+
+  useEffect(() => {
+    if (favoritePerformances) {
+      if (favoritePerformances.includes(info.id)) {
+        setLikethis(true);
+      } else {
+        setLikethis(false);
+      }
+    }
+  }, [url]);
 
   const likeChange = async (e) => {
     e.stopPropagation();
@@ -23,38 +38,29 @@ const ConcertCard = (props) => {
 
     try {
       //하트 상태에 따른 다른 post. 백엔드에서 like/unlike설정할지 상의할 것.
-
       if (likethis) {
         // const response = await instance.post(
         //   `/performance/favorite/${info.id}`,
         //   PageableDefault(size, sort, direction)
         // );
-        const response = await instance.get(`/performanceFavorite`);
-        const favorites = await response.data;
-        const newFavorites = [];
-        favorites.forEach((favorite) => {
-          if (favorite.id !== info.id) {
-            newFavorites.push(favorite);
-          }
-        });
-        const response2 = await instance.patch(`/performanceFavorite`, {
-          favorites: newFavorites,
-        });
-        console.log(response2.data);
-        //받은 데이터를 세팅해 useRecoil로 찜 설정에 활용할 것.
+        const response = await instance.delete(
+          `/performanceFavorite/${info.id}`
+        );
+        console.log(response.data);
+        const newFavoritePerformances = [...favoritePerformances];
+        const index = favoritePerformances.indexOf(info.id);
+        if (index > -1) {
+          newFavoritePerformances.splice(index, 1);
+        }
+        setFavoritePerformances(newFavoritePerformances);
       } else {
         // const response = await instance.delete(
         //   `/performance/favorite/${info.id}`,
         //   PageableDefault(size, sort, direction)
         // );
-        const response = await instance.get(`/performanceFavorite`);
-        const favorites = await response.data;
-        const newFavorites = [...favorites, info];
-        const response2 = await instance.patch(`/performanceFavorite`, {
-          favorites: newFavorites,
-        });
-        console.log(response2.data);
-        //받은 데이터를 세팅해 useRecoil로 찜 설정에 활용할 것.
+        const response = await instance.post(`/performanceFavorite`, info);
+        console.log(response.data);
+        setFavoritePerformances([...favoritePerformances, info.id]);
       }
       setLikethis(!likethis);
     } catch (error) {
