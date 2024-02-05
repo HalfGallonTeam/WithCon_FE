@@ -261,6 +261,26 @@
       "reservation": ""
     }
   ],
+  "performanceFavorite": [
+    {
+      "id": "3",
+      "category": "musical",
+      "poster": "https://dummyimage.com/180x240/E6E6E6/0011ff",
+      "title": "뮤지컬 몬테크리스토",
+      "place": "충무아트센터 대극장",
+      "date": "2023.11.21-2024.2.25",
+      "reservation": "좌석우위"
+    },
+    {
+      "id": "4",
+      "category": "musical",
+      "poster": "https://dummyimage.com/180x240/E6E6E6/0011ff",
+      "title": "뮤지컬 레미제라블",
+      "place": "블루스퀘어 신한카드홀",
+      "date": "2023.11.21-2024.3.10",
+      "reservation": "단독판매"
+    }
+  ],
   "performances": [
     {
       "id": "1",

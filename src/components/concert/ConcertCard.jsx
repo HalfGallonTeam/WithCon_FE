@@ -21,23 +21,45 @@ const ConcertCard = (props) => {
       //모달 필요
     }
 
-    //하트 상태에 따른 다른 post. 백엔드에서 like/unlike설정할지 상의할 것.
-    if (likethis) {
-      const res = await instance.post(
-        `/performance/favorite/${info.id}`,
-        PageableDefault(size, sort, direction)
-      );
-      const datas = await res.data;
-      //받은 데이터를 세팅해 useRecoil로 찜 설정에 활용할 것.
-    } else {
-      const res = await instance.delete(
-        `/performance/favorite/${info.id}`,
-        PageableDefault(size, sort, direction)
-      );
-      const datas = await res.data;
-      //받은 데이터를 세팅해 useRecoil로 찜 설정에 활용할 것.
+    try {
+      //하트 상태에 따른 다른 post. 백엔드에서 like/unlike설정할지 상의할 것.
+
+      if (likethis) {
+        // const response = await instance.post(
+        //   `/performance/favorite/${info.id}`,
+        //   PageableDefault(size, sort, direction)
+        // );
+        const response = await instance.get(`/performanceFavorite`);
+        const favorites = await response.data;
+        const newFavorites = [];
+        favorites.forEach((favorite) => {
+          if (favorite.id !== info.id) {
+            newFavorites.push(favorite);
+          }
+        });
+        const response2 = await instance.patch(`/performanceFavorite`, {
+          favorites: newFavorites,
+        });
+        console.log(response2.data);
+        //받은 데이터를 세팅해 useRecoil로 찜 설정에 활용할 것.
+      } else {
+        // const response = await instance.delete(
+        //   `/performance/favorite/${info.id}`,
+        //   PageableDefault(size, sort, direction)
+        // );
+        const response = await instance.get(`/performanceFavorite`);
+        const favorites = await response.data;
+        const newFavorites = [...favorites, info];
+        const response2 = await instance.patch(`/performanceFavorite`, {
+          favorites: newFavorites,
+        });
+        console.log(response2.data);
+        //받은 데이터를 세팅해 useRecoil로 찜 설정에 활용할 것.
+      }
+      setLikethis(!likethis);
+    } catch (error) {
+      console.error(error, "에러");
     }
-    setLikethis(!likethis);
   };
 
   return (
@@ -52,8 +74,7 @@ const ConcertCard = (props) => {
         <div className="info-top-line">
           <h3 className="concert-title">{info.title}</h3>
           <button className="like" onClick={likeChange}>
-            {likethis && <i className="bi bi-heart-fill"></i>}
-            {!likethis && <i className="bi bi-heart"></i>}
+            <i className={likethis ? "bi bi-heart-fill" : "bi bi-heart"}></i>
           </button>
         </div>
         <div className="info-bottom-line">
