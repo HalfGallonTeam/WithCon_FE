@@ -69,25 +69,39 @@ const Chat = () => {
     enterChatRoom();
   }, []);
 
-  let enterRoomNow = true;
-
   //사용자가 채팅방에 집중하는지 확인합니다.
+  let enterRoomNow = true;
+  let hashHere = true;
   useEffect(() => {
     if (enterRoomNow) {
       enterRoomNow = false;
-      console.log("채팅방에 입장했습니다.");
+      const time = new Date().getSeconds();
+      instance.post("/notifications", {
+        watching: "enter",
+        time: time,
+      });
     }
     const changeVisibility = () => {
-      console.log(document.hidden);
+      const time = new Date().getSeconds();
+      instance.post("/notifications", {
+        watching: !document.hidden + "",
+        time: time,
+      });
     };
-    const beforeUnload = (e) => {
-      e.preventDefault();
-      window.alert("beforeUnload");
+    const beforeUnload = () => {
+      instance.post("/notifications", {
+        watching: "exit",
+        time: 0,
+      });
     };
     const hashChange = () => {
-      if (!enterRoomNow) {
-        enterRoomNow = true;
-        console.log("알람을 주세요");
+      if (hashHere) {
+        hashHere = false;
+        const time = new Date().getSeconds();
+        instance.post("/notifications", {
+          watching: "false",
+          time: time,
+        });
         window.removeEventListener("popstate", hashChange);
       }
     };
