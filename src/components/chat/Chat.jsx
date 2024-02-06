@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import instance from "../../assets/constants/instance";
 import ChatMessageForm from "./ChatMessageForm";
+import ChatToggle from "./ChatToggle";
 
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
@@ -25,7 +26,6 @@ const Chat = () => {
   const [talker, setTalker] = useState("me");
   const [messages, setMessages] = useState([]);
   const [toggle, setToggle] = useState(false);
-  const navigate = useNavigate();
   const textRef = useRef(null);
   const toggleRef = useRef(null);
   const toggleOpen = (e) => {
@@ -47,7 +47,7 @@ const Chat = () => {
   }, []);
 
   //주소창 기반으로 채팅방 정보를 불러옵니다.
-  const { concertTitle, id } = useParams();
+  const { concertTitle } = useParams();
   const [parentPerformance, setParentPerformance] =
     useState("아이유 드론쇼 콘서트");
   const [chatInitial, setChatInitial] = useState(basic);
@@ -118,30 +118,6 @@ const Chat = () => {
     };
   }, []);
 
-  const exitChatroom = async () => {
-    try {
-      const response = await instance.delete(`/chatRoom/${id}/exit`);
-      if (response.status === 204) {
-        window.alert("채팅방에서 퇴장했습니다.");
-        navigate(`/title/${concertTitle}/chat`);
-      }
-    } catch (error) {
-      console.error(error, "에러");
-      window.alert("서버 응답 불일치, 채팅방에서 퇴장했습니다.");
-      navigate(`/title/${concertTitle}/chat`);
-    }
-  };
-
-  const chatMembers = [];
-  chatInitial.members.map((member) => {
-    chatMembers.push(
-      <li key={member.username} className="member-info">
-        <div className="member-img">{member.username}</div>
-        <div className="member-name">{member.nickName}</div>
-      </li>
-    );
-  });
-
   const changeTalker = () => {
     //이 버튼은 서버와 연결되면 사라질 것입니다.
     if (talker === "me") setTalker("other");
@@ -172,20 +148,11 @@ const Chat = () => {
             <GiHamburgerMenu size={20} />
           </button>
           {toggle && (
-            <div className="toggle-lists" ref={toggleRef}>
-              <div>
-                <div className="toggle-close">
-                  <button onClick={() => setToggle(false)}>X</button>
-                </div>
-                <div className="title" onClick={() => navigate("/")}>
-                  위드콘
-                </div>
-                <ul className="member-lists">{chatMembers}</ul>
-              </div>
-              <div className="chat-exit">
-                <button onClick={exitChatroom}>채팅방 나가기</button>
-              </div>
-            </div>
+            <ChatToggle
+              toggleRef={toggleRef}
+              setToggle={setToggle}
+              members={chatInitial.members}
+            />
           )}
         </div>
         <div className="text-area">{drawMessages}</div>
