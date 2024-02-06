@@ -25,16 +25,10 @@ const NaverLogin = () => {
       }
 
       try {
-        const response = await instance.post(
-          "/user",
-          { emptyData: "empty" },
-          {
-            headers: {
-              naverCode: code,
-              testLogin: "testLogin",
-            },
-          }
-        );
+        const response = await instance.post("/auth/oauth2/login", {
+          registrationId: "naver",
+          authorizationCode: code,
+        });
         const datas = await response.data;
         if (datas.accessToken) {
           localStorage.setItem(
