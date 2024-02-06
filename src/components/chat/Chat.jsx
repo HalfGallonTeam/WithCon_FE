@@ -69,6 +69,37 @@ const Chat = () => {
     enterChatRoom();
   }, []);
 
+  let enterRoomNow = true;
+
+  //사용자가 채팅방에 집중하는지 확인합니다.
+  useEffect(() => {
+    if (enterRoomNow) {
+      enterRoomNow = false;
+      console.log("채팅방에 입장했습니다.");
+    }
+    const changeVisibility = () => {
+      console.log(document.hidden);
+    };
+    const beforeUnload = (e) => {
+      e.preventDefault();
+      window.alert("beforeUnload");
+    };
+    const hashChange = () => {
+      if (!enterRoomNow) {
+        enterRoomNow = true;
+        console.log("알람을 주세요");
+        window.removeEventListener("popstate", hashChange);
+      }
+    };
+    document.addEventListener("visibilitychange", changeVisibility);
+    window.addEventListener("beforeunload", beforeUnload);
+    window.addEventListener("popstate", hashChange);
+    return () => {
+      document.removeEventListener("visibilitychange", changeVisibility);
+      window.removeEventListener("beforeunload", beforeUnload);
+    };
+  }, []);
+
   const exitChatroom = async () => {
     try {
       const response = await instance.delete(`/chatRoom/${id}/exit`);
