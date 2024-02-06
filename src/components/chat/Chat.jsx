@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import instance from "../../assets/constants/instance";
+import ChatMessageForm from "./ChatMessageForm";
 
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
@@ -21,8 +22,11 @@ const basic = {
 };
 
 const Chat = () => {
+  const [talker, setTalker] = useState("me");
+  const [messages, setMessages] = useState([]);
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
+  const textRef = useRef(null);
   const toggleRef = useRef(null);
   const toggleOpen = (e) => {
     e.stopPropagation();
@@ -138,6 +142,24 @@ const Chat = () => {
     );
   });
 
+  const changeTalker = () => {
+    //이 버튼은 서버와 연결되면 사라질 것입니다.
+    if (talker === "me") setTalker("other");
+    else setTalker("me");
+  };
+  const sendMessage = () => {
+    const info = textRef.current.value;
+    textRef.current.value = "";
+    const newMessage = [info, talker];
+    setMessages([...messages, newMessage]);
+    return true;
+  };
+
+  const drawMessages = [];
+  messages.map((message, index) => {
+    drawMessages.push(ChatMessageForm(message, index));
+  });
+
   return (
     <div className="chat-container">
       <div className="chat-wrap">
@@ -166,20 +188,14 @@ const Chat = () => {
             </div>
           )}
         </div>
-        <div className="text-area">
-          <div className="member-other">
-            <div className="profile-img"></div>
-            <div className="text">일이삼사오육칠팔구십</div>
-          </div>
-          <div className="member-me">
-            <div className="text">원투쓰리포파이브식스세븐에잇나인텐</div>
-            <div className="profile-img"></div>
-          </div>
-        </div>
+        <div className="text-area">{drawMessages}</div>
         <div className="send-area">
-          <textarea placeholder="입력란" />
-          <button>보내기</button>
+          <textarea placeholder="입력란" ref={textRef} />
+          <button onClick={sendMessage}>보내기</button>
         </div>
+        <button onClick={changeTalker}>
+          메세지 보내는 사람:&nbsp;{talker}
+        </button>
       </div>
     </div>
   );
