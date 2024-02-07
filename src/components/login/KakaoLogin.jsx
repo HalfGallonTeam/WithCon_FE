@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import instance from "../../assets/constants/instance";
@@ -32,23 +31,3 @@ const KakaoLogin = () => {
 };
 
 export default KakaoLogin;
-
-export const KakaoLogout = () => {
-  const accessToken = localStorage.getItem("kakao_token");
-  const logout = async () => {
-    try {
-      const response = await axios.get(
-        `https://kapi.kakao.com/v1/user/logout`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      console.error(`Error get info`, error);
-    }
-  };
-  return logout();
-};
