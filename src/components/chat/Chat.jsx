@@ -124,10 +124,15 @@ const Chat = () => {
     else setTalker("me");
   };
   const sendMessage = () => {
+    const time = new Date();
     const info = textRef.current.value;
     textRef.current.value = "";
-    const newMessage = [info, talker];
-    setMessages([...messages, newMessage]);
+    const newMessage = {
+      from: talker,
+      text: info,
+      timeStamp: time.getTime(),
+    };
+    setMessages([...messages, JSON.stringify(newMessage)]);
     return true;
   };
 
