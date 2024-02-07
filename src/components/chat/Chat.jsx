@@ -23,6 +23,7 @@ const basic = {
 };
 
 const Chat = () => {
+  const [sendButton, setSendButton] = useState(false);
   const [talker, setTalker] = useState("me");
   const [messages, setMessages] = useState([]);
   const [toggle, setToggle] = useState(false);
@@ -127,6 +128,7 @@ const Chat = () => {
     const time = new Date();
     const info = textRef.current.value;
     textRef.current.value = "";
+    setSendButton(false);
     const newMessage = {
       from: talker,
       text: info,
@@ -146,6 +148,15 @@ const Chat = () => {
     }
     setMessages([...messages, JSON.stringify(datas)]);
     return true;
+  };
+
+  //현재 채팅을 보낼 수 있는 상태인지 확인합니다.
+  const checkSendable = () => {
+    if (textRef.current.value && !sendButton) {
+      setSendButton(true);
+    } else if (!textRef.current.value && sendButton) {
+      setSendButton(false);
+    }
   };
 
   const drawMessages = [];
@@ -174,8 +185,17 @@ const Chat = () => {
         </div>
         <div className="text-area">{drawMessages}</div>
         <div className="send-area">
-          <textarea placeholder="입력란" ref={textRef} />
-          <button onClick={sendMessage}>보내기</button>
+          <textarea
+            placeholder="입력란"
+            ref={textRef}
+            onChange={checkSendable}
+          />
+          <button
+            onClick={sendMessage}
+            className={sendButton ? "active" : "hidden"}
+          >
+            보내기
+          </button>
         </div>
         <button onClick={changeTalker}>
           메세지 보내는 사람:&nbsp;{talker}
