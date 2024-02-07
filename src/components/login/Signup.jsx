@@ -32,7 +32,7 @@ const Signup = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await instance.get("/user");
+        const response = await instance.get("/join");
         setUserData(response.data);
       } catch (error) {
         console.error(error, "에러");
@@ -42,7 +42,7 @@ const Signup = () => {
   }, []);
 
   const checkDuplicationId = () => {
-    const disUsable = userData.map((x) => x.userId).includes(data.userId);
+    const disUsable = userData.map((x) => x.username).includes(data.userId);
     if (disUsable) {
       setMsgs((prevState) => ({
         ...prevState,
@@ -63,7 +63,7 @@ const Signup = () => {
   };
 
   const checkDuplicationPhone = () => {
-    const disUsable = userData.map((x) => x.phone).includes(data.phone);
+    const disUsable = userData.map((x) => x.phoneNumber).includes(data.phone);
     if (data.phone !== "" && disUsable) {
       setMsgs((prevState) => ({
         ...prevState,
