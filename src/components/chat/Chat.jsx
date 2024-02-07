@@ -123,7 +123,7 @@ const Chat = () => {
     if (talker === "me") setTalker("other");
     else setTalker("me");
   };
-  const sendMessage = () => {
+  const sendMessage = async () => {
     const time = new Date();
     const info = textRef.current.value;
     textRef.current.value = "";
@@ -132,7 +132,19 @@ const Chat = () => {
       text: info,
       timeStamp: time.getTime(),
     };
-    setMessages([...messages, JSON.stringify(newMessage)]);
+    const response = await instance.post("/chatMessages", newMessage);
+    const datas = await response.data;
+    //이전 데이터와 비교. 프로필이 겹치나요?
+    if (messages.length) {
+      const prevMessage = JSON.parse(messages[messages.length - 1]);
+      if (
+        prevMessage.from === datas.from &&
+        datas.timeStamp - prevMessage.timeStamp < 10000
+      ) {
+        datas["same"] = true;
+      }
+    }
+    setMessages([...messages, JSON.stringify(datas)]);
     return true;
   };
 

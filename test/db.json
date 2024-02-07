@@ -185,6 +185,14 @@
       ]
     }
   ],
+  "chatMessages": [
+    {
+      "id": 1,
+      "from": "me",
+      "text": "sendMessage",
+      "timeStamp": 12345
+    }
+  ],
   "performance-best": [
     {
       "id": "1",
