@@ -1,7 +1,7 @@
-const ChatMessageForm = (newMessage, index) => {
+const ChatMessageForm = (newMessage, index, same) => {
   const message = JSON.parse(newMessage);
   const className = message.from === "me" ? "member-me" : "member-other";
-  const hidden = message.from === "me" || message.same ? "hidden" : "";
+  const hidden = message.from === "me" || same ? "hidden" : "";
 
   return (
     <div className={className} key={index}>

@@ -67,6 +67,15 @@ const Chat = () => {
         const response = await instance.get("chatRoomEnter/1");
         const datas = await response.data;
         setChatInitial(datas);
+        //만약, 중도 입장했을 경우, 기존에 쌓인 채팅 메세지를 불러옵니다. localStorage기반으로.
+        let startId = localStorage.getItem("chat");
+        let url = "/chatMessages";
+        url += startId
+          ? `?_start=${startId}&_limit=30`
+          : "?_start=40&_limit=30";
+        const response2 = await instance.get(url);
+        const datas2 = await response2.data;
+        setMessages(datas2);
       } catch (error) {
         console.error(error, "에러");
       }
@@ -92,12 +101,19 @@ const Chat = () => {
         watching: !document.hidden + "",
         time: time,
       });
+      if (document.hidden) {
+        console.log(messages);
+        const id = messages[messages.length - 1]["id"];
+        localStorage.setItem("chat", JSON.stringify(id));
+      }
     };
     const beforeUnload = () => {
       instance.post("/notifications", {
         watching: "exit",
         time: 0,
       });
+      const id = messages[messages.length - 1]["id"];
+      localStorage.setItem("chat", JSON.stringify(id));
     };
     const hashChange = () => {
       if (hashHere) {
@@ -107,6 +123,8 @@ const Chat = () => {
           watching: "false",
           time: time,
         });
+        const id = messages[messages.length - 1]["id"];
+        localStorage.setItem("chat", JSON.stringify(id));
         window.removeEventListener("popstate", hashChange);
       }
     };
@@ -136,17 +154,7 @@ const Chat = () => {
     };
     const response = await instance.post("/chatMessages", newMessage);
     const datas = await response.data;
-    //이전 데이터와 비교. 프로필이 겹치나요?
-    if (messages.length) {
-      const prevMessage = JSON.parse(messages[messages.length - 1]);
-      if (
-        prevMessage.from === datas.from &&
-        datas.timeStamp - prevMessage.timeStamp < 10000
-      ) {
-        datas["same"] = true;
-      }
-    }
-    setMessages([...messages, JSON.stringify(datas)]);
+    setMessages([...messages, datas]);
     return true;
   };
 
@@ -161,7 +169,18 @@ const Chat = () => {
 
   const drawMessages = [];
   messages.map((message, index) => {
-    drawMessages.push(ChatMessageForm(message, index));
+    let same = false;
+    if (index) {
+      const prevMessage = messages[index - 1];
+      const nowMessage = message;
+      if (
+        prevMessage.from === nowMessage.from &&
+        nowMessage.timeStamp - prevMessage.timeStamp < 10000
+      ) {
+        same = true;
+      }
+    }
+    drawMessages.push(ChatMessageForm(JSON.stringify(message), index, same));
   });
 
   return (
