@@ -206,17 +206,21 @@ const Chat = () => {
             />
           )}
         </div>
-        <div className="text-area">{drawMessages}</div>
+        <div className="text-area">
+          <div className="system-message">
+            <div className="profile-img"></div>
+            <div className="text">입장하였습니다.</div>
+            <div className="message-time">nan:nan:nan</div>
+          </div>
+          {drawMessages}
+        </div>
         <div className="send-area">
           <textarea
             placeholder="입력란"
             ref={textRef}
             onChange={checkSendable}
           />
-          <button
-            onClick={sendMessage}
-            className={sendButton ? "active" : "hidden"}
-          >
+          <button onClick={sendMessage} className={sendButton ? "active" : ""}>
             보내기
           </button>
         </div>
