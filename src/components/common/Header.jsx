@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navigation from "./Navigation";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
 import { KakaoLogout } from "../login/KakaoLogin";
+import { favorites } from "../../assets/constants/atoms";
+import { useSetRecoilState, useRecoilState } from "recoil";
+import { userIn } from "../../assets/constants/atoms";
 
 const Header = () => {
+  const setFavoritePerformances = useSetRecoilState(favorites);
+  const [isLogin, setIsLogin] = useRecoilState(userIn);
   const navigate = useNavigate();
-  const location = useLocation();
-  const [isLogin, setIsLogin] = useState(false);
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState("테스터 님");
   const select = useRef(null);
@@ -31,6 +34,7 @@ const Header = () => {
     } else {
       setIsLogin(false);
       localStorage.removeItem("withcon_token");
+      setFavoritePerformances(null);
     }
   };
 

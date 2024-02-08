@@ -5,4 +5,14 @@ const access_token = atom({
   default: null,
 });
 
-export { access_token };
+const favorites = atom({
+  key: "favorite",
+  default: null,
+});
+
+const userIn = atom({
+  key: "user",
+  default: false,
+});
+
+export { access_token, favorites, userIn };
