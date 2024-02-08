@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Navigation from "./Navigation";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
-import { KakaoLogout } from "../login/KakaoLogin";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -26,7 +25,6 @@ const Header = () => {
   const logoutFunc = () => {
     if (localStorage.getItem("kakao_token")) {
       setIsLogin(false);
-      KakaoLogout();
       localStorage.removeItem("kakao_token");
     } else {
       setIsLogin(false);
