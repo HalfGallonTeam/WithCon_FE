@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ChatRoom from "./ChatRoom";
 import CreateChatRoom from "./CreateChatRoom";
 import Paging from "../common/Paging";
@@ -15,6 +15,7 @@ const ChatList = () => {
   const url = useLocation();
   const urlSearch = new URLSearchParams(url.search);
   const pages = urlSearch.get("page") || 1;
+  const { concertTitle } = useParams();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -29,7 +30,10 @@ const ChatList = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await instance.get("/chatRooms");
+        let url = "/chatRooms";
+        url += `?_page=${pages}&_limit=10`;
+        url += `&performanceId=${concertTitle}`;
+        const response = await instance.get(url);
         setData(response.data);
         const length = response.headers["x-total-count"];
         if (length !== totalCount) {
@@ -82,7 +86,12 @@ const ChatList = () => {
                 채팅방 만들기
               </button>
             </div>
-            {isModalOpen && <CreateChatRoom onClose={closeModal} />}
+            {isModalOpen && (
+              <CreateChatRoom
+                onClose={closeModal}
+                performanceId={concertTitle}
+              />
+            )}
           </div>
         </div>
       </div>
