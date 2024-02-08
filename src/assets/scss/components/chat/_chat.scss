@@ -113,6 +113,7 @@
         align-items: end;
       }
       .text {
+        word-break: break-all;
         border: 1px solid $main-color;
         border-radius: 10px;
         padding: 4px 8px;

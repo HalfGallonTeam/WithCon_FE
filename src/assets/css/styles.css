@@ -319,6 +319,69 @@ input {
   text-align: left;
 }
 
+.modal-container {
+  border: 2px solid #3b2727;
+  border-radius: 0.5rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  width: 25rem;
+  height: 10rem;
+  background-color: #fff;
+  z-index: 100;
+  padding: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+.modal-container .text-container {
+  font-size: 2rem;
+}
+.modal-container .text-container .modal-text {
+  color: #603535;
+}
+.modal-container .text-container .modal-red {
+  color: red;
+}
+.modal-container .text-container .modal-blue {
+  color: blue;
+}
+.modal-container .button-container {
+  display: flex;
+  margin-top: 2rem;
+  width: 100%;
+  justify-content: space-evenly;
+}
+.modal-container .button-container .modal-button {
+  color: #603535;
+  width: 5rem;
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5rem;
+  border: 1px solid #603535;
+  border-radius: 4px;
+}
+.modal-container .button-container .modal-button:hover {
+  background-color: #603535;
+  color: white;
+}
+.modal-container .button-container .modal-button:active {
+  background-color: #3b2727;
+  position: relative;
+  top: 2px;
+}
+.modal-container .button-container .single {
+  width: 8rem;
+}
+@media (max-width: 480px) {
+  .modal-container {
+    width: 20rem;
+    height: 7rem;
+  }
+}
+
 .container {
   margin: 0 auto;
   max-width: 1020px;
@@ -1306,15 +1369,7 @@ input {
 
 .chat-container {
   max-width: 800px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 .chat-container .title {
   color: #36DA93;
@@ -1325,7 +1380,6 @@ input {
   font-size: 24px;
 }
 .chat-container .chat-header {
-  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1435,61 +1489,77 @@ input {
   position: relative;
   top: 2px;
 }
-.chat-container .chat-wrap {
-  width: 400px;
-  height: 667px;
-  border: 1px solid black;
-  border-radius: 16px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
-}
-@media (max-width: 450px) {
-  .chat-container .chat-wrap {
-    width: 375px;
-  }
+.chat-container .chat-wrap .text-area > * {
+  margin: 10px 0;
 }
 .chat-container .chat-wrap .text-area {
+  overflow-y: scroll;
   padding: 20px;
   height: 490px;
-  font-size: 14px;
+  background-color: #E6E6E6;
 }
-.chat-container .chat-wrap .text-area .member-other {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.chat-container .chat-wrap .text-area .member-other .profile-img {
+.chat-container .chat-wrap .text-area .profile-img {
+  flex-shrink: 0;
+  flex-grow: 0;
+  overflow: hidden;
   width: 30px;
   height: 30px;
   background-color: rosybrown;
   border-radius: 100%;
   margin-right: 10px;
 }
-.chat-container .chat-wrap .text-area .member-me {
+.chat-container .chat-wrap .text-area .profile-img.invisible {
+  visibility: hidden;
+}
+.chat-container .chat-wrap .text-area .chat-message-info {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 10px;
+  align-items: end;
+}
+.chat-container .chat-wrap .text-area .text {
+  word-break: break-all;
+  border: 1px solid #36DA93;
+  border-radius: 10px;
+  padding: 4px 8px;
+  background-color: white;
+}
+.chat-container .chat-wrap .text-area .message-time {
+  color: gray;
+  font-size: 12px;
+  margin: 0 4px;
+}
+.chat-container .chat-wrap .text-area .member-other {
+  display: flex;
 }
 .chat-container .chat-wrap .text-area .member-me .profile-img {
-  width: 30px;
-  height: 30px;
-  background-color: blueviolet;
-  border-radius: 100%;
-  margin-left: 10px;
+  display: none;
+}
+.chat-container .chat-wrap .text-area .member-me .chat-message-info {
+  justify-content: flex-end;
+}
+.chat-container .chat-wrap .text-area .member-me .text {
+  order: 1;
+  background-color: #36DA93;
+  color: white;
+}
+.chat-container .chat-wrap .text-area .system-message .profile-img, .chat-container .chat-wrap .text-area .system-message .message-time {
+  display: none;
+}
+.chat-container .chat-wrap .text-area .system-message .text {
+  font-size: 12px;
+  border: none;
+  text-align: center;
 }
 .chat-container .chat-wrap .send-area {
-  padding: 0 20px;
-  height: 100px;
+  height: 80px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-top: 1px solid black;
 }
 .chat-container .chat-wrap .send-area textarea {
-  width: 300px;
-  height: 80px;
+  flex-grow: 1;
+  height: 100%;
   padding: 10px;
-  line-height: 60px;
+  line-height: 1.2em;
+  resize: none;
 }
 .chat-container .chat-wrap .send-area button {
   color: #36DA93;
@@ -1497,7 +1567,9 @@ input {
   font-weight: bold;
   padding: 0.5rem;
   border: 1px solid #36DA93;
+  height: 100%;
   border-radius: 4px;
+  visibility: hidden;
 }
 .chat-container .chat-wrap .send-area button:hover {
   background-color: #36DA93;
@@ -1507,6 +1579,9 @@ input {
   background-color: #279c69;
   position: relative;
   top: 2px;
+}
+.chat-container .chat-wrap .send-area button.active {
+  visibility: visible;
 }
 
 .middle-container {
