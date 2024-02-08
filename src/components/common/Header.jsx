@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Navigation from "./Navigation";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
-import { KakaoLogout } from "../login/KakaoLogin";
 import { favorites } from "../../assets/constants/atoms";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { userIn } from "../../assets/constants/atoms";
@@ -29,7 +28,6 @@ const Header = () => {
   const logoutFunc = () => {
     if (localStorage.getItem("kakao_token")) {
       setIsLogin(false);
-      KakaoLogout();
       localStorage.removeItem("kakao_token");
     } else {
       setIsLogin(false);
