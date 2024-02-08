@@ -29,6 +29,7 @@ const Chat = () => {
   const [toggle, setToggle] = useState(false);
   const textRef = useRef(null);
   const toggleRef = useRef(null);
+  const lastMessageRef = useRef(null);
   const toggleOpen = (e) => {
     e.stopPropagation();
     setToggle(true);
@@ -64,6 +65,7 @@ const Chat = () => {
         setParentPerformance(dataTitle);
         //채팅방 초기설정
         //const response = await instance.get(`/chatRoom/${id}/enter`);
+        //만약, 채팅 입장 메세지를 보내고 싶다면, 여기에서 받아서 설정해야 함!!!
         const response = await instance.get("chatRoomEnter/1");
         const datas = await response.data;
         setChatInitial(datas);
@@ -76,6 +78,8 @@ const Chat = () => {
         const response2 = await instance.get(url);
         const datas2 = await response2.data;
         setMessages(datas2);
+        //로컬스토리지용 아이디 세팅
+        lastMessageRef.current = datas2[datas2.length - 1].id;
       } catch (error) {
         console.error(error, "에러");
       }
@@ -102,8 +106,7 @@ const Chat = () => {
         time: time,
       });
       if (document.hidden) {
-        console.log(messages);
-        const id = messages[messages.length - 1]["id"];
+        const id = lastMessageRef.current;
         localStorage.setItem("chat", JSON.stringify(id));
       }
     };
@@ -112,7 +115,7 @@ const Chat = () => {
         watching: "exit",
         time: 0,
       });
-      const id = messages[messages.length - 1]["id"];
+      const id = lastMessageRef.current;
       localStorage.setItem("chat", JSON.stringify(id));
     };
     const hashChange = () => {
@@ -123,7 +126,7 @@ const Chat = () => {
           watching: "false",
           time: time,
         });
-        const id = messages[messages.length - 1]["id"];
+        const id = lastMessageRef.current;
         localStorage.setItem("chat", JSON.stringify(id));
         window.removeEventListener("popstate", hashChange);
       }
@@ -155,6 +158,7 @@ const Chat = () => {
     const response = await instance.post("/chatMessages", newMessage);
     const datas = await response.data;
     setMessages([...messages, datas]);
+    lastMessageRef.current = datas.id;
     return true;
   };
 
