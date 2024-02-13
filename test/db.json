@@ -4,6 +4,146 @@
       "id": 1,
       "watching": "true",
       "time": 1234567890
+    },
+    {
+      "watching": "enter",
+      "time": 52,
+      "id": 2
+    },
+    {
+      "watching": "exit",
+      "time": 0,
+      "id": 3
+    },
+    {
+      "watching": "enter",
+      "time": 49,
+      "id": 4
+    },
+    {
+      "watching": "exit",
+      "time": 0,
+      "id": 5
+    },
+    {
+      "watching": "enter",
+      "time": 58,
+      "id": 6
+    },
+    {
+      "watching": "exit",
+      "time": 0,
+      "id": 7
+    },
+    {
+      "watching": "enter",
+      "time": 19,
+      "id": 8
+    },
+    {
+      "watching": "false",
+      "time": 47,
+      "id": 9
+    },
+    {
+      "watching": "enter",
+      "id": 10
+    },
+    {
+      "watching": "true",
+      "id": 11
+    },
+    {
+      "watching": "false",
+      "id": 12
+    },
+    {
+      "watching": "true",
+      "id": 13
+    },
+    {
+      "watching": "false",
+      "id": 14
+    },
+    {
+      "watching": "true",
+      "id": 15
+    },
+    {
+      "watching": "exit",
+      "id": 16
+    },
+    {
+      "watching": "enter",
+      "id": 17
+    },
+    {
+      "watching": "false",
+      "id": 18
+    },
+    {
+      "watching": "true",
+      "id": 19
+    },
+    {
+      "watching": "false",
+      "id": 20
+    },
+    {
+      "watching": "true",
+      "id": 21
+    },
+    {
+      "watching": "false",
+      "id": 22
+    },
+    {
+      "watching": "true",
+      "id": 23
+    },
+    {
+      "watching": "exit",
+      "id": 24
+    },
+    {
+      "watching": "false",
+      "id": 25
+    },
+    {
+      "watching": "enter",
+      "id": 26
+    },
+    {
+      "watching": "exit",
+      "id": 27
+    },
+    {
+      "watching": "enter",
+      "id": 28
+    },
+    {
+      "watching": "false",
+      "id": 29
+    },
+    {
+      "watching": "enter",
+      "id": 30
+    },
+    {
+      "watching": "true",
+      "id": 31
+    },
+    {
+      "watching": "false",
+      "id": 32
+    },
+    {
+      "watching": "true",
+      "id": 33
+    },
+    {
+      "watching": "false",
+      "id": 34
     }
   ],
   "conInfo": [
@@ -163,7 +303,8 @@
     {
       "id": 1,
       "chatRoomId": 12,
-      "roomName": "json을 받아와서 바뀜",
+      "roomName": "서버에 등록된 채팅방 이름",
+      "performanceName": "이것은 공연이름입니다",
       "userCount": "1",
       "members": [
         {
@@ -171,16 +312,18 @@
           "username": "abcd7787",
           "password": "password",
           "loginType": "HOME",
-          "nickName": "바뀌었습니다",
-          "phoneNumber": "010-7774-4567"
+          "nickName": "닉네임이에용",
+          "phoneNumber": "010-7774-4567",
+          "profileImage": ""
         },
         {
           "email": "tester2@test.com",
           "username": "abcd2222",
           "password": "password",
           "loginType": "HOME",
-          "nickName": "바뀜유저2",
-          "phoneNumber": "010-7774-4567"
+          "nickName": "유저투",
+          "phoneNumber": "010-7774-4567",
+          "profileImage": ""
         }
       ]
     }
@@ -191,6 +334,84 @@
       "from": "me",
       "text": "sendMessage",
       "timeStamp": 12345
+    },
+    {
+      "from": "me",
+      "text": "어허",
+      "timeStamp": 1707832864081,
+      "id": 2
+    },
+    {
+      "from": "me",
+      "text": "지금쯤 세팅이 되었나요?",
+      "timeStamp": 1707832875343,
+      "id": 3
+    },
+    {
+      "from": "other",
+      "text": "지금부터 메세지를 열 개 보냅니다.",
+      "timeStamp": 1707836027634,
+      "id": 4
+    },
+    {
+      "from": "other",
+      "text": "하나",
+      "timeStamp": 1707836029872,
+      "id": 5
+    },
+    {
+      "from": "other",
+      "text": "둘",
+      "timeStamp": 1707836031671,
+      "id": 6
+    },
+    {
+      "from": "other",
+      "text": "셋",
+      "timeStamp": 1707836033522,
+      "id": 7
+    },
+    {
+      "from": "other",
+      "text": "넷",
+      "timeStamp": 1707836037633,
+      "id": 8
+    },
+    {
+      "from": "other",
+      "text": "다섯",
+      "timeStamp": 1707836040696,
+      "id": 9
+    },
+    {
+      "from": "me",
+      "text": "여섯",
+      "timeStamp": 1707836043959,
+      "id": 10
+    },
+    {
+      "from": "me",
+      "text": "일곱",
+      "timeStamp": 1707836051471,
+      "id": 11
+    },
+    {
+      "from": "me",
+      "text": "여덟",
+      "timeStamp": 1707836054984,
+      "id": 12
+    },
+    {
+      "from": "other",
+      "text": "아홉",
+      "timeStamp": 1707836060084,
+      "id": 13
+    },
+    {
+      "from": "other",
+      "text": "열",
+      "timeStamp": 1707836062309,
+      "id": 14
     }
   ],
   "performance-best": [

@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import instance from "../../assets/constants/instance";
 import ChatMessageForm from "./ChatMessageForm";
 import ChatToggle from "./ChatToggle";
+import basicProfile from "../../assets/images/profile2.jpg";
 
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
   chatRoomId: 12,
   roomName: "토요일 콘서트 같이 가자요... 제발요",
+  performanceName: "리렌더링용 공연이름",
   userCount: "1",
   members: [
     {
@@ -18,17 +19,20 @@ const basic = {
       loginType: "HOME",
       nickName: "위콘2",
       phoneNumber: "010-7774-4567",
+      profileImage: basicProfile,
     },
   ],
 };
 
 const Chat = () => {
+  const [chatInitial, setChatInitial] = useState(basic);
   const [sendButton, setSendButton] = useState(false);
-  const [talker, setTalker] = useState("me");
+  const [talker, setTalker] = useState("me"); //지울 것입니다.
   const [messages, setMessages] = useState([]);
   const [toggle, setToggle] = useState(false);
   const textRef = useRef(null);
   const toggleRef = useRef(null);
+  const firstMessageRef = useRef(null);
   const lastMessageRef = useRef(null);
   const toggleOpen = (e) => {
     e.stopPropagation();
@@ -48,62 +52,20 @@ const Chat = () => {
     };
   }, []);
 
-  //주소창 기반으로 채팅방 정보를 불러옵니다.
-  const { concertTitle } = useParams();
-  const [parentPerformance, setParentPerformance] =
-    useState("아이유 드론쇼 콘서트");
-  const [chatInitial, setChatInitial] = useState(basic);
-
-  useEffect(() => {
-    const enterChatRoom = async () => {
-      try {
-        //부모공연 이름 세팅
-        const responseTitle = await instance.get(
-          `/performances/${concertTitle}`
-        );
-        const dataTitle = await responseTitle.data["title"];
-        setParentPerformance(dataTitle);
-        //채팅방 초기설정
-        //const response = await instance.get(`/chatRoom/${id}/enter`);
-        //만약, 채팅 입장 메세지를 보내고 싶다면, 여기에서 받아서 설정해야 함!!!
-        const response = await instance.get("chatRoomEnter/1");
-        const datas = await response.data;
-        setChatInitial(datas);
-        //만약, 중도 입장했을 경우, 기존에 쌓인 채팅 메세지를 불러옵니다. localStorage기반으로.
-        let startId = localStorage.getItem("chat");
-        let url = "/chatMessages";
-        url += startId
-          ? `?_start=${startId}&_limit=30`
-          : "?_start=40&_limit=30";
-        const response2 = await instance.get(url);
-        const datas2 = await response2.data;
-        setMessages(datas2);
-        //로컬스토리지용 아이디 세팅
-        lastMessageRef.current = datas2[datas2.length - 1].id;
-      } catch (error) {
-        console.error(error, "에러");
-      }
-    };
-    enterChatRoom();
-  }, []);
-
   //사용자가 채팅방에 집중하는지 확인합니다.
   let enterRoomNow = true;
   let hashHere = true;
   useEffect(() => {
     if (enterRoomNow) {
       enterRoomNow = false;
-      const time = new Date().getSeconds();
       instance.post("/notifications", {
         watching: "enter",
-        time: time,
       });
     }
     const changeVisibility = () => {
-      const time = new Date().getSeconds();
       instance.post("/notifications", {
         watching: !document.hidden + "",
-        time: time,
+        //"hidden", "visible" 이름으로 보내기.
       });
       if (document.hidden) {
         const id = lastMessageRef.current;
@@ -113,7 +75,6 @@ const Chat = () => {
     const beforeUnload = () => {
       instance.post("/notifications", {
         watching: "exit",
-        time: 0,
       });
       const id = lastMessageRef.current;
       localStorage.setItem("chat", JSON.stringify(id));
@@ -121,10 +82,8 @@ const Chat = () => {
     const hashChange = () => {
       if (hashHere) {
         hashHere = false;
-        const time = new Date().getSeconds();
         instance.post("/notifications", {
           watching: "false",
-          time: time,
         });
         const id = lastMessageRef.current;
         localStorage.setItem("chat", JSON.stringify(id));
@@ -139,6 +98,46 @@ const Chat = () => {
       window.removeEventListener("beforeunload", beforeUnload);
     };
   }, []);
+
+  //채팅방 초기설정
+  useEffect(() => {
+    const enterChatRoom = async () => {
+      try {
+        //기본 채팅방 정보 설정
+        const response = await instance.get("chatRoomEnter/1");
+        const datas = await response.data;
+        setChatInitial(datas);
+
+        //입장 초기 메세지 설정
+        let startId = localStorage.getItem("chat");
+        let url = "/chatMessages";
+        url += startId
+          ? `?_start=${Math.max(0, startId - 5)}&_limit=5`
+          : "?_start=40&_limit=30";
+        const response2 = await instance.get(url);
+        const datas2 = await response2.data;
+        setMessages(datas2);
+
+        //로컬스토리지용 아이디 세팅
+        firstMessageRef.current = datas2[0].id || 0;
+        lastMessageRef.current = datas2[datas2.length - 1].id;
+      } catch (error) {
+        console.error(error, "에러");
+      }
+    };
+    enterChatRoom();
+  }, []);
+
+  //이전에 쌓인 채팅정보를 불러옵니다. id 숫자 계산해서 요청.
+  const callMessageBefore = async () => {
+    if (firstMessageRef.current === 0) return;
+    let url = "/chatMessages";
+    url += `?_start=${Math.max(0, firstMessageRef.current - 6)}&_limit=5`;
+    const response = await instance.get(url);
+    const datas = await response.data;
+    setMessages([...datas, ...messages]);
+    firstMessageRef.current = datas[0].id;
+  };
 
   const changeTalker = () => {
     //이 버튼은 서버와 연결되면 사라질 것입니다.
@@ -192,7 +191,7 @@ const Chat = () => {
       <div className="chat-wrap">
         <div className="chat-header">
           <div className="chat-room-name">
-            <h1>{parentPerformance}</h1>
+            <h1>{chatInitial.performanceName}</h1>
             <h2>{chatInitial.roomName}</h2>
           </div>
           <button className="toggle" onClick={toggleOpen}>
@@ -207,6 +206,9 @@ const Chat = () => {
           )}
         </div>
         <div className="text-area">
+          <div className="observer" onClick={callMessageBefore}>
+            옵저버입니다. 드러나면 로딩해요.
+          </div>
           <div className="system-message">
             <div className="profile-img"></div>
             <div className="text">입장하였습니다.</div>
