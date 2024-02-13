@@ -6,6 +6,7 @@ import logo from "../../assets/images/withconLogo.png";
 import { favorites } from "../../assets/constants/atoms";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { userIn } from "../../assets/constants/atoms";
+import { BiBell } from "react-icons/bi";
 
 const Header = () => {
   const setFavoritePerformances = useSetRecoilState(favorites);
@@ -67,9 +68,15 @@ const Header = () => {
           </h1>
           <div className="login-area">
             {isLogin ? (
-              <button className="login-button" onClick={() => setOpen(!open)}>
-                테스터 님
-              </button>
+              <div className="login-me">
+                <button className="login-button" onClick={() => setOpen(!open)}>
+                  테스터 님
+                </button>
+                <div className="alarm-area">
+                  <BiBell size={24} className="bell" />
+                  <span>1</span>
+                </div>
+              </div>
             ) : (
               <>
                 <button
