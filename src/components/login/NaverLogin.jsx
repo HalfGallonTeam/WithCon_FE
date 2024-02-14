@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import instance from "../../assets/constants/instance";
+import axios from "axios";
 
 const NaverLogin = () => {
   let isRunning = true;
@@ -25,7 +25,7 @@ const NaverLogin = () => {
       }
 
       try {
-        const response = await instance.post("/auth/oauth2/login", {
+        const response = await axios.post("/api/auth/oauth2/login", {
           registrationId: "naver",
           authorizationCode: code,
         });

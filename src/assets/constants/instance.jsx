@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const instance = axios.create({ baseURL: "http://localhost:3000" });
+const instance = axios.create({ baseURL: "/api" });
 
 //헤더 인터셉트로 access_token 추가
 instance.interceptors.request.use(
