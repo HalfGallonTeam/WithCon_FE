@@ -1,6 +1,7 @@
 const ChatMessageForm = (message, parentNode, same) => {
   const $node = document.createElement("div");
   const $img = document.createElement("img");
+  const $chatTexts = document.createElement("div");
   const $chatMessageInfo = document.createElement("div");
   const $username = document.createElement("p");
   const $text = document.createElement("p");
@@ -15,6 +16,7 @@ const ChatMessageForm = (message, parentNode, same) => {
   $img.src = "/";
   $img.alt = "";
   $img.className = "profile-img";
+  $chatTexts.className = "chat-texts";
   $chatMessageInfo.className = "chat-message-info";
   $username.className = "username";
   $username.innerText = message.from;
@@ -27,21 +29,24 @@ const ChatMessageForm = (message, parentNode, same) => {
   $time.className = "message-time";
   $time.innerText = timeToString(message.timeStamp);
 
-  $chatMessageInfo.appendChild($username);
   $chatMessageInfo.appendChild($text);
   $chatMessageInfo.appendChild($time);
+  $chatTexts.appendChild($username);
+  $chatTexts.appendChild($chatMessageInfo);
   $node.appendChild($img);
-  $node.appendChild($chatMessageInfo);
+  $node.appendChild($chatTexts);
 
   parentNode.appendChild($node);
   return true;
 
   <div className={className} key={index}>
     <img src="/" alt="프로필" className={`profile-img ${invisible}`}></img>
-    <div className="chat-message-info">
+    <div className="chat-texts">
       <p className="username">{message.from}</p>
-      <p className="text">{message.text}</p>
-      <p className="message-time">{timeToString(message.timeStamp)}</p>
+      <div className="chat-message-info">
+        <p className="text">{message.text}</p>
+        <p className="message-time">{timeToString(message.timeStamp)}</p>
+      </div>
     </div>
   </div>;
 };
