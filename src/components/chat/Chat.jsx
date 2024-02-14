@@ -30,6 +30,8 @@ const Chat = () => {
   const [talker, setTalker] = useState("me"); //지울 것입니다.
   const [messages, setMessages] = useState([]);
   const [toggle, setToggle] = useState(false);
+  const observerRef = useRef(null);
+  const scrollRef = useRef(null);
   const textRef = useRef(null);
   const toggleRef = useRef(null);
   const firstMessageRef = useRef(null);
@@ -59,13 +61,12 @@ const Chat = () => {
     if (enterRoomNow) {
       enterRoomNow = false;
       instance.post("/notifications", {
-        watching: "enter",
+        watching: "visible",
       });
     }
     const changeVisibility = () => {
       instance.post("/notifications", {
-        watching: !document.hidden + "",
-        //"hidden", "visible" 이름으로 보내기.
+        watching: document.hidden ? "hidden" : "visible",
       });
       if (document.hidden) {
         const id = lastMessageRef.current;
@@ -74,7 +75,7 @@ const Chat = () => {
     };
     const beforeUnload = () => {
       instance.post("/notifications", {
-        watching: "exit",
+        watching: "hidden",
       });
       const id = lastMessageRef.current;
       localStorage.setItem("chat", JSON.stringify(id));
@@ -83,7 +84,7 @@ const Chat = () => {
       if (hashHere) {
         hashHere = false;
         instance.post("/notifications", {
-          watching: "false",
+          watching: "hidden",
         });
         const id = lastMessageRef.current;
         localStorage.setItem("chat", JSON.stringify(id));
@@ -128,16 +129,26 @@ const Chat = () => {
     enterChatRoom();
   }, []);
 
+  let observeTrue = false;
   //이전에 쌓인 채팅정보를 불러옵니다. id 숫자 계산해서 요청.
   const callMessageBefore = async () => {
-    if (firstMessageRef.current === 0) return;
+    if (observeTrue) return;
+    observeTrue = true;
+    console.log("옵저버");
+    if (firstMessageRef.current === 1) return;
     let url = "/chatMessages";
     url += `?_start=${Math.max(0, firstMessageRef.current - 6)}&_limit=5`;
     const response = await instance.get(url);
     const datas = await response.data;
+    console.log(datas);
     setMessages([...datas, ...messages]);
     firstMessageRef.current = datas[0].id;
   };
+
+  const callPrevMessages = new IntersectionObserver(callMessageBefore);
+  useEffect(() => {
+    callPrevMessages.observe(observerRef.current);
+  }, []);
 
   const changeTalker = () => {
     //이 버튼은 서버와 연결되면 사라질 것입니다.
@@ -158,6 +169,10 @@ const Chat = () => {
     const datas = await response.data;
     setMessages([...messages, datas]);
     lastMessageRef.current = datas.id;
+    //스크롤 맨밑으로 await 설정 어떻게 하지?...
+    setTimeout(() => {
+      scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
+    }, 500);
     return true;
   };
 
@@ -205,8 +220,12 @@ const Chat = () => {
             />
           )}
         </div>
-        <div className="text-area">
-          <div className="observer" onClick={callMessageBefore}>
+        <div className="text-area" ref={scrollRef}>
+          <div
+            className="observer"
+            onClick={callMessageBefore}
+            ref={observerRef}
+          >
             옵저버입니다. 드러나면 로딩해요.
           </div>
           <div className="system-message">
