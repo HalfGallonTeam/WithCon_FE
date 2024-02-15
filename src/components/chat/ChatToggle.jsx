@@ -25,15 +25,26 @@ const ChatToggle = (props) => {
 
   const exitChatroom = async () => {
     try {
+      const data = {
+        performanceId: props.performanceId,
+        chatRoomId: chatRoomId,
+        targetId: props.me,
+        messageType: "EXIT",
+      };
       const response = await instance.delete(`/chatRoom/${chatRoomId}/exit`);
+      const response2 = await instance.post(
+        "/notification/chatRoom-event",
+        data
+      );
       if (response.status === 204) {
         window.alert("채팅방에서 퇴장했습니다.");
         navigate(`/title/${concertTitle}/chat`);
       }
     } catch (error) {
       console.error(error, "에러");
-      window.alert("서버 응답 불일치, 채팅방에서 퇴장했습니다.");
-      navigate(`/title/${concertTitle}/chat`);
+      window.alert(
+        "서버 응답 상태가 좋지 않습니다. 잠시 후 다시 시도해주세요."
+      );
     }
   };
 

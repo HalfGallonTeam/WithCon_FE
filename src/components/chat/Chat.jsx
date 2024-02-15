@@ -63,7 +63,7 @@ const Chat = () => {
     const response = await instance.get(url);
     const datas = await response.data;
     firstMessageRef.current = datas[0].id;
-    AddMessages(datas, messageRef.current, chatMembers, "prepend");
+    AddMessages(datas, messageRef.current, chatMembers, "prepend", userdata.id);
   };
   const callPrevMessages = new IntersectionObserver(callMessageBefore);
 
@@ -76,34 +76,43 @@ const Chat = () => {
   let enterRoomNow = true;
   let hashHere = true;
   useEffect(() => {
+    const sendVisible = (visibleType) => {
+      const obj = {
+        performanceId: chatInitial.performanceId,
+        chatRoomId: chatRoomId,
+        visibleType: visibleType,
+      };
+      return obj;
+    };
+
     if (enterRoomNow) {
       enterRoomNow = false;
-      instance.post("/notifications", {
-        watching: "visible",
-      });
+      const data = {
+        performanceId: chatInitial.performanceId,
+        chatRoomId: chatRoomId,
+        targetId: userdata.id,
+        messageType: "ENTER",
+      };
+      instance.post("/notification/chatRoom-event", data);
+      instance.post("/notification/visible", sendVisible("VISIBLE"));
     }
     const changeVisibility = () => {
-      instance.post("/notifications", {
-        watching: document.hidden ? "hidden" : "visible",
-      });
+      const visibility = document.hidden ? "HIDDEN" : "VISIBLE";
+      instance.post("/notification/visible", sendVisible(visibility));
       if (document.hidden) {
         const id = lastMessageRef.current;
         localStorage.setItem("chat", JSON.stringify(id));
       }
     };
     const beforeUnload = () => {
-      instance.post("/notifications", {
-        watching: "hidden",
-      });
+      instance.post("/notification/visible", sendVisible("HIDDEN"));
       const id = lastMessageRef.current;
       localStorage.setItem("chat", JSON.stringify(id));
     };
     const hashChange = () => {
       if (hashHere) {
         hashHere = false;
-        instance.post("/notifications", {
-          watching: "hidden",
-        });
+        instance.post("/notification/visible", sendVisible("HIDDEN"));
         const id = lastMessageRef.current;
         localStorage.setItem("chat", JSON.stringify(id));
         window.removeEventListener("popstate", hashChange);
@@ -222,8 +231,9 @@ const Chat = () => {
             <ChatToggle
               setToggle={setToggle}
               members={chatMembers}
-              creator={chatInitial.creator}
-              me={userdata.nickname}
+              creator={chatInitial.managerName}
+              me={userdata.id}
+              performanceId={chatInitial.performanceId}
             />
           )}
         </div>
