@@ -35,7 +35,6 @@ const Chat = () => {
   const messageRef = useRef(null);
   const scrollRef = useRef(null);
   const textRef = useRef(null);
-  const toggleRef = useRef(null);
   const firstMessageRef = useRef(null);
   const lastMessageRef = useRef(null);
   let firstSet = false;
@@ -65,19 +64,6 @@ const Chat = () => {
     e.stopPropagation();
     setToggle(true);
   };
-
-  //토글 동작 함수
-  useEffect(() => {
-    const toggleClose = (e) => {
-      if (toggleRef.current && !toggleRef.current.contains(e.target)) {
-        setToggle(false);
-      }
-    };
-    document.addEventListener("click", toggleClose);
-    return () => {
-      document.removeEventListener("click", toggleClose);
-    };
-  }, []);
 
   //사용자가 채팅방에 집중하는지 확인합니다.
   let enterRoomNow = true;
@@ -204,9 +190,10 @@ const Chat = () => {
           </button>
           {toggle && (
             <ChatToggle
-              toggleRef={toggleRef}
               setToggle={setToggle}
               members={chatInitial.members}
+              creator={chatInitial.creator}
+              me={talker}
             />
           )}
         </div>

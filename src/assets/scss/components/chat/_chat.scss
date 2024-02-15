@@ -73,6 +73,16 @@
             text-align: center;
             margin-right: 10px;
           }
+          .member-name {
+            flex-grow: 1;
+          }
+          .force-out {
+            border: 1px solid $main-color;
+            border-radius: 4px;
+            padding: 4px;
+            font-size: 0.8em;
+            font-weight: 700;
+          }
         }
       }
       .chat-exit {

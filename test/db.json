@@ -2,984 +2,71 @@
   "notifications": [
     {
       "id": 1,
-      "watching": "true",
-      "time": 1234567890
+      "watching": "true"
     },
     {
-      "watching": "enter",
-      "time": 52,
+      "watching": "visible",
       "id": 2
     },
     {
-      "watching": "exit",
-      "time": 0,
+      "watching": "hidden",
       "id": 3
     },
     {
-      "watching": "enter",
-      "time": 49,
+      "watching": "visible",
       "id": 4
     },
     {
-      "watching": "exit",
-      "time": 0,
+      "watching": "hidden",
       "id": 5
     },
     {
-      "watching": "enter",
-      "time": 58,
+      "watching": "visible",
       "id": 6
     },
     {
-      "watching": "exit",
-      "time": 0,
+      "watching": "visible",
       "id": 7
     },
     {
-      "watching": "enter",
-      "time": 19,
+      "watching": "visible",
       "id": 8
     },
     {
-      "watching": "false",
-      "time": 47,
+      "watching": "hidden",
       "id": 9
     },
     {
-      "watching": "enter",
+      "watching": "visible",
       "id": 10
     },
     {
-      "watching": "true",
+      "watching": "hidden",
       "id": 11
     },
     {
-      "watching": "false",
+      "watching": "visible",
       "id": 12
     },
     {
-      "watching": "true",
+      "watching": "hidden",
       "id": 13
     },
     {
-      "watching": "false",
+      "watching": "visible",
       "id": 14
     },
     {
-      "watching": "true",
+      "watching": "hidden",
       "id": 15
     },
     {
-      "watching": "exit",
+      "watching": "visible",
       "id": 16
     },
     {
-      "watching": "enter",
+      "watching": "hidden",
       "id": 17
-    },
-    {
-      "watching": "false",
-      "id": 18
-    },
-    {
-      "watching": "true",
-      "id": 19
-    },
-    {
-      "watching": "false",
-      "id": 20
-    },
-    {
-      "watching": "true",
-      "id": 21
-    },
-    {
-      "watching": "false",
-      "id": 22
-    },
-    {
-      "watching": "true",
-      "id": 23
-    },
-    {
-      "watching": "exit",
-      "id": 24
-    },
-    {
-      "watching": "false",
-      "id": 25
-    },
-    {
-      "watching": "enter",
-      "id": 26
-    },
-    {
-      "watching": "exit",
-      "id": 27
-    },
-    {
-      "watching": "enter",
-      "id": 28
-    },
-    {
-      "watching": "false",
-      "id": 29
-    },
-    {
-      "watching": "enter",
-      "id": 30
-    },
-    {
-      "watching": "true",
-      "id": 31
-    },
-    {
-      "watching": "false",
-      "id": 32
-    },
-    {
-      "watching": "true",
-      "id": 33
-    },
-    {
-      "watching": "false",
-      "id": 34
-    },
-    {
-      "watching": "true",
-      "id": 35
-    },
-    {
-      "watching": "false",
-      "id": 36
-    },
-    {
-      "watching": "true",
-      "id": 37
-    },
-    {
-      "watching": "enter",
-      "id": 38
-    },
-    {
-      "watching": "false",
-      "id": 39
-    },
-    {
-      "watching": "enter",
-      "id": 40
-    },
-    {
-      "watching": "true",
-      "id": 41
-    },
-    {
-      "watching": "false",
-      "id": 42
-    },
-    {
-      "watching": "enter",
-      "id": 43
-    },
-    {
-      "watching": "true",
-      "id": 44
-    },
-    {
-      "watching": "false",
-      "id": 45
-    },
-    {
-      "watching": "true",
-      "id": 46
-    },
-    {
-      "watching": "false",
-      "id": 47
-    },
-    {
-      "watching": "true",
-      "id": 48
-    },
-    {
-      "watching": "false",
-      "id": 49
-    },
-    {
-      "watching": "enter",
-      "id": 50
-    },
-    {
-      "watching": "false",
-      "id": 51
-    },
-    {
-      "watching": "false",
-      "id": 52
-    },
-    {
-      "watching": "false",
-      "id": 53
-    },
-    {
-      "watching": "false",
-      "id": 54
-    },
-    {
-      "watching": "exit",
-      "id": 55
-    },
-    {
-      "watching": "false",
-      "id": 56
-    },
-    {
-      "watching": "enter",
-      "id": 57
-    },
-    {
-      "watching": "false",
-      "id": 58
-    },
-    {
-      "watching": "enter",
-      "id": 59
-    },
-    {
-      "watching": "true",
-      "id": 60
-    },
-    {
-      "watching": "false",
-      "id": 61
-    },
-    {
-      "watching": "enter",
-      "id": 62
-    },
-    {
-      "watching": "true",
-      "id": 63
-    },
-    {
-      "watching": "false",
-      "id": 64
-    },
-    {
-      "watching": "enter",
-      "id": 65
-    },
-    {
-      "watching": "true",
-      "id": 66
-    },
-    {
-      "watching": "false",
-      "id": 67
-    },
-    {
-      "watching": "enter",
-      "id": 68
-    },
-    {
-      "watching": "true",
-      "id": 69
-    },
-    {
-      "watching": "false",
-      "id": 70
-    },
-    {
-      "watching": "enter",
-      "id": 71
-    },
-    {
-      "watching": "true",
-      "id": 72
-    },
-    {
-      "watching": "false",
-      "id": 73
-    },
-    {
-      "watching": "enter",
-      "id": 74
-    },
-    {
-      "watching": "true",
-      "id": 75
-    },
-    {
-      "watching": "false",
-      "id": 76
-    },
-    {
-      "watching": "enter",
-      "id": 77
-    },
-    {
-      "watching": "true",
-      "id": 78
-    },
-    {
-      "watching": "false",
-      "id": 79
-    },
-    {
-      "watching": "true",
-      "id": 80
-    },
-    {
-      "watching": "false",
-      "id": 81
-    },
-    {
-      "watching": "enter",
-      "id": 82
-    },
-    {
-      "watching": "true",
-      "id": 83
-    },
-    {
-      "watching": "false",
-      "id": 84
-    },
-    {
-      "watching": "enter",
-      "id": 85
-    },
-    {
-      "watching": "true",
-      "id": 86
-    },
-    {
-      "watching": "false",
-      "id": 87
-    },
-    {
-      "watching": "true",
-      "id": 88
-    },
-    {
-      "watching": "false",
-      "id": 89
-    },
-    {
-      "watching": "true",
-      "id": 90
-    },
-    {
-      "watching": "false",
-      "id": 91
-    },
-    {
-      "watching": "true",
-      "id": 92
-    },
-    {
-      "watching": "false",
-      "id": 93
-    },
-    {
-      "watching": "enter",
-      "id": 94
-    },
-    {
-      "watching": "true",
-      "id": 95
-    },
-    {
-      "watching": "false",
-      "id": 96
-    },
-    {
-      "watching": "enter",
-      "id": 97
-    },
-    {
-      "watching": "true",
-      "id": 98
-    },
-    {
-      "watching": "false",
-      "id": 99
-    },
-    {
-      "watching": "true",
-      "id": 100
-    },
-    {
-      "watching": "false",
-      "id": 101
-    },
-    {
-      "watching": "true",
-      "id": 102
-    },
-    {
-      "watching": "false",
-      "id": 103
-    },
-    {
-      "watching": "true",
-      "id": 104
-    },
-    {
-      "watching": "false",
-      "id": 105
-    },
-    {
-      "watching": "true",
-      "id": 106
-    },
-    {
-      "watching": "false",
-      "id": 107
-    },
-    {
-      "watching": "enter",
-      "id": 108
-    },
-    {
-      "watching": "true",
-      "id": 109
-    },
-    {
-      "watching": "exit",
-      "id": 110
-    },
-    {
-      "watching": "enter",
-      "id": 111
-    },
-    {
-      "watching": "false",
-      "id": 112
-    },
-    {
-      "watching": "enter",
-      "id": 113
-    },
-    {
-      "watching": "true",
-      "id": 114
-    },
-    {
-      "watching": "false",
-      "id": 115
-    },
-    {
-      "watching": "true",
-      "id": 116
-    },
-    {
-      "watching": "false",
-      "id": 117
-    },
-    {
-      "watching": "true",
-      "id": 118
-    },
-    {
-      "watching": "false",
-      "id": 119
-    },
-    {
-      "watching": "true",
-      "id": 120
-    },
-    {
-      "watching": "false",
-      "id": 121
-    },
-    {
-      "watching": "enter",
-      "id": 122
-    },
-    {
-      "watching": "true",
-      "id": 123
-    },
-    {
-      "watching": "false",
-      "id": 124
-    },
-    {
-      "watching": "enter",
-      "id": 125
-    },
-    {
-      "watching": "true",
-      "id": 126
-    },
-    {
-      "watching": "false",
-      "id": 127
-    },
-    {
-      "watching": "true",
-      "id": 128
-    },
-    {
-      "watching": "false",
-      "id": 129
-    },
-    {
-      "watching": "enter",
-      "id": 130
-    },
-    {
-      "watching": "true",
-      "id": 131
-    },
-    {
-      "watching": "false",
-      "id": 132
-    },
-    {
-      "watching": "true",
-      "id": 133
-    },
-    {
-      "watching": "false",
-      "id": 134
-    },
-    {
-      "watching": "enter",
-      "id": 135
-    },
-    {
-      "watching": "true",
-      "id": 136
-    },
-    {
-      "watching": "false",
-      "id": 137
-    },
-    {
-      "watching": "true",
-      "id": 138
-    },
-    {
-      "watching": "false",
-      "id": 139
-    },
-    {
-      "watching": "enter",
-      "id": 140
-    },
-    {
-      "watching": "true",
-      "id": 141
-    },
-    {
-      "watching": "false",
-      "id": 142
-    },
-    {
-      "watching": "enter",
-      "id": 143
-    },
-    {
-      "watching": "true",
-      "id": 144
-    },
-    {
-      "watching": "false",
-      "id": 145
-    },
-    {
-      "watching": "true",
-      "id": 146
-    },
-    {
-      "watching": "exit",
-      "id": 147
-    },
-    {
-      "watching": "enter",
-      "id": 148
-    },
-    {
-      "watching": "false",
-      "id": 149
-    },
-    {
-      "watching": "true",
-      "id": 150
-    },
-    {
-      "watching": "false",
-      "id": 151
-    },
-    {
-      "watching": "true",
-      "id": 152
-    },
-    {
-      "watching": "false",
-      "id": 153
-    },
-    {
-      "watching": "true",
-      "id": 154
-    },
-    {
-      "watching": "false",
-      "id": 155
-    },
-    {
-      "watching": "enter",
-      "id": 156
-    },
-    {
-      "watching": "true",
-      "id": 157
-    },
-    {
-      "watching": "false",
-      "id": 158
-    },
-    {
-      "watching": "true",
-      "id": 159
-    },
-    {
-      "watching": "exit",
-      "id": 160
-    },
-    {
-      "watching": "enter",
-      "id": 161
-    },
-    {
-      "watching": "exit",
-      "id": 162
-    },
-    {
-      "watching": "enter",
-      "id": 163
-    },
-    {
-      "watching": "false",
-      "id": 164
-    },
-    {
-      "watching": "enter",
-      "id": 165
-    },
-    {
-      "watching": "false",
-      "id": 166
-    },
-    {
-      "watching": "true",
-      "id": 167
-    },
-    {
-      "watching": "exit",
-      "id": 168
-    },
-    {
-      "watching": "false",
-      "id": 169
-    },
-    {
-      "watching": "enter",
-      "id": 170
-    },
-    {
-      "watching": "false",
-      "id": 171
-    },
-    {
-      "watching": "true",
-      "id": 172
-    },
-    {
-      "watching": "false",
-      "id": 173
-    },
-    {
-      "watching": "enter",
-      "id": 174
-    },
-    {
-      "watching": "false",
-      "id": 175
-    },
-    {
-      "watching": "enter",
-      "id": 176
-    },
-    {
-      "watching": "true",
-      "id": 177
-    },
-    {
-      "watching": "false",
-      "id": 178
-    },
-    {
-      "watching": "enter",
-      "id": 179
-    },
-    {
-      "watching": "true",
-      "id": 180
-    },
-    {
-      "watching": "false",
-      "id": 181
-    },
-    {
-      "watching": "enter",
-      "id": 182
-    },
-    {
-      "watching": "true",
-      "id": 183
-    },
-    {
-      "watching": "false",
-      "id": 184
-    },
-    {
-      "watching": "true",
-      "id": 185
-    },
-    {
-      "watching": "false",
-      "id": 186
-    },
-    {
-      "watching": "enter",
-      "id": 187
-    },
-    {
-      "watching": "true",
-      "id": 188
-    },
-    {
-      "watching": "false",
-      "id": 189
-    },
-    {
-      "watching": "enter",
-      "id": 190
-    },
-    {
-      "watching": "true",
-      "id": 191
-    },
-    {
-      "watching": "false",
-      "id": 192
-    },
-    {
-      "watching": "true",
-      "id": 193
-    },
-    {
-      "watching": "false",
-      "id": 194
-    },
-    {
-      "watching": "true",
-      "id": 195
-    },
-    {
-      "watching": "false",
-      "id": 196
-    },
-    {
-      "watching": "visible",
-      "id": 197
-    },
-    {
-      "watching": "visible",
-      "id": 198
-    },
-    {
-      "watching": "visible",
-      "id": 199
-    },
-    {
-      "watching": "hidden",
-      "id": 200
-    },
-    {
-      "watching": "visible",
-      "id": 201
-    },
-    {
-      "watching": "hidden",
-      "id": 202
-    },
-    {
-      "watching": "visible",
-      "id": 203
-    },
-    {
-      "watching": "hidden",
-      "id": 204
-    },
-    {
-      "watching": "visible",
-      "id": 205
-    },
-    {
-      "watching": "hidden",
-      "id": 206
-    },
-    {
-      "watching": "visible",
-      "id": 207
-    },
-    {
-      "watching": "hidden",
-      "id": 208
-    },
-    {
-      "watching": "visible",
-      "id": 209
-    },
-    {
-      "watching": "visible",
-      "id": 210
-    },
-    {
-      "watching": "hidden",
-      "id": 211
-    },
-    {
-      "watching": "visible",
-      "id": 212
-    },
-    {
-      "watching": "hidden",
-      "id": 213
-    },
-    {
-      "watching": "visible",
-      "id": 214
-    },
-    {
-      "watching": "hidden",
-      "id": 215
-    },
-    {
-      "watching": "visible",
-      "id": 216
-    },
-    {
-      "watching": "hidden",
-      "id": 217
-    },
-    {
-      "watching": "visible",
-      "id": 218
-    },
-    {
-      "watching": "hidden",
-      "id": 219
-    },
-    {
-      "watching": "hidden",
-      "id": 220
-    },
-    {
-      "watching": "visible",
-      "id": 221
-    },
-    {
-      "watching": "hidden",
-      "id": 222
-    },
-    {
-      "watching": "visible",
-      "id": 223
-    },
-    {
-      "watching": "hidden",
-      "id": 224
-    },
-    {
-      "watching": "visible",
-      "id": 225
-    },
-    {
-      "watching": "hidden",
-      "id": 226
-    },
-    {
-      "watching": "visible",
-      "id": 227
-    },
-    {
-      "watching": "visible",
-      "id": 228
-    },
-    {
-      "watching": "hidden",
-      "id": 229
-    },
-    {
-      "watching": "visible",
-      "id": 230
-    },
-    {
-      "watching": "hidden",
-      "id": 231
-    },
-    {
-      "watching": "visible",
-      "id": 232
-    },
-    {
-      "watching": "hidden",
-      "id": 233
-    },
-    {
-      "watching": "visible",
-      "id": 234
-    },
-    {
-      "watching": "visible",
-      "id": 235
-    },
-    {
-      "watching": "hidden",
-      "id": 236
-    },
-    {
-      "watching": "visible",
-      "id": 237
-    },
-    {
-      "watching": "hidden",
-      "id": 238
-    },
-    {
-      "watching": "visible",
-      "id": 239
-    },
-    {
-      "watching": "hidden",
-      "id": 240
-    },
-    {
-      "watching": "visible",
-      "id": 241
-    },
-    {
-      "watching": "hidden",
-      "id": 242
-    },
-    {
-      "watching": "hidden",
-      "id": 243
     }
   ],
   "conInfo": [
@@ -1141,6 +228,7 @@
       "chatRoomId": 12,
       "roomName": "서버에 등록된 채팅방 이름",
       "performanceName": "이것은 공연이름입니다",
+      "creator": "me",
       "userCount": "1",
       "members": [
         {
@@ -1148,18 +236,27 @@
           "username": "abcd7787",
           "password": "password",
           "loginType": "HOME",
-          "nickName": "닉네임이에용",
+          "nickName": "1순위제삼자",
+          "phoneNumber": "010-7774-4567",
+          "profileImage": "https://dummyimage.com/100/004f01/ffffff.jpg&text=profile"
+        },
+        {
+          "email": "tester2@test.com",
+          "username": "me",
+          "password": "password",
+          "loginType": "HOME",
+          "nickName": "me인사람",
           "phoneNumber": "010-7774-4567",
           "profileImage": ""
         },
         {
           "email": "tester2@test.com",
-          "username": "abcd2222",
+          "username": "other",
           "password": "password",
           "loginType": "HOME",
-          "nickName": "유저투",
+          "nickName": "other인사람",
           "phoneNumber": "010-7774-4567",
-          "profileImage": ""
+          "profileImage": "https://dummyimage.com/100/eb63a7/000000.jpg&text=profile"
         }
       ]
     }
@@ -1854,6 +951,168 @@
       "text": "장난하니~~",
       "timeStamp": 1707889696450,
       "id": 115
+    },
+    {
+      "from": "me",
+      "text": "두근",
+      "timeStamp": 1707921201002,
+      "id": 116
+    },
+    {
+      "from": "me",
+      "text": "야",
+      "timeStamp": 1707921205965,
+      "id": 117
+    },
+    {
+      "from": "me",
+      "text": "이러기임?",
+      "timeStamp": 1707921209551,
+      "id": 118
+    },
+    {
+      "from": "me",
+      "text": "헤이",
+      "timeStamp": 1707921226314,
+      "id": 119
+    },
+    {
+      "from": "me",
+      "text": "야아아",
+      "timeStamp": 1707921229601,
+      "id": 120
+    },
+    {
+      "from": "other",
+      "text": "모가문제죠",
+      "timeStamp": 1707921234415,
+      "id": 121
+    },
+    {
+      "from": "other",
+      "text": "되어랏",
+      "timeStamp": 1707921323696,
+      "id": 122
+    },
+    {
+      "from": "other",
+      "text": "왜 안되죠",
+      "timeStamp": 1707921340872,
+      "id": 123
+    },
+    {
+      "from": "me",
+      "text": "di",
+      "timeStamp": 1707921559984,
+      "id": 124
+    },
+    {
+      "from": "me",
+      "text": "이건 되나 보자",
+      "timeStamp": 1707921647126,
+      "id": 125
+    },
+    {
+      "from": "me",
+      "text": "얘도 안 되네",
+      "timeStamp": 1707921656625,
+      "id": 126
+    },
+    {
+      "from": "other",
+      "text": "아마 이젠 될 것",
+      "timeStamp": 1707921845709,
+      "id": 127
+    },
+    {
+      "from": "other",
+      "text": "그라췌",
+      "timeStamp": 1707921850922,
+      "id": 128
+    },
+    {
+      "from": "me",
+      "text": "근데?",
+      "timeStamp": 1707921933349,
+      "id": 129
+    },
+    {
+      "from": "other",
+      "text": "아맞다",
+      "timeStamp": 1707922482383,
+      "id": 130
+    },
+    {
+      "from": "other",
+      "text": "지금은",
+      "timeStamp": 1707922484432,
+      "id": 131
+    },
+    {
+      "from": "other",
+      "text": "여기만",
+      "timeStamp": 1707922486744,
+      "id": 132
+    },
+    {
+      "from": "other",
+      "text": "모야 안되잖아",
+      "timeStamp": 1707922492894,
+      "id": 133
+    },
+    {
+      "from": "other",
+      "text": "이젠",
+      "timeStamp": 1707922530698,
+      "id": 134
+    },
+    {
+      "from": "other",
+      "text": "되나",
+      "timeStamp": 1707922533873,
+      "id": 135
+    },
+    {
+      "from": "other",
+      "text": "되는군",
+      "timeStamp": 1707922537360,
+      "id": 136
+    },
+    {
+      "from": "me",
+      "text": "입력이 되나 보아요",
+      "timeStamp": 1707923717669,
+      "id": 137
+    },
+    {
+      "from": "me",
+      "text": "되나",
+      "timeStamp": 1707923722194,
+      "id": 138
+    },
+    {
+      "from": "other",
+      "text": "되나",
+      "timeStamp": 1707923726256,
+      "id": 139
+    },
+    {
+      "from": "other",
+      "text": "이것도 되나",
+      "timeStamp": 1707923729406,
+      "id": 140
+    },
+    {
+      "from": "other",
+      "text": "되는군",
+      "timeStamp": 1707923734519,
+      "id": 141
+    },
+    {
+      "from": "me",
+      "text": "맨 밑으로 가라!",
+      "timeStamp": 1707925201341,
+      "id": 142
     }
   ],
   "performance-best": [
