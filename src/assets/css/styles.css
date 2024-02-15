@@ -1466,6 +1466,16 @@ input {
   text-align: center;
   margin-right: 10px;
 }
+.chat-container .chat-header .toggle-lists .member-lists .member-info .member-name {
+  flex-grow: 1;
+}
+.chat-container .chat-header .toggle-lists .member-lists .member-info .force-out {
+  border: 1px solid #36DA93;
+  border-radius: 4px;
+  padding: 4px;
+  font-size: 0.8em;
+  font-weight: 700;
+}
 .chat-container .chat-header .toggle-lists .chat-exit {
   display: flex;
   justify-content: center;
@@ -1489,14 +1499,14 @@ input {
   position: relative;
   top: 2px;
 }
-.chat-container .chat-wrap .text-area > * {
-  margin: 10px 0;
-}
 .chat-container .chat-wrap .text-area {
   overflow-y: scroll;
   padding: 20px;
   height: 490px;
   background-color: #E6E6E6;
+}
+.chat-container .chat-wrap .text-area .messages > * {
+  margin: 8px 0;
 }
 .chat-container .chat-wrap .text-area .profile-img {
   flex-shrink: 0;
@@ -1510,6 +1520,9 @@ input {
 }
 .chat-container .chat-wrap .text-area .profile-img.invisible {
   visibility: hidden;
+}
+.chat-container .chat-wrap .text-area .username {
+  margin-bottom: 4px;
 }
 .chat-container .chat-wrap .text-area .chat-message-info {
   display: flex;

@@ -2,8 +2,71 @@
   "notifications": [
     {
       "id": 1,
-      "watching": "true",
-      "time": 1234567890
+      "watching": "true"
+    },
+    {
+      "watching": "visible",
+      "id": 2
+    },
+    {
+      "watching": "hidden",
+      "id": 3
+    },
+    {
+      "watching": "visible",
+      "id": 4
+    },
+    {
+      "watching": "hidden",
+      "id": 5
+    },
+    {
+      "watching": "visible",
+      "id": 6
+    },
+    {
+      "watching": "visible",
+      "id": 7
+    },
+    {
+      "watching": "visible",
+      "id": 8
+    },
+    {
+      "watching": "hidden",
+      "id": 9
+    },
+    {
+      "watching": "visible",
+      "id": 10
+    },
+    {
+      "watching": "hidden",
+      "id": 11
+    },
+    {
+      "watching": "visible",
+      "id": 12
+    },
+    {
+      "watching": "hidden",
+      "id": 13
+    },
+    {
+      "watching": "visible",
+      "id": 14
+    },
+    {
+      "watching": "hidden",
+      "id": 15
+    },
+    {
+      "watching": "visible",
+      "id": 16
+    },
+    {
+      "watching": "hidden",
+      "id": 17
     }
   ],
   "conInfo": [
@@ -163,7 +226,9 @@
     {
       "id": 1,
       "chatRoomId": 12,
-      "roomName": "json을 받아와서 바뀜",
+      "roomName": "서버에 등록된 채팅방 이름",
+      "performanceName": "이것은 공연이름입니다",
+      "creator": "me",
       "userCount": "1",
       "members": [
         {
@@ -171,16 +236,27 @@
           "username": "abcd7787",
           "password": "password",
           "loginType": "HOME",
-          "nickName": "바뀌었습니다",
-          "phoneNumber": "010-7774-4567"
+          "nickName": "1순위제삼자",
+          "phoneNumber": "010-7774-4567",
+          "profileImage": "https://dummyimage.com/100/004f01/ffffff.jpg&text=profile"
         },
         {
           "email": "tester2@test.com",
-          "username": "abcd2222",
+          "username": "me",
           "password": "password",
           "loginType": "HOME",
-          "nickName": "바뀜유저2",
-          "phoneNumber": "010-7774-4567"
+          "nickName": "me인사람",
+          "phoneNumber": "010-7774-4567",
+          "profileImage": ""
+        },
+        {
+          "email": "tester2@test.com",
+          "username": "other",
+          "password": "password",
+          "loginType": "HOME",
+          "nickName": "other인사람",
+          "phoneNumber": "010-7774-4567",
+          "profileImage": "https://dummyimage.com/100/eb63a7/000000.jpg&text=profile"
         }
       ]
     }
@@ -191,6 +267,852 @@
       "from": "me",
       "text": "sendMessage",
       "timeStamp": 12345
+    },
+    {
+      "from": "me",
+      "text": "어허",
+      "timeStamp": 1707832864081,
+      "id": 2
+    },
+    {
+      "from": "me",
+      "text": "지금쯤 세팅이 되었나요?",
+      "timeStamp": 1707832875343,
+      "id": 3
+    },
+    {
+      "from": "other",
+      "text": "지금부터 메세지를 열 개 보냅니다.",
+      "timeStamp": 1707836027634,
+      "id": 4
+    },
+    {
+      "from": "other",
+      "text": "하나",
+      "timeStamp": 1707836029872,
+      "id": 5
+    },
+    {
+      "from": "other",
+      "text": "둘",
+      "timeStamp": 1707836031671,
+      "id": 6
+    },
+    {
+      "from": "other",
+      "text": "셋",
+      "timeStamp": 1707836033522,
+      "id": 7
+    },
+    {
+      "from": "other",
+      "text": "넷",
+      "timeStamp": 1707836037633,
+      "id": 8
+    },
+    {
+      "from": "other",
+      "text": "다섯",
+      "timeStamp": 1707836040696,
+      "id": 9
+    },
+    {
+      "from": "me",
+      "text": "여섯",
+      "timeStamp": 1707836043959,
+      "id": 10
+    },
+    {
+      "from": "me",
+      "text": "일곱",
+      "timeStamp": 1707836051471,
+      "id": 11
+    },
+    {
+      "from": "me",
+      "text": "여덟",
+      "timeStamp": 1707836054984,
+      "id": 12
+    },
+    {
+      "from": "other",
+      "text": "아홉",
+      "timeStamp": 1707836060084,
+      "id": 13
+    },
+    {
+      "from": "other",
+      "text": "열",
+      "timeStamp": 1707836062309,
+      "id": 14
+    },
+    {
+      "from": "me",
+      "text": "옵저버를 테스트하려면 메세지가 서른 개는 필요하겠군",
+      "timeStamp": 1707837412843,
+      "id": 15
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837415877,
+      "id": 16
+    },
+    {
+      "from": "me",
+      "text": "아 메세지 쌓아놓은 거 왜 날렸지 ㅋㅋㅋ",
+      "timeStamp": 1707837423329,
+      "id": 17
+    },
+    {
+      "from": "other",
+      "text": "눈물이 나죠\n",
+      "timeStamp": 1707837429170,
+      "id": 18
+    },
+    {
+      "from": "other",
+      "text": "눈물이 차올라서 고갤 들어",
+      "timeStamp": 1707837439943,
+      "id": 19
+    },
+    {
+      "from": "other",
+      "text": "흐르지 못하게 또 살짝 웃어",
+      "timeStamp": 1707837447358,
+      "id": 20
+    },
+    {
+      "from": "me",
+      "text": "내가 왜 이러는지",
+      "timeStamp": 1707837453131,
+      "id": 21
+    },
+    {
+      "from": "me",
+      "text": "부끄럼도 없는지",
+      "timeStamp": 1707837457384,
+      "id": 22
+    },
+    {
+      "from": "other",
+      "text": "자존심은 곱게 접어 하늘위로",
+      "timeStamp": 1707837466293,
+      "id": 23
+    },
+    {
+      "from": "other",
+      "text": "오~",
+      "timeStamp": 1707837470167,
+      "id": 24
+    },
+    {
+      "from": "me",
+      "text": "한번도 못 했던 마알",
+      "timeStamp": 1707837478705,
+      "id": 25
+    },
+    {
+      "from": "me",
+      "text": "울면서 할 줄은 나 몰랐던 마알",
+      "timeStamp": 1707837487393,
+      "id": 26
+    },
+    {
+      "from": "other",
+      "text": "나는요",
+      "timeStamp": 1707837491993,
+      "id": 27
+    },
+    {
+      "from": "me",
+      "text": "오빠가",
+      "timeStamp": 1707837495993,
+      "id": 28
+    },
+    {
+      "from": "other",
+      "text": "좋은거얼~~~",
+      "timeStamp": 1707837502580,
+      "id": 29
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹ나 칠걸",
+      "timeStamp": 1707837510954,
+      "id": 30
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707837513570,
+      "id": 31
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837514828,
+      "id": 32
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837516290,
+      "id": 33
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837518627,
+      "id": 34
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707837519698,
+      "id": 35
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837521391,
+      "id": 36
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707837523442,
+      "id": 37
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837524754,
+      "id": 38
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837528507,
+      "id": 39
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837532394,
+      "id": 40
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837534194,
+      "id": 41
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837536229,
+      "id": 42
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹ?",
+      "timeStamp": 1707837539684,
+      "id": 43
+    },
+    {
+      "from": "other",
+      "text": "ㅇㄷㅁㄴㅇㄹ ",
+      "timeStamp": 1707837543655,
+      "id": 44
+    },
+    {
+      "from": "me",
+      "text": "ㅋㅋㅋㅋㅋㅋㅋ",
+      "timeStamp": 1707837548316,
+      "id": 45
+    },
+    {
+      "from": "other",
+      "text": "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
+      "timeStamp": 1707837551959,
+      "id": 46
+    },
+    {
+      "from": "other",
+      "text": "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
+      "timeStamp": 1707837554616,
+      "id": 47
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837557306,
+      "id": 48
+    },
+    {
+      "from": "me",
+      "text": "아 스크롤 이벤트 세팅해야지..",
+      "timeStamp": 1707837570479,
+      "id": 49
+    },
+    {
+      "from": "me",
+      "text": "돌아라 스크롤 이벤트!",
+      "timeStamp": 1707837748945,
+      "id": 50
+    },
+    {
+      "from": "me",
+      "text": "리셋. 돌아라 스크롤 이벤트!",
+      "timeStamp": 1707837761669,
+      "id": 51
+    },
+    {
+      "from": "me",
+      "text": "흠 잘 도는군",
+      "timeStamp": 1707837770498,
+      "id": 52
+    },
+    {
+      "from": "other",
+      "text": "bottom으로 스크롤이 돌 것인가?",
+      "timeStamp": 1707837867934,
+      "id": 53
+    },
+    {
+      "from": "other",
+      "text": "와아 안돈다\n",
+      "timeStamp": 1707837872808,
+      "id": 54
+    },
+    {
+      "from": "me",
+      "text": "top은?",
+      "timeStamp": 1707837891384,
+      "id": 55
+    },
+    {
+      "from": "me",
+      "text": "와아 안돈다",
+      "timeStamp": 1707837895019,
+      "id": 56
+    },
+    {
+      "from": "me",
+      "text": "숫자 던졌어요? 이거 먹히나 봅시다",
+      "timeStamp": 1707837933260,
+      "id": 57
+    },
+    {
+      "from": "me",
+      "text": "부족하나?",
+      "timeStamp": 1707837944334,
+      "id": 58
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707837948375,
+      "id": 59
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837950071,
+      "id": 60
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837952216,
+      "id": 61
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707837954301,
+      "id": 62
+    },
+    {
+      "from": "me",
+      "text": "아 좀 짧네요?",
+      "timeStamp": 1707837962032,
+      "id": 63
+    },
+    {
+      "from": "me",
+      "text": "되나 봅시다",
+      "timeStamp": 1707838035844,
+      "id": 64
+    },
+    {
+      "from": "other",
+      "text": "아아 부족하죠?",
+      "timeStamp": 1707838042119,
+      "id": 65
+    },
+    {
+      "from": "other",
+      "text": "뭐가 문제인지 알 수가 없죠",
+      "timeStamp": 1707838047993,
+      "id": 66
+    },
+    {
+      "from": "me",
+      "text": "돌겠죠",
+      "timeStamp": 1707838052882,
+      "id": 67
+    },
+    {
+      "from": "me",
+      "text": "되랏!",
+      "timeStamp": 1707838163507,
+      "id": 68
+    },
+    {
+      "from": "other",
+      "text": "아아 돌겠죠",
+      "timeStamp": 1707838168757,
+      "id": 69
+    },
+    {
+      "from": "other",
+      "text": "안되죠",
+      "timeStamp": 1707838171433,
+      "id": 70
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707838243231,
+      "id": 71
+    },
+    {
+      "from": "other",
+      "text": "망ㅋ",
+      "timeStamp": 1707838247083,
+      "id": 72
+    },
+    {
+      "from": "me",
+      "text": "이럼 되나?",
+      "timeStamp": 1707838287606,
+      "id": 73
+    },
+    {
+      "from": "me",
+      "text": "야",
+      "timeStamp": 1707838290256,
+      "id": 74
+    },
+    {
+      "from": "other",
+      "text": "유멬미크레이지",
+      "timeStamp": 1707838298143,
+      "id": 75
+    },
+    {
+      "from": "me",
+      "text": "아 스크롤 이상한 데 멈추죠",
+      "timeStamp": 1707838391184,
+      "id": 76
+    },
+    {
+      "from": "me",
+      "text": "아 걸리지 말라고",
+      "timeStamp": 1707838396582,
+      "id": 77
+    },
+    {
+      "from": "other",
+      "text": "한 칸 더 돌라고!!!",
+      "timeStamp": 1707838404282,
+      "id": 78
+    },
+    {
+      "from": "other",
+      "text": "이야 스크롤씨 덕분에 채팅 70개 쌓였죠? 말 나온 김에 옵저버나 돌려봅시다..",
+      "timeStamp": 1707838497821,
+      "id": 79
+    },
+    {
+      "from": "other",
+      "text": "마리아란마리아",
+      "timeStamp": 1707838525484,
+      "id": 80
+    },
+    {
+      "from": "me",
+      "text": "아아아 와따시노 코오이와~~~",
+      "timeStamp": 1707838571953,
+      "id": 81
+    },
+    {
+      "from": "me",
+      "text": "채팅을 새로 쳐요",
+      "timeStamp": 1707838586310,
+      "id": 82
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707838593886,
+      "id": 83
+    },
+    {
+      "from": "other",
+      "text": "호옥시?",
+      "timeStamp": 1707839251009,
+      "id": 84
+    },
+    {
+      "from": "other",
+      "text": "헐 역시",
+      "timeStamp": 1707839256221,
+      "id": 85
+    },
+    {
+      "from": "me",
+      "text": "이야,,, 돈다 디비진다",
+      "timeStamp": 1707839267501,
+      "id": 86
+    },
+    {
+      "from": "me",
+      "text": "채팅",
+      "timeStamp": 1707839338837,
+      "id": 87
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707839345112,
+      "id": 88
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹㅁㄴㅇㄹ",
+      "timeStamp": 1707839383568,
+      "id": 89
+    },
+    {
+      "from": "me",
+      "text": "아니 진짜 잠깜나",
+      "timeStamp": 1707840604127,
+      "id": 90
+    },
+    {
+      "from": "me",
+      "text": "아니",
+      "timeStamp": 1707840805317,
+      "id": 91
+    },
+    {
+      "from": "me",
+      "text": "?",
+      "timeStamp": 1707841099445,
+      "id": 92
+    },
+    {
+      "from": "me",
+      "text": "채팅",
+      "timeStamp": 1707887168734,
+      "id": 93
+    },
+    {
+      "from": "me",
+      "text": "새 채팅",
+      "timeStamp": 1707887202558,
+      "id": 94
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707887212744,
+      "id": 95
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707887222050,
+      "id": 96
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707887237780,
+      "id": 97
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄹ",
+      "timeStamp": 1707887242814,
+      "id": 98
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707887265836,
+      "id": 99
+    },
+    {
+      "from": "other",
+      "text": "새 메세지",
+      "timeStamp": 1707887277045,
+      "id": 100
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707888381240,
+      "id": 101
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707888387514,
+      "id": 102
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707888434599,
+      "id": 103
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707888629155,
+      "id": 104
+    },
+    {
+      "from": "other",
+      "text": "ㅁㄴㅇㄹ",
+      "timeStamp": 1707888634578,
+      "id": 105
+    },
+    {
+      "from": "other",
+      "text": "실화냐",
+      "timeStamp": 1707888641765,
+      "id": 106
+    },
+    {
+      "from": "me",
+      "text": "ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹ",
+      "timeStamp": 1707888683430,
+      "id": 107
+    },
+    {
+      "from": "other",
+      "text": "slrk dho qkRNlwy?",
+      "timeStamp": 1707888697090,
+      "id": 108
+    },
+    {
+      "from": "me",
+      "text": "push 한 메세지",
+      "timeStamp": 1707889165651,
+      "id": 109
+    },
+    {
+      "from": "me",
+      "text": "hey",
+      "timeStamp": 1707889278499,
+      "id": 110
+    },
+    {
+      "from": "me",
+      "text": "asdf",
+      "timeStamp": 1707889599038,
+      "id": 111
+    },
+    {
+      "from": "me",
+      "text": "qhqtlek",
+      "timeStamp": 1707889666512,
+      "id": 112
+    },
+    {
+      "from": "me",
+      "text": "너어는 왜 변하니?",
+      "timeStamp": 1707889676126,
+      "id": 113
+    },
+    {
+      "from": "me",
+      "text": "야 뭐가 문제야?",
+      "timeStamp": 1707889687973,
+      "id": 114
+    },
+    {
+      "from": "me",
+      "text": "장난하니~~",
+      "timeStamp": 1707889696450,
+      "id": 115
+    },
+    {
+      "from": "me",
+      "text": "두근",
+      "timeStamp": 1707921201002,
+      "id": 116
+    },
+    {
+      "from": "me",
+      "text": "야",
+      "timeStamp": 1707921205965,
+      "id": 117
+    },
+    {
+      "from": "me",
+      "text": "이러기임?",
+      "timeStamp": 1707921209551,
+      "id": 118
+    },
+    {
+      "from": "me",
+      "text": "헤이",
+      "timeStamp": 1707921226314,
+      "id": 119
+    },
+    {
+      "from": "me",
+      "text": "야아아",
+      "timeStamp": 1707921229601,
+      "id": 120
+    },
+    {
+      "from": "other",
+      "text": "모가문제죠",
+      "timeStamp": 1707921234415,
+      "id": 121
+    },
+    {
+      "from": "other",
+      "text": "되어랏",
+      "timeStamp": 1707921323696,
+      "id": 122
+    },
+    {
+      "from": "other",
+      "text": "왜 안되죠",
+      "timeStamp": 1707921340872,
+      "id": 123
+    },
+    {
+      "from": "me",
+      "text": "di",
+      "timeStamp": 1707921559984,
+      "id": 124
+    },
+    {
+      "from": "me",
+      "text": "이건 되나 보자",
+      "timeStamp": 1707921647126,
+      "id": 125
+    },
+    {
+      "from": "me",
+      "text": "얘도 안 되네",
+      "timeStamp": 1707921656625,
+      "id": 126
+    },
+    {
+      "from": "other",
+      "text": "아마 이젠 될 것",
+      "timeStamp": 1707921845709,
+      "id": 127
+    },
+    {
+      "from": "other",
+      "text": "그라췌",
+      "timeStamp": 1707921850922,
+      "id": 128
+    },
+    {
+      "from": "me",
+      "text": "근데?",
+      "timeStamp": 1707921933349,
+      "id": 129
+    },
+    {
+      "from": "other",
+      "text": "아맞다",
+      "timeStamp": 1707922482383,
+      "id": 130
+    },
+    {
+      "from": "other",
+      "text": "지금은",
+      "timeStamp": 1707922484432,
+      "id": 131
+    },
+    {
+      "from": "other",
+      "text": "여기만",
+      "timeStamp": 1707922486744,
+      "id": 132
+    },
+    {
+      "from": "other",
+      "text": "모야 안되잖아",
+      "timeStamp": 1707922492894,
+      "id": 133
+    },
+    {
+      "from": "other",
+      "text": "이젠",
+      "timeStamp": 1707922530698,
+      "id": 134
+    },
+    {
+      "from": "other",
+      "text": "되나",
+      "timeStamp": 1707922533873,
+      "id": 135
+    },
+    {
+      "from": "other",
+      "text": "되는군",
+      "timeStamp": 1707922537360,
+      "id": 136
+    },
+    {
+      "from": "me",
+      "text": "입력이 되나 보아요",
+      "timeStamp": 1707923717669,
+      "id": 137
+    },
+    {
+      "from": "me",
+      "text": "되나",
+      "timeStamp": 1707923722194,
+      "id": 138
+    },
+    {
+      "from": "other",
+      "text": "되나",
+      "timeStamp": 1707923726256,
+      "id": 139
+    },
+    {
+      "from": "other",
+      "text": "이것도 되나",
+      "timeStamp": 1707923729406,
+      "id": 140
+    },
+    {
+      "from": "other",
+      "text": "되는군",
+      "timeStamp": 1707923734519,
+      "id": 141
+    },
+    {
+      "from": "me",
+      "text": "맨 밑으로 가라!",
+      "timeStamp": 1707925201341,
+      "id": 142
     }
   ],
   "performance-best": [
