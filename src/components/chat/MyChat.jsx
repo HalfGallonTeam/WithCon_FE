@@ -15,7 +15,9 @@ const MyChat = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await instance.get("/chatRooms?_limit=3");
+        let url = "/chatRoom/member";
+        url += `?_page=${pages}&_limit=10`;
+        const response = await instance.get(url);
         setData(response.data);
         const length = response.headers["x-total-count"];
         if (length !== totalCount) {
