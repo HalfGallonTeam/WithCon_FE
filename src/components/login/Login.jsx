@@ -57,22 +57,18 @@ const Login = () => {
         username: id,
         password: pw,
       });
-      const dataObj = await response.data;
-      if (dataObj.accessToken) {
-        localStorage.setItem(
-          "withcon_token",
-          JSON.stringify(dataObj.accessToken)
-        );
+      const token = response.headers["Authorization"].split(" ")[1];
+      if (token) {
+        localStorage.setItem("withcon_token", JSON.stringify(token));
         navigate("/");
-      } else if (dataObj.result === "NG") {
-        setWrongPW(true);
       } else {
-        window.alert("서버 response가 없으므로 id를 localStorage에 저장");
-        localStorage.setItem("withcon_token", JSON.stringify(dataObj.username));
-        navigate("/");
+        setWrongPW(true);
       }
     } catch (error) {
       console.error(error, "에러");
+      window.alert(
+        "서버 연결 상태가 좋지 않습니다. 잠시 후 다시 시도해주세요."
+      );
     }
   };
 

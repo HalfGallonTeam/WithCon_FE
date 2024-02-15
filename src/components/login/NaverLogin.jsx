@@ -29,25 +29,20 @@ const NaverLogin = () => {
           registrationId: "naver",
           authorizationCode: code,
         });
-        const datas = await response.data;
-        if (datas.accessToken) {
-          localStorage.setItem(
-            "withcon_token",
-            JSON.stringify(datas.accessToken)
-          );
+        const token = response.headers["Authorization"].split(" ")[1];
+        if (token) {
+          localStorage.setItem("withcon_token", JSON.stringify(token));
           navigate("/");
-        } else if (datas.result === "NG") {
-          window.alert("통신 상태가 좋지 않습니다. 잠시 후 다시 시도해주세요");
-          navigate("/login");
         } else {
-          window.alert(
-            "서버 response가 없으므로 naver_access_token을 localStorage에 저장"
-          );
-          localStorage.setItem("withcon_token", JSON.stringify(code));
-          navigate("/");
+          window.alert("네이버 로그인에 실패했습니다");
+          navigate("/login");
         }
       } catch (error) {
         console.error(error, "에러");
+        window.alert(
+          "서버 연결 상태가 좋지 않습니다. 잠시 후 다시 시도해주세요."
+        );
+        navigate("/login");
       }
     };
     getWithconTokenFromNaver();

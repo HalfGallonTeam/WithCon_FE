@@ -47,8 +47,10 @@ instance.interceptors.response.use(
 const tokenRefresh = async () => {
   try {
     const response = await instance.post("/auth/reissue");
-    const datas = await response.data;
-    localStorage.setItem("withcon_token", JSON.stringify(datas.token));
+    if (response.status === 200) {
+      const token = response.headers["Authorization"].split(" ")[1];
+      localStorage.setItem("withcon_token", JSON.stringify(token));
+    }
   } catch (error) {
     console.error(error, "에러");
   }
