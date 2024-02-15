@@ -4,12 +4,14 @@ import Navigation from "./Navigation";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
 import { favorites, userIn, userData } from "../../assets/constants/atoms";
-import { useSetRecoilState, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import SetUserdata from "../../assets/tools/setUserdata";
+import SetFavorites from "../../assets/tools/setUserdata";
 
 const Header = () => {
   const [userdata, setUserdata] = useRecoilState(userData);
-  const setFavoritePerformances = useSetRecoilState(favorites);
+  const [favoritePerformance, setFavoritePerformance] =
+    useRecoilState(favorites);
   const [isLogin, setIsLogin] = useRecoilState(userIn);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -19,9 +21,12 @@ const Header = () => {
     const token = localStorage.getItem("withcon_token");
     if (token) {
       setIsLogin(true);
-    }
-    if (!userdata) {
-      SetUserdata();
+      if (!userdata) {
+        SetUserdata();
+      }
+      if (!favoritePerformance) {
+        SetFavorites();
+      }
     }
   }, []);
 
@@ -29,7 +34,7 @@ const Header = () => {
   const logoutFunc = () => {
     localStorage.removeItem("withcon_token");
     setIsLogin(false);
-    setFavoritePerformances(null);
+    setFavoritePerformance(null);
     setUserdata(null);
   };
 

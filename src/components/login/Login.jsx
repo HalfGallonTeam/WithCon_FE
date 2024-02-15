@@ -4,6 +4,7 @@ import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
 import axios from "axios";
 import SetUserdata from "../../assets/tools/setUserdata";
+import SetFavorites from "../../assets/tools/setFavorites";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -68,6 +69,7 @@ const Login = () => {
 
       //로그인 시점에서 전역에 유저정보 저장
       SetUserdata();
+      SetFavorites();
       navigate("/");
     } catch (error) {
       console.error(error, "에러");

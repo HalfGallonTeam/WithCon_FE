@@ -27,24 +27,14 @@ const ConcertCard = (props) => {
 
   const likeChange = async (e) => {
     e.stopPropagation();
-    //비로그인 유저의 사용 막기
     if (!localStorage.getItem("withcon_token")) {
-      window.alert("로그인이 필요한 서비스입니다. 로그인하시겠습니까?");
-      //모달 필요
+      window.alert("로그인이 필요한 서비스입니다. yes/no 모달 필요");
       return;
     }
 
     try {
-      //하트 상태에 따른 다른 post. 백엔드에서 like/unlike설정할지 상의할 것.
       if (likethis) {
-        // const response = await instance.post(
-        //   `/performance/favorite/${info.id}`,
-        //   PageableDefault(size, sort, direction)
-        // );
-        const response = await instance.delete(
-          `/performanceFavorite/${info.id}`
-        );
-        console.log(response.data);
+        const response = await instance.put(`/performance/${info.id}/unlike`);
         const newFavoritePerformances = [...favoritePerformances];
         const index = favoritePerformances.indexOf(info.id);
         if (index > -1) {
@@ -52,12 +42,7 @@ const ConcertCard = (props) => {
         }
         setFavoritePerformances(newFavoritePerformances);
       } else {
-        // const response = await instance.delete(
-        //   `/performance/favorite/${info.id}`,
-        //   PageableDefault(size, sort, direction)
-        // );
-        const response = await instance.post(`/performanceFavorite`, info);
-        console.log(response.data);
+        const response = await instance.put(`/performance/${info.id}/like`);
         setFavoritePerformances([...favoritePerformances, info.id]);
       }
       setLikethis(!likethis);
