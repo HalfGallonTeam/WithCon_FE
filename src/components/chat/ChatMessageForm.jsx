@@ -1,4 +1,4 @@
-const ChatMessageForm = (message, parentNode, same) => {
+const ChatMessageForm = (message, parentNode, same, profileImage) => {
   const $node = document.createElement("div");
   const $img = document.createElement("img");
   const $chatTexts = document.createElement("div");
@@ -13,7 +13,7 @@ const ChatMessageForm = (message, parentNode, same) => {
       : message.from === "system"
       ? "system-message"
       : "member-other";
-  $img.src = "/";
+  $img.src = profileImage;
   $img.alt = "";
   $img.className = "profile-img";
   $chatTexts.className = "chat-texts";

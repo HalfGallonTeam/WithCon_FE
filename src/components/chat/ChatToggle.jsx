@@ -5,8 +5,8 @@ import instance from "../../assets/constants/instance";
 const ChatToggle = (props) => {
   const memberRef = useRef(null);
   const toggleRef = useRef(null);
-  const setToggle = props.setToggle;
   const members = props.members;
+  const setToggle = props.setToggle;
   const { concertTitle, id } = useParams();
   const navigate = useNavigate();
 

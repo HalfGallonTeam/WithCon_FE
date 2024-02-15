@@ -1,19 +1,28 @@
 import ChatMessageForm from "./ChatMessageForm";
 
-const AddMessages = (datas, parentNode, direction) => {
+const AddMessages = (datas, parentNode, chatMembers, direction) => {
   const $fragment = document.createDocumentFragment();
-  datas.forEach((data, index) => {
+  for (let i = 0; i < datas.length; i++) {
     let same = false;
-    if (index) {
+    if (i) {
       if (
-        datas[index - 1].from === data.from &&
-        data.timeStamp - datas[index - 1].timeStamp < 10000
+        datas[i - 1].from === datas[i].from &&
+        datas[i].timeStamp - datas[i - 1].timeStamp < 10000
       ) {
         same = true;
       }
     }
-    ChatMessageForm(data, $fragment, same);
-  });
+
+    let profileImage = "";
+    for (const member of chatMembers) {
+      if (member.username === datas[i].from) {
+        profileImage = member.profileImage;
+        break;
+      }
+    }
+
+    ChatMessageForm(datas[i], $fragment, same, profileImage);
+  }
 
   if (direction === "prepend") {
     parentNode.prepend($fragment);

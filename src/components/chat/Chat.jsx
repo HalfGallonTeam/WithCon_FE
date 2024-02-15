@@ -28,6 +28,7 @@ const basic = {
 const Chat = () => {
   const [prevMessage, setPrevMessage] = useState(null);
   const [chatInitial, setChatInitial] = useState(basic);
+  const [chatMembers, setChatMembers] = useState([]);
   const [sendButton, setSendButton] = useState(false);
   const [talker, setTalker] = useState("me"); //지울 것입니다.
   const [toggle, setToggle] = useState(false);
@@ -56,7 +57,7 @@ const Chat = () => {
     const response = await instance.get(url);
     const datas = await response.data;
     firstMessageRef.current = datas[0].id;
-    AddMessages(datas, messageRef.current, "prepend");
+    AddMessages(datas, messageRef.current, chatMembers, "prepend");
   };
   const callPrevMessages = new IntersectionObserver(callMessageBefore);
 
@@ -120,6 +121,8 @@ const Chat = () => {
         //기본 채팅방 정보 설정
         const response = await instance.get("chatRoomEnter/1");
         const datas = await response.data;
+        setChatMembers(datas.members);
+        datas.member = [];
         setChatInitial(datas);
 
         //입장 초기 메세지 설정
@@ -130,7 +133,8 @@ const Chat = () => {
           : "?_start=40&_limit=30";
         const response2 = await instance.get(url);
         const datas2 = await response2.data;
-        AddMessages(datas2, messageRef.current);
+
+        AddMessages(datas2, messageRef.current, chatMembers);
         setPrevMessage(datas2[datas2.length - 1]);
 
         //로컬스토리지용 아이디 세팅
@@ -172,7 +176,14 @@ const Chat = () => {
       same = true;
     }
     setPrevMessage(datas);
-    ChatMessageForm(datas, messageRef.current, same);
+    let profileImage = "";
+    for (const member of chatMembers) {
+      if (member.username === datas.from) {
+        profileImage = member.profileImage;
+        break;
+      }
+    }
+    ChatMessageForm(datas, messageRef.current, same, profileImage);
     scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
     return true;
   };
@@ -191,7 +202,7 @@ const Chat = () => {
           {toggle && (
             <ChatToggle
               setToggle={setToggle}
-              members={chatInitial.members}
+              members={chatMembers}
               creator={chatInitial.creator}
               me={talker}
             />
