@@ -11,11 +11,7 @@ const ConcertCard = (props) => {
   const navigate = useNavigate();
   const info = props.info;
   const className =
-    info.reservation === "단독판매"
-      ? "hot"
-      : info.reservation === ""
-      ? "hidden"
-      : "";
+    info.status === "END" ? "hot" : info.status === "" ? "hidden" : "";
 
   useEffect(() => {
     if (favoritePerformances && favoritePerformances.includes(info.id)) {
@@ -54,19 +50,19 @@ const ConcertCard = (props) => {
   return (
     <div className="concert-card" onClick={() => navigate(`/title/${info.id}`)}>
       <div className="poster-box">
-        <img className="concert-poster" src={info.poster} alt={info.title} />
+        <img className="concert-poster" src={info.poster} alt={info.name} />
       </div>
       <div className="concert-mini-info">
         <div className="info-top-line">
-          <h3 className="concert-title">{info.title}</h3>
+          <h3 className="concert-title">{info.name}</h3>
           <button className="like" onClick={likeChange}>
             <i className={likethis ? "bi bi-heart-fill" : "bi bi-heart"}></i>
           </button>
         </div>
         <div className="info-bottom-line">
-          <p className="concert-place">{info.place}</p>
-          <p className="concert-date">{info.date}</p>
-          <p className={`reservation-tip ${className}`}>{info.reservation}</p>
+          <p className="concert-place">{info.facility}</p>
+          <p className="concert-date">{`${info.startDate}-${info.endDate}`}</p>
+          <p className={`reservation-tip ${className}`}>{info.status}</p>
         </div>
       </div>
     </div>

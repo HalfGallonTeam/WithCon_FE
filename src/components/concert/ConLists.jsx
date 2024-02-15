@@ -39,9 +39,12 @@ const ConLists = () => {
   useEffect(() => {
     const getInfos = async () => {
       try {
-        let request = `/performances?_page=${pages}&_limit=${PAGE.limit}`;
+        let request = "/performance";
+        request += keyword ? `/search?keyword=${keyword}` : "";
+        request += `&_page=${page}&_limit=${PAGE.limit}`;
+        /**let request = `/performance?_page=${pages}&_limit=${PAGE.limit}`;
         request += category !== "all" ? `&category=${category}` : "";
-        request += keyword ? `&title_like=${keyword}` : "";
+        request += keyword ? `&title_like=${keyword}` : "";*/
         const response = await instance.get(request);
         const datas = await response.data;
         setInfos(datas);
