@@ -27,14 +27,10 @@ const Header = () => {
 
   //로그아웃을 실행함
   const logoutFunc = () => {
-    if (localStorage.getItem("kakao_token")) {
-      setIsLogin(false);
-      localStorage.removeItem("kakao_token");
-    } else {
-      setIsLogin(false);
-      localStorage.removeItem("withcon_token");
-      setFavoritePerformances(null);
-    }
+    localStorage.removeItem("withcon_token");
+    setIsLogin(false);
+    setFavoritePerformances(null);
+    setUserdata(null);
   };
 
   const keywordIn = (e) => {
