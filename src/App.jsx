@@ -45,7 +45,10 @@ function App() {
               <Route path="/profile/changepassword/" element={<ChangePW />} />
             </Route>
           </Route>
-          <Route path="/title/:concertTitle/chat/:id" element={<ChatPage />} />
+          <Route
+            path="/title/:concertTitle/chat/:chatRoomId"
+            element={<ChatPage />}
+          />
 
           <Route path="/login/" element={<LoginPage />} />
           <Route path="/kakao-login/" element={<KakaoLogin />} />

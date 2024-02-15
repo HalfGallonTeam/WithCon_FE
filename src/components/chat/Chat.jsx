@@ -5,6 +5,10 @@ import ChatMessageForm from "./ChatMessageForm";
 import ChatToggle from "./ChatToggle";
 import basicProfile from "../../assets/images/profile2.jpg";
 import AddMessages from "./AddMessages";
+import { useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userData } from "../../assets/constants/atoms";
+import SetUserdata from "../../assets/tools/setUserdata";
 
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
@@ -26,6 +30,8 @@ const basic = {
 };
 
 const Chat = () => {
+  const [userdata, setUserdata] = useRecoilState(userData);
+  const { chatRoomId } = useParams();
   const [prevMessage, setPrevMessage] = useState(null);
   const [chatInitial, setChatInitial] = useState(basic);
   const [chatMembers, setChatMembers] = useState([]);
@@ -118,11 +124,14 @@ const Chat = () => {
       if (firstSet) return;
       firstSet = true;
       try {
+        if (!userdata) {
+          SetUserdata();
+        }
         //기본 채팅방 정보 설정
-        const response = await instance.get("chatRoomEnter/1");
+        const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
         const datas = await response.data;
-        setChatMembers(datas.members);
-        datas.member = [];
+        setChatMembers(datas.chatParticipants);
+        datas.chatParticipants = [];
         setChatInitial(datas);
 
         //입장 초기 메세지 설정
@@ -134,7 +143,13 @@ const Chat = () => {
         const response2 = await instance.get(url);
         const datas2 = await response2.data;
 
-        AddMessages(datas2, messageRef.current, chatMembers);
+        AddMessages(
+          datas2,
+          messageRef.current,
+          chatMembers,
+          "append",
+          userdata.id
+        );
         setPrevMessage(datas2[datas2.length - 1]);
 
         //로컬스토리지용 아이디 세팅
@@ -156,34 +171,38 @@ const Chat = () => {
     else setTalker("me");
   };
   const sendMessage = async () => {
-    const time = new Date();
     const info = textRef.current.value;
     textRef.current.value = "";
     setSendButton(false);
     const newMessage = {
-      from: talker,
+      memberId: userdata.id,
+      roomId: chatRoomId,
       text: info,
-      timeStamp: time.getTime(),
     };
     const response = await instance.post("/chatMessages", newMessage);
     const datas = await response.data;
     lastMessageRef.current = datas.id;
     let same = false;
-    if (
-      prevMessage.from === datas.from &&
-      datas.timeStamp - prevMessage.timeStamp < 10000
-    ) {
-      same = true;
+    if (datas.memberId === userdata.id) {
+      datas.memberId = "me";
+    } else {
+      if (
+        prevMessage.memberId === datas.memberId &&
+        datas.sendAt - prevMessage.sendAt < 10000
+      ) {
+        same = true;
+      }
     }
     setPrevMessage(datas);
-    let profileImage = "";
+
+    let memberdata = {};
     for (const member of chatMembers) {
-      if (member.username === datas.from) {
-        profileImage = member.profileImage;
+      if (member.username === datas.memberId) {
+        memberdata = member;
         break;
       }
     }
-    ChatMessageForm(datas, messageRef.current, same, profileImage);
+    ChatMessageForm(datas, messageRef.current, same, memberdata);
     scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
     return true;
   };
@@ -204,7 +223,7 @@ const Chat = () => {
               setToggle={setToggle}
               members={chatMembers}
               creator={chatInitial.creator}
-              me={talker}
+              me={userdata.nickname}
             />
           )}
         </div>

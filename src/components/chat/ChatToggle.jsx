@@ -7,7 +7,7 @@ const ChatToggle = (props) => {
   const toggleRef = useRef(null);
   const members = props.members;
   const setToggle = props.setToggle;
-  const { concertTitle, id } = useParams();
+  const { concertTitle, chatRoomId } = useParams();
   const navigate = useNavigate();
 
   //토글 동작 함수
@@ -25,7 +25,7 @@ const ChatToggle = (props) => {
 
   const exitChatroom = async () => {
     try {
-      const response = await instance.delete(`/chatRoom/${id}/exit`);
+      const response = await instance.delete(`/chatRoom/${chatRoomId}/exit`);
       if (response.status === 204) {
         window.alert("채팅방에서 퇴장했습니다.");
         navigate(`/title/${concertTitle}/chat`);

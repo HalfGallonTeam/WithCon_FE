@@ -1,6 +1,6 @@
 import ChatMessageForm from "./ChatMessageForm";
 
-const AddMessages = (datas, parentNode, chatMembers, direction) => {
+const AddMessages = (datas, parentNode, chatMembers, direction, me) => {
   const $fragment = document.createDocumentFragment();
   for (let i = 0; i < datas.length; i++) {
     let same = false;
@@ -14,10 +14,14 @@ const AddMessages = (datas, parentNode, chatMembers, direction) => {
     }
 
     let profileImage = "";
-    for (const member of chatMembers) {
-      if (member.username === datas[i].from) {
-        profileImage = member.profileImage;
-        break;
+    if (datas[i].memberId === me) {
+      datas[i].memberId = "me";
+    } else {
+      for (const member of chatMembers) {
+        if (member.username === datas[i].memberId) {
+          profileImage = member.profileImage;
+          break;
+        }
       }
     }
 
