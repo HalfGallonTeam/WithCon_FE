@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
 import axios from "axios";
+import SetUserdata from "../../assets/tools/setUserdata";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -60,10 +61,14 @@ const Login = () => {
       const token = response.headers["Authorization"].split(" ")[1];
       if (token) {
         localStorage.setItem("withcon_token", JSON.stringify(token));
-        navigate("/");
       } else {
         setWrongPW(true);
+        return;
       }
+
+      //로그인 시점에서 전역에 유저정보 저장
+      SetUserdata();
+      navigate("/");
     } catch (error) {
       console.error(error, "에러");
       window.alert(

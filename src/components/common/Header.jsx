@@ -1,26 +1,27 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navigation from "./Navigation";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
-import { favorites } from "../../assets/constants/atoms";
+import { favorites, userIn, userData } from "../../assets/constants/atoms";
 import { useSetRecoilState, useRecoilState } from "recoil";
-import { userIn } from "../../assets/constants/atoms";
+import SetUserdata from "../../assets/tools/setUserdata";
 
 const Header = () => {
+  const [userdata, setUserdata] = useRecoilState(userData);
   const setFavoritePerformances = useSetRecoilState(favorites);
   const [isLogin, setIsLogin] = useRecoilState(userIn);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [userName, setUserName] = useState("테스터 님");
-  const select = useRef(null);
 
   //로그인을 판단함
   useEffect(() => {
-    const withconToken = localStorage.getItem("withcon_token");
-    const kakaoToken = localStorage.getItem("kakao_token");
-    if (withconToken || kakaoToken) {
+    const token = localStorage.getItem("withcon_token");
+    if (token) {
       setIsLogin(true);
+    }
+    if (!userdata) {
+      SetUserdata();
     }
   }, []);
 
@@ -51,13 +52,13 @@ const Header = () => {
   return (
     <>
       <header className="header">
-        <button
+        {/* <button
           onClick={() => {
             setIsLogin(true);
           }}
         >
           누르면 로그인됩니다
-        </button>
+        </button> */}
         <div className="container">
           <h1 className="title">
             <Link to="/">
@@ -68,7 +69,7 @@ const Header = () => {
           <div className="login-area">
             {isLogin ? (
               <button className="login-button" onClick={() => setOpen(!open)}>
-                테스터 님
+                {userdata.nickname}
               </button>
             ) : (
               <>
@@ -86,22 +87,16 @@ const Header = () => {
                 </button>
               </>
             )}
-            {open && <ProfileModal logout={logoutFunc} modalOpen={setOpen} />}
+            {open && (
+              <ProfileModal
+                logout={logoutFunc}
+                modalOpen={setOpen}
+                info={userdata}
+              />
+            )}
           </div>
           <Navigation />
           <form className="search-area" onSubmit={keywordIn}>
-            {/**<select
-              className="filter-category"
-              name="category"
-              id="category-select"
-            >
-              <option value="all" ref={select}>
-                전체
-              </option>
-              <option value="musical">뮤지컬</option>
-              <option value="play">연극</option>
-              <option value="concert">콘서트</option>
-            </select>*/}
             <div className="search-keyword-box">
               <input
                 className="search-keyword-input"

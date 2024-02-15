@@ -15,4 +15,9 @@ const userIn = atom({
   default: false,
 });
 
-export { access_token, favorites, userIn };
+const userData = atom({
+  key: "user-data",
+  default: null,
+});
+
+export { access_token, favorites, userIn, userData };
