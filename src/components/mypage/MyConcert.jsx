@@ -24,7 +24,7 @@ const MyConcert = () => {
         //response형식이 List<performanceDto>이므로 완벽한 공연정보 리스트일 것.
         //(끝)찜한 공연 리스트 조회*/
 
-        const request = `/performanceFavorite?_page=${pages}&_limit=${PAGE.limit}`;
+        const request = `/performance/favorite?_page=${pages}&_limit=${PAGE.limit}`;
         const response = await instance.get(request);
         const datas = await response.data;
         setInfos(datas);

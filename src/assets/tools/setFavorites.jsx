@@ -4,7 +4,7 @@ import { favorites } from "../constants/atoms";
 
 const SetFavorites = async () => {
   const SetFavorites = useSetRecoilState(favorites);
-  const response = await instance.get("/performance/favorite");
+  const response = await instance.get("/performance/favorite-id");
   SetFavorites(response.data);
   return;
 };

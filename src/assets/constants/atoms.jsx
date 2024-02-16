@@ -12,7 +12,7 @@ const userIn = atom({
 
 const userData = atom({
   key: "user-data",
-  default: null,
+  default: {},
 });
 
 export { favorites, userIn, userData };

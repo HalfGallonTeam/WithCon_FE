@@ -59,23 +59,24 @@ const Login = () => {
         username: id,
         password: pw,
       });
-      const token = response.headers["Authorization"].split(" ")[1];
+      const token = response.headers.authorization.split(" ")[1];
       if (token) {
         localStorage.setItem("withcon_token", JSON.stringify(token));
-      } else {
+        //로그인 시점에서 전역에 유저정보 저장
+        SetUserdata();
+        SetFavorites();
+        navigate("/");
+      }
+    } catch (error) {
+      if (error.response.status === 400) {
+        console.error(error, "에러");
         setWrongPW(true);
         return;
+      } else {
+        window.alert(
+          "서버 연결 상태가 좋지 않습니다. 잠시 후 다시 시도해주세요."
+        );
       }
-
-      //로그인 시점에서 전역에 유저정보 저장
-      SetUserdata();
-      SetFavorites();
-      navigate("/");
-    } catch (error) {
-      console.error(error, "에러");
-      window.alert(
-        "서버 연결 상태가 좋지 않습니다. 잠시 후 다시 시도해주세요."
-      );
     }
   };
 

@@ -6,8 +6,8 @@ const instance = axios.create({ baseURL: "/api" });
 //헤더 인터셉트로 access_token 추가
 instance.interceptors.request.use(
   (config) => {
-    config.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "withcon_token"
+    config.headers["Authorization"] = `Bearer ${JSON.parse(
+      localStorage.getItem("withcon_token")
     )}`;
     return config;
   },

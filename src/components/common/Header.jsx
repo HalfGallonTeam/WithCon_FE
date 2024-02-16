@@ -5,8 +5,8 @@ import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
 import { favorites, userIn, userData } from "../../assets/constants/atoms";
 import { useRecoilState } from "recoil";
-import SetUserdata from "../../assets/tools/setUserdata";
-import SetFavorites from "../../assets/tools/setUserdata";
+//import SetFavorites from "../../assets/tools/setFavorites";
+import instance from "../../assets/constants/instance";
 
 const Header = () => {
   const [userdata, setUserdata] = useRecoilState(userData);
@@ -18,14 +18,27 @@ const Header = () => {
 
   //로그인을 판단함
   useEffect(() => {
+    const SetUserdata = async () => {
+      try {
+        console.log("작동 setuser");
+        const response = await instance.get("/member/me");
+        console.log(response);
+        if (response.status === 200) {
+          setUserdata(userData);
+        }
+      } catch (error) {
+        console.error(error, "에러");
+      }
+    };
     const token = localStorage.getItem("withcon_token");
     if (token) {
       setIsLogin(true);
-      if (!userdata) {
+      if (!userdata.id) {
         SetUserdata();
       }
       if (!favoritePerformance) {
-        SetFavorites();
+        console.log("setfavorites");
+        //SetFavorites();
       }
     }
   }, []);
@@ -70,7 +83,7 @@ const Header = () => {
           <div className="login-area">
             {isLogin ? (
               <button className="login-button" onClick={() => setOpen(!open)}>
-                {userdata.nickname}
+                로그인했음
               </button>
             ) : (
               <>
@@ -92,7 +105,7 @@ const Header = () => {
               <ProfileModal
                 logout={logoutFunc}
                 modalOpen={setOpen}
-                info={userdata}
+                info={{ id: "DataTransfer" }}
               />
             )}
           </div>
