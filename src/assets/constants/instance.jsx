@@ -23,8 +23,9 @@ instance.interceptors.response.use(
   },
   async (error) => {
     const { response } = error;
-    if (response.status === 400) {
-      if (response.data.errorCode === "EXPIRED_TOKEN") {
+    if (response.status === 401) {
+      if (response.data.errorCode === "ACCESS_TOKEN_EXPIRED") {
+        console.log(response.data.message);
         const originalRequest = response.config;
         await tokenRefresh();
         const token = localStorage.getItem("withcon_token");
