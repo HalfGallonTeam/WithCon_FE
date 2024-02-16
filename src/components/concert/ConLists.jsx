@@ -39,12 +39,15 @@ const ConLists = () => {
   useEffect(() => {
     const getInfos = async () => {
       try {
-        let request = "/performance";
+        /**MUSICAL("뮤지컬"),
+  CONCERT("콘서트"),
+  THEATER("연극");
+  ALL("모두")*/
+        let request = `/performance`;
         request += keyword ? `/search?keyword=${keyword}` : "";
-        request += `&_page=${page}&_limit=${PAGE.limit}`;
-        /**let request = `/performance?_page=${pages}&_limit=${PAGE.limit}`;
-        request += category !== "all" ? `&category=${category}` : "";
-        request += keyword ? `&title_like=${keyword}` : "";*/
+        request += category ? `?genre=${category}` : "";
+        request += `&_page=${pages}&_limit=${PAGE.limit}`;
+
         const response = await instance.get(request);
         const datas = await response.data;
         setInfos(datas);

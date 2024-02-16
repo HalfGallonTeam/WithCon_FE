@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import instance from "../../assets/constants/instance";
 
 const ConInfo = () => {
-  const [infoData, setInfoData] = useState(null);
+  const [infoData, setInfoData] = useState({});
   const { concertTitle } = useParams();
   let loading = false;
 
