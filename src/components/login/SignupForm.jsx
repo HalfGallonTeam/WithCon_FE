@@ -31,7 +31,6 @@ const SignUpInput = ({
           autoComplete={name}
           value={value}
           onChange={onChange}
-          onClick={onClick}
           maxLength={maxLength}
           minLength={minLength}
         />
