@@ -88,32 +88,32 @@
       "userId": "user1",
       "pw": "user1pw",
       "email": "user1@naver.com",
-      "nickName": "user1nick"
+      "nickName": "user1nick",
+      "phonNumber": "010-1171-2234"
     },
     {
       "id": 2,
       "userId": "user2",
       "pw": "user2pw",
       "email": "user2@naver.com",
-      "nickName": "user2nick"
+      "nickName": "user2nick",
+      "phonNumber": "010-2345-6789"
     },
     {
       "id": 3,
       "userId": "user3",
       "pw": "user3pw",
       "email": "user3@naver.com",
-      "nickName": "user3nick"
+      "nickName": "user3nick",
+      "phonNumber": "010-3456-7890"
     },
     {
       "id": 4,
       "userId": "user4",
       "pw": "user4pw",
       "email": "user4@naver.com",
-      "nickName": "user4nick"
-    },
-    {
-      "emptyData": "empty",
-      "id": 5
+      "nickName": "user4nick",
+      "phonNumber": "010-4567-8901"
     }
   ],
   "chatRooms": [
@@ -128,9 +128,7 @@
       "performanceId": "1",
       "createDate": "202402020923",
       "roomName": "test2",
-      "tags": [
-        "##"
-      ],
+      "tags": ["##"],
       "id": 2
     },
     {
@@ -144,67 +142,49 @@
       "performanceId": "1",
       "createDate": "202402020930",
       "roomName": "test4",
-      "tags": [
-        "adf",
-        "adsfa",
-        "adsfdsf"
-      ],
+      "tags": ["adf", "adsfa", "adsfdsf"],
       "id": 5
     },
     {
       "performanceId": "1",
       "createDate": "202402020942",
       "roomName": "test5",
-      "tags": [
-        "오당"
-      ],
+      "tags": ["오당"],
       "id": 6
     },
     {
       "performanceId": "1",
       "createDate": "202402020943",
       "roomName": "test6",
-      "tags": [
-        "6",
-        "이당"
-      ],
+      "tags": ["6", "이당"],
       "id": 7
     },
     {
       "performanceId": "1",
       "createDate": "202402020943",
       "roomName": "test7",
-      "tags": [
-        "7d이당"
-      ],
+      "tags": ["7d이당"],
       "id": 8
     },
     {
       "performanceId": "1",
       "createDate": "202402020944",
       "roomName": "test8",
-      "tags": [
-        "8"
-      ],
+      "tags": ["8"],
       "id": 9
     },
     {
       "performanceId": "1",
       "createDate": "202402020945",
       "roomName": "test9",
-      "tags": [
-        "9"
-      ],
+      "tags": ["9"],
       "id": 10
     },
     {
       "performanceId": "1",
       "createDate": "202402021118",
       "roomName": "test10",
-      "tags": [
-        "이당",
-        "할증"
-      ],
+      "tags": ["이당", "할증"],
       "id": 11
     },
     {
@@ -2313,6 +2293,17 @@
     {
       "username": "test5",
       "email": "test5@naver.com",
+      "password": "123qwe!!",
+      "nickname": "test5",
+      "phoneNumber": "010-1171-2234",
+      "login_type": "HOME",
+      "id": 5
+    }
+  ],
+  "userMe": [
+    {
+      "usernam": "하이하이",
+      "email": "test1@naver.com",
       "password": "123qwe!!",
       "nickname": "test5",
       "phoneNumber": "010-1171-2234",
