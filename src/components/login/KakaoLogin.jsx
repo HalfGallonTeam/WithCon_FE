@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import instance from "../../assets/constants/instance";
 import axios from "axios";
 
 const KakaoLogin = () => {
