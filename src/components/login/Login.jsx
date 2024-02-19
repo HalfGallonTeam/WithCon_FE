@@ -5,18 +5,27 @@ import naverBtn from "../../assets/images/naver-login.png";
 import axios from "axios";
 import SetUserdata from "../../assets/tools/setUserdata";
 import SetFavorites from "../../assets/tools/setFavorites";
+import { useRecoilState } from "recoil";
+import { isLoginState } from "../../assets/constants/userRecoilState";
 
 const Login = () => {
   const navigate = useNavigate();
   const [wrongPW, setWrongPW] = useState(false);
   const [naverURI, setNaverURI] = useState("");
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
   //잘못된 접근 차단
-  let isLogined = localStorage.getItem("withcon_token");
+  // let isLogined = localStorage.getItem("withcon_token");
+  // useEffect(() => {
+  //   if (isLogined) {
+  //     isLogined = false;
+  //     window.alert("이미 로그인된 사용자입니다");
+  //     navigate("/");
+  //   }
+  // }, []);
   useEffect(() => {
-    if (isLogined) {
-      isLogined = false;
-      window.alert("이미 로그인된 사용자입니다");
+    if (isLogin) {
+      window.alert("이미 로그인된 사용자입니다.");
       navigate("/");
     }
   }, []);
@@ -62,6 +71,7 @@ const Login = () => {
       const token = response.headers.authorization.split(" ")[1];
       if (token) {
         localStorage.setItem("withcon_token", JSON.stringify(token));
+        setIsLogin(true);
         //로그인 시점에서 전역에 유저정보 저장
         SetUserdata();
         SetFavorites();

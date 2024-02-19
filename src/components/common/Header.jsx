@@ -7,24 +7,32 @@ import { favorites, userIn, userData } from "../../assets/constants/atoms";
 import { useRecoilState } from "recoil";
 //import SetFavorites from "../../assets/tools/setFavorites";
 import instance from "../../assets/constants/instance";
+import {
+  isLoginState,
+  myInfoState,
+} from "../../assets/constants/userRecoilState";
 
 const Header = () => {
   const [userdata, setUserdata] = useRecoilState(userData);
   const [favoritePerformance, setFavoritePerformance] =
     useRecoilState(favorites);
-  const [isLogin, setIsLogin] = useRecoilState(userIn);
+  // const [isLogin, setIsLogin] = useRecoilState(userIn);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [myInfo, setMyInfo] = useRecoilState(myInfoState);
 
   //로그인을 판단함
   useEffect(() => {
     const SetUserdata = async () => {
       try {
-        console.log("작동 setuser");
+        // console.log("작동 setuser");
         const response = await instance.get("/member/me");
-        console.log(response);
+        // console.log(response);
+        const data = await response.data;
         if (response.status === 200) {
           setUserdata(userData);
+          setMyInfo(data);
         }
       } catch (error) {
         console.error(error, "에러");
@@ -49,6 +57,8 @@ const Header = () => {
     setIsLogin(false);
     setFavoritePerformance(null);
     setUserdata(null);
+    //test
+    setMyInfo(null);
   };
 
   const keywordIn = (e) => {
@@ -62,7 +72,6 @@ const Header = () => {
     navigate(`/performance/search?category=all&keyword=${keyword}`);
     return;
   };
-
   return (
     <>
       <header className="header">
@@ -81,9 +90,9 @@ const Header = () => {
             </Link>
           </h1>
           <div className="login-area">
-            {isLogin ? (
+            {isLogin && myInfo ? (
               <button className="login-button" onClick={() => setOpen(!open)}>
-                로그인했음
+                {myInfo.nickname}
               </button>
             ) : (
               <>
