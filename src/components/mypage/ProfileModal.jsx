@@ -1,11 +1,15 @@
 import { useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import instance from "../../assets/constants/instance";
+import { useRecoilState } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
+import { BsPersonFill } from "react-icons/bs";
 
 const ProfileModal = (props) => {
+  const [myInfo] = useRecoilState(myInfoState);
   const location = useLocation();
   const navigate = useNavigate();
-  const userdata = props.userdata;
+  // const userdata = props.userdata;
   const modalOpen = props.modalOpen;
   const toggleRef = useRef(null);
 
@@ -54,12 +58,16 @@ const ProfileModal = (props) => {
     <div className="profile-modal-container" ref={toggleRef}>
       <div className="profile-modal-title">내 정보</div>
       <div className="profile-modal-info">
-        <img
-          className="profile-modal-img"
-          src="https://dummyimage.com/50x50/E6E6E6/0011ff"
-          alt="빈 이미지"
-        />
-        <span className="profile-modal-nickname">{userdata.nickname}</span>
+        {myInfo.profileImage === null ? (
+          <BsPersonFill className="profile-modal-img-null" />
+        ) : (
+          <img
+            className="profile-modal-img"
+            src={myInfo.profileImage}
+            alt="빈 이미지"
+          />
+        )}
+        <span className="profile-modal-nickname">{myInfo.nickname}</span>
       </div>
 
       <button
