@@ -48,16 +48,6 @@ const Chat = () => {
     firstMessageRef.current = datas[0].id;
     AddMessages(datas, messageRef.current, chatMembersRef.current, "prepend");
   };
-  const callPrevMessages = new IntersectionObserver((entries, observer) => {
-    entries.forEach((entry) => {
-      console.log("entry", entry);
-      if (!entry.isIntersecting) return;
-      //entry가 intersecting중이 아니라면 구현하지 않는다.
-
-      console.log("observer", observer);
-      callMessageBefore();
-    });
-  });
 
   const toggleOpen = (e) => {
     e.stopPropagation();
@@ -144,6 +134,15 @@ const Chat = () => {
         lastMessageRef.current = datas2[datas2.length - 1].id;
 
         //데이터 그리기가 끝난 후 옵저버를 켭니다.
+        const options = {
+          root: document.querySelector(".text-area"),
+          rootMargin: "100px",
+          threshold: [0, 1],
+        };
+        const callPrevMessages = new IntersectionObserver(
+          callMessageBefore,
+          options
+        );
         callPrevMessages.observe(observerRef.current);
       } catch (error) {
         console.error(error, "에러");
