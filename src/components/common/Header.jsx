@@ -12,6 +12,8 @@ import {
   myInfoState,
 } from "../../assets/constants/userRecoilState";
 
+import Notification from "../mypage/Notification";
+
 const Header = () => {
   const [userdata, setUserdata] = useRecoilState(userData);
   const [favoritePerformance, setFavoritePerformance] =
@@ -91,9 +93,12 @@ const Header = () => {
           </h1>
           <div className="login-area">
             {isLogin && myInfo ? (
-              <button className="login-button" onClick={() => setOpen(!open)}>
-                {myInfo.nickname}
-              </button>
+              <div className="login-me">
+                <button className="login-button" onClick={() => setOpen(!open)}>
+                  {myInfo.nickname}
+                </button>
+                <Notification />
+              </div>
             ) : (
               <>
                 <button
