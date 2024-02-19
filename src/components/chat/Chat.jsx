@@ -15,6 +15,7 @@ const basic = {
 };
 
 const Chat = () => {
+  const [isPrev, setIsPrev] = useState(true);
   const [prevMessage, setPrevMessage] = useState(null);
   const [chatInitial, setChatInitial] = useState(basic);
   const [sendButton, setSendButton] = useState(false);
@@ -23,6 +24,7 @@ const Chat = () => {
   const observerRef = useRef(null);
   const messageRef = useRef(null);
   const scrollRef = useRef(null);
+  const enterRef = useRef(null);
   const textRef = useRef(null);
   const chatMembersRef = useRef([]);
   const firstMessageRef = useRef(null);
@@ -40,11 +42,17 @@ const Chat = () => {
 
   //이전 메세지 호출 함수. id 숫자 계산해서 요청.
   const callMessageBefore = async () => {
-    if (firstMessageRef.current === 1) return;
+    if (firstMessageRef.current === 1) {
+      setIsPrev(false);
+      return;
+    }
     let url = "/chatMessages";
     url += `?_start=${Math.max(0, firstMessageRef.current - 11)}&_limit=10`;
     const response = await instance.get(url);
     const datas = await response.data;
+    /**
+     * 나중에는 datas.length < 10 이면 setIsPrev(false)
+     */
     firstMessageRef.current = datas[0].id;
     AddMessages(datas, messageRef.current, chatMembersRef.current, "prepend");
   };
@@ -117,27 +125,34 @@ const Chat = () => {
         let startId = localStorage.getItem("chat");
         let url = "/chatMessages";
         url += startId
-          ? `?_start=${startId - 1}&_limit=10`
+          ? `?_start=${startId - 1}&_limit=30`
           : "?_start=40&_limit=30";
         const response2 = await instance.get(url);
         const datas2 = await response2.data;
+
+        //로컬스토리지용 아이디 세팅
+        firstMessageRef.current = datas2[0].id || 0;
+        lastMessageRef.current = datas2[datas2.length - 1].id;
+        setPrevMessage(datas2[datas2.length - 1]);
+
         AddMessages(
           datas2,
           messageRef.current,
           chatMembersRef.current,
           "append"
         );
-        setPrevMessage(datas2[datas2.length - 1]);
-
-        //로컬스토리지용 아이디 세팅
-        firstMessageRef.current = datas2[0].id || 0;
-        lastMessageRef.current = datas2[datas2.length - 1].id;
+        if (datas2.length < 10) {
+          await callMessageBefore();
+          messageRef.current.scrollIntoView(false);
+        } else {
+          messageRef.current.scrollIntoView(true);
+        }
 
         //데이터 그리기가 끝난 후 옵저버를 켭니다.
         const options = {
           root: document.querySelector(".text-area"),
-          rootMargin: "100px",
-          threshold: [0, 1],
+          rootMargin: "100px 0px 0px 0px",
+          threshold: 0,
         };
         const callPrevMessages = new IntersectionObserver(
           callMessageBefore,
@@ -210,11 +225,13 @@ const Chat = () => {
           )}
         </div>
         <div className="text-area" ref={scrollRef}>
-          <div className="observer" ref={observerRef}>
-            옵저버입니다. 드러나면 로딩해요.
-          </div>
+          {isPrev && (
+            <div className="observer" ref={observerRef}>
+              옵저버입니다. 드러나면 로딩해요.
+            </div>
+          )}
           <div className="messages" ref={messageRef}>
-            <div className="system-message">
+            <div className="system-message" ref={enterRef}>
               <div className="profile-img"></div>
               <div className="text">입장하였습니다.</div>
               <div className="message-time">nan:nan:nan</div>
