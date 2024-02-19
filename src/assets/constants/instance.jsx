@@ -19,17 +19,13 @@ instance.interceptors.request.use(
 //만료 시 액세스 토큰 재발급 요청하기
 instance.interceptors.response.use(
   async (response) => {
-    return response;
-  },
-  async (error) => {
-    const { response } = error;
-    if (response.status === 401) {
+    if (response.data.status === 401) {
       if (response.data.errorCode === "ACCESS_TOKEN_EXPIRED") {
-        console.log(response.data.message);
         const originalRequest = response.config;
         await tokenRefresh();
-        const token = localStorage.getItem("withcon_token");
-        originalRequest.headers["Authorization"] = `Bearer ${token}`;
+        originalRequest.headers["Authorization"] = `Bearer ${JSON.parse(
+          localStorage.getItem("withcon_token")
+        )}`;
         return axios(originalRequest);
       } else if (
         response.data.errorCode === "MISMATCH_REFRESH_TOKEN" ||
@@ -40,7 +36,14 @@ instance.interceptors.response.use(
         useNavigate("/login/");
         return;
       }
+      return Promise.reject(error);
+    } else {
+      return response;
     }
+  },
+  async (error) => {
+    const { response } = error;
+    console.log(response);
     return Promise.reject(error);
   }
 );
@@ -49,7 +52,7 @@ const tokenRefresh = async () => {
   try {
     const response = await instance.post("/auth/reissue");
     if (response.status === 200) {
-      const token = response.headers["Authorization"].split(" ")[1];
+      const token = response.headers.authorization.split(" ")[1];
       localStorage.setItem("withcon_token", JSON.stringify(token));
     }
   } catch (error) {
