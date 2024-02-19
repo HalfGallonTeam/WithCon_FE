@@ -41,21 +41,44 @@ const Signup = () => {
           username: data.userId,
         }
       );
+
       if (response.status === 200) {
         setDisUsable((prev) => ({ ...prev, ["username"]: true }));
         setMsgs((prev) => ({
           ...prev,
-          ["userIdMsg"]: "사용 가능한 아이디입니다.",
+          ["userIdMsg"]: "사용가능한 아이디 입니다.",
         }));
-      } else if (response.status === 409) {
-        setDisUsable((prev) => ({ ...prev, ["username"]: false }));
-        setMsgs((prev) => ({
-          ...prev,
-          ["userIdMsg"]: "이미 존재하는 아이디입니다.",
-        }));
+        setUsables((prevState) => ({ ...prevState, userId: true }));
+      } else {
+        // 다른 상태 코드에 대한 처리
+        console.error("Server returned an error with status:", response.status);
+        console.error("Error data:", response.data);
+        // 예를 들어, 409 상태 코드에 대한 처리를 추가할 수 있습니다.
+        if (response.status === 409) {
+          // 중복 아이디 에러 처리
+          setMsgs((prev) => ({
+            ...prev,
+            ["userIdMsg"]: "이미 존재하는 아이디입니다.",
+          }));
+        }
       }
     } catch (error) {
-      console.error(error, "에러");
+      // 에러 발생 시
+      if (error.response) {
+        // 서버 응답이 있는 경우
+
+        // 예를 들어, 409 상태 코드에 대한 처리를 추가할 수 있습니다.
+        if (error.response.status === 409) {
+          // 중복 아이디 에러 처리
+          setMsgs((prev) => ({
+            ...prev,
+            ["userIdMsg"]: "이미 존재하는 아이디입니다.",
+          }));
+        }
+      } else {
+        // 서버 응답이 없는 경우
+        console.error("Network error:", error.message);
+      }
     }
   };
   const fetchDuplicatePhoneNumber = async () => {
@@ -66,68 +89,56 @@ const Signup = () => {
           phoneNumber: data.phone,
         }
       );
-      console.log(response);
       if (response.status === 200) {
-        setDisUsable((prev) => ({ ...prev, ["username"]: true }));
+        setDisUsable((prev) => ({ ...prev, ["phoneNumber"]: true }));
         setMsgs((prev) => ({
           ...prev,
-          ["userIdMsg"]: "사용 가능한 번호입니다..",
+          ["phoneMsg"]: "사용가능한 핸드폰 번호 입니다.",
         }));
-      } else if (response.status === 409) {
-        setDisUsable((prev) => ({ ...prev, ["username"]: false }));
-        setMsgs((prev) => ({
-          ...prev,
-          ["userIdMsg"]: "이미 존재하는 번호입니다..",
-        }));
+        setUsables((prevState) => ({ ...prevState, phone: true }));
+      } else {
+        if (response.status === 409) {
+          setMsgs((prev) => ({
+            ...prev,
+            ["phoneMsg"]: "이미 존재하는 핸드폰 번호입니다.",
+          }));
+        }
       }
     } catch (error) {
-      console.error(error, "에러");
+      // 에러 발생 시
+      if (error.response) {
+        if (error.response.status === 409) {
+          setMsgs((prev) => ({
+            ...prev,
+            ["phoneMsg"]: "이미 존재하는 핸드폰 번호입니다.",
+          }));
+        }
+      } else {
+        console.error("Network error:", error.message);
+      }
     }
   };
 
   const checkDuplicationId = async (e) => {
     e.preventDefault();
+    if (data.userId === "" || !validateInput("userId", data.userId)) return;
+    setDisUsable((prev) => ({ ...prev, ["username"]: false }));
     await fetchDuplicateUserName();
-    if (data.userId !== "" && !disUsable.username) {
-      setMsgs((prevState) => ({
-        ...prevState,
-        userIdMsg: "이미 존재하는 아이디입니다.",
-      }));
-    } else if (data.userId === "") {
-      setMsgs((prevState) => ({
-        ...prevState,
-        userIdMsg: "아이디를 입력해주세요",
-      }));
-    } else if (validateInput("userId", data.userId) && disUsable.username) {
-      setMsgs((prevState) => ({
-        ...prevState,
-        userIdMsg: "사용가능한 아이디 입니다.",
-      }));
-      setUsables((prevState) => ({ ...prevState, userId: true }));
-    }
+    // if (validateInput("userId", data.userId) && disUsable.username) {
+    //   setUsables((prevState) => ({ ...prevState, userId: true }));
+    // } else return;
   };
 
   const checkDuplicationPhone = async (e) => {
     e.preventDefault();
+    if (data.userId === "" || !validateInput("phone", data.phone)) return;
+    setDisUsable((prev) => ({ ...prev, ["phoneNumber"]: false }));
     await fetchDuplicatePhoneNumber();
-    if (data.phoneNumber !== "" && !disUsable.phoneNumber) {
-      setMsgs((prevState) => ({
-        ...prevState,
-        phoneMsg: "이미 존재하는 번호입니다.",
-      }));
-    } else if (data.phone.length < 13 && !disUsable.p) {
-      setMsgs((prevState) => ({
-        ...prevState,
-        phoneMsg: "번호는 11자리 여야 합니다.",
-      }));
-    } else if (validateInput("phone", data.phone) === true) {
-      setMsgs((prevState) => ({
-        ...prevState,
-        phoneMsg: "사용가능한 핸드폰 번호 입니다.",
-      }));
-
-      setUsables((prevState) => ({ ...prevState, phone: true }));
-    }
+    // if (validateInput("phone", data.phone) && disUsable.phoneNumber) {
+    //   setUsables((prevState) => ({ ...prevState, phone: true }));
+    // } else {
+    //   return;
+    // }
   };
 
   const checkPw = (e) => {
