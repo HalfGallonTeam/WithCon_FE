@@ -6,7 +6,8 @@ import logo from "../../assets/images/withconLogo.png";
 import { favorites } from "../../assets/constants/atoms";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { userIn } from "../../assets/constants/atoms";
-import { BiBell } from "react-icons/bi";
+
+import Notification from "../mypage/Notification";
 
 const Header = () => {
   const setFavoritePerformances = useSetRecoilState(favorites);
@@ -72,10 +73,7 @@ const Header = () => {
                 <button className="login-button" onClick={() => setOpen(!open)}>
                   테스터 님
                 </button>
-                <div className="alarm-area">
-                  <BiBell size={24} className="bell" />
-                  <span>1</span>
-                </div>
+                <Notification />
               </div>
             ) : (
               <>

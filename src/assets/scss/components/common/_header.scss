@@ -61,6 +61,51 @@
         padding: 0px 3px;
         background-color: white;
       }
+      .alarm-list-container {
+        position: absolute;
+        top: 30px;
+        right: 4px;
+        width: 250px;
+        height: 300px;
+        z-index: 99;
+        background: white;
+        box-shadow: 0px 4px 32px 0 rgba(0, 0, 0, 0.1);
+        .list-top {
+          text-align: center;
+          font-size: 14px;
+          padding: 5px;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+          font-weight: 700;
+        }
+      }
+      .alarm-list {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        border-radius: 16px;
+        font-size: 10px;
+        max-height: 270px;
+        overflow-y: auto;
+        transition: overflow 0.3s;
+
+        .alarm-contents {
+          width: 100%;
+          padding: 10px;
+          display: flex;
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+          .alarm-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 5px;
+          }
+          .delete-btn {
+            font-size: 10px;
+          }
+        }
+      }
     }
   }
 
