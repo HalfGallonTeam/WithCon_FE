@@ -39,19 +39,15 @@ const ConLists = () => {
   useEffect(() => {
     const getInfos = async () => {
       try {
-        /**MUSICAL("뮤지컬"),
-  CONCERT("콘서트"),
-  THEATER("연극");
-  ALL("모두")*/
-        let request = `/performance`;
-        request += keyword ? `/search?keyword=${keyword}` : "";
-        request += category ? `?genre=${category}` : "";
-        request += `&_page=${pages}&_limit=${PAGE.limit}`;
+        let request = `/performance?`;
+        request += keyword ? `keyword=${keyword}&` : "";
+        request += category ? `genre=${category}&` : "";
+        request += `_page=${pages}&_limit=${PAGE.limit}`;
 
         const response = await instance.get(request);
         const datas = await response.data;
-        setInfos(datas);
-        const length = response.headers["x-total-count"];
+        setInfos(datas.content);
+        const length = datas.totalPages * datas.size;
         if (length !== totalCount) {
           setTotalCount(length);
         }

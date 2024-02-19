@@ -27,8 +27,8 @@ const MyConcert = () => {
         const request = `/performance/favorite?_page=${pages}&_limit=${PAGE.limit}`;
         const response = await instance.get(request);
         const datas = await response.data;
-        setInfos(datas);
-        const length = response.headers["x-total-count"];
+        setInfos(datas.content);
+        const length = datas.totalPages * datas.size;
         if (length !== totalCount) {
           setTotalCount(length);
         }

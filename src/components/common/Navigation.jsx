@@ -7,15 +7,15 @@ const Navigation = (props) => {
   const search = props.search;
   const nav = useRef(null);
   const selected = useRef(null);
-  const regCategory = /category=[a-z]+/g;
+  const regCategory = /category=[A-Z]+/g;
   const regPage1 = /&page=[0-9]+/g;
 
   const navButtons = [];
   const navValues = [
-    ["all", "전체"],
-    ["concert", "콘서트"],
-    ["musical", "뮤지컬"],
-    ["play", "연극"],
+    ["ALL", "전체"],
+    ["CONCERT", "콘서트"],
+    ["MUSICAL", "뮤지컬"],
+    ["THEATER", "연극"],
   ];
 
   navValues.map((value) => {
