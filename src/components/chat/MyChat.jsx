@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import ChatRoom from "./ChatRoom";
 import Paging from "../common/Paging";
-import instance from "../../assets/constants/instance";
+import setLists from "../../assets/tools/setLists";
 
 const MyChat = () => {
   const [datas, setData] = useState([]);
@@ -17,19 +17,14 @@ const MyChat = () => {
       try {
         let url = "/chatRoom/member";
         url += `?_page=${pages}&_limit=10`;
-        const response = await instance.get(url);
-        setData(response.data);
-        const length = response.headers["x-total-count"];
-        if (length !== totalCount) {
-          setTotalCount(length);
-        }
+        await setLists(url, setData, totalCount, setTotalCount);
       } catch (error) {
         console.error("데이터오류", error);
       }
     };
     getData();
     setCurrentPage(pages);
-  }, []);
+  }, [url]);
 
   const chatRooms = [];
   datas.map((data) => {

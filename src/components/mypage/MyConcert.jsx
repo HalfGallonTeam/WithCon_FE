@@ -4,6 +4,7 @@ import ConcertCard from "../concert/ConcertCard";
 import Paging from "../common/Paging";
 import instance from "../../assets/constants/instance";
 import PAGE from "../../assets/constants/page";
+import setLists from "../../assets/tools/setLists";
 
 const MyConcert = () => {
   const [infos, setInfos] = useState([]);
@@ -16,22 +17,8 @@ const MyConcert = () => {
   useEffect(() => {
     const getInfos = async () => {
       try {
-        /**찜한 공연 리스트 조회
-        let memberId = await instance.get("/member").data["username"];
-        let urlFavorite = `/member/${memberId}/performance`;
-        urlFavorite += `?_page=${page}&_limit=${PAGE.limit}`;
-        let favorite = await instance.get(urlFavorite).data;
-        //response형식이 List<performanceDto>이므로 완벽한 공연정보 리스트일 것.
-        //(끝)찜한 공연 리스트 조회*/
-
-        const request = `/performance/favorite?_page=${pages}&_limit=${PAGE.limit}`;
-        const response = await instance.get(request);
-        const datas = await response.data;
-        setInfos(datas.content);
-        const length = datas.totalPages * datas.size;
-        if (length !== totalCount) {
-          setTotalCount(length);
-        }
+        const url = `/performance/favorite?_page=${pages}&_limit=${PAGE.limit}`;
+        await setLists(url, setInfos, totalCount, setTotalCount);
       } catch (error) {
         console.error(error, "에러");
       }

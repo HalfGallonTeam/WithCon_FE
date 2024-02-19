@@ -5,6 +5,7 @@ import Navigation from "../common/Navigation";
 import Paging from "../common/Paging";
 import PAGE from "../../assets/constants/page";
 import instance from "../../assets/constants/instance";
+import setLists from "../../assets/tools/setLists";
 import { favorites, userIn } from "../../assets/constants/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 
@@ -39,25 +40,18 @@ const ConLists = () => {
   useEffect(() => {
     const getInfos = async () => {
       try {
-        let request = `/performance?`;
-        request += keyword ? `keyword=${keyword}&` : "";
-        request += category ? `genre=${category}&` : "";
-        request += `_page=${pages}&_limit=${PAGE.limit}`;
-
-        const response = await instance.get(request);
-        const datas = await response.data;
-        setInfos(datas.content);
-        const length = datas.totalPages * datas.size;
-        if (length !== totalCount) {
-          setTotalCount(length);
-        }
+        let url = `/performance?`;
+        url += keyword ? `keyword=${keyword}&` : "";
+        url += category ? `genre=${category}&` : "";
+        url += `_page=${pages}&_limit=${PAGE.limit}`;
+        await setLists(url, setInfos, totalCount, setTotalCount);
       } catch (error) {
         console.error(error, "에러");
       }
     };
     getInfos();
     setCurrentPage(pages);
-  }, [category, keyword, pages]);
+  }, [url]);
 
   const concertCards = [];
   infos.map((info, index) => {
