@@ -3,7 +3,6 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import instance from "../../assets/constants/instance";
 import ChatMessageForm from "./ChatMessageForm";
 import ChatToggle from "./ChatToggle";
-import basicProfile from "../../assets/images/profile2.jpg";
 import AddMessages from "./AddMessages";
 
 //컴포넌트 리렌더링을 막기 위한 조치
@@ -12,23 +11,12 @@ const basic = {
   roomName: "토요일 콘서트 같이 가자요... 제발요",
   performanceName: "리렌더링용 공연이름",
   userCount: "1",
-  members: [
-    {
-      email: "tester@test.com",
-      username: "abcd7787",
-      password: "password",
-      loginType: "HOME",
-      nickName: "위콘2",
-      phoneNumber: "010-7774-4567",
-      profileImage: basicProfile,
-    },
-  ],
+  members: [],
 };
 
 const Chat = () => {
   const [prevMessage, setPrevMessage] = useState(null);
   const [chatInitial, setChatInitial] = useState(basic);
-  const [chatMembers, setChatMembers] = useState([]);
   const [sendButton, setSendButton] = useState(false);
   const [talker, setTalker] = useState("me"); //지울 것입니다.
   const [toggle, setToggle] = useState(false);
@@ -36,6 +24,7 @@ const Chat = () => {
   const messageRef = useRef(null);
   const scrollRef = useRef(null);
   const textRef = useRef(null);
+  const chatMembersRef = useRef([]);
   const firstMessageRef = useRef(null);
   const lastMessageRef = useRef(null);
   let firstSet = false;
@@ -57,9 +46,18 @@ const Chat = () => {
     const response = await instance.get(url);
     const datas = await response.data;
     firstMessageRef.current = datas[0].id;
-    AddMessages(datas, messageRef.current, chatMembers, "prepend");
+    AddMessages(datas, messageRef.current, chatMembersRef.current, "prepend");
   };
-  const callPrevMessages = new IntersectionObserver(callMessageBefore);
+  const callPrevMessages = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      console.log("entry", entry);
+      if (!entry.isIntersecting) return;
+      //entry가 intersecting중이 아니라면 구현하지 않는다.
+
+      console.log("observer", observer);
+      callMessageBefore();
+    });
+  });
 
   const toggleOpen = (e) => {
     e.stopPropagation();
@@ -121,8 +119,8 @@ const Chat = () => {
         //기본 채팅방 정보 설정
         const response = await instance.get("chatRoomEnter/1");
         const datas = await response.data;
-        setChatMembers(datas.members);
-        datas.member = [];
+        chatMembersRef.current = datas.members;
+        datas.members = [];
         setChatInitial(datas);
 
         //입장 초기 메세지 설정
@@ -133,8 +131,12 @@ const Chat = () => {
           : "?_start=40&_limit=30";
         const response2 = await instance.get(url);
         const datas2 = await response2.data;
-
-        AddMessages(datas2, messageRef.current, chatMembers);
+        AddMessages(
+          datas2,
+          messageRef.current,
+          chatMembersRef.current,
+          "append"
+        );
         setPrevMessage(datas2[datas2.length - 1]);
 
         //로컬스토리지용 아이디 세팅
@@ -177,7 +179,7 @@ const Chat = () => {
     }
     setPrevMessage(datas);
     let profileImage = "";
-    for (const member of chatMembers) {
+    for (const member of chatMembersRef.current) {
       if (member.username === datas.from) {
         profileImage = member.profileImage;
         break;
@@ -202,7 +204,7 @@ const Chat = () => {
           {toggle && (
             <ChatToggle
               setToggle={setToggle}
-              members={chatMembers}
+              members={chatMembersRef.current}
               creator={chatInitial.creator}
               me={talker}
             />
