@@ -7,6 +7,8 @@ import { favorites } from "../../assets/constants/atoms";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { userIn } from "../../assets/constants/atoms";
 
+import Notification from "../mypage/Notification";
+
 const Header = () => {
   const setFavoritePerformances = useSetRecoilState(favorites);
   const [isLogin, setIsLogin] = useRecoilState(userIn);
@@ -67,9 +69,12 @@ const Header = () => {
           </h1>
           <div className="login-area">
             {isLogin ? (
-              <button className="login-button" onClick={() => setOpen(!open)}>
-                테스터 님
-              </button>
+              <div className="login-me">
+                <button className="login-button" onClick={() => setOpen(!open)}>
+                  테스터 님
+                </button>
+                <Notification />
+              </div>
             ) : (
               <>
                 <button
