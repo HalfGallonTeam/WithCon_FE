@@ -71,7 +71,7 @@ const Header = () => {
       return;
     }
     e.target.keyword.value = "";
-    navigate(`/performance/search?category=ALL&keyword=${keyword}`);
+    navigate(`/performance/search?category=all&keyword=${keyword}`);
     return;
   };
   return (

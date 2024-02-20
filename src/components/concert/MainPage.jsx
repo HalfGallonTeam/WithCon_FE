@@ -16,10 +16,10 @@ const MainPage = () => {
       loading = true;
       try {
         const response = await instance.get("/performance/best");
+        console.log("bests", response);
         const datas = await response.data;
         const integer = datas.Integer;
         const res = datas.PerformanceResponse;
-        console.log(datas);
 
         setConcert(res.splice(0, integer[0]));
         setMusical(res.splice(0, integer[1]));
@@ -49,7 +49,7 @@ const MainPage = () => {
       <AdCarousel />
       <div className="container">
         <h2 className="concert-category">
-          <Link to={"/performance?category=CONCERT"}>콘서트</Link>
+          <Link to={"/performance?category=concert"}>콘서트</Link>
         </h2>
         <div className="main-carousel-container">
           <div className="responsible-carousel scroll-x">
@@ -59,7 +59,7 @@ const MainPage = () => {
           </div>
         </div>
         <h2 className="concert-category">
-          <Link to={"/performance?category=MUSICAL"}>뮤지컬</Link>
+          <Link to={"/performance?category=musical"}>뮤지컬</Link>
         </h2>
         <div className="main-carousel-container">
           <div className="responsible-carousel scroll-x">
@@ -69,7 +69,7 @@ const MainPage = () => {
           </div>
         </div>
         <h2 className="concert-category">
-          <Link to={"performance?category=THEATER"}>연극</Link>
+          <Link to={"performance?category=theater"}>연극</Link>
         </h2>
         <div className="main-carousel-container">
           <div className="responsible-carousel scroll-x">

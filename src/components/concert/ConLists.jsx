@@ -16,7 +16,9 @@ const ConLists = () => {
   const url = useLocation();
   const urlSearch = new URLSearchParams(url.search);
   let pages = urlSearch.get("page") || 1;
-  let category = urlSearch.get("category");
+  let category = urlSearch
+    .get("category")
+    ?.replace(/[a-z]/g, (x) => x.toUpperCase());
   let keyword = urlSearch.get("keyword");
   const [favoritePerformances, setFavoritePerformances] =
     useRecoilState(favorites);
