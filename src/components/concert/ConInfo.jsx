@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import instance from "../../assets/constants/instance";
+import KakaoMap from "./Map";
 
 const ConInfo = () => {
   const [infoData, setInfoData] = useState([null]);
@@ -49,10 +50,7 @@ const ConInfo = () => {
           <span>Tel : 12 - 345 - 6789</span>
         </div>
         <div className="map-img">
-          <img
-            src="https://dummyimage.com/550x400/E6E6E6/0011ff"
-            alt="빈 이미지"
-          />
+          <KakaoMap />
         </div>
       </div>
     </div>
