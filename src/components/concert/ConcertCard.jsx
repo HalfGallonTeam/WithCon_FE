@@ -1,25 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import instance from "../../assets/constants/instance";
-import { favorites } from "../../assets/constants/atoms";
-import { useRecoilState } from "recoil";
 
 const ConcertCard = (props) => {
-  const [favoritePerformances, setFavoritePerformances] =
-    useRecoilState(favorites);
-  const [likethis, setLikethis] = useState(false);
+  const [likethis, setLikethis] = useState(props.like);
+  const setFavorites = props.setLike;
   const navigate = useNavigate();
   const info = props.info;
   const className =
     info.status === "END" ? "hot" : info.status === "" ? "hidden" : "";
-
-  useEffect(() => {
-    if (favoritePerformances && favoritePerformances.includes(info.id)) {
-      setLikethis(true);
-    } else {
-      setLikethis(false);
-    }
-  }, [favoritePerformances, info.id]);
 
   const likeChange = async (e) => {
     e.stopPropagation();
@@ -29,19 +18,18 @@ const ConcertCard = (props) => {
     }
 
     try {
+      const savedFavorites = JSON.parse(sessionStorage.getItem("favorites"));
+      let newFavorites = [];
       if (likethis) {
-        const response = await instance.put(`/performance/${info.id}/unlike`);
-        const newFavoritePerformances = [...favoritePerformances];
-        const index = favoritePerformances.indexOf(info.id);
-        if (index > -1) {
-          newFavoritePerformances.splice(index, 1);
-        }
-        setFavoritePerformances(newFavoritePerformances);
+        await instance.put(`/performance/${info.id}/unlike`);
+        newFavorites = savedFavorites.filter((id) => id !== info.id);
       } else {
-        const response = await instance.put(`/performance/${info.id}/like`);
-        setFavoritePerformances([...favoritePerformances, info.id]);
+        await instance.put(`/performance/${info.id}/like`);
+        newFavorites = [...savedFavorites, info.id];
       }
       setLikethis(!likethis);
+      setFavorites(newFavorites);
+      sessionStorage.setItem("favorites", JSON.stringify(newFavorites));
     } catch (error) {
       console.error(error, "에러");
     }

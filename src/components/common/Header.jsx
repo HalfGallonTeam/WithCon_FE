@@ -3,64 +3,27 @@ import { Link, useNavigate } from "react-router-dom";
 import Navigation from "./Navigation";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
-import { favorites, userIn, userData } from "../../assets/constants/atoms";
-import { useRecoilState } from "recoil";
-//import SetFavorites from "../../assets/tools/setFavorites";
 import instance from "../../assets/constants/instance";
-import {
-  isLoginState,
-  myInfoState,
-} from "../../assets/constants/userRecoilState";
-
 import Notification from "../mypage/Notification";
 
 const Header = () => {
-  const [userdata, setUserdata] = useRecoilState(userData);
-  const [favoritePerformance, setFavoritePerformance] =
-    useRecoilState(favorites);
-  // const [isLogin, setIsLogin] = useRecoilState(userIn);
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [myInfo, setMyInfo] = useRecoilState(myInfoState);
+  const [userdata, setUserdata] = useState(null);
 
   //로그인을 판단함
   useEffect(() => {
-    const SetUserdata = async () => {
-      try {
-        // console.log("작동 setuser");
-        const response = await instance.get("/member/me");
-        // console.log(response);
-        const data = await response.data;
-        if (response.status === 200) {
-          setUserdata(userData);
-          setMyInfo(data);
-        }
-      } catch (error) {
-        console.error(error, "에러");
-      }
-    };
     const token = localStorage.getItem("withcon_token");
     if (token) {
-      setIsLogin(true);
-      if (!userdata.id) {
-        SetUserdata();
-      }
-      if (!favoritePerformance) {
-        console.log("setfavorites");
-        //SetFavorites();
-      }
+      const myInfo = JSON.parse(sessionStorage.getItem("userdata"));
+      setUserdata(myInfo);
     }
   }, []);
 
   //로그아웃을 실행함
   const logoutFunc = () => {
     localStorage.removeItem("withcon_token");
-    setIsLogin(false);
-    setFavoritePerformance(null);
-    setUserdata(null);
-    //test
-    setMyInfo(null);
+    //고쳐주세요!
   };
 
   const keywordIn = (e) => {
@@ -92,10 +55,10 @@ const Header = () => {
             </Link>
           </h1>
           <div className="login-area">
-            {isLogin && myInfo ? (
+            {userdata ? (
               <div className="login-me">
                 <button className="login-button" onClick={() => setOpen(!open)}>
-                  {myInfo.nickname}
+                  {userdata.nickname}
                 </button>
                 <Notification />
               </div>
@@ -119,7 +82,7 @@ const Header = () => {
               <ProfileModal
                 logout={logoutFunc}
                 modalOpen={setOpen}
-                info={{ id: "DataTransfer" }}
+                info={JSON.stringify(userdata)}
               />
             )}
           </div>

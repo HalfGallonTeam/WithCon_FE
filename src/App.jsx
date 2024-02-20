@@ -1,6 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { RecoilRoot } from "recoil";
+import instance from "./assets/constants/instance";
 import "./assets/css/styles.css";
+
 import ScrollToTop from "./components/common/ScrollToTop";
 import MainPage from "./components/concert/MainPage";
 import ConLists from "./components/concert/ConLists";
@@ -23,6 +26,28 @@ import ChatPage from "./components/pages/ChatPage";
 import FindPwPage from "./components/pages/FindPwPage";
 
 function App() {
+  const params = useParams();
+
+  //NO recoil YES sessionStorage
+  useEffect(() => {
+    const getUserdata = async () => {
+      const savedUserInfo = JSON.parse(sessionStorage.getItem("userdata"));
+      const savedFavorites = JSON.parse(sessionStorage.getItem("favorites"));
+      if (savedUserInfo && savedFavorites) return;
+
+      try {
+        const response = await instance.get("/member/me");
+        sessionStorage.setItem("userdata", JSON.stringify(response.data));
+        const response2 = await instance.get("/performance/favorite-id");
+        sessionStorage.setItem("favorites", JSON.stringify(response2.data));
+      } catch (error) {
+        console.error(error, "에러");
+      }
+    };
+
+    getUserdata();
+  }, [params]);
+
   return (
     <RecoilRoot>
       <BrowserRouter>

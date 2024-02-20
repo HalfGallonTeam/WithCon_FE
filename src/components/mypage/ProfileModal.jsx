@@ -1,16 +1,13 @@
 import { useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import instance from "../../assets/constants/instance";
-import { useRecoilState } from "recoil";
-import { myInfoState } from "../../assets/constants/userRecoilState";
 import { BsPersonFill } from "react-icons/bs";
 
 const ProfileModal = (props) => {
-  const [myInfo] = useRecoilState(myInfoState);
+  const myInfo = JSON.parse(props.info);
+  const modalOpen = props.modalOpen;
   const location = useLocation();
   const navigate = useNavigate();
-  // const userdata = props.userdata;
-  const modalOpen = props.modalOpen;
   const toggleRef = useRef(null);
 
   useEffect(() => {

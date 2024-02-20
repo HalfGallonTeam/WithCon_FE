@@ -6,8 +6,6 @@ import Paging from "../common/Paging";
 import PAGE from "../../assets/constants/page";
 import instance from "../../assets/constants/instance";
 import setLists from "../../assets/tools/setLists";
-import { favorites, userIn } from "../../assets/constants/atoms";
-import { useRecoilState, useRecoilValue } from "recoil";
 
 const ConLists = () => {
   const [infos, setInfos] = useState([]);
@@ -20,24 +18,28 @@ const ConLists = () => {
     .get("category")
     ?.replace(/[a-z]/g, (x) => x.toUpperCase());
   let keyword = urlSearch.get("keyword");
-  const [favoritePerformances, setFavoritePerformances] =
-    useRecoilState(favorites);
-  const isLogin = useRecoilValue(userIn);
+  const [favoritePerformances, setFavoritePerformances] = useState(
+    JSON.parse(sessionStorage.getItem("favorites"))
+  );
 
   useEffect(() => {
     const getFavoritPerformances = async () => {
-      const response = await instance.get("/performanceFavorite");
-      const datas = await response.data;
-      const performanceIds = [];
-      datas.map((data) => {
-        performanceIds.push(data.id);
-      });
-      setFavoritePerformances(performanceIds);
+      const token = localStorage.getItem("withcon_token");
+      if (!token) return;
+      if (favoritePerformances) return;
+
+      try {
+        const response = await instance.get("/performance/favorite-id");
+        const datas = await response.data;
+        setFavoritePerformances(datas);
+        sessionStorage.setItem("favorites", JSON.stringify(datas));
+      } catch (error) {
+        console.error(error, "에러");
+      }
     };
-    if (isLogin && !favoritePerformances) {
-      getFavoritPerformances();
-    }
-  }, [isLogin, favoritePerformances]);
+
+    getFavoritPerformances();
+  }, []);
 
   useEffect(() => {
     const getInfos = async () => {
@@ -57,7 +59,18 @@ const ConLists = () => {
 
   const concertCards = [];
   infos.map((info, index) => {
-    concertCards.push(<ConcertCard info={info} key={index} />);
+    let like = false;
+    if (favoritePerformances?.includes(info.id)) {
+      like = true;
+    }
+    concertCards.push(
+      <ConcertCard
+        info={info}
+        key={index}
+        like={like}
+        setLike={setFavoritePerformances}
+      />
+    );
   });
   if (!infos.length) {
     concertCards.push(

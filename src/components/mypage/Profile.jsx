@@ -5,15 +5,15 @@ import EditProfileImg from "./EditProfileImg";
 import instance from "../../assets/constants/instance";
 import { validateInput } from "../login/Validate";
 import axios from "axios";
-import { useRecoilState } from "recoil";
-import { myInfoState } from "../../assets/constants/userRecoilState";
 
 const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [usable, setUsable] = useState(false);
   const [msgs, setMsgs] = useState({ nicknameMsg: "", phoneMsg: "" });
-  const [myInfo] = useRecoilState(myInfoState);
+  const [myInfo, setMyInfo] = useState(
+    JSON.parse(sessionStorage.getItem("userdata"))
+  );
   const [data, setData] = useState({
     nickname: myInfo.nickname,
     phoneNumber: myInfo.phoneNumber,
@@ -137,6 +137,12 @@ const Profile = () => {
       const response = await instance.patch("/member", data);
       console.log(response);
       setModalOpen(true);
+
+      const response2 = await instance.get("/member/me");
+      const data2 = await response2.data;
+      sessionStorage.setItem("userdata", JSON.stringify(data2));
+      setMyInfo(data2);
+
       setTimeout(() => {
         setModalOpen(false);
         setEdit(false);

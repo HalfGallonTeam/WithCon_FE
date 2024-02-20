@@ -6,9 +6,6 @@ import ChatToggle from "./ChatToggle";
 import basicProfile from "../../assets/images/profile2.jpg";
 import AddMessages from "./AddMessages";
 import { useParams } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { userData } from "../../assets/constants/atoms";
-import SetUserdata from "../../assets/tools/setUserdata";
 
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
@@ -30,7 +27,7 @@ const basic = {
 };
 
 const Chat = () => {
-  const [userdata, setUserdata] = useRecoilState(userData);
+  const myId = JSON.parse(sessionStorage.getItem("userdata")).id;
   const { chatRoomId } = useParams();
   const [prevMessage, setPrevMessage] = useState(null);
   const [chatInitial, setChatInitial] = useState(basic);
@@ -63,7 +60,7 @@ const Chat = () => {
     const response = await instance.get(url);
     const datas = await response.data;
     firstMessageRef.current = datas[0].id;
-    AddMessages(datas, messageRef.current, chatMembers, "prepend", userdata.id);
+    AddMessages(datas, messageRef.current, chatMembers, "prepend", myId);
   };
   const callPrevMessages = new IntersectionObserver(callMessageBefore);
 
@@ -90,7 +87,7 @@ const Chat = () => {
       const data = {
         performanceId: chatInitial.performanceId,
         chatRoomId: chatRoomId,
-        targetId: userdata.id,
+        targetId: myId,
         messageType: "ENTER",
       };
       instance.post("/notification/chatRoom-event", data);
@@ -133,9 +130,6 @@ const Chat = () => {
       if (firstSet) return;
       firstSet = true;
       try {
-        if (!userdata) {
-          SetUserdata();
-        }
         //기본 채팅방 정보 설정
         const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
         const datas = await response.data;
@@ -152,13 +146,7 @@ const Chat = () => {
         const response2 = await instance.get(url);
         const datas2 = await response2.data;
 
-        AddMessages(
-          datas2,
-          messageRef.current,
-          chatMembers,
-          "append",
-          userdata.id
-        );
+        AddMessages(datas2, messageRef.current, chatMembers, "append", myId);
         setPrevMessage(datas2[datas2.length - 1]);
 
         //로컬스토리지용 아이디 세팅
@@ -184,7 +172,7 @@ const Chat = () => {
     textRef.current.value = "";
     setSendButton(false);
     const newMessage = {
-      memberId: userdata.id,
+      memberId: myId,
       roomId: chatRoomId,
       text: info,
     };
@@ -192,7 +180,7 @@ const Chat = () => {
     const datas = await response.data;
     lastMessageRef.current = datas.id;
     let same = false;
-    if (datas.memberId === userdata.id) {
+    if (datas.memberId === myId) {
       datas.memberId = "me";
     } else {
       if (
@@ -232,7 +220,7 @@ const Chat = () => {
               setToggle={setToggle}
               members={chatMembers}
               creator={chatInitial.managerName}
-              me={userdata.id}
+              me={myId}
               performanceId={chatInitial.performanceId}
             />
           )}

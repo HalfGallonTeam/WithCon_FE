@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import SetUserdata from "../../assets/tools/setUserdata";
-import SetFavorites from "../../assets/tools/setFavorites";
 
 const NaverLogin = () => {
   let isRunning = true;
@@ -35,9 +33,6 @@ const NaverLogin = () => {
         const token = response.headers.authorization.split(" ")[1];
         if (token) {
           localStorage.setItem("withcon_token", JSON.stringify(token));
-          //로그인 시점에서 전역에 유저정보 저장
-          SetUserdata();
-          SetFavorites();
           navigate("/");
         } else {
           window.alert("네이버 로그인에 실패했습니다");
