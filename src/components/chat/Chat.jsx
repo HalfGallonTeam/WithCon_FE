@@ -3,7 +3,6 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import instance from "../../assets/constants/instance";
 import ChatMessageForm from "./ChatMessageForm";
 import ChatToggle from "./ChatToggle";
-import basicProfile from "../../assets/images/profile2.jpg";
 import AddMessages from "./AddMessages";
 
 //컴포넌트 리렌더링을 막기 위한 조치
@@ -12,30 +11,22 @@ const basic = {
   roomName: "토요일 콘서트 같이 가자요... 제발요",
   performanceName: "리렌더링용 공연이름",
   userCount: "1",
-  members: [
-    {
-      email: "tester@test.com",
-      username: "abcd7787",
-      password: "password",
-      loginType: "HOME",
-      nickName: "위콘2",
-      phoneNumber: "010-7774-4567",
-      profileImage: basicProfile,
-    },
-  ],
+  members: [],
 };
 
 const Chat = () => {
+  const [isPrev, setIsPrev] = useState(true);
   const [prevMessage, setPrevMessage] = useState(null);
   const [chatInitial, setChatInitial] = useState(basic);
-  const [chatMembers, setChatMembers] = useState([]);
   const [sendButton, setSendButton] = useState(false);
   const [talker, setTalker] = useState("me"); //지울 것입니다.
   const [toggle, setToggle] = useState(false);
   const observerRef = useRef(null);
   const messageRef = useRef(null);
   const scrollRef = useRef(null);
+  const enterRef = useRef(null);
   const textRef = useRef(null);
+  const chatMembersRef = useRef([]);
   const firstMessageRef = useRef(null);
   const lastMessageRef = useRef(null);
   let firstSet = false;
@@ -51,15 +42,20 @@ const Chat = () => {
 
   //이전 메세지 호출 함수. id 숫자 계산해서 요청.
   const callMessageBefore = async () => {
-    if (firstMessageRef.current === 1) return;
+    if (firstMessageRef.current === 1) {
+      setIsPrev(false);
+      return;
+    }
     let url = "/chatMessages";
     url += `?_start=${Math.max(0, firstMessageRef.current - 11)}&_limit=10`;
     const response = await instance.get(url);
     const datas = await response.data;
+    /**
+     * 나중에는 datas.length < 10 이면 setIsPrev(false)
+     */
     firstMessageRef.current = datas[0].id;
-    AddMessages(datas, messageRef.current, chatMembers, "prepend");
+    AddMessages(datas, messageRef.current, chatMembersRef.current, "prepend");
   };
-  const callPrevMessages = new IntersectionObserver(callMessageBefore);
 
   const toggleOpen = (e) => {
     e.stopPropagation();
@@ -121,27 +117,47 @@ const Chat = () => {
         //기본 채팅방 정보 설정
         const response = await instance.get("chatRoomEnter/1");
         const datas = await response.data;
-        setChatMembers(datas.members);
-        datas.member = [];
+        chatMembersRef.current = datas.members;
+        datas.members = [];
         setChatInitial(datas);
 
         //입장 초기 메세지 설정
         let startId = localStorage.getItem("chat");
         let url = "/chatMessages";
         url += startId
-          ? `?_start=${startId - 1}&_limit=10`
+          ? `?_start=${startId - 1}&_limit=30`
           : "?_start=40&_limit=30";
         const response2 = await instance.get(url);
         const datas2 = await response2.data;
 
-        AddMessages(datas2, messageRef.current, chatMembers);
-        setPrevMessage(datas2[datas2.length - 1]);
-
         //로컬스토리지용 아이디 세팅
         firstMessageRef.current = datas2[0].id || 0;
         lastMessageRef.current = datas2[datas2.length - 1].id;
+        setPrevMessage(datas2[datas2.length - 1]);
+
+        AddMessages(
+          datas2,
+          messageRef.current,
+          chatMembersRef.current,
+          "append"
+        );
+        if (datas2.length < 10) {
+          await callMessageBefore();
+          messageRef.current.scrollIntoView(false);
+        } else {
+          messageRef.current.scrollIntoView(true);
+        }
 
         //데이터 그리기가 끝난 후 옵저버를 켭니다.
+        const options = {
+          root: document.querySelector(".text-area"),
+          rootMargin: "100px 0px 0px 0px",
+          threshold: 0,
+        };
+        const callPrevMessages = new IntersectionObserver(
+          callMessageBefore,
+          options
+        );
         callPrevMessages.observe(observerRef.current);
       } catch (error) {
         console.error(error, "에러");
@@ -177,7 +193,7 @@ const Chat = () => {
     }
     setPrevMessage(datas);
     let profileImage = "";
-    for (const member of chatMembers) {
+    for (const member of chatMembersRef.current) {
       if (member.username === datas.from) {
         profileImage = member.profileImage;
         break;
@@ -202,18 +218,20 @@ const Chat = () => {
           {toggle && (
             <ChatToggle
               setToggle={setToggle}
-              members={chatMembers}
+              members={chatMembersRef.current}
               creator={chatInitial.creator}
               me={talker}
             />
           )}
         </div>
         <div className="text-area" ref={scrollRef}>
-          <div className="observer" ref={observerRef}>
-            옵저버입니다. 드러나면 로딩해요.
-          </div>
+          {isPrev && (
+            <div className="observer" ref={observerRef}>
+              옵저버입니다. 드러나면 로딩해요.
+            </div>
+          )}
           <div className="messages" ref={messageRef}>
-            <div className="system-message">
+            <div className="system-message" ref={enterRef}>
               <div className="profile-img"></div>
               <div className="text">입장하였습니다.</div>
               <div className="message-time">nan:nan:nan</div>
