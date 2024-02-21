@@ -16,12 +16,12 @@ const MainPage = () => {
       loading = true;
       try {
         const response = await instance.get(
-          "/performance/best?genre=CONCERT,MUSICAL,THEATER&size"
+          "/performance/best?genre=CONCERT,MUSICAL,THEATER&size=5"
         );
         console.log("bests", response);
         const datas = await response.data;
-        const integer = datas.Integer;
-        const res = datas.PerformanceResponse;
+        const integer = datas.parts;
+        const res = datas.performanceResponses;
 
         setConcert(res.splice(0, integer[0]));
         setMusical(res.splice(0, integer[1]));
