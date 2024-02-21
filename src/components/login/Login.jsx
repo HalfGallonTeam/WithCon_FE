@@ -61,11 +61,8 @@ const Login = () => {
         username: id,
         password: pw,
       });
+      console.log(response);
       const token = response.headers.authorization;
-      if (!token) {
-        window.alert("올바르지 않은 응답입니다. 다시 시도해주세요");
-        return;
-      }
       localStorage.setItem("withcon_token", JSON.stringify(token));
       const response2 = await instance.get("/member/me");
       setMyinfo(response2.data);

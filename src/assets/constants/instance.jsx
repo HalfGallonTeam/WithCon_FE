@@ -39,7 +39,9 @@ instance.interceptors.response.use(
         response.data.errorCode === "MISMATCH_REFRESH_TOKEN" ||
         response.data.errorCode === "NOT_EXIST_REFRESH_TOKEN"
       ) {
-        localStorage.clear();
+        localStorage.removeItem("withcon_token");
+        localStorage.removeItem("favorites");
+        sessionStorage.clear();
         window.alert("세션이 만료되었습니다. 로그인해주세요.");
         useNavigate("/login/");
         return;

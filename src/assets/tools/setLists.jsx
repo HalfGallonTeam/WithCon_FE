@@ -4,7 +4,7 @@ const setLists = async (request, setInfos, totalCount, setTotalCount) => {
   const response = await instance.get(request);
   const datas = await response.data;
   setInfos(datas.content);
-  const length = datas.totalPages * datas.size;
+  const length = datas.totalElements;
   if (length !== totalCount) {
     setTotalCount(length);
   }

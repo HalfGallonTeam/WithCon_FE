@@ -21,10 +21,10 @@ const ConcertCard = (props) => {
       const savedFavorites = JSON.parse(localStorage.getItem("favorites"));
       let newFavorites = [];
       if (likethis) {
-        await instance.put(`/performance/${info.id}/unlike`);
+        await instance.delete(`/performance/${info.id}/unlike`);
         newFavorites = savedFavorites.filter((id) => id !== info.id);
       } else {
-        await instance.put(`/performance/${info.id}/like`);
+        await instance.post(`/performance/${info.id}/like`);
         newFavorites = [...savedFavorites, info.id];
       }
       setLikethis(!likethis);

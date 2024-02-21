@@ -35,11 +35,6 @@ const NaverLogin = () => {
         });
         console.log(response);
         const token = response.headers.authorization;
-        if (!token) {
-          window.alert("네이버 로그인에 실패했습니다");
-          navigate("/login");
-          return;
-        }
         localStorage.setItem("withcon_token", JSON.stringify(token));
         const response2 = await instance.get("/member/me");
         setMyinfo(response2.data);
