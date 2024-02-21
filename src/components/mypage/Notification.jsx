@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 // import Stomp from "stompjs";
 import { BiBell } from "react-icons/bi";
 import instance from "../../assets/constants/instance";
+import { EventSourcePolyfill } from "event-source-polyfill";
 
 const Notification = () => {
   const [alarmListOpen, setAlarmListOpen] = useState(false);
@@ -30,84 +31,73 @@ const Notification = () => {
 
     e.stopPropagation();
   };
-
-  // const [client, setClient] = useState(null);
-  // const [data, setData] = useState([]);
-  // useEffect(() => {
-  //   //websocket 연결 설정
-  //   const socket = new SockJS("엔드포인트");
-  //   const stomp = Stomp.overTCP(socket);
-  //   stomp.connect({}, () => {
-  //     setClient(stomp);
-  //     // 로그인 후 이전 메시지 받아오는 쪽
-  //     stomp.subscribe("/user/queue/notifications", (message) => {
-  //       const notification = JSON.parse(message.body);
-  //       //받아온 메세지 로직
-  //       setData((prev) => [...prev, notification]);
-  //     });
-  //   });
-  //   return () => {
-  //     if (stomp.connected) {
-  //       stomp.disconnect();
-  //     }
-  //   };
-  // }, []);
-
   //SSE관련 콬드
   const [notifications, setNotifications] = useState([]);
   const clickDelete = (list) => {
     setNotifications((prev) => prev.filter((item) => item !== list));
   };
+  //테스트
+  const accessToken = JSON.parse(localStorage.getItem("withcon_token"));
   useEffect(() => {
-    /*     SSE 접속 => feat/api에 사용
-    const accessToken = localStorage.getItem("withcon_token");
-    const eventSource = new EventSource(
-      "http://localhost:3001/notification/subscribe",
-      {
-        header: {
+    // SSE 접속 => feat/api에 사용
+    const lastEventId = localStorage.getItem("chat");
+    const EventSource = EventSourcePolyfill;
+    if (accessToken) {
+      const eventSource = new EventSource("/api/notification/subscribe", {
+        headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Last-Event-ID": "lastID",
+          // "Last-Event-ID": lastEventId,
+          "Content-Type": "text/event-stream",
+          heartbeatTimeout: 6000000,
         },
-      }
-    ); */
-    const eventSource = new EventSource(
-      "http://localhost:3001/notification/subscribe"
-    );
+      });
 
-    eventSource.onmessage = (event) => {
-      const newNotification = JSON.parse(event.data).message;
-      setNotifications((prevNotifications) => [
-        ...prevNotifications,
-        newNotification,
-      ]);
-    };
+      // const eventSource = new EventSource("/api/notification/subscribe", {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //     "Last-Event-ID": lastEventId,
+      //     "Content-Type": "text/event-stream; charset=UTF-8",
+      //   },
+      // });
+      // const eventSource = new EventSource(
+      //   "http://localhost:3001/notification/subscribe"
+      // );
 
-    eventSource.onerror = (error) => {
-      console.error("SSE Error:", error);
-      eventSource.close();
-    };
+      eventSource.onmessage = (event) => {
+        const newNotification = event.data;
 
-    return () => {
-      //SSE 연결 해제
-      eventSource.close();
-    };
-  }, []);
-  useEffect(() => {
-    //초기 로그인 시점에 이전 알림 데이터 가졍오기
-    const fetchPrevNotifications = async () => {
-      try {
-        const response = await instance.get("/notifications");
-        console.log(response);
-        const data = await response.data.message;
-        setNotifications(data);
-      } catch (error) {
-        console.error("에러난다 SSE", error);
-      }
-    };
-    if (isLogin) {
-      fetchPrevNotifications();
+        // const newNotification = JSON.parse(event.data).message;
+        setNotifications((prevNotifications) => [
+          ...prevNotifications,
+          newNotification,
+        ]);
+
+        console.log(newNotification);
+      };
+
+      eventSource.onerror = (error) => {
+        console.error("SSE Error:", error);
+        eventSource.close();
+      };
+
+      return () => {
+        //SSE 연결 해제
+        eventSource.close();
+      };
     }
-  }, [isLogin]);
+  }, [accessToken]);
+
+  //알림설정 부분
+  const fetchPrevNotifications = async () => {
+    try {
+      const response = await instance.get("/notifications");
+      console.log(response);
+      const data = await response.data.message;
+      setNotifications(data);
+    } catch (error) {
+      console.error("에러난다 SSE", error);
+    }
+  };
 
   return (
     <div className="alarm-area" onClick={clickAlarm} ref={listRef}>
