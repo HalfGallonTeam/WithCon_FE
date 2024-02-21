@@ -3,7 +3,7 @@ import instance from "../../assets/constants/instance";
 import ButtonModal from "../common/modal";
 import { BsPersonFill } from "react-icons/bs";
 
-const EditProfileImg = () => {
+const EditProfileImg = ({ edit }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [imgFile, setImgFile] = useState(null);
   const [msg, setMsg] = useState("");
@@ -55,44 +55,51 @@ const EditProfileImg = () => {
       try {
         const response = await instance.get("/userMe");
         const imgFile = await response.profileImage;
-        const imgUrl = await URL.createObjectURL(imgFile);
-        setImageUrl(imgUrl);
-        prevImageUrl(imgUrl);
+        // const imgUrl = await URL.createObjectURL(imgFile);
+        // setImageUrl(imgUrl);
+        // prevImageUrl(imgUrl);
+        prevImageUrl(imgFile);
+        setImageUrl(imgFile);
       } catch (error) {
         console.error("에러", error);
       }
     };
     getUserInfo();
   }, []);
+
   return (
     <div className="edit-img-container">
-      <div className="cancel-btn" onClick={() => setImageUrl(prevImageUrl)}>
-        X
-      </div>
+      {edit ? (
+        <div className="cancel-btn" onClick={() => setImageUrl(prevImageUrl)}>
+          X
+        </div>
+      ) : null}
       {imageUrl !== null ? (
         <img className="profile-img" src={imageUrl} alt="프로필 이미지" />
       ) : (
         <BsPersonFill className="profile-img border-img" />
       )}
-      <div className="edit-profile-img">
-        <input
-          type="file"
-          accept="image/jpeg, image/png, image/gif, image/bmp, image/webp"
-          capture="environment"
-          className="img-input"
-          onChange={handleImgChange}
-          ref={fileInputRef}
-        />
-        <button
-          className="edit-btn"
-          onClick={() => fileInputRef.current.click()}
-        >
-          사진 찾기
-        </button>
-        <button className="edit-btn" onClick={submitImg}>
-          수정 하기
-        </button>
-      </div>
+      {edit === true ? (
+        <div className="edit-profile-img">
+          <input
+            type="file"
+            accept="image/jpeg, image/png, image/gif, image/bmp, image/webp"
+            capture="environment"
+            className="img-input"
+            onChange={handleImgChange}
+            ref={fileInputRef}
+          />
+          <button
+            className="edit-btn"
+            onClick={() => fileInputRef.current.click()}
+          >
+            사진 찾기
+          </button>
+          <button className="edit-btn" onClick={submitImg}>
+            수정 하기
+          </button>
+        </div>
+      ) : null}
       {msgModal ? <ButtonModal text={msg} buttonContainer="0" /> : null}
     </div>
   );
