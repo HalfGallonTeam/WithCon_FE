@@ -27,7 +27,15 @@ instance.interceptors.response.use(
           localStorage.getItem("withcon_token")
         );
         return axios(originalRequest);
-      } else if (
+      }
+    } else {
+      return response;
+    }
+  },
+  async (error) => {
+    const { response } = error;
+    if (response.data.status === 401) {
+      if (
         response.data.errorCode === "MISMATCH_REFRESH_TOKEN" ||
         response.data.errorCode === "NOT_EXIST_REFRESH_TOKEN"
       ) {
@@ -36,14 +44,7 @@ instance.interceptors.response.use(
         useNavigate("/login/");
         return;
       }
-      return Promise.reject(response);
-    } else {
-      return response;
     }
-  },
-  async (error) => {
-    const { response } = error;
-    console.log(response);
     return Promise.reject(error);
   }
 );
