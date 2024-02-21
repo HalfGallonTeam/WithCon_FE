@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import { format } from "date-fns";
 import instance from "../../assets/constants/instance";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 
 const CreateChatRoom = ({ onClose, performanceId }) => {
-  const myId = JSON.parse(sessionStorage.getItem("userdata")).id;
+  const myId = useRecoilValue(myInfoState).username;
   const navigate = useNavigate();
   const [roomName, setRoomName] = useState("");
   const [roomMsg, setRoomMsg] = useState("");

@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import instance from "../../assets/constants/instance";
 import ButtonModal from "../common/modal";
 import { BsPersonFill } from "react-icons/bs";
+import { useRecoilState } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 
 const EditProfileImg = () => {
-  const [myInfo, setMyInfo] = useState(
-    JSON.parse(sessionStorage.getItem("userdata"))
-  );
+  const [myInfo, setMyInfo] = useRecoilState(myInfoState);
   const [imageUrl, setImageUrl] = useState(myInfo.profileImage);
   const [imgFile, setImgFile] = useState(null);
   const [msg, setMsg] = useState("");

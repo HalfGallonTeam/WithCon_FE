@@ -18,7 +18,7 @@ const ConcertCard = (props) => {
     }
 
     try {
-      const savedFavorites = JSON.parse(sessionStorage.getItem("favorites"));
+      const savedFavorites = JSON.parse(localStorage.getItem("favorites"));
       let newFavorites = [];
       if (likethis) {
         await instance.put(`/performance/${info.id}/unlike`);
@@ -29,7 +29,7 @@ const ConcertCard = (props) => {
       }
       setLikethis(!likethis);
       setFavorites(newFavorites);
-      sessionStorage.setItem("favorites", JSON.stringify(newFavorites));
+      localStorage.setItem("favorites", JSON.stringify(newFavorites));
     } catch (error) {
       console.error(error, "에러");
     }

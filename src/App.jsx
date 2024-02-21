@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { RecoilRoot } from "recoil";
+import { useSetRecoilState } from "recoil";
+import { myInfoState } from "./assets/constants/userRecoilState";
 import instance from "./assets/constants/instance";
 import "./assets/css/styles.css";
 
@@ -27,15 +28,25 @@ import FindPwPage from "./components/pages/FindPwPage";
 
 function App() {
   let loading = false;
+  const setMyinfo = useSetRecoilState(myInfoState);
+
   useEffect(() => {
     const getUserdata = async () => {
-      if (!loading) return;
+      if (loading) return;
       loading = true;
+      const token = localStorage.getItem("withcon_token");
+      if (!token) return;
+      const savedUserdata = JSON.parse(
+        sessionStorage.getItem("userdata")
+      )?.myInfo;
+      if (savedUserdata) {
+        setMyinfo(savedUserdata);
+        return;
+      }
+
       try {
         const response = await instance.get("/member/me");
-        sessionStorage.setItem("userdata", JSON.stringify(response.data));
-        const response2 = await instance.get("/performance/favorite-id");
-        sessionStorage.setItem("favorites", JSON.stringify(response2.data));
+        setMyinfo(response.data);
       } catch (error) {
         console.error(error, "에러");
       }
@@ -45,41 +56,39 @@ function App() {
   }, []);
 
   return (
-    <RecoilRoot>
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<HomePage />}>
-            <Route index element={<MainPage />} />
-            <Route path="/performance/" element={<ConLists />} />
-            <Route path="/performance/search/" element={<ConLists />} />
-            <Route path="/title/:concertTitle/" element={<ConDetail />}>
-              <Route index element={<ConInfo />} />
-              <Route path="/title/:concertTitle/chat/" element={<ChatList />} />
-            </Route>
-            <Route path="/mypage/" element={<MyPage />}>
-              <Route index element={<MyConcert />} />
-              <Route path="/mypage/mychat/" element={<MyChat />} />
-            </Route>
-            <Route path="/profile/">
-              <Route index element={<Profile />} />
-              <Route path="/profile/changepassword/" element={<ChangePW />} />
-            </Route>
+    <BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<HomePage />}>
+          <Route index element={<MainPage />} />
+          <Route path="/performance/" element={<ConLists />} />
+          <Route path="/performance/search/" element={<ConLists />} />
+          <Route path="/title/:concertTitle/" element={<ConDetail />}>
+            <Route index element={<ConInfo />} />
+            <Route path="/title/:concertTitle/chat/" element={<ChatList />} />
           </Route>
-          <Route
-            path="/title/:concertTitle/chat/:chatRoomId"
-            element={<ChatPage />}
-          />
+          <Route path="/mypage/" element={<MyPage />}>
+            <Route index element={<MyConcert />} />
+            <Route path="/mypage/mychat/" element={<MyChat />} />
+          </Route>
+          <Route path="/profile/">
+            <Route index element={<Profile />} />
+            <Route path="/profile/changepassword/" element={<ChangePW />} />
+          </Route>
+        </Route>
+        <Route
+          path="/title/:concertTitle/chat/:chatRoomId"
+          element={<ChatPage />}
+        />
 
-          <Route path="/login/" element={<LoginPage />} />
-          <Route path="/kakao-login/" element={<KakaoLogin />} />
-          <Route path="/naver-login/" element={<NaverLogin />} />
-          <Route path="/signup/" element={<SignupPage />} />
-          <Route path="/findpassword/" element={<FindPwPage />} />
-          <Route path="*" element={<PageNotForFound />} />
-        </Routes>
-      </BrowserRouter>
-    </RecoilRoot>
+        <Route path="/login/" element={<LoginPage />} />
+        <Route path="/kakao-login/" element={<KakaoLogin />} />
+        <Route path="/naver-login/" element={<NaverLogin />} />
+        <Route path="/signup/" element={<SignupPage />} />
+        <Route path="/findpassword/" element={<FindPwPage />} />
+        <Route path="*" element={<PageNotForFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -19,7 +19,7 @@ const ConLists = () => {
     ?.replace(/[a-z]/g, (x) => x.toUpperCase());
   let keyword = urlSearch.get("keyword");
   const [favoritePerformances, setFavoritePerformances] = useState(
-    JSON.parse(sessionStorage.getItem("favorites")) || {}
+    JSON.parse(localStorage.getItem("favorites")) || {}
   );
 
   useEffect(() => {

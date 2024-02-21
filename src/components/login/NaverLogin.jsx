@@ -1,9 +1,12 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 import instance from "../../assets/constants/instance";
 import axios from "axios";
 
 const NaverLogin = () => {
+  const setMyinfo = useSetRecoilState(myInfoState);
   let isRunning = true;
   const navigate = useNavigate();
   const url = useLocation();
@@ -39,9 +42,9 @@ const NaverLogin = () => {
         }
         localStorage.setItem("withcon_token", JSON.stringify(token));
         const response2 = await instance.get("/member/me");
-        sessionStorage.setItem("userdata", JSON.stringify(response2.data));
+        setMyinfo(response2.data);
         const response3 = await instance.get("/performance/favorite-id");
-        sessionStorage.setItem("favorites", JSON.stringify(response3.data));
+        localStorage.setItem("favorites", JSON.stringify(response3.data));
         navigate("/");
       } catch (error) {
         console.error(error, "에러");

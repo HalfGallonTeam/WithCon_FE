@@ -6,6 +6,8 @@ import ChatToggle from "./ChatToggle";
 import basicProfile from "../../assets/images/profile2.jpg";
 import AddMessages from "./AddMessages";
 import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
@@ -27,7 +29,7 @@ const basic = {
 };
 
 const Chat = () => {
-  const myId = JSON.parse(sessionStorage.getItem("userdata")).id;
+  const myId = useRecoilValue(myInfoState).username;
   const { chatRoomId } = useParams();
   const [prevMessage, setPrevMessage] = useState(null);
   const [chatInitial, setChatInitial] = useState(basic);

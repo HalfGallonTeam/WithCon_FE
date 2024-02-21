@@ -4,36 +4,27 @@ import Navigation from "./Navigation";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
 import Notification from "../mypage/Notification";
+import { useRecoilValue } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 
 const Header = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [userdata, setUserdata] = useState(null);
+  const myInfo = useRecoilValue(myInfoState);
 
   //로그인을 판단함
   useEffect(() => {
-    const getUserdata = (id) => {
-      const myInfo = JSON.parse(sessionStorage.getItem("userdata"));
-      if (myInfo) {
-        setUserdata(myInfo);
-        clearTimeout(id);
-      }
-    };
     const token = localStorage.getItem("withcon_token");
     if (token) {
-      const myInfo = JSON.parse(sessionStorage.getItem("userdata"));
       setUserdata(myInfo);
-      if (!myInfo) {
-        const id = setInterval(() => {
-          getUserdata(id);
-        }, 100);
-      }
     }
-  }, []);
+  }, [myInfo]);
 
   //로그아웃을 실행함
   const logoutFunc = () => {
     localStorage.removeItem("withcon_token");
+    localStorage.removeItem("favorites");
     sessionStorage.clear();
     setUserdata(null);
   };
@@ -49,16 +40,10 @@ const Header = () => {
     navigate(`/performance/search?category=all&keyword=${keyword}`);
     return;
   };
+
   return (
     <>
       <header className="header">
-        {/* <button
-          onClick={() => {
-            setIsLogin(true);
-          }}
-        >
-          누르면 로그인됩니다
-        </button> */}
         <div className="container">
           <h1 className="title">
             <Link to="/">
