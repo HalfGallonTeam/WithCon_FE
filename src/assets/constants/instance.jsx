@@ -6,7 +6,9 @@ const instance = axios.create({ baseURL: "/api" });
 //헤더 인터셉트로 access_token 추가
 instance.interceptors.request.use(
   (config) => {
-    config.headers["Authorization"] = localStorage.getItem("withcon_token");
+    config.headers["Authorization"] = JSON.parse(
+      localStorage.getItem("withcon_token")
+    );
     return config;
   },
   (error) => {
@@ -21,8 +23,9 @@ instance.interceptors.response.use(
       if (response.data.errorCode === "ACCESS_TOKEN_EXPIRED") {
         const originalRequest = response.config;
         await tokenRefresh();
-        originalRequest.headers["Authorization"] =
-          localStorage.getItem("withcon_token");
+        originalRequest.headers["Authorization"] = JSON.parse(
+          localStorage.getItem("withcon_token")
+        );
         return axios(originalRequest);
       } else if (
         response.data.errorCode === "MISMATCH_REFRESH_TOKEN" ||

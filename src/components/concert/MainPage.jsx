@@ -15,7 +15,9 @@ const MainPage = () => {
       if (loading) return;
       loading = true;
       try {
-        const response = await instance.get("/performance/best");
+        const response = await instance.get(
+          "/performance/best?genre=CONCERT,MUSICAL,THEATER&size"
+        );
         console.log("bests", response);
         const datas = await response.data;
         const integer = datas.Integer;
