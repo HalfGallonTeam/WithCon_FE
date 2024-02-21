@@ -31,7 +31,7 @@ const NaverLogin = () => {
           authorizationCode: code,
         });
         console.log(response);
-        const token = response.headers.authorization.split(" ")[1];
+        const token = response.headers.authorization;
         if (!token) {
           window.alert("네이버 로그인에 실패했습니다");
           navigate("/login");

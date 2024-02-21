@@ -6,9 +6,7 @@ const instance = axios.create({ baseURL: "/api" });
 //헤더 인터셉트로 access_token 추가
 instance.interceptors.request.use(
   (config) => {
-    config.headers["Authorization"] = `Bearer ${JSON.parse(
-      localStorage.getItem("withcon_token")
-    )}`;
+    config.headers["Authorization"] = localStorage.getItem("withcon_token");
     return config;
   },
   (error) => {
@@ -23,9 +21,8 @@ instance.interceptors.response.use(
       if (response.data.errorCode === "ACCESS_TOKEN_EXPIRED") {
         const originalRequest = response.config;
         await tokenRefresh();
-        originalRequest.headers["Authorization"] = `Bearer ${JSON.parse(
-          localStorage.getItem("withcon_token")
-        )}`;
+        originalRequest.headers["Authorization"] =
+          localStorage.getItem("withcon_token");
         return axios(originalRequest);
       } else if (
         response.data.errorCode === "MISMATCH_REFRESH_TOKEN" ||
@@ -36,7 +33,7 @@ instance.interceptors.response.use(
         useNavigate("/login/");
         return;
       }
-      return Promise.reject(error);
+      return Promise.reject(response);
     } else {
       return response;
     }
@@ -52,7 +49,7 @@ const tokenRefresh = async () => {
   try {
     const response = await instance.post("/auth/reissue");
     if (response.status === 200) {
-      const token = response.headers.authorization.split(" ")[1];
+      const token = response.headers.authorization;
       localStorage.setItem("withcon_token", JSON.stringify(token));
     }
   } catch (error) {

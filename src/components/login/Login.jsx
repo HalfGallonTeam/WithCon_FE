@@ -58,7 +58,7 @@ const Login = () => {
         username: id,
         password: pw,
       });
-      const token = response.headers.authorization.split(" ")[1];
+      const token = response.headers.authorization;
       if (!token) {
         window.alert("올바르지 않은 응답입니다. 다시 시도해주세요");
         return;
