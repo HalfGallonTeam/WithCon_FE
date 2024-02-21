@@ -5,6 +5,7 @@ import Navigation from "../common/Navigation";
 import Paging from "../common/Paging";
 import PAGE from "../../assets/constants/page";
 import instance from "../../assets/constants/instance";
+import setLists from "../../assets/tools/setLists";
 import { favorites, userIn } from "../../assets/constants/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 
@@ -15,7 +16,9 @@ const ConLists = () => {
   const url = useLocation();
   const urlSearch = new URLSearchParams(url.search);
   let pages = urlSearch.get("page") || 1;
-  let category = urlSearch.get("category");
+  let category = urlSearch
+    .get("category")
+    ?.replace(/[a-z]/g, (x) => x.toUpperCase());
   let keyword = urlSearch.get("keyword");
   const [favoritePerformances, setFavoritePerformances] =
     useRecoilState(favorites);
@@ -39,29 +42,18 @@ const ConLists = () => {
   useEffect(() => {
     const getInfos = async () => {
       try {
-        /**MUSICAL("뮤지컬"),
-  CONCERT("콘서트"),
-  THEATER("연극");
-  ALL("모두")*/
-        let request = `/performance`;
-        request += keyword ? `/search?keyword=${keyword}` : "";
-        request += category ? `?genre=${category}` : "";
-        request += `&_page=${pages}&_limit=${PAGE.limit}`;
-
-        const response = await instance.get(request);
-        const datas = await response.data;
-        setInfos(datas);
-        const length = response.headers["x-total-count"];
-        if (length !== totalCount) {
-          setTotalCount(length);
-        }
+        let url = `/performance?`;
+        url += keyword ? `keyword=${keyword}&` : "";
+        url += category ? `genre=${category}&` : "";
+        url += `_page=${pages}&_limit=${PAGE.limit}`;
+        await setLists(url, setInfos, totalCount, setTotalCount);
       } catch (error) {
         console.error(error, "에러");
       }
     };
     getInfos();
     setCurrentPage(pages);
-  }, [category, keyword, pages]);
+  }, [url]);
 
   const concertCards = [];
   infos.map((info, index) => {
