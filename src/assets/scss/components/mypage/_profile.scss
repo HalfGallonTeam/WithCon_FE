@@ -53,9 +53,13 @@
       }
       .info-edit-input {
         flex-grow: 1;
-        border: 2px solid $background-color;
+        border-bottom: 2px solid $background-color;
         padding: 8px;
       }
+      .edit-btn {
+        flex-grow: 0.2;
+      }
+
       .edit-password-btn {
         @include btn-square;
         padding: 5px 10px;
@@ -66,6 +70,24 @@
         min-width: 200px;
       }
     }
+    .user-profile-info-container {
+      margin-top: -0px;
+      .info-container {
+        margin: 10px 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        i {
+          padding: 0 8px;
+          font-size: 1.2em;
+        }
+        .info-div {
+          min-height: 38px;
+          padding: 8px;
+          min-width: 200px;
+        }
+      }
+    }
     .user-pw-edit {
       display: flex;
       justify-content: center;
@@ -74,7 +96,10 @@
     .msgs {
       display: block;
       text-align: center;
-      color: blue;
+      color: #e52b50;
+    }
+    .msgs-ok {
+      color: $main-color;
     }
   }
 
@@ -89,7 +114,32 @@
     padding: 3px;
     margin: 4px;
   }
+  .exit-red {
+    color: #e52b50;
+    border: 1px solid #e52b50;
+    &:hover {
+      background-color: #e52b50;
+    }
+    &:active {
+      background-color: #c51e3a;
+    }
+  }
+  .current-password-check {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .current-password-label {
+      margin: 10px 0;
+      color: $main-color-dark;
+    }
+    .current-password {
+      border-bottom: 2px solid $background-color;
+      padding: 8px;
+    }
+  }
 }
+
 @media (max-width: 800px) {
   .profile-edit-form {
     flex-direction: column;

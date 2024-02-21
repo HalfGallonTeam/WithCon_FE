@@ -18,7 +18,6 @@ const PassWordCheck = ({ setEdit, setPassWordCheck }) => {
       console.error("현재 비밀번호 입력관련 에러", error);
     }
   };
-  console.log(password);
   return (
     <div className="current-password-check">
       <label className="current-password-label">

@@ -1,22 +1,33 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import ButtonModal from "../common/modal";
 import EditProfileImg from "./EditProfileImg";
 import instance from "../../assets/constants/instance";
 import { validateInput } from "../login/Validate";
+import PassWordCheck from "./PassWordCheck";
 
 const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [userMeInfo, setUserMeInfo] = useState({});
-  const [usersData, setUsersData] = useState([]);
+  const [exitModal, setExitModal] = useState(false);
+  const [passWordCheck, setPassWordCheck] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [modalText, setModalText] = useState("");
   const [edit, setEdit] = useState(false);
   const [usable, setUsable] = useState(false);
-  const [msgs, setMsgs] = useState({ nicknameMsg: "", phoneMsg: "" });
+  const [userMeInfo, setUserMeInfo] = useState({});
+  const [usersData, setUsersData] = useState([]);
+  const [msgs, setMsgs] = useState({
+    nicknameMsg: "",
+    phoneMsg: "",
+    passwordMsg: "",
+    password2Msg: "",
+  });
+  const [pw2, setPw2] = useState("");
+  const [sameCheck, setSameCheck] = useState(false);
   const [data, setData] = useState({
     nickname: "",
     phoneNumber: "",
+    newPassword: "",
   });
-  const [phoneNumberModal, setPhoneNumberModal] = useState(false);
 
   //모바일 설정 기준으로 세팅 > min-width 설정을 통해서 큰 화면이 보이도록.
   const checkDuplicationPhone = (e) => {
@@ -92,9 +103,11 @@ const Profile = () => {
   const submitInfo = async (e) => {
     e.preventDefault();
     if (userMeInfo[0].phoneNumber !== data.phoneNumber && !usable) {
-      setPhoneNumberModal(true);
+      setModal(true);
+      setModalText("핸드폰 번호의 중복확인을 눌러주세요");
       setTimeout(() => {
-        setPhoneNumberModal(false);
+        setModal(false);
+        setModalText("");
       }, 1000);
     }
     try {
@@ -131,108 +144,228 @@ const Profile = () => {
     getUsersData();
   }, []);
 
+  const deleteUser = async () => {
+    try {
+      const response = await instance.delete("/member");
+      if (response.status === 200) {
+        setModal(true);
+        setModalText("성공적으로 탈퇴되었습니다.");
+        setTimeout(() => {
+          setModal(false);
+          setModalText("");
+        }, 1000);
+      }
+    } catch (error) {
+      console.error("탈퇴에러", error);
+      setModal(true);
+      setModalText("다시 시도 해주세요");
+      setTimeout(() => {
+        setModal(false);
+        setModalText("");
+      }, 1000);
+    }
+    setExitModal(false);
+  };
+  const onClickExit = () => {
+    deleteUser();
+  };
+
+  const passwordChange = (e) => {
+    if (e.target.value !== pw2) {
+      setMsgs((prev) => ({
+        ...prev,
+        ["password2Msg"]: "비밀번호가 같지 않습니다.",
+      }));
+    } else if (e.target.value === pw2) {
+      setMsgs((prev) => ({
+        ...prev,
+        ["password2Msg"]: "",
+      }));
+    }
+    setData((prev) => ({
+      ...prev,
+      ["newPassword"]: e.target.value,
+    }));
+
+    if (e.target.value.length < 8 || e.target.value.length > 12) {
+      setMsgs((prev) => ({
+        ...prev,
+        ["passwordMsg"]: "비밀번호는 8자 이상 12자 이하여야 합니다.",
+      }));
+    } else if (!validateInput("pw", e.target.value)) {
+      setMsgs((prev) => ({
+        ...prev,
+        ["passwordMsg"]:
+          "비밀번호는 영문, 숫자, 특수문자를 조합해서 작성해주세요.",
+      }));
+    } else {
+      setMsgs((prev) => ({
+        ...prev,
+        ["passwordMsg"]: "",
+      }));
+    }
+  };
+  const password2Change = (e) => {
+    setPw2(e.target.value);
+    if (data.newPassword === e.target.value) {
+      setMsgs((prev) => ({ ...prev, ["password2Msg"]: "" }));
+    } else {
+      setMsgs((prev) => ({
+        ...prev,
+        ["password2Msg"]: "비밀번호가 같지 않습니다.",
+      }));
+    }
+  };
+
   return (
-    <>
-      <div className="container">
-        <p className="location-desc">마이페이지 &gt; 프로필 변경</p>
-        <div className="profile-edit-form">
-          <EditProfileImg />
-          <div className="edit-user-info">
-            {edit ? (
-              <form>
-                <div className="info-edit-container">
-                  <i className="bi bi-person" aria-hidden="true"></i>
-                  <input
-                    name="nickname"
-                    type="text"
-                    value={data.nickname}
-                    onChange={onChangeNickName}
-                    className="info-edit-input"
-                    maxLength={10}
-                  />
-                </div>
-                {msgs.nicknameMsg ? (
-                  <span className="msgs">{msgs.nicknameMsg}</span>
-                ) : null}
-                <div className="info-edit-container">
-                  <i className="bi bi-phone" aria-hidden="true"></i>
-                  <input
-                    name="phone"
-                    type="tell"
-                    className="info-edit-input"
-                    value={data.phoneNumber}
-                    onChange={onChangePhone}
-                    maxLength={13}
-                  />
+    <div className="container">
+      <p className="location-desc">마이페이지 &gt; 프로필 변경</p>
+      <div className="profile-edit-form">
+        <EditProfileImg edit={edit} />
+        <div className="edit-user-info">
+          {edit ? (
+            <form>
+              <div className="info-edit-container">
+                <i className="bi bi-person" aria-hidden="true"></i>
+                <input
+                  name="nickname"
+                  type="text"
+                  value={data.nickname}
+                  onChange={onChangeNickName}
+                  className="info-edit-input"
+                  maxLength={10}
+                />
+              </div>
+              {msgs.nicknameMsg ? (
+                <span className="msgs">{msgs.nicknameMsg}</span>
+              ) : null}
+              <div className="info-edit-container">
+                <i className="bi bi-phone" aria-hidden="true"></i>
+                <input
+                  name="phone"
+                  type="tell"
+                  className="info-edit-input"
+                  value={data.phoneNumber}
+                  onChange={onChangePhone}
+                  maxLength={13}
+                />
+                <button
+                  type="buttton"
+                  onClick={checkDuplicationPhone}
+                  className="edit-btn"
+                >
+                  중복 확인
+                </button>
+              </div>
+              {msgs.phoneMsg ? (
+                <span
+                  className={`msgs ${
+                    msgs.phoneMsg === "사용가능한 번호 입니다." ? "msgs-ok" : ""
+                  }`}
+                >
+                  {msgs.phoneMsg}
+                </span>
+              ) : null}
+
+              <div className="info-edit-container">
+                <i className="bi bi-key" aria-hidden="true" />
+                <input
+                  name="password"
+                  type="password"
+                  className="info-edit-input"
+                  placeholder="새로운 비밀번호"
+                  value={data.password}
+                  onChange={passwordChange}
+                  minLength={8}
+                  maxLength={12}
+                />
+              </div>
+              {msgs.passwordMsg !== "" ? (
+                <span className="msgs">{msgs.passwordMsg}</span>
+              ) : null}
+              <div className="info-edit-container">
+                <i className="bi bi-check-all" aria-hidden="true" />
+                <input
+                  name="password2"
+                  type="password"
+                  className="info-edit-input"
+                  placeholder="새로운 비밀번호 확인"
+                  value={pw2}
+                  onChange={password2Change}
+                  minLength={8}
+                  maxLength={12}
+                />
+              </div>
+              {msgs.password2Msg !== "" ? (
+                <span className="msgs">{msgs.password2Msg}</span>
+              ) : null}
+              <div className="user-pw-edit">
+                <button className="edit-btn" onClick={submitInfo}>
+                  적용
+                </button>
+                <button className="edit-btn" onClick={() => setEdit(false)}>
+                  취소
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div className="user-profile-info-container">
+              <div className="info-container">
+                <i className="bi bi-person" aria-hidden="true"></i>
+                <div className="info-div">{userMeInfo[0]?.nickname}</div>
+              </div>
+              <div className="info-container">
+                <i className="bi bi-phone" aria-hidden="true"></i>
+                <div className="info-div">{userMeInfo[0]?.phoneNumber}</div>
+              </div>
+              {passWordCheck ? (
+                <PassWordCheck
+                  setEdit={setEdit}
+                  setPassWordCheck={setPassWordCheck}
+                />
+              ) : (
+                <div className="user-pw-edit">
                   <button
-                    type="buttton"
-                    onClick={checkDuplicationPhone}
                     className="edit-btn"
+                    onClick={() => setPassWordCheck(true)}
                   >
-                    중복 확인
-                  </button>
-                </div>
-                {msgs.phoneMsg ? (
-                  <span className="msgs">{msgs.phoneMsg}</span>
-                ) : null}
-                <div className="info-edit-container">
-                  <Link
-                    to="/profile/changepassword/"
-                    className="edit-password-btn"
-                  >
-                    비밀번호 재설정
-                  </Link>
-                </div>
-                <div className="user-pw-edit">
-                  <button className="edit-btn" onClick={submitInfo}>
-                    적용
-                  </button>
-                  <button className="edit-btn" onClick={() => setEdit(false)}>
-                    취소
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <div>
-                <div className="info-edit-container">
-                  <i className="bi bi-person" aria-hidden="true"></i>
-                  <div className="info-edit-input">
-                    {userMeInfo[0]?.nickname}
-                  </div>
-                </div>
-                <div className="info-edit-container">
-                  <i className="bi bi-phone" aria-hidden="true"></i>
-                  <div className="info-edit-input">
-                    {userMeInfo[0]?.phoneNumber}
-                  </div>
-                </div>
-                <div className="user-pw-edit">
-                  <button className="edit-btn" onClick={() => setEdit(true)}>
                     프로필 수정하기
                   </button>
+                  <button
+                    className="edit-btn exit-red"
+                    onClick={() => setExitModal(true)}
+                  >
+                    회원 탈퇴하기
+                  </button>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
-        {modalOpen ? (
-          <ButtonModal
-            text="수정하시겠습니까?"
-            buttonContainer="2"
-            button1="확인"
-            button2="취소"
-            onClickButton1={() => setModalOpen(false)}
-            onClickButton2={() => setModalOpen(false)}
-          />
-        ) : null}
-        {phoneNumberModal ? (
-          <ButtonModal
-            text="핸드폰 번호의 중복확인을 눌러주세요"
-            buttonContainer="0"
-          />
-        ) : null}
       </div>
-    </>
+      {modalOpen ? (
+        <ButtonModal
+          text="수정하시겠습니까?"
+          buttonContainer="2"
+          button1="확인"
+          button2="취소"
+          onClickButton1={() => setModalOpen(false)}
+          onClickButton2={() => setModalOpen(false)}
+        />
+      ) : null}
+      {exitModal ? (
+        <ButtonModal
+          text="정말 탈퇴하시겠습니까?"
+          textColor="red"
+          buttonContainer="2"
+          button1="확인"
+          button2="취소"
+          onClickButton1={onClickExit}
+          onClickButton2={() => setExitModal(false)}
+        />
+      ) : null}
+      {modal ? <ButtonModal text={modalText} buttonContainer="0" /> : null}
+    </div>
   );
 };
 
