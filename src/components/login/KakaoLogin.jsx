@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import instance from "../../assets/constants/instance";
 import axios from "axios";
 
 const KakaoLogin = () => {
@@ -26,6 +27,10 @@ const KakaoLogin = () => {
         const accessToken = await response.headers.authorization;
         if (accessToken) {
           localStorage.setItem("withcon_token", JSON.stringify(accessToken));
+          const response2 = await instance.get("/member/me");
+          sessionStorage.setItem("userdata", JSON.stringify(response2.data));
+          const response3 = await instance.get("/performance/favorite-id");
+          sessionStorage.setItem("favorites", JSON.stringify(response3.data));
           navigate("/");
         }
       } catch (error) {

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
 import axios from "axios";
+import instance from "../../assets/constants/instance";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -58,10 +59,16 @@ const Login = () => {
         password: pw,
       });
       const token = response.headers.authorization.split(" ")[1];
-      if (token) {
-        localStorage.setItem("withcon_token", JSON.stringify(token));
-        navigate("/");
+      if (!token) {
+        window.alert("올바르지 않은 응답입니다. 다시 시도해주세요");
+        return;
       }
+      localStorage.setItem("withcon_token", JSON.stringify(token));
+      const response2 = await instance.get("/member/me");
+      sessionStorage.setItem("userdata", JSON.stringify(response2.data));
+      const response3 = await instance.get("/performance/favorite-id");
+      sessionStorage.setItem("favorites", JSON.stringify(response3.data));
+      navigate("/");
     } catch (error) {
       if (error.response.status === 400) {
         console.error(error, "에러");

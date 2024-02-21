@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Navigation from "./Navigation";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
-import instance from "../../assets/constants/instance";
 import Notification from "../mypage/Notification";
 
 const Header = () => {
@@ -13,17 +12,30 @@ const Header = () => {
 
   //로그인을 판단함
   useEffect(() => {
+    const getUserdata = (id) => {
+      const myInfo = JSON.parse(sessionStorage.getItem("userdata"));
+      if (myInfo) {
+        setUserdata(myInfo);
+        clearTimeout(id);
+      }
+    };
     const token = localStorage.getItem("withcon_token");
     if (token) {
       const myInfo = JSON.parse(sessionStorage.getItem("userdata"));
       setUserdata(myInfo);
+      if (!myInfo) {
+        const id = setInterval(() => {
+          getUserdata(id);
+        }, 100);
+      }
     }
   }, []);
 
   //로그아웃을 실행함
   const logoutFunc = () => {
     localStorage.removeItem("withcon_token");
-    //고쳐주세요!
+    sessionStorage.clear();
+    setUserdata(null);
   };
 
   const keywordIn = (e) => {

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import instance from "../../assets/constants/instance";
 import axios from "axios";
 
 const NaverLogin = () => {
@@ -31,13 +32,17 @@ const NaverLogin = () => {
         });
         console.log(response);
         const token = response.headers.authorization.split(" ")[1];
-        if (token) {
-          localStorage.setItem("withcon_token", JSON.stringify(token));
-          navigate("/");
-        } else {
+        if (!token) {
           window.alert("네이버 로그인에 실패했습니다");
           navigate("/login");
+          return;
         }
+        localStorage.setItem("withcon_token", JSON.stringify(token));
+        const response2 = await instance.get("/member/me");
+        sessionStorage.setItem("userdata", JSON.stringify(response2.data));
+        const response3 = await instance.get("/performance/favorite-id");
+        sessionStorage.setItem("favorites", JSON.stringify(response3.data));
+        navigate("/");
       } catch (error) {
         console.error(error, "에러");
         window.alert(

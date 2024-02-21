@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import instance from "./assets/constants/instance";
 import "./assets/css/styles.css";
@@ -26,15 +26,11 @@ import ChatPage from "./components/pages/ChatPage";
 import FindPwPage from "./components/pages/FindPwPage";
 
 function App() {
-  const params = useParams();
-
-  //NO recoil YES sessionStorage
+  let loading = false;
   useEffect(() => {
     const getUserdata = async () => {
-      const savedUserInfo = JSON.parse(sessionStorage.getItem("userdata"));
-      const savedFavorites = JSON.parse(sessionStorage.getItem("favorites"));
-      if (savedUserInfo && savedFavorites) return;
-
+      if (!loading) return;
+      loading = true;
       try {
         const response = await instance.get("/member/me");
         sessionStorage.setItem("userdata", JSON.stringify(response.data));
@@ -46,7 +42,7 @@ function App() {
     };
 
     getUserdata();
-  }, [params]);
+  }, []);
 
   return (
     <RecoilRoot>

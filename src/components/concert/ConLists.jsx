@@ -19,27 +19,8 @@ const ConLists = () => {
     ?.replace(/[a-z]/g, (x) => x.toUpperCase());
   let keyword = urlSearch.get("keyword");
   const [favoritePerformances, setFavoritePerformances] = useState(
-    JSON.parse(sessionStorage.getItem("favorites"))
+    JSON.parse(sessionStorage.getItem("favorites")) || {}
   );
-
-  useEffect(() => {
-    const getFavoritPerformances = async () => {
-      const token = localStorage.getItem("withcon_token");
-      if (!token) return;
-      if (favoritePerformances) return;
-
-      try {
-        const response = await instance.get("/performance/favorite-id");
-        const datas = await response.data;
-        setFavoritePerformances(datas);
-        sessionStorage.setItem("favorites", JSON.stringify(datas));
-      } catch (error) {
-        console.error(error, "에러");
-      }
-    };
-
-    getFavoritPerformances();
-  }, []);
 
   useEffect(() => {
     const getInfos = async () => {
