@@ -9,6 +9,7 @@ import { useRecoilState } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
 
 const Profile = () => {
+  /**
   const [modalOpen, setModalOpen] = useState(false);
   const [exitModal, setExitModal] = useState(false);
   const [passWordCheck, setPassWordCheck] = useState(false);
@@ -432,7 +433,8 @@ const Profile = () => {
       ) : null}
       {modal ? <ButtonModal text={modalText} buttonContainer="0" /> : null}
     </div>
-  );
+  );*/
+  return <div>프로필 에러나서 임시로</div>;
 };
 
 export default Profile;
