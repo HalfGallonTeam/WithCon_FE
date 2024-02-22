@@ -74,11 +74,8 @@ const ChatMessageBundle = class {
     this.setPrevMessage = setPrevMessage;
   }
 
+  //이전 메세지 호출 함수. id 숫자 계산해서 요청.
   callMessageBefore = async () => {
-    if (this.firstMessageRef.current <= 1) {
-      this.setIsPrev(false);
-      return;
-    }
     let url = "/chatMessages";
     url += `?_start=${Math.max(
       0,
@@ -86,7 +83,7 @@ const ChatMessageBundle = class {
     )}&_limit=10`;
     const response = await instance.get(url);
     const datas = await response.data;
-    if (datas.length < 10) this.setIsPrev(false); //적절한 쿼리스트링 필요.
+    //if (datas.length < 10) this.setIsPrev(false); //적절한 쿼리스트링 필요.
     this.firstMessageRef.current = datas[0].id;
     AddMessages(
       datas,
@@ -111,10 +108,24 @@ const ChatMessageBundle = class {
       this.firstMessageRef.current = datas2[0]?.id || 0;
       this.lastMessageRef.current = datas2[datas2.length - 1]?.id;
       this.setPrevMessage(datas2[datas2.length - 1]);
+
+      AddMessages(
+        datas2,
+        this.messageRef.current,
+        this.chatMembersRef.current,
+        "append",
+        this.myId
+      );
+      if (datas2.length < 10) {
+        await this.callMessageBefore();
+        this.messageRef.current.scrollIntoView(false);
+      } else {
+        this.messageRef.current.scrollIntoView(true);
+      }
     } catch (error) {
       console.error(error, "에러");
     }
   };
 };
 
-export { ChatMessageBundle, ChatConcentration as default };
+export { ChatMessageBundle, ChatConcentration };

@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-//import instance from "../../assets/constants/instance";
+import instance from "../../assets/constants/instance";
 import ChatMessageForm from "./ChatMessageForm";
 import ChatToggle from "./ChatToggle";
-import AddMessages from "./AddMessages";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
-import axios from "axios";
-import ChatConcentration from "../../assets/tools/chatFunctions";
+import {
+  ChatConcentration,
+  ChatMessageBundle,
+} from "../../assets/tools/chatFunctions";
 
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
@@ -19,16 +20,16 @@ const basic = {
   members: [],
 };
 
-const instance = axios.create({ baseURL: "http://localhost:3000" });
+//const instance = axios.create({ baseURL: "http://localhost:3000" });
 
 const Chat = () => {
-  //const myId = useRecoilValue(myInfoState).username;
+  const myId = useRecoilValue(myInfoState).username;
   const [isPrev, setIsPrev] = useState(true);
   const { chatRoomId } = useParams();
   const [prevMessage, setPrevMessage] = useState(null);
   const [chatInitial, setChatInitial] = useState(basic);
   const [sendButton, setSendButton] = useState(false);
-  const [myId, setTalker] = useState("me"); //지울 것입니다.
+  const [talker, setTalker] = useState("me"); //지울 것입니다.
   const [toggle, setToggle] = useState(false);
   const observerRef = useRef(null);
   const messageRef = useRef(null);
@@ -38,7 +39,15 @@ const Chat = () => {
   const chatMembersRef = useRef([]);
   const firstMessageRef = useRef(null);
   const lastMessageRef = useRef(null);
-  let firstSet = false;
+  const callBundle = new ChatMessageBundle(
+    firstMessageRef,
+    lastMessageRef,
+    messageRef,
+    chatMembersRef,
+    myId,
+    setIsPrev,
+    setPrevMessage
+  );
 
   //현재 채팅을 보낼 수 있는 상태인지 확인합니다.
   const checkSendable = () => {
@@ -47,27 +56,6 @@ const Chat = () => {
     } else if (!textRef.current.value && sendButton) {
       setSendButton(false);
     }
-  };
-
-  //이전 메세지 호출 함수. id 숫자 계산해서 요청.
-  const callMessageBefore = async () => {
-    if (firstMessageRef.current <= 1) {
-      setIsPrev(false);
-      return;
-    }
-    let url = "/chatMessages";
-    url += `?_start=${Math.max(0, firstMessageRef.current - 11)}&_limit=10`;
-    const response = await instance.get(url);
-    const datas = await response.data;
-    if (datas.length < 10) setIsPrev(false); //적절한 쿼리스트링 필요.
-    firstMessageRef.current = datas[0].id;
-    AddMessages(
-      datas,
-      messageRef.current,
-      chatMembersRef.current,
-      "prepend",
-      myId
-    );
   };
 
   const toggleOpen = (e) => {
@@ -93,46 +81,22 @@ const Chat = () => {
   }, []);
 
   //채팅방 초기설정
+  let firstSet = false;
   useEffect(() => {
     const enterChatRoom = async () => {
       if (firstSet) return;
       firstSet = true;
       try {
         //기본 채팅방 정보 설정
-        //const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
-        const response = await instance.get(`/chatRoomEnter/${chatRoomId}`);
+        const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
+        //const response = await instance.get(`/chatRoomEnter/${chatRoomId}`);
         const datas = await response.data;
         chatMembersRef.current = datas.members;
         datas.members = [];
         setChatInitial(datas);
 
         //입장 초기 메세지 설정
-        let startId = localStorage.getItem("chat");
-        let url = "/chatMessages";
-        url += startId
-          ? `?_start=${startId - 1}&_limit=10`
-          : "?_start=1&_limit=30";
-        const response2 = await instance.get(url);
-        const datas2 = await response2.data;
-
-        //로컬스토리지용 아이디 세팅
-        firstMessageRef.current = datas2[0]?.id || 0;
-        lastMessageRef.current = datas2[datas2.length - 1]?.id;
-        setPrevMessage(datas2[datas2.length - 1]);
-
-        AddMessages(
-          datas2,
-          messageRef.current,
-          chatMembersRef.current,
-          "append",
-          myId
-        );
-        if (datas2.length < 10) {
-          await callMessageBefore();
-          messageRef.current.scrollIntoView(false);
-        } else {
-          messageRef.current.scrollIntoView(true);
-        }
+        callBundle.callInitialMessages();
 
         //데이터 그리기가 끝난 후 옵저버를 켭니다.
         const options = {
@@ -141,7 +105,7 @@ const Chat = () => {
           threshold: 0,
         };
         const callPrevMessages = new IntersectionObserver(
-          callMessageBefore,
+          callBundle.callMessageBefore,
           options
         );
         callPrevMessages.observe(observerRef.current);
@@ -154,20 +118,17 @@ const Chat = () => {
 
   const changeTalker = () => {
     //이 버튼은 서버와 연결되면 사라질 것입니다.
-    if (myId === "me") setTalker("other");
+    if (talker === "me") setTalker("other");
     else setTalker("me");
   };
   const sendMessage = async () => {
     const info = textRef.current.value;
     textRef.current.value = "";
     setSendButton(false);
-    //지울 거에요
-    const time = new Date().getTime();
-    //(끝)지울 거에요
+    //const time = new Date().getTime();
     const newMessage = {
       memberId: myId,
       message: info,
-      sendAt: time,
     };
     const response = await instance.post("/chatMessages", newMessage);
     const datas = await response.data;
@@ -241,7 +202,9 @@ const Chat = () => {
             보내기
           </button>
         </div>
-        <button onClick={changeTalker}>메세지 보내는 사람:&nbsp;{myId}</button>
+        <button onClick={changeTalker}>
+          메세지 보내는 사람:&nbsp;{talker}
+        </button>
       </div>
     </div>
   );
