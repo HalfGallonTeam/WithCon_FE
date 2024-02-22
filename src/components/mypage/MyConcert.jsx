@@ -17,7 +17,9 @@ const MyConcert = () => {
   useEffect(() => {
     const getInfos = async () => {
       try {
-        const url = `/performance/favorite?_page=${pages}&_limit=${PAGE.limit}`;
+        const url = `/performance/favorite?page=${pages - 1}&limit=${
+          PAGE.limit
+        }`;
         await setLists(url, setInfos, totalCount, setTotalCount);
       } catch (error) {
         console.error(error, "에러");

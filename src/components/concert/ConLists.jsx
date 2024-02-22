@@ -28,7 +28,7 @@ const ConLists = () => {
         let url = `/performance?`;
         url += keyword ? `keyword=${keyword}&` : "";
         url += category ? `genre=${category}&` : "";
-        url += `_page=${pages}&_limit=${PAGE.limit}`;
+        url += `page=${pages - 1}&limit=${PAGE.limit}`;
         await setLists(url, setInfos, totalCount, setTotalCount);
       } catch (error) {
         console.error(error, "에러");

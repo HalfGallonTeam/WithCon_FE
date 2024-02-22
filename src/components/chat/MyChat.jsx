@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import ChatRoom from "./ChatRoom";
 import Paging from "../common/Paging";
 import setLists from "../../assets/tools/setLists";
+import PAGE from "../../assets/constants/page";
 
 const MyChat = () => {
   const [datas, setData] = useState([]);
@@ -16,7 +17,7 @@ const MyChat = () => {
     const getData = async () => {
       try {
         let url = "/chatRoom/member";
-        url += `?_page=${pages}&_limit=10`;
+        url += `?page=${pages - 1}&limit=${PAGE.limit}`;
         await setLists(url, setData, totalCount, setTotalCount);
       } catch (error) {
         console.error("데이터오류", error);

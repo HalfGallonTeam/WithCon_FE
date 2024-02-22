@@ -5,6 +5,7 @@ import CreateChatRoom from "./CreateChatRoom";
 import Paging from "../common/Paging";
 import instance from "../../assets/constants/instance";
 import setLists from "../../assets/tools/setLists";
+import PAGE from "../../assets/constants/page";
 
 const ChatList = () => {
   const [tagInfo, setTagInfo] = useState([]);
@@ -48,7 +49,7 @@ const ChatList = () => {
       try {
         let url = "/chatRoom/performance/";
         url += concertTitle;
-        url += `?_page=${pages}&_limit=10`;
+        url += `?page=${pages - 1}&limit=${PAGE.limit}`;
         await setLists(url, setData, totalCount, setTotalCount);
       } catch (error) {
         console.error("데이터오류", error);
