@@ -27,8 +27,10 @@ const ConcertCard = (props) => {
         await instance.post(`/performance/${info.id}/like`);
         newFavorites = [...savedFavorites, info.id];
       }
+      if (setFavorites) {
+        setFavorites(newFavorites);
+      }
       setLikethis(!likethis);
-      setFavorites(newFavorites);
       localStorage.setItem("favorites", JSON.stringify(newFavorites));
     } catch (error) {
       console.error(error, "에러");

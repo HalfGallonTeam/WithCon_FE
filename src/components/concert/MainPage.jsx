@@ -5,6 +5,9 @@ import AdCarousel from "./AdCarousel";
 import ConcertCard from "./ConcertCard";
 
 const MainPage = () => {
+  const [favorites, setFavorites] = useState(
+    JSON.parse(localStorage.getItem("favorites"))
+  );
   const [concert, setConcert] = useState([]);
   const [musical, setMusical] = useState([]);
   const [play, setPlay] = useState([]);
@@ -37,13 +40,25 @@ const MainPage = () => {
   const musicalArr = [];
   const playArr = [];
   concert.map((info, index) => {
-    concertArr.push(<ConcertCard info={info} key={index} />);
+    let like = false;
+    if (favorites && favorites.includes(info.id + "")) {
+      like = true;
+    }
+    concertArr.push(<ConcertCard info={info} key={index} like={like} />);
   });
   musical.map((info, index) => {
-    musicalArr.push(<ConcertCard info={info} key={index} />);
+    let like = false;
+    if (favorites && favorites.includes(info.id + "")) {
+      like = true;
+    }
+    musicalArr.push(<ConcertCard info={info} key={index} like={like} />);
   });
   play.map((info, index) => {
-    playArr.push(<ConcertCard info={info} key={index} />);
+    let like = false;
+    if (favorites && favorites.includes(info.id + "")) {
+      like = true;
+    }
+    playArr.push(<ConcertCard info={info} key={index} like={like} />);
   });
 
   return (

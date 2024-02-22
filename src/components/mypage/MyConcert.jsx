@@ -31,7 +31,7 @@ const MyConcert = () => {
 
   const concertCards = [];
   infos.map((info, index) => {
-    concertCards.push(<ConcertCard info={info} key={index} />);
+    concertCards.push(<ConcertCard info={info} key={index} like={true} />);
   });
   if (!infos.length) {
     concertCards.push(

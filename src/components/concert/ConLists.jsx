@@ -4,7 +4,6 @@ import ConcertCard from "./ConcertCard";
 import Navigation from "../common/Navigation";
 import Paging from "../common/Paging";
 import PAGE from "../../assets/constants/page";
-import instance from "../../assets/constants/instance";
 import setLists from "../../assets/tools/setLists";
 
 const ConLists = () => {
@@ -18,8 +17,8 @@ const ConLists = () => {
     .get("category")
     ?.replace(/[a-z]/g, (x) => x.toUpperCase());
   let keyword = urlSearch.get("keyword");
-  const [favoritePerformances, setFavoritePerformances] = useState(
-    JSON.parse(localStorage.getItem("favorites")) || {}
+  const [favorites, setFavorites] = useState(
+    JSON.parse(localStorage.getItem("favorites"))
   );
 
   useEffect(() => {
@@ -36,30 +35,32 @@ const ConLists = () => {
     };
     getInfos();
     setCurrentPage(pages);
+
+    //바뀐 정보로 카드를 그려요
+    infos.map((info, index) => {
+      let like = false;
+      if (favorites && favorites.includes(info.id + "")) {
+        like = true;
+      }
+      concertCards.push(
+        <ConcertCard
+          info={info}
+          key={index}
+          like={like}
+          setLike={setFavorites}
+        />
+      );
+    });
+    if (!infos.length) {
+      concertCards.push(
+        <div key="1">
+          <h2 className="notice">결과가 없습니다</h2>
+        </div>
+      );
+    }
   }, [url]);
 
   const concertCards = [];
-  infos.map((info, index) => {
-    let like = false;
-    if (favoritePerformances?.includes(info.id)) {
-      like = true;
-    }
-    concertCards.push(
-      <ConcertCard
-        info={info}
-        key={index}
-        like={like}
-        setLike={setFavoritePerformances}
-      />
-    );
-  });
-  if (!infos.length) {
-    concertCards.push(
-      <div key="1">
-        <h2 className="notice">결과가 없습니다</h2>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -74,7 +75,16 @@ const ConLists = () => {
           </>
         )}
 
-        <div className="concert-list">{concertCards}</div>
+        <div className="concert-list">
+          {infos.map((info, index) => (
+            <ConcertCard
+              info={info}
+              key={index}
+              like={true}
+              setLike={setFavorites}
+            />
+          ))}
+        </div>
         <Paging totalCount={totalCount} currentPage={currentPage} />
       </div>
     </>
