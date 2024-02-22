@@ -1,72 +1,119 @@
 {
-  "notifications": [
+  "notification": [
     {
       "id": 1,
-      "watching": "true"
+      "chatRoomId": 3,
+      "visibleType": "VISIBLE"
     },
     {
-      "watching": "visible",
+      "chatRoomId": "1",
+      "visibleType": "VISIBLE",
       "id": 2
     },
     {
-      "watching": "hidden",
+      "chatRoomId": "1",
+      "visibleType": "HIDDEN",
       "id": 3
     },
     {
-      "watching": "visible",
+      "chatRoomId": "1",
+      "visibleType": "VISIBLE",
       "id": 4
     },
     {
-      "watching": "hidden",
+      "chatRoomId": "1",
+      "visibleType": "HIDDEN",
       "id": 5
     },
     {
-      "watching": "visible",
       "id": 6
     },
     {
-      "watching": "visible",
       "id": 7
     },
     {
-      "watching": "visible",
       "id": 8
     },
     {
-      "watching": "hidden",
       "id": 9
     },
     {
-      "watching": "visible",
       "id": 10
     },
     {
-      "watching": "hidden",
       "id": 11
     },
     {
-      "watching": "visible",
       "id": 12
     },
     {
-      "watching": "hidden",
       "id": 13
     },
     {
-      "watching": "visible",
       "id": 14
     },
     {
-      "watching": "hidden",
       "id": 15
     },
     {
-      "watching": "visible",
       "id": 16
     },
     {
-      "watching": "hidden",
       "id": 17
+    },
+    {
+      "id": 18
+    },
+    {
+      "id": 19
+    },
+    {
+      "id": 20
+    },
+    {
+      "id": 21
+    },
+    {
+      "chatRoomId": "1",
+      "visibleType": "VISIBLE",
+      "id": 22
+    },
+    {
+      "chatRoomId": "1",
+      "visibleType": "HIDDEN",
+      "id": 23
+    },
+    {
+      "chatRoomId": "1",
+      "visibleType": "VISIBLE",
+      "id": 24
+    },
+    {
+      "chatRoomId": "1",
+      "visibleType": "HIDDEN",
+      "id": 25
+    },
+    {
+      "chatRoomId": "1",
+      "visibleType": "VISIBLE",
+      "id": 26
+    },
+    {
+      "chatRoomId": "1",
+      "visibleType": "HIDDEN",
+      "id": 27
+    },
+    {
+      "id": 28
+    },
+    {
+      "id": 29
+    },
+    {
+      "id": 30
+    },
+    {
+      "id": 31
     }
   ],
   "conInfo": [
@@ -507,6 +554,12 @@
       "message": "40",
       "sendAt": 1708615485081,
       "id": 41
+    },
+    {
+      "memberId": "me",
+      "message": "아니 왜죠",
+      "sendAt": 1708617849152,
+      "id": 42
     }
   ],
   "performance-best": [

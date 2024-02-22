@@ -98,6 +98,11 @@ const Chat = () => {
     }
     const changeVisibility = () => {
       const visibility = document.hidden ? "HIDDEN" : "VISIBLE";
+      /**instance.post("/notification", sendVisible(visibility));
+      navigator.sendBeacon(
+        "http://localhost:3000/notification",
+        sendVisible(visibility)
+      );*/
       instance.post("/notification/visible", sendVisible(visibility));
       if (document.hidden) {
         const id = lastMessageRef.current;
