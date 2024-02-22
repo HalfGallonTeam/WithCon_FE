@@ -13,7 +13,7 @@ const Profile = () => {
   const [edit, setEdit] = useState(false);
   const [usable, setUsable] = useState(false);
   const [msgs, setMsgs] = useState({ nicknameMsg: "", phoneMsg: "" });
-  const [myInfo] = useRecoilState(myInfoState);
+  const [myInfo, setMyInfo] = useRecoilState(myInfoState);
   const [data, setData] = useState({
     nickname: myInfo.nickname,
     phoneNumber: myInfo.phoneNumber,
@@ -137,6 +137,11 @@ const Profile = () => {
       const response = await instance.patch("/member", data);
       console.log(response);
       setModalOpen(true);
+
+      const response2 = await instance.get("/member/me");
+      const data2 = await response2.data;
+      setMyInfo(data2);
+
       setTimeout(() => {
         setModalOpen(false);
         setEdit(false);

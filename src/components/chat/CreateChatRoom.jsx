@@ -4,10 +4,10 @@ import { format } from "date-fns";
 import instance from "../../assets/constants/instance";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { userData } from "../../assets/constants/atoms";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 
 const CreateChatRoom = ({ onClose, performanceId }) => {
-  const me = useRecoilValue(userData);
+  const myId = useRecoilValue(myInfoState).username;
   const navigate = useNavigate();
   const [roomName, setRoomName] = useState("");
   const [roomMsg, setRoomMsg] = useState("");
@@ -56,7 +56,7 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
       const currentTime = new Date();
       const formattedDate = format(currentTime, "yyyyMMddHHmm");
       const data = {
-        memberId: me.id,
+        memberId: myId,
         name: roomName,
         tags: tagLists,
         performanceId: performanceId,

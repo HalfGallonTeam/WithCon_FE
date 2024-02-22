@@ -6,8 +6,6 @@ import Paging from "../common/Paging";
 import PAGE from "../../assets/constants/page";
 import instance from "../../assets/constants/instance";
 import setLists from "../../assets/tools/setLists";
-import { favorites, userIn } from "../../assets/constants/atoms";
-import { useRecoilState, useRecoilValue } from "recoil";
 
 const ConLists = () => {
   const [infos, setInfos] = useState([]);
@@ -20,24 +18,9 @@ const ConLists = () => {
     .get("category")
     ?.replace(/[a-z]/g, (x) => x.toUpperCase());
   let keyword = urlSearch.get("keyword");
-  const [favoritePerformances, setFavoritePerformances] =
-    useRecoilState(favorites);
-  const isLogin = useRecoilValue(userIn);
-
-  useEffect(() => {
-    const getFavoritPerformances = async () => {
-      const response = await instance.get("/performanceFavorite");
-      const datas = await response.data;
-      const performanceIds = [];
-      datas.map((data) => {
-        performanceIds.push(data.id);
-      });
-      setFavoritePerformances(performanceIds);
-    };
-    if (isLogin && !favoritePerformances) {
-      getFavoritPerformances();
-    }
-  }, [isLogin, favoritePerformances]);
+  const [favoritePerformances, setFavoritePerformances] = useState(
+    JSON.parse(localStorage.getItem("favorites")) || {}
+  );
 
   useEffect(() => {
     const getInfos = async () => {
@@ -57,7 +40,18 @@ const ConLists = () => {
 
   const concertCards = [];
   infos.map((info, index) => {
-    concertCards.push(<ConcertCard info={info} key={index} />);
+    let like = false;
+    if (favoritePerformances?.includes(info.id)) {
+      like = true;
+    }
+    concertCards.push(
+      <ConcertCard
+        info={info}
+        key={index}
+        like={like}
+        setLike={setFavoritePerformances}
+      />
+    );
   });
   if (!infos.length) {
     concertCards.push(

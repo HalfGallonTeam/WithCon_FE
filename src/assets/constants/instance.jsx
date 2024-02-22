@@ -6,9 +6,9 @@ const instance = axios.create({ baseURL: "/api" });
 //헤더 인터셉트로 access_token 추가
 instance.interceptors.request.use(
   (config) => {
-    config.headers["Authorization"] = `Bearer ${JSON.parse(
+    config.headers["Authorization"] = JSON.parse(
       localStorage.getItem("withcon_token")
-    )}`;
+    );
     return config;
   },
   (error) => {
@@ -23,27 +23,30 @@ instance.interceptors.response.use(
       if (response.data.errorCode === "ACCESS_TOKEN_EXPIRED") {
         const originalRequest = response.config;
         await tokenRefresh();
-        originalRequest.headers["Authorization"] = `Bearer ${JSON.parse(
+        originalRequest.headers["Authorization"] = JSON.parse(
           localStorage.getItem("withcon_token")
-        )}`;
+        );
         return axios(originalRequest);
-      } else if (
-        response.data.errorCode === "MISMATCH_REFRESH_TOKEN" ||
-        response.data.errorCode === "NOT_EXIST_REFRESH_TOKEN"
-      ) {
-        localStorage.clear();
-        window.alert("세션이 만료되었습니다. 로그인해주세요.");
-        useNavigate("/login/");
-        return;
       }
-      return Promise.reject(error);
     } else {
       return response;
     }
   },
   async (error) => {
     const { response } = error;
-    console.log(response);
+    if (response.data.status === 401) {
+      if (
+        response.data.errorCode === "MISMATCH_REFRESH_TOKEN" ||
+        response.data.errorCode === "NOT_EXIST_REFRESH_TOKEN"
+      ) {
+        localStorage.removeItem("withcon_token");
+        localStorage.removeItem("favorites");
+        sessionStorage.clear();
+        window.alert("세션이 만료되었습니다. 로그인해주세요.");
+        useNavigate("/login/");
+        return;
+      }
+    }
     return Promise.reject(error);
   }
 );
@@ -52,7 +55,7 @@ const tokenRefresh = async () => {
   try {
     const response = await instance.post("/auth/reissue");
     if (response.status === 200) {
-      const token = response.headers.authorization.split(" ")[1];
+      const token = response.headers.authorization;
       localStorage.setItem("withcon_token", JSON.stringify(token));
     }
   } catch (error) {

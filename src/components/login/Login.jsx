@@ -1,31 +1,24 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
 import axios from "axios";
-import SetUserdata from "../../assets/tools/setUserdata";
-import SetFavorites from "../../assets/tools/setFavorites";
-import { useRecoilState } from "recoil";
-import { isLoginState } from "../../assets/constants/userRecoilState";
+import instance from "../../assets/constants/instance";
 
 const Login = () => {
   const navigate = useNavigate();
   const [wrongPW, setWrongPW] = useState(false);
   const [naverURI, setNaverURI] = useState("");
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const setMyinfo = useSetRecoilState(myInfoState);
 
   //잘못된 접근 차단
-  // let isLogined = localStorage.getItem("withcon_token");
-  // useEffect(() => {
-  //   if (isLogined) {
-  //     isLogined = false;
-  //     window.alert("이미 로그인된 사용자입니다");
-  //     navigate("/");
-  //   }
-  // }, []);
+  let isLogined = localStorage.getItem("withcon_token");
   useEffect(() => {
-    if (isLogin) {
-      window.alert("이미 로그인된 사용자입니다.");
+    if (isLogined) {
+      isLogined = false;
+      window.alert("이미 로그인된 사용자입니다");
       navigate("/");
     }
   }, []);
@@ -68,15 +61,14 @@ const Login = () => {
         username: id,
         password: pw,
       });
-      const token = response.headers.authorization.split(" ")[1];
-      if (token) {
-        localStorage.setItem("withcon_token", JSON.stringify(token));
-        setIsLogin(true);
-        //로그인 시점에서 전역에 유저정보 저장
-        SetUserdata();
-        SetFavorites();
-        navigate("/");
-      }
+      console.log(response);
+      const token = response.headers.authorization;
+      localStorage.setItem("withcon_token", JSON.stringify(token));
+      const response2 = await instance.get("/member/me");
+      setMyinfo(response2.data);
+      const response3 = await instance.get("/performance/favorite-id");
+      localStorage.setItem("favorites", JSON.stringify(response3.data));
+      navigate("/");
     } catch (error) {
       if (error.response.status === 400) {
         console.error(error, "에러");

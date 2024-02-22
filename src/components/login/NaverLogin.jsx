@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
+import instance from "../../assets/constants/instance";
 import axios from "axios";
-import SetUserdata from "../../assets/tools/setUserdata";
-import SetFavorites from "../../assets/tools/setFavorites";
 
 const NaverLogin = () => {
+  const setMyinfo = useSetRecoilState(myInfoState);
   let isRunning = true;
   const navigate = useNavigate();
   const url = useLocation();
@@ -32,17 +34,13 @@ const NaverLogin = () => {
           authorizationCode: code,
         });
         console.log(response);
-        const token = response.headers.authorization.split(" ")[1];
-        if (token) {
-          localStorage.setItem("withcon_token", JSON.stringify(token));
-          //로그인 시점에서 전역에 유저정보 저장
-          SetUserdata();
-          SetFavorites();
-          navigate("/");
-        } else {
-          window.alert("네이버 로그인에 실패했습니다");
-          navigate("/login");
-        }
+        const token = response.headers.authorization;
+        localStorage.setItem("withcon_token", JSON.stringify(token));
+        const response2 = await instance.get("/member/me");
+        setMyinfo(response2.data);
+        const response3 = await instance.get("/performance/favorite-id");
+        localStorage.setItem("favorites", JSON.stringify(response3.data));
+        navigate("/");
       } catch (error) {
         console.error(error, "에러");
         window.alert(
