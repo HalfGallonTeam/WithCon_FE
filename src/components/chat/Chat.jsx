@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
 import axios from "axios";
+import ChatConcentration from "../../assets/tools/chatFunctions";
 
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
@@ -76,59 +77,18 @@ const Chat = () => {
 
   //사용자가 채팅방에 집중하는지 확인합니다.
   let enterRoomNow = true;
-  let hashHere = true;
   useEffect(() => {
-    const sendVisible = (visibleType) => {
-      const obj = {
-        chatRoomId: chatRoomId,
-        visibleType: visibleType,
-      };
-      return obj;
-    };
-
+    const onView = new ChatConcentration(chatRoomId, myId, lastMessageRef);
     if (enterRoomNow) {
       enterRoomNow = false;
-      const data = {
-        chatRoomId: chatRoomId,
-        targetId: myId,
-        messageType: "ENTER",
-      };
-      instance.post("/notification/chatRoom-event", data);
-      instance.post("/notification/visible", sendVisible("VISIBLE"));
+      onView.enterRoomNow();
     }
-    const changeVisibility = () => {
-      const visibility = document.hidden ? "HIDDEN" : "VISIBLE";
-      /**instance.post("/notification", sendVisible(visibility));
-      navigator.sendBeacon(
-        "http://localhost:3000/notification",
-        sendVisible(visibility)
-      );*/
-      instance.post("/notification/visible", sendVisible(visibility));
-      if (document.hidden) {
-        const id = lastMessageRef.current;
-        localStorage.setItem("chat", JSON.stringify(id));
-      }
-    };
-    const beforeUnload = () => {
-      instance.post("/notification/visible", sendVisible("HIDDEN"));
-      const id = lastMessageRef.current;
-      localStorage.setItem("chat", JSON.stringify(id));
-    };
-    const hashChange = () => {
-      if (hashHere) {
-        hashHere = false;
-        instance.post("/notification/visible", sendVisible("HIDDEN"));
-        const id = lastMessageRef.current;
-        localStorage.setItem("chat", JSON.stringify(id));
-        window.removeEventListener("popstate", hashChange);
-      }
-    };
-    document.addEventListener("visibilitychange", changeVisibility);
-    window.addEventListener("beforeunload", beforeUnload);
-    window.addEventListener("popstate", hashChange);
+    document.addEventListener("visibilitychange", onView.changeVisibility);
+    window.addEventListener("beforeunload", onView.beforeUnload);
+    window.addEventListener("popstate", onView.hashChange);
     return () => {
-      document.removeEventListener("visibilitychange", changeVisibility);
-      window.removeEventListener("beforeunload", beforeUnload);
+      document.removeEventListener("visibilitychange", onView.changeVisibility);
+      window.removeEventListener("beforeunload", onView.beforeUnload);
     };
   }, []);
 

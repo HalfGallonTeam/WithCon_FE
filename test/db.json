@@ -114,6 +114,26 @@
     },
     {
       "id": 31
+    },
+    {
+      "chatRoomId": "1",
+      "visibleType": "VISIBLE",
+      "id": 32
+    },
+    {
+      "chatRoomId": "1",
+      "visibleType": "HIDDEN",
+      "id": 33
+    },
+    {
+      "chatRoomId": "1",
+      "visibleType": "VISIBLE",
+      "id": 34
+    },
+    {
+      "chatRoomId": "1",
+      "visibleType": "HIDDEN",
+      "id": 35
     }
   ],
   "conInfo": [
