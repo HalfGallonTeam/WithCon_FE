@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
+import instance from "../../assets/constants/instance";
 
 const ConDetail = () => {
+  const [info, setInfos] = useState({});
   const navigate = useNavigate();
   const { concertTitle } = useParams();
   const [category, setCategory] = useState("detail");
@@ -14,14 +16,32 @@ const ConDetail = () => {
       navigate(`/title/${concertTitle}`);
     }
   };
+
+  let loading = false;
+  useEffect(() => {
+    const getInfos = async () => {
+      if (loading) return;
+      loading = true;
+      try {
+        const response = await instance.get(
+          `/performanceDetail/${concertTitle}`
+        );
+        setInfos(response.data);
+      } catch (error) {
+        console.error(error, "에러");
+      }
+    };
+    getInfos();
+  }, []);
+
   return (
     <div className="detail-container">
       <div className="con-title-container">
         <div className="con-title">
-          <h1 className="title">[제주] 2024 장윤정 라이브 콘서트</h1>
+          <h1 className="title">{info.name}</h1>
           <div className="mini-data">
-            <span className="date">2024.02.03 ~ 2024.02.03</span>
-            <span className="location">남양주 체육문화센터 실내체육관</span>
+            <span className="date">{`${info.startDate}-${info.endDate}`}</span>
+            <span className="location">{info.facility}</span>
           </div>
         </div>
         <div className="con-category">

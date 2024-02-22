@@ -4,6 +4,9 @@ import instance from "../../assets/constants/instance";
 import ChatMessageForm from "./ChatMessageForm";
 import ChatToggle from "./ChatToggle";
 import AddMessages from "./AddMessages";
+import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
@@ -15,7 +18,9 @@ const basic = {
 };
 
 const Chat = () => {
+  const myId = useRecoilValue(myInfoState).username;
   const [isPrev, setIsPrev] = useState(true);
+  const { chatRoomId } = useParams();
   const [prevMessage, setPrevMessage] = useState(null);
   const [chatInitial, setChatInitial] = useState(basic);
   const [sendButton, setSendButton] = useState(false);
@@ -54,7 +59,13 @@ const Chat = () => {
      * 나중에는 datas.length < 10 이면 setIsPrev(false)
      */
     firstMessageRef.current = datas[0].id;
-    AddMessages(datas, messageRef.current, chatMembersRef.current, "prepend");
+    AddMessages(
+      datas,
+      messageRef.current,
+      chatMembersRef.current,
+      "prepend",
+      myId
+    );
   };
 
   const toggleOpen = (e) => {
@@ -66,34 +77,43 @@ const Chat = () => {
   let enterRoomNow = true;
   let hashHere = true;
   useEffect(() => {
+    const sendVisible = (visibleType) => {
+      const obj = {
+        performanceId: chatInitial.performanceId,
+        chatRoomId: chatRoomId,
+        visibleType: visibleType,
+      };
+      return obj;
+    };
+
     if (enterRoomNow) {
       enterRoomNow = false;
-      instance.post("/notifications", {
-        watching: "visible",
-      });
+      const data = {
+        performanceId: chatInitial.performanceId,
+        chatRoomId: chatRoomId,
+        targetId: myId,
+        messageType: "ENTER",
+      };
+      instance.post("/notification/chatRoom-event", data);
+      instance.post("/notification/visible", sendVisible("VISIBLE"));
     }
     const changeVisibility = () => {
-      instance.post("/notifications", {
-        watching: document.hidden ? "hidden" : "visible",
-      });
+      const visibility = document.hidden ? "HIDDEN" : "VISIBLE";
+      instance.post("/notification/visible", sendVisible(visibility));
       if (document.hidden) {
         const id = lastMessageRef.current;
         localStorage.setItem("chat", JSON.stringify(id));
       }
     };
     const beforeUnload = () => {
-      instance.post("/notifications", {
-        watching: "hidden",
-      });
+      instance.post("/notification/visible", sendVisible("HIDDEN"));
       const id = lastMessageRef.current;
       localStorage.setItem("chat", JSON.stringify(id));
     };
     const hashChange = () => {
       if (hashHere) {
         hashHere = false;
-        instance.post("/notifications", {
-          watching: "hidden",
-        });
+        instance.post("/notification/visible", sendVisible("HIDDEN"));
         const id = lastMessageRef.current;
         localStorage.setItem("chat", JSON.stringify(id));
         window.removeEventListener("popstate", hashChange);
@@ -115,7 +135,7 @@ const Chat = () => {
       firstSet = true;
       try {
         //기본 채팅방 정보 설정
-        const response = await instance.get("chatRoomEnter/1");
+        const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
         const datas = await response.data;
         chatMembersRef.current = datas.members;
         datas.members = [];
@@ -130,6 +150,15 @@ const Chat = () => {
         const response2 = await instance.get(url);
         const datas2 = await response2.data;
 
+        AddMessages(
+          datas2,
+          messageRef.current,
+          chatMembersRef.current,
+          "append",
+          myId
+        );
+        setPrevMessage(datas2[datas2.length - 1]);
+
         //로컬스토리지용 아이디 세팅
         firstMessageRef.current = datas2[0].id || 0;
         lastMessageRef.current = datas2[datas2.length - 1].id;
@@ -139,7 +168,8 @@ const Chat = () => {
           datas2,
           messageRef.current,
           chatMembersRef.current,
-          "append"
+          "append",
+          myId
         );
         if (datas2.length < 10) {
           await callMessageBefore();
@@ -172,34 +202,37 @@ const Chat = () => {
     else setTalker("me");
   };
   const sendMessage = async () => {
-    const time = new Date();
     const info = textRef.current.value;
     textRef.current.value = "";
     setSendButton(false);
     const newMessage = {
-      from: talker,
+      memberId: myId,
+      roomId: chatRoomId,
       text: info,
-      timeStamp: time.getTime(),
     };
     const response = await instance.post("/chatMessages", newMessage);
     const datas = await response.data;
     lastMessageRef.current = datas.id;
     let same = false;
-    if (
-      prevMessage.from === datas.from &&
-      datas.timeStamp - prevMessage.timeStamp < 10000
-    ) {
-      same = true;
+    if (datas.memberId === myId) {
+      datas.memberId = "me";
+    } else {
+      if (
+        prevMessage.memberId === datas.memberId &&
+        datas.sendAt - prevMessage.sendAt < 10000
+      ) {
+        same = true;
+      }
     }
     setPrevMessage(datas);
-    let profileImage = "";
+    let memberdata = null;
     for (const member of chatMembersRef.current) {
-      if (member.username === datas.from) {
-        profileImage = member.profileImage;
+      if (member.username === datas.memberId) {
+        memberdata = member;
         break;
       }
     }
-    ChatMessageForm(datas, messageRef.current, same, profileImage);
+    ChatMessageForm(datas, messageRef.current, same, memberdata);
     scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
     return true;
   };
@@ -219,8 +252,9 @@ const Chat = () => {
             <ChatToggle
               setToggle={setToggle}
               members={chatMembersRef.current}
-              creator={chatInitial.creator}
-              me={talker}
+              creator={chatInitial.managerName}
+              me={myId}
+              performanceId={chatInitial.performanceId}
             />
           )}
         </div>

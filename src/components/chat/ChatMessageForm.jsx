@@ -1,4 +1,4 @@
-const ChatMessageForm = (message, parentNode, same, profileImage) => {
+const ChatMessageForm = (message, parentNode, same, memberdata) => {
   const $node = document.createElement("div");
   const $img = document.createElement("img");
   const $chatTexts = document.createElement("div");
@@ -8,26 +8,26 @@ const ChatMessageForm = (message, parentNode, same, profileImage) => {
   const $time = document.createElement("p");
 
   $node.className =
-    message.from === "me"
+    message.memberId === "me"
       ? "member-me"
       : message.from === "system"
       ? "system-message"
       : "member-other";
-  $img.src = profileImage;
+  $img.src = memberdata.profileImage;
   $img.alt = "";
   $img.className = "profile-img";
   $chatTexts.className = "chat-texts";
   $chatMessageInfo.className = "chat-message-info";
   $username.className = "username";
-  $username.innerText = message.from;
-  if (message.from === "me" || same) {
+  $username.innerText = memberdata.nickname;
+  if (message.memberId === "me" || same) {
     $img.classList.add("invisible");
     $username.classList.add("hidden");
   }
   $text.className = "text";
-  $text.innerText = message.text;
+  $text.innerText = message.message;
   $time.className = "message-time";
-  $time.innerText = timeToString(message.timeStamp);
+  $time.innerText = timeToString(message.sendAt);
 
   $chatMessageInfo.appendChild($text);
   $chatMessageInfo.appendChild($time);

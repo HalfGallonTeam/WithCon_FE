@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import instance from "../../assets/constants/instance";
+import { useSetRecoilState } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
+import axios from "axios";
+import instance from "../../assets/constants/instance";
 
 const Login = () => {
   const navigate = useNavigate();
   const [wrongPW, setWrongPW] = useState(false);
   const [naverURI, setNaverURI] = useState("");
+  const setMyinfo = useSetRecoilState(myInfoState);
 
   //잘못된 접근 차단
   let isLogined = localStorage.getItem("withcon_token");
@@ -53,26 +57,28 @@ const Login = () => {
     try {
       const id = e.target.username.value;
       const pw = e.target.password.value;
-      const response = await instance.post("/user", {
+      const response = await axios.post("/api/auth/login", {
         username: id,
         password: pw,
       });
-      const dataObj = await response.data;
-      if (dataObj.accessToken) {
-        localStorage.setItem(
-          "withcon_token",
-          JSON.stringify(dataObj.accessToken)
-        );
-        navigate("/");
-      } else if (dataObj.result === "NG") {
-        setWrongPW(true);
-      } else {
-        window.alert("서버 response가 없으므로 id를 localStorage에 저장");
-        localStorage.setItem("withcon_token", JSON.stringify(dataObj.username));
-        navigate("/");
-      }
+      console.log(response);
+      const token = response.headers.authorization;
+      localStorage.setItem("withcon_token", JSON.stringify(token));
+      const response2 = await instance.get("/member/me");
+      setMyinfo(response2.data);
+      const response3 = await instance.get("/performance/favorite-id");
+      localStorage.setItem("favorites", JSON.stringify(response3.data));
+      navigate("/");
     } catch (error) {
-      console.error(error, "에러");
+      if (error.response.status === 400) {
+        console.error(error, "에러");
+        setWrongPW(true);
+        return;
+      } else {
+        window.alert(
+          "서버 연결 상태가 좋지 않습니다. 잠시 후 다시 시도해주세요."
+        );
+      }
     }
   };
 

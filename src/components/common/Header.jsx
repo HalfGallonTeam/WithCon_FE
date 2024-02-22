@@ -1,41 +1,32 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navigation from "./Navigation";
 import ProfileModal from "../mypage/ProfileModal";
 import logo from "../../assets/images/withconLogo.png";
-import { favorites } from "../../assets/constants/atoms";
-import { useSetRecoilState, useRecoilState } from "recoil";
-import { userIn } from "../../assets/constants/atoms";
-
 import Notification from "../mypage/Notification";
+import { useRecoilValue } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 
 const Header = () => {
-  const setFavoritePerformances = useSetRecoilState(favorites);
-  const [isLogin, setIsLogin] = useRecoilState(userIn);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [userName, setUserName] = useState("테스터 님");
-  const select = useRef(null);
+  const [userdata, setUserdata] = useState(null);
+  const myInfo = useRecoilValue(myInfoState);
 
   //로그인을 판단함
   useEffect(() => {
-    const withconToken = localStorage.getItem("withcon_token");
-    const kakaoToken = localStorage.getItem("kakao_token");
-    if (withconToken || kakaoToken) {
-      setIsLogin(true);
+    const token = localStorage.getItem("withcon_token");
+    if (token) {
+      setUserdata(myInfo);
     }
-  }, []);
+  }, [myInfo]);
 
   //로그아웃을 실행함
   const logoutFunc = () => {
-    if (localStorage.getItem("kakao_token")) {
-      setIsLogin(false);
-      localStorage.removeItem("kakao_token");
-    } else {
-      setIsLogin(false);
-      localStorage.removeItem("withcon_token");
-      setFavoritePerformances(null);
-    }
+    localStorage.removeItem("withcon_token");
+    localStorage.removeItem("favorites");
+    sessionStorage.clear();
+    setUserdata(null);
   };
 
   const keywordIn = (e) => {
@@ -53,13 +44,6 @@ const Header = () => {
   return (
     <>
       <header className="header">
-        <button
-          onClick={() => {
-            setIsLogin(true);
-          }}
-        >
-          누르면 로그인됩니다
-        </button>
         <div className="container">
           <h1 className="title">
             <Link to="/">
@@ -68,10 +52,10 @@ const Header = () => {
             </Link>
           </h1>
           <div className="login-area">
-            {isLogin ? (
+            {userdata ? (
               <div className="login-me">
                 <button className="login-button" onClick={() => setOpen(!open)}>
-                  테스터 님
+                  {userdata.nickname}
                 </button>
                 <Notification />
               </div>
@@ -91,22 +75,16 @@ const Header = () => {
                 </button>
               </>
             )}
-            {open && <ProfileModal logout={logoutFunc} modalOpen={setOpen} />}
+            {open && (
+              <ProfileModal
+                logout={logoutFunc}
+                modalOpen={setOpen}
+                info={JSON.stringify(userdata)}
+              />
+            )}
           </div>
           <Navigation />
           <form className="search-area" onSubmit={keywordIn}>
-            {/**<select
-              className="filter-category"
-              name="category"
-              id="category-select"
-            >
-              <option value="all" ref={select}>
-                전체
-              </option>
-              <option value="musical">뮤지컬</option>
-              <option value="play">연극</option>
-              <option value="concert">콘서트</option>
-            </select>*/}
             <div className="search-keyword-box">
               <input
                 className="search-keyword-input"

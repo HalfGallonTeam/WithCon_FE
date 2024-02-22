@@ -5,8 +5,7 @@ import Navigation from "../common/Navigation";
 import Paging from "../common/Paging";
 import PAGE from "../../assets/constants/page";
 import instance from "../../assets/constants/instance";
-import { favorites, userIn } from "../../assets/constants/atoms";
-import { useRecoilState, useRecoilValue } from "recoil";
+import setLists from "../../assets/tools/setLists";
 
 const ConLists = () => {
   const [infos, setInfos] = useState([]);
@@ -15,51 +14,44 @@ const ConLists = () => {
   const url = useLocation();
   const urlSearch = new URLSearchParams(url.search);
   let pages = urlSearch.get("page") || 1;
-  let category = urlSearch.get("category");
+  let category = urlSearch
+    .get("category")
+    ?.replace(/[a-z]/g, (x) => x.toUpperCase());
   let keyword = urlSearch.get("keyword");
-  const [favoritePerformances, setFavoritePerformances] =
-    useRecoilState(favorites);
-  const isLogin = useRecoilValue(userIn);
-
-  useEffect(() => {
-    const getFavoritPerformances = async () => {
-      const response = await instance.get("/performanceFavorite");
-      const datas = await response.data;
-      const performanceIds = [];
-      datas.map((data) => {
-        performanceIds.push(data.id);
-      });
-      setFavoritePerformances(performanceIds);
-    };
-    if (isLogin && !favoritePerformances) {
-      getFavoritPerformances();
-    }
-  }, [isLogin, favoritePerformances]);
+  const [favoritePerformances, setFavoritePerformances] = useState(
+    JSON.parse(localStorage.getItem("favorites")) || {}
+  );
 
   useEffect(() => {
     const getInfos = async () => {
       try {
-        let request = `/performances?_page=${pages}&_limit=${PAGE.limit}`;
-        request += category !== "all" ? `&category=${category}` : "";
-        request += keyword ? `&title_like=${keyword}` : "";
-        const response = await instance.get(request);
-        const datas = await response.data;
-        setInfos(datas);
-        const length = response.headers["x-total-count"];
-        if (length !== totalCount) {
-          setTotalCount(length);
-        }
+        let url = `/performance?`;
+        url += keyword ? `keyword=${keyword}&` : "";
+        url += category ? `genre=${category}&` : "";
+        url += `_page=${pages}&_limit=${PAGE.limit}`;
+        await setLists(url, setInfos, totalCount, setTotalCount);
       } catch (error) {
         console.error(error, "에러");
       }
     };
     getInfos();
     setCurrentPage(pages);
-  }, [category, keyword, pages]);
+  }, [url]);
 
   const concertCards = [];
   infos.map((info, index) => {
-    concertCards.push(<ConcertCard info={info} key={index} />);
+    let like = false;
+    if (favoritePerformances?.includes(info.id)) {
+      like = true;
+    }
+    concertCards.push(
+      <ConcertCard
+        info={info}
+        key={index}
+        like={like}
+        setLike={setFavoritePerformances}
+      />
+    );
   });
   if (!infos.length) {
     concertCards.push(

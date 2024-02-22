@@ -192,6 +192,11 @@ input {
   margin-left: 10px;
   position: relative;
 }
+.header .login-area .login-me {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .header .login-area .login-button {
   padding: 5px 10px;
   font-weight: 700;
@@ -199,6 +204,67 @@ input {
 .header .login-area .login-button:hover {
   background-color: #36DA93;
   color: white;
+}
+.header .login-area .alarm-area {
+  position: relative;
+}
+.header .login-area .alarm-area .bell {
+  cursor: pointer;
+}
+.header .login-area .alarm-area span {
+  position: absolute;
+  top: -2px;
+  left: 11px;
+  border-radius: 16px;
+  border: 1px solid red;
+  font-size: 7px;
+  color: red;
+  padding: 0px 3px;
+  background-color: white;
+}
+.header .login-area .alarm-area .alarm-list-container {
+  position: absolute;
+  top: 30px;
+  right: 4px;
+  width: 250px;
+  height: 300px;
+  z-index: 99;
+  background: white;
+  box-shadow: 0px 4px 32px 0 rgba(0, 0, 0, 0.1);
+}
+.header .login-area .alarm-area .alarm-list-container .list-top {
+  text-align: center;
+  font-size: 14px;
+  padding: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+}
+.header .login-area .alarm-area .alarm-list {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 16px;
+  font-size: 10px;
+  max-height: 270px;
+  overflow-y: auto;
+  transition: overflow 0.3s;
+}
+.header .login-area .alarm-area .alarm-list .alarm-contents {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+}
+.header .login-area .alarm-area .alarm-list .alarm-contents:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.header .login-area .alarm-area .alarm-list .alarm-contents .alarm-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 5px;
+}
+.header .login-area .alarm-area .alarm-list .alarm-contents .delete-btn {
+  font-size: 10px;
 }
 .header .category-buttons {
   order: 3;
@@ -337,7 +403,8 @@ input {
   align-items: center;
 }
 .modal-container .text-container {
-  font-size: 2rem;
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 .modal-container .text-container .modal-text {
   color: #603535;
@@ -451,6 +518,8 @@ input {
 }
 .concert-card .concert-poster {
   display: inline-block;
+  max-width: 180px;
+  height: 240px;
   margin: 0 auto;
 }
 .concert-card .concert-mini-info .info-top-line {
@@ -746,6 +815,8 @@ input {
 }
 .concert-card .concert-poster {
   display: inline-block;
+  max-width: 180px;
+  height: 240px;
   margin: 0 auto;
 }
 .concert-card .concert-mini-info .info-top-line {
@@ -1891,31 +1962,50 @@ input {
 }
 
 .profile-edit-form {
+  position: relative;
   display: flex;
+  flex-direction: column;
   max-width: 700px;
   align-items: center;
   padding: 0 20px;
-  margin: 40px auto 0 auto;
+  margin: 50px auto 0 auto;
 }
 .profile-edit-form .edit-img-container {
   width: 300px;
   margin: 20px;
+  position: relative;
   text-align: center;
+}
+.profile-edit-form .edit-img-container .cancel-btn {
+  position: absolute;
+  right: 100px;
+  top: 0;
+  font-weight: bolder;
+  cursor: pointer;
+  color: #603535;
+  border: none;
+  padding: 0.2rem;
 }
 .profile-edit-form .edit-img-container .profile-img {
   width: 100px;
   height: 100px;
   border-radius: 100%;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
   margin-bottom: 10px;
+}
+.profile-edit-form .edit-img-container .border-img {
+  padding: 5px;
+  border: 2px solid #36DA93;
+  color: #36DA93;
 }
 .profile-edit-form .edit-user-info {
   width: 100%;
+  max-width: 450px;
 }
 .profile-edit-form .edit-user-info .info-edit-container {
   margin-bottom: 10px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .profile-edit-form .edit-user-info .info-edit-container i {
   padding: 0 8px;
@@ -1926,12 +2016,40 @@ input {
   border: 2px solid #E6E6E6;
   padding: 8px;
 }
-.profile-edit-form .edit-user-info .user-pw-edit {
+.profile-edit-form .edit-user-info .info-edit-container .edit-password-btn {
+  color: #36DA93;
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5rem;
+  border: 1px solid #36DA93;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 2px solid #E6E6E6;
+  color: #603535;
   text-align: center;
-  margin-top: 20px;
+  min-width: 200px;
 }
-.profile-edit-form .edit-buttons {
+.profile-edit-form .edit-user-info .info-edit-container .edit-password-btn:hover {
+  background-color: #36DA93;
+  color: white;
+}
+.profile-edit-form .edit-user-info .info-edit-container .edit-password-btn:active {
+  background-color: #279c69;
+  position: relative;
+  top: 2px;
+}
+.profile-edit-form .edit-user-info .user-pw-edit {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.profile-edit-form .edit-user-info .msgs {
+  display: block;
   text-align: center;
+  color: blue;
+}
+.profile-edit-form .img-input {
+  display: none;
 }
 .profile-edit-form .edit-btn {
   color: #36DA93;
@@ -2036,6 +2154,16 @@ input {
 .profile-modal-container .profile-modal-info .profile-modal-img {
   border-radius: 100%;
   margin-bottom: 10px;
+  width: 50px;
+  height: 50px;
+}
+.profile-modal-container .profile-modal-info .profile-modal-img-null {
+  border-radius: 100%;
+  margin-bottom: 10px;
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+  border: 1px solid #603535;
 }
 .profile-modal-container .profile-modal-info .profile-modal-nickname {
   font-weight: bold;

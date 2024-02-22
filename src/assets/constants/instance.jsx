@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const instance = axios.create({ baseURL: "http://localhost:3000" });
+const instance = axios.create({ baseURL: "/api" });
 
 //헤더 인터셉트로 access_token 추가
 instance.interceptors.request.use(
   (config) => {
-    config.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "withcon_token"
-    )}`;
+    config.headers["Authorization"] = JSON.parse(
+      localStorage.getItem("withcon_token")
+    );
     return config;
   },
   (error) => {
@@ -19,22 +19,29 @@ instance.interceptors.request.use(
 //만료 시 액세스 토큰 재발급 요청하기
 instance.interceptors.response.use(
   async (response) => {
-    return response;
+    if (response.data.status === 401) {
+      if (response.data.errorCode === "ACCESS_TOKEN_EXPIRED") {
+        const originalRequest = response.config;
+        await tokenRefresh();
+        originalRequest.headers["Authorization"] = JSON.parse(
+          localStorage.getItem("withcon_token")
+        );
+        return axios(originalRequest);
+      }
+    } else {
+      return response;
+    }
   },
   async (error) => {
     const { response } = error;
-    if (response.status === 400) {
-      if (response.data.errorCode === "EXPIRED_TOKEN") {
-        const originalRequest = response.config;
-        await tokenRefresh();
-        const token = localStorage.getItem("withcon_token");
-        originalRequest.headers["Authorization"] = `Bearer ${token}`;
-        return axios(originalRequest);
-      } else if (
+    if (response.data.status === 401) {
+      if (
         response.data.errorCode === "MISMATCH_REFRESH_TOKEN" ||
         response.data.errorCode === "NOT_EXIST_REFRESH_TOKEN"
       ) {
-        localStorage.clear();
+        localStorage.removeItem("withcon_token");
+        localStorage.removeItem("favorites");
+        sessionStorage.clear();
         window.alert("세션이 만료되었습니다. 로그인해주세요.");
         useNavigate("/login/");
         return;
@@ -47,8 +54,10 @@ instance.interceptors.response.use(
 const tokenRefresh = async () => {
   try {
     const response = await instance.post("/auth/reissue");
-    const datas = await response.data;
-    localStorage.setItem("withcon_token", JSON.stringify(datas.token));
+    if (response.status === 200) {
+      const token = response.headers.authorization;
+      localStorage.setItem("withcon_token", JSON.stringify(token));
+    }
   } catch (error) {
     console.error(error, "에러");
   }

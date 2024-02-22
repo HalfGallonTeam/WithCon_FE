@@ -4,8 +4,10 @@ import ChatRoom from "./ChatRoom";
 import CreateChatRoom from "./CreateChatRoom";
 import Paging from "../common/Paging";
 import instance from "../../assets/constants/instance";
+import setLists from "../../assets/tools/setLists";
 
 const ChatList = () => {
+  const [tagInfo, setTagInfo] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(65);
@@ -24,21 +26,30 @@ const ChatList = () => {
     setIsModalOpen(false);
   };
 
-  const handleHashTagChange = (e) => {
+  const handleHashTagChange = async (e) => {
     setSearchHashtag(e.target.value);
+    try {
+      const response = await instance.get(
+        `/tag/${e.target.value}/search/performance/${concertTitle}`
+      );
+      if (response.data.length) {
+        setTagInfo(response.data);
+      } else {
+        const response2 = await instance.get("/tag/search");
+        setTagInfo(response2.data);
+      }
+    } catch (error) {
+      console.error(error, "에러");
+    }
   };
+
   useEffect(() => {
     const getData = async () => {
       try {
-        let url = "/chatRooms";
+        let url = "/chatRoom/performance/";
+        url += concertTitle;
         url += `?_page=${pages}&_limit=10`;
-        url += `&performanceId=${concertTitle}`;
-        const response = await instance.get(url);
-        setData(response.data);
-        const length = response.headers["x-total-count"];
-        if (length !== totalCount) {
-          setTotalCount(length);
-        }
+        await setLists(url, setData, totalCount, setTotalCount);
       } catch (error) {
         console.error("데이터오류", error);
       }
@@ -64,11 +75,19 @@ const ChatList = () => {
     }
   };
 
+  const searchedTags = [];
+  tagInfo.map((tag) => {
+    searchedTags.push(<span>&nbsp;{tag.name}&nbsp;</span>);
+  });
+
   return (
     <div className="chat-list-container">
+      <div>
+        <p>태그 검색결과 임시로 보여줌</p>
+        <p>{searchedTags}</p>
+      </div>
       <div className="chat-list-header">
         <h1>채팅방 목록</h1>
-
         <div className="header-right">
           <div className="hashtag-search">
             <input

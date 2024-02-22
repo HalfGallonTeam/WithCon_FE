@@ -3,8 +3,11 @@ import PropTypes from "prop-types";
 import { format } from "date-fns";
 import instance from "../../assets/constants/instance";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 
 const CreateChatRoom = ({ onClose, performanceId }) => {
+  const myId = useRecoilValue(myInfoState).username;
   const navigate = useNavigate();
   const [roomName, setRoomName] = useState("");
   const [roomMsg, setRoomMsg] = useState("");
@@ -53,20 +56,30 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
       const currentTime = new Date();
       const formattedDate = format(currentTime, "yyyyMMddHHmm");
       const data = {
-        createDate: formattedDate,
-        roomName,
+        memberId: myId,
+        name: roomName,
         tags: tagLists,
         performanceId: performanceId,
       };
-      const response = await instance.post("/chatRooms", data);
-      console.log("채팅방이 성공적으로 생성되었습니다.", response.data);
-      const newChatroom = await response.data.id;
-      navigate(`/title/${performanceId}/chat/${newChatroom}`);
-      setShowCompleteModal(true);
-      setTimeout(() => {
-        onClose();
-        setShowCompleteModal(false);
-      }, 1500);
+      const response = await instance.post("/chatRoom", data);
+      if (response.status === 201) {
+        const newChatroom = await response.data.id;
+        const data2 = {
+          performanceId: performanceId,
+          chatRoomId: newChatroom,
+        };
+        const response2 = await instance.post(
+          "/notification/subscribe-channel",
+          data2
+        );
+        console.log("채팅방이 성공적으로 생성되었습니다.", response.data);
+        setShowCompleteModal(true);
+        setTimeout(() => {
+          onClose();
+          setShowCompleteModal(false);
+          navigate(`/title/${performanceId}/chat/${newChatroom}`);
+        }, 1500);
+      }
     } catch (error) {
       console.error("채팅방 생성 오류", error);
     }

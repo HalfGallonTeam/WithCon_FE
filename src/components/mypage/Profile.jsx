@@ -4,6 +4,9 @@ import EditProfileImg from "./EditProfileImg";
 import instance from "../../assets/constants/instance";
 import { validateInput } from "../login/Validate";
 import PassWordCheck from "./PassWordCheck";
+import axios from "axios";
+import { useRecoilState } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 
 const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -14,43 +17,78 @@ const Profile = () => {
   const [edit, setEdit] = useState(false);
   const [usable, setUsable] = useState(false);
   const [userMeInfo, setUserMeInfo] = useState({});
-  const [usersData, setUsersData] = useState([]);
   const [msgs, setMsgs] = useState({
     nicknameMsg: "",
     phoneMsg: "",
     passwordMsg: "",
     password2Msg: "",
   });
+  const [myInfo, setMyInfo] = useRecoilState(myInfoState);
+  const [phoneNumberModal, setPhoneNumberModal] = useState(false);
+  //test
   const [pw2, setPw2] = useState("");
   const [sameCheck, setSameCheck] = useState(false);
   const [data, setData] = useState({
-    nickname: "",
-    phoneNumber: "",
-    newPassword: "",
+    nickname: myInfo.nickname,
+    phoneNumber: myInfo.phoneNumber,
+    newPassword: ""
   });
 
+
   //모바일 설정 기준으로 세팅 > min-width 설정을 통해서 큰 화면이 보이도록.
-  const checkDuplicationPhone = (e) => {
-    e.preventDefault();
-    const disUsable = usersData
-      .map((x) => x.phonNumber)
-      .includes(data.phoneNumber);
-    if (data.phoneNumber !== "" && disUsable) {
-      setMsgs((prev) => ({
-        ...prev,
-        ["phoneMsg"]: "이미 존재하는 번호입니다.",
-      }));
-    } else if (data.phoneNumber.length < 13 && !disUsable) {
-      setMsgs((prev) => ({
-        ...prev,
-        ["phoneMsg"]: "번호는 11자리 여야 합니다.",
-      }));
-    } else if (validateInput("phone", data.phoneNumber) === true) {
-      setMsgs((prev) => ({ ...prev, ["phoneMsg"]: "사용가능한 번호 입니다." }));
-      setUsable(true);
+
+  const fetchDuplicatePhoneNumber = async () => {
+    try {
+      const response = await axios.post(
+        "/api/auth/phone-number-duplication-check",
+        {
+          phoneNumber: data.phoneNumber,
+        }
+      );
+      if (response.status === 200) {
+        setUsable((prev) => ({ ...prev, ["phoneNumber"]: true }));
+        setMsgs((prev) => ({
+          ...prev,
+          ["phoneMsg"]: "사용가능한 핸드폰 번호 입니다.",
+        }));
+      } else {
+        if (response.status === 409) {
+          setMsgs((prev) => ({
+            ...prev,
+            ["phoneMsg"]: "이미 존재하는 핸드폰 번호입니다.",
+          }));
+        }
+      }
+    } catch (error) {
+      // 에러 발생 시
+      if (error.response) {
+        if (error.response.status === 409) {
+          setMsgs((prev) => ({
+            ...prev,
+            ["phoneMsg"]: "이미 존재하는 핸드폰 번호입니다.",
+          }));
+        }
+      } else {
+        console.error("Network error:", error.message);
+      }
     }
   };
+
+  const checkDuplicationPhone = async (e) => {
+    //지우기
+    console.log(data);
+    e.preventDefault();
+    setUsable(false);
+    await fetchDuplicatePhoneNumber();
+    if (validateInput("phone", data.phone) && usable.phoneNumber) {
+      setUsable(true);
+    } else {
+      return;
+    }
+  };
+
   const onChangeNickName = (e) => {
+    setData((prev) => ({ ...prev, [`nickname`]: myInfo.nickname }));
     if (e.target.value === "") {
       setMsgs((prev) => ({ ...prev, ["nicknameMsg"]: "" }));
     } else if (e.target.value.length < 2) {
@@ -100,49 +138,33 @@ const Profile = () => {
 
     setData((prev) => ({ ...prev, [`phoneNumber`]: inputValue }));
   };
+
   const submitInfo = async (e) => {
     e.preventDefault();
-    if (userMeInfo[0].phoneNumber !== data.phoneNumber && !usable) {
-      setModal(true);
-      setModalText("핸드폰 번호의 중복확인을 눌러주세요");
+    if (myInfo.phoneNumber !== data.phoneNumber && !usable) {
+      setPhoneNumberModal(true);
       setTimeout(() => {
         setModal(false);
         setModalText("");
       }, 1000);
     }
     try {
-      const response = await instance.patch("/userMe", data);
+      const response = await instance.patch("/member", data);
       console.log(response);
+      setModalOpen(true);
+
+      const response2 = await instance.get("/member/me");
+      const data2 = await response2.data;
+      setMyInfo(data2);
+
+      setTimeout(() => {
+        setModalOpen(false);
+        setEdit(false);
+      }, 3000);
     } catch (error) {
       console.error("수정에러", error);
     }
   };
-  useEffect(() => {
-    const getUserInfo = async () => {
-      try {
-        const response = await instance.get("/userMe");
-        const data = await response.data;
-        setUserMeInfo(data);
-        setData({
-          nickname: userMeInfo[0].nickname,
-          phoneNumber: userMeInfo[0].phoneNumber,
-        });
-      } catch (error) {
-        console.error("에러", error);
-      }
-    };
-    const getUsersData = async () => {
-      try {
-        const response = await instance.get("/user");
-        const data = await response.data;
-        setUsersData(data);
-      } catch (error) {
-        console.error("에러", error);
-      }
-    };
-    getUserInfo();
-    getUsersData();
-  }, []);
 
   const deleteUser = async () => {
     try {
@@ -329,6 +351,41 @@ const Profile = () => {
                     className="edit-btn"
                     onClick={() => setPassWordCheck(true)}
                   >
+                    중복 확인
+                  </button>
+                </div>
+                {msgs.phoneMsg ? (
+                  <span className="msgs">{msgs.phoneMsg}</span>
+                ) : null}
+                <div className="info-edit-container">
+                  <Link
+                    to="/profile/changepassword/"
+                    className="edit-password-btn"
+                  >
+                    비밀번호 재설정
+                  </Link>
+                </div>
+                <div className="user-pw-edit">
+                  <button className="edit-btn" onClick={submitInfo}>
+                    적용
+                  </button>
+                  <button className="edit-btn" onClick={() => setEdit(false)}>
+                    취소
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div>
+                <div className="info-edit-container">
+                  <i className="bi bi-person" aria-hidden="true"></i>
+                  <div className="info-edit-input">{myInfo.nickname}</div>
+                </div>
+                <div className="info-edit-container">
+                  <i className="bi bi-phone" aria-hidden="true"></i>
+                  <div className="info-edit-input">{myInfo.phoneNumber}</div>
+                </div>
+                <div className="user-pw-edit">
+                  <button className="edit-btn" onClick={() => setEdit(true)}>
                     프로필 수정하기
                   </button>
                   <button
@@ -342,6 +399,15 @@ const Profile = () => {
             </div>
           )}
         </div>
+        {modalOpen ? (
+          <ButtonModal text="수정되었습니다." buttonContainer="0" />
+        ) : null}
+        {phoneNumberModal ? (
+          <ButtonModal
+            text="핸드폰 번호의 중복확인을 눌러주세요"
+            buttonContainer="0"
+          />
+        ) : null}
       </div>
       {modalOpen ? (
         <ButtonModal

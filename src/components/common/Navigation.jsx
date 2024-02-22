@@ -15,7 +15,7 @@ const Navigation = (props) => {
     ["all", "전체"],
     ["concert", "콘서트"],
     ["musical", "뮤지컬"],
-    ["play", "연극"],
+    ["theater", "연극"],
   ];
 
   navValues.map((value) => {

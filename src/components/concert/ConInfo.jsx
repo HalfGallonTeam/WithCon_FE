@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import instance from "../../assets/constants/instance";
 import KakaoMap from "./Map";
 
 const ConInfo = () => {
-  const [infoData, setInfoData] = useState([null]);
+  const [infoData, setInfoData] = useState({});
+  const { concertTitle } = useParams();
+  let loading = false;
+
   useEffect(() => {
     const fetchData = async () => {
+      if (loading) return;
+      loading = true;
       try {
-        const response = await instance.get("/conInfo");
+        const response = await instance.get(`/performance/${concertTitle}`);
         setInfoData(response.data);
       } catch (error) {
         console.error(error, "에러");
@@ -15,39 +21,35 @@ const ConInfo = () => {
     };
     fetchData();
   }, []);
-  const infoItems = [];
-  for (let key in infoData[0]) {
-    infoItems.push(
-      <li className="info-item" key={key}>
-        <span className="item-name">{key} </span>
-        <div>
-          <span>
-            {typeof infoData[0][key] === "number" && key === "가격"
-              ? `${infoData[0][key].toLocaleString()} 원`
-              : infoData[0][key]}
-          </span>
-        </div>
-      </li>
-    );
-  }
+
   return (
     <div className="info-container">
       <div className="info">
         <div className="info-img">
-          <img
-            src="https://dummyimage.com/300x400/E6E6E6/0011ff"
-            alt="빈 이미지"
-          />
-          <span> ❤️ 117</span>
+          <img src={infoData.poster} alt={infoData.name} />
+          <span> ❤️ {infoData.likes}</span>
         </div>
         <div className="description">
-          <ul className="info-items">{infoItems}</ul>
+          <ul className="info-items">
+            <li className="info-item">
+              <span className="item-name">공연이름</span>
+              <div>
+                <span>{infoData.name}</span>
+              </div>
+            </li>
+            <li className="info-item">
+              <span className="item-name">공연자</span>
+              <div>
+                <span>아직몰라요 지워도 돼요</span>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
       <div className="map">
         <div className="contact">
-          <span>위치:OO시 OO길 12-3</span>
-          <span>Tel : 12 - 345 - 6789</span>
+          <span>위치: {infoData.facility}</span>
+          <span>Tel : 12 - 345 - 6789 아직몰라요지워도돼요</span>
         </div>
         <div className="map-img">
           <KakaoMap />

@@ -1,8 +1,12 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { myInfoState } from "../../assets/constants/userRecoilState";
 import instance from "../../assets/constants/instance";
+import axios from "axios";
 
 const NaverLogin = () => {
+  const setMyinfo = useSetRecoilState(myInfoState);
   let isRunning = true;
   const navigate = useNavigate();
   const url = useLocation();
@@ -25,29 +29,24 @@ const NaverLogin = () => {
       }
 
       try {
-        const response = await instance.post("/auth/oauth2/login", {
+        const response = await axios.post("/api/auth/oauth2/login", {
           registrationId: "naver",
           authorizationCode: code,
         });
-        const datas = await response.data;
-        if (datas.accessToken) {
-          localStorage.setItem(
-            "withcon_token",
-            JSON.stringify(datas.accessToken)
-          );
-          navigate("/");
-        } else if (datas.result === "NG") {
-          window.alert("통신 상태가 좋지 않습니다. 잠시 후 다시 시도해주세요");
-          navigate("/login");
-        } else {
-          window.alert(
-            "서버 response가 없으므로 naver_access_token을 localStorage에 저장"
-          );
-          localStorage.setItem("withcon_token", JSON.stringify(code));
-          navigate("/");
-        }
+        console.log(response);
+        const token = response.headers.authorization;
+        localStorage.setItem("withcon_token", JSON.stringify(token));
+        const response2 = await instance.get("/member/me");
+        setMyinfo(response2.data);
+        const response3 = await instance.get("/performance/favorite-id");
+        localStorage.setItem("favorites", JSON.stringify(response3.data));
+        navigate("/");
       } catch (error) {
         console.error(error, "에러");
+        window.alert(
+          "서버 연결 상태가 좋지 않습니다. 잠시 후 다시 시도해주세요."
+        );
+        navigate("/login");
       }
     };
     getWithconTokenFromNaver();

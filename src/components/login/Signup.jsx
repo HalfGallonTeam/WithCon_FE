@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { validateInput } from "./Validate";
-import instance from "../../assets/constants/instance";
 import SignUpInput, { onInputChange } from "./SignupForm";
+import axios from "axios";
 
 const Signup = () => {
-  const [userData, setUserData] = useState([]);
+  const [disUsable, setDisUsable] = useState({
+    username: false,
+    phoneNumber: false,
+  });
   const [data, setData] = useState({
     userId: "",
     pw: "",
@@ -29,59 +32,113 @@ const Signup = () => {
   const [modalMsg, setModalMsg] = useState("");
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await instance.get("/join");
-        setUserData(response.data);
-      } catch (error) {
-        console.error(error, "에러");
-      }
-    };
-    fetchData();
-  }, []);
 
-  const checkDuplicationId = () => {
-    const disUsable = userData.map((x) => x.username).includes(data.userId);
-    if (disUsable) {
-      setMsgs((prevState) => ({
-        ...prevState,
-        userIdMsg: "이미 존재하는 아이디입니다.",
-      }));
-    } else if (data.userId === "") {
-      setMsgs((prevState) => ({
-        ...prevState,
-        userIdMsg: "아이디를 입력해주세요",
-      }));
-    } else if (validateInput("userId", data.userId) && !disUsable) {
-      setMsgs((prevState) => ({
-        ...prevState,
-        userIdMsg: "사용가능한 아이디 입니다.",
-      }));
-      setUsables((prevState) => ({ ...prevState, userId: true }));
+  const fetchDuplicateUserName = async () => {
+    try {
+      const response = await axios.post(
+        "/api/auth/username-duplication-check",
+        {
+          username: data.userId,
+        }
+      );
+
+      if (response.status === 200) {
+        setDisUsable((prev) => ({ ...prev, ["username"]: true }));
+        setMsgs((prev) => ({
+          ...prev,
+          ["userIdMsg"]: "사용가능한 아이디 입니다.",
+        }));
+        setUsables((prevState) => ({ ...prevState, userId: true }));
+      } else {
+        // 다른 상태 코드에 대한 처리
+        console.error("Server returned an error with status:", response.status);
+        console.error("Error data:", response.data);
+        // 예를 들어, 409 상태 코드에 대한 처리를 추가할 수 있습니다.
+        if (response.status === 409) {
+          // 중복 아이디 에러 처리
+          setMsgs((prev) => ({
+            ...prev,
+            ["userIdMsg"]: "이미 존재하는 아이디입니다.",
+          }));
+        }
+      }
+    } catch (error) {
+      // 에러 발생 시
+      if (error.response) {
+        // 서버 응답이 있는 경우
+
+        // 예를 들어, 409 상태 코드에 대한 처리를 추가할 수 있습니다.
+        if (error.response.status === 409) {
+          // 중복 아이디 에러 처리
+          setMsgs((prev) => ({
+            ...prev,
+            ["userIdMsg"]: "이미 존재하는 아이디입니다.",
+          }));
+        }
+      } else {
+        // 서버 응답이 없는 경우
+        console.error("Network error:", error.message);
+      }
+    }
+  };
+  const fetchDuplicatePhoneNumber = async () => {
+    try {
+      const response = await axios.post(
+        "/api/auth/phone-number-duplication-check",
+        {
+          phoneNumber: data.phone,
+        }
+      );
+      if (response.status === 200) {
+        setDisUsable((prev) => ({ ...prev, ["phoneNumber"]: true }));
+        setMsgs((prev) => ({
+          ...prev,
+          ["phoneMsg"]: "사용가능한 핸드폰 번호 입니다.",
+        }));
+        setUsables((prevState) => ({ ...prevState, phone: true }));
+      } else {
+        if (response.status === 409) {
+          setMsgs((prev) => ({
+            ...prev,
+            ["phoneMsg"]: "이미 존재하는 핸드폰 번호입니다.",
+          }));
+        }
+      }
+    } catch (error) {
+      // 에러 발생 시
+      if (error.response) {
+        if (error.response.status === 409) {
+          setMsgs((prev) => ({
+            ...prev,
+            ["phoneMsg"]: "이미 존재하는 핸드폰 번호입니다.",
+          }));
+        }
+      } else {
+        console.error("Network error:", error.message);
+      }
     }
   };
 
-  const checkDuplicationPhone = () => {
-    const disUsable = userData.map((x) => x.phoneNumber).includes(data.phone);
-    if (data.phone !== "" && disUsable) {
-      setMsgs((prevState) => ({
-        ...prevState,
-        phoneMsg: "이미 존재하는 번호입니다.",
-      }));
-    } else if (data.phone.length < 13 && !disUsable) {
-      setMsgs((prevState) => ({
-        ...prevState,
-        phoneMsg: "번호는 11자리 여야 합니다.",
-      }));
-    } else if (validateInput("phone", data.phone) === true) {
-      setMsgs((prevState) => ({
-        ...prevState,
-        phoneMsg: "사용가능한 핸드폰 번호 입니다.",
-      }));
+  const checkDuplicationId = async (e) => {
+    e.preventDefault();
+    if (data.userId === "" || !validateInput("userId", data.userId)) return;
+    setDisUsable((prev) => ({ ...prev, ["username"]: false }));
+    await fetchDuplicateUserName();
+    // if (validateInput("userId", data.userId) && disUsable.username) {
+    //   setUsables((prevState) => ({ ...prevState, userId: true }));
+    // } else return;
+  };
 
-      setUsables((prevState) => ({ ...prevState, phone: true }));
-    }
+  const checkDuplicationPhone = async (e) => {
+    e.preventDefault();
+    if (data.userId === "" || !validateInput("phone", data.phone)) return;
+    setDisUsable((prev) => ({ ...prev, ["phoneNumber"]: false }));
+    await fetchDuplicatePhoneNumber();
+    // if (validateInput("phone", data.phone) && disUsable.phoneNumber) {
+    //   setUsables((prevState) => ({ ...prevState, phone: true }));
+    // } else {
+    //   return;
+    // }
   };
 
   const checkPw = (e) => {
@@ -126,7 +183,7 @@ const Signup = () => {
           phoneNumber: `${data.phone}`,
           login_type: "HOME",
         };
-        const response = await instance.post("/join", postData);
+        const response = await axios.post("/api/auth/join", postData);
         console.log(response.data);
         setModalMsg("회원가입이 완료 되었습니다.");
         setTimeout(() => {
@@ -141,6 +198,9 @@ const Signup = () => {
       console.error("error");
     }
   };
+  useEffect(() => {
+    console.log(disUsable);
+  }, [disUsable]);
   return (
     <div className="middle-container">
       <div className="container">
@@ -162,9 +222,9 @@ const Signup = () => {
                 onChange={(e) =>
                   onInputChange(e, setData, setMsgs, setUsables, "userId")
                 }
-                onClick={checkDuplicationId}
                 type="text"
                 maxLength={12}
+                onClick={checkDuplicationId}
               />
 
               <SignUpInput
