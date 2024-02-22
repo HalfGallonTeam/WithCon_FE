@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import instance from "../../assets/constants/instance";
+//import instance from "../../assets/constants/instance";
 import ChatMessageForm from "./ChatMessageForm";
 import ChatToggle from "./ChatToggle";
 import AddMessages from "./AddMessages";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
+import axios from "axios";
 
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
@@ -17,14 +18,16 @@ const basic = {
   members: [],
 };
 
+const instance = axios.create({ baseURL: "http://localhost:3000" });
+
 const Chat = () => {
-  const myId = useRecoilValue(myInfoState).username;
+  //const myId = useRecoilValue(myInfoState).username;
   const [isPrev, setIsPrev] = useState(true);
   const { chatRoomId } = useParams();
   const [prevMessage, setPrevMessage] = useState(null);
   const [chatInitial, setChatInitial] = useState(basic);
   const [sendButton, setSendButton] = useState(false);
-  const [talker, setTalker] = useState("me"); //지울 것입니다.
+  const [myId, setTalker] = useState("me"); //지울 것입니다.
   const [toggle, setToggle] = useState(false);
   const observerRef = useRef(null);
   const messageRef = useRef(null);
@@ -47,7 +50,7 @@ const Chat = () => {
 
   //이전 메세지 호출 함수. id 숫자 계산해서 요청.
   const callMessageBefore = async () => {
-    if (firstMessageRef.current === 1) {
+    if (firstMessageRef.current <= 1) {
       setIsPrev(false);
       return;
     }
@@ -55,9 +58,7 @@ const Chat = () => {
     url += `?_start=${Math.max(0, firstMessageRef.current - 11)}&_limit=10`;
     const response = await instance.get(url);
     const datas = await response.data;
-    /**
-     * 나중에는 datas.length < 10 이면 setIsPrev(false)
-     */
+    if (datas.length < 10) setIsPrev(false); //적절한 쿼리스트링 필요.
     firstMessageRef.current = datas[0].id;
     AddMessages(
       datas,
@@ -79,7 +80,6 @@ const Chat = () => {
   useEffect(() => {
     const sendVisible = (visibleType) => {
       const obj = {
-        performanceId: chatInitial.performanceId,
         chatRoomId: chatRoomId,
         visibleType: visibleType,
       };
@@ -89,7 +89,6 @@ const Chat = () => {
     if (enterRoomNow) {
       enterRoomNow = false;
       const data = {
-        performanceId: chatInitial.performanceId,
         chatRoomId: chatRoomId,
         targetId: myId,
         messageType: "ENTER",
@@ -135,7 +134,8 @@ const Chat = () => {
       firstSet = true;
       try {
         //기본 채팅방 정보 설정
-        const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
+        //const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
+        const response = await instance.get(`/chatRoomEnter/${chatRoomId}`);
         const datas = await response.data;
         chatMembersRef.current = datas.members;
         datas.members = [];
@@ -145,23 +145,14 @@ const Chat = () => {
         let startId = localStorage.getItem("chat");
         let url = "/chatMessages";
         url += startId
-          ? `?_start=${startId - 1}&_limit=30`
-          : "?_start=40&_limit=30";
+          ? `?_start=${startId - 1}&_limit=10`
+          : "?_start=1&_limit=30";
         const response2 = await instance.get(url);
         const datas2 = await response2.data;
 
-        AddMessages(
-          datas2,
-          messageRef.current,
-          chatMembersRef.current,
-          "append",
-          myId
-        );
-        setPrevMessage(datas2[datas2.length - 1]);
-
         //로컬스토리지용 아이디 세팅
-        firstMessageRef.current = datas2[0].id || 0;
-        lastMessageRef.current = datas2[datas2.length - 1].id;
+        firstMessageRef.current = datas2[0]?.id || 0;
+        lastMessageRef.current = datas2[datas2.length - 1]?.id;
         setPrevMessage(datas2[datas2.length - 1]);
 
         AddMessages(
@@ -198,38 +189,41 @@ const Chat = () => {
 
   const changeTalker = () => {
     //이 버튼은 서버와 연결되면 사라질 것입니다.
-    if (talker === "me") setTalker("other");
+    if (myId === "me") setTalker("other");
     else setTalker("me");
   };
   const sendMessage = async () => {
     const info = textRef.current.value;
     textRef.current.value = "";
     setSendButton(false);
+    //지울 거에요
+    const time = new Date().getTime();
+    //(끝)지울 거에요
     const newMessage = {
       memberId: myId,
-      roomId: chatRoomId,
-      text: info,
+      message: info,
+      sendAt: time,
     };
     const response = await instance.post("/chatMessages", newMessage);
     const datas = await response.data;
     lastMessageRef.current = datas.id;
-    let same = false;
-    if (datas.memberId === myId) {
-      datas.memberId = "me";
-    } else {
-      if (
-        prevMessage.memberId === datas.memberId &&
-        datas.sendAt - prevMessage.sendAt < 10000
-      ) {
-        same = true;
-      }
-    }
     setPrevMessage(datas);
     let memberdata = null;
     for (const member of chatMembersRef.current) {
       if (member.username === datas.memberId) {
         memberdata = member;
         break;
+      }
+    }
+    let same = false;
+    if (datas.memberId === myId) {
+      datas.memberId = 0;
+    } else {
+      if (
+        prevMessage.memberId === datas.memberId &&
+        datas.sendAt - prevMessage.sendAt < 10000
+      ) {
+        same = true;
       }
     }
     ChatMessageForm(datas, messageRef.current, same, memberdata);
@@ -282,9 +276,7 @@ const Chat = () => {
             보내기
           </button>
         </div>
-        <button onClick={changeTalker}>
-          메세지 보내는 사람:&nbsp;{talker}
-        </button>
+        <button onClick={changeTalker}>메세지 보내는 사람:&nbsp;{myId}</button>
       </div>
     </div>
   );
