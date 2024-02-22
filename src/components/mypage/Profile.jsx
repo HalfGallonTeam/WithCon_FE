@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ButtonModal from "../common/modal";
 import EditProfileImg from "./EditProfileImg";
 import instance from "../../assets/constants/instance";
@@ -12,12 +12,12 @@ const Profile = () => {
   /**
   const [modalOpen, setModalOpen] = useState(false);
   const [exitModal, setExitModal] = useState(false);
-  const [passWordCheck, setPassWordCheck] = useState(false);
+  const [phoneNumberModal, setPhoneNumberModal] = useState(false);
   const [modal, setModal] = useState(false);
   const [modalText, setModalText] = useState("");
+  const [passWordCheck, setPassWordCheck] = useState(false);
   const [edit, setEdit] = useState(false);
   const [usable, setUsable] = useState(false);
-  const [userMeInfo, setUserMeInfo] = useState({});
   const [msgs, setMsgs] = useState({
     nicknameMsg: "",
     phoneMsg: "",
@@ -25,16 +25,12 @@ const Profile = () => {
     password2Msg: "",
   });
   const [myInfo, setMyInfo] = useRecoilState(myInfoState);
-  const [phoneNumberModal, setPhoneNumberModal] = useState(false);
-  //test
   const [pw2, setPw2] = useState("");
-  const [sameCheck, setSameCheck] = useState(false);
   const [data, setData] = useState({
     nickname: myInfo.nickname,
     phoneNumber: myInfo.phoneNumber,
-    newPassword: ""
+    newPassword: "",
   });
-
 
   //모바일 설정 기준으로 세팅 > min-width 설정을 통해서 큰 화면이 보이도록.
 
@@ -273,7 +269,7 @@ const Profile = () => {
                   maxLength={13}
                 />
                 <button
-                  type="buttton"
+                  type="button"
                   onClick={checkDuplicationPhone}
                   className="edit-btn"
                 >
@@ -335,11 +331,11 @@ const Profile = () => {
             <div className="user-profile-info-container">
               <div className="info-container">
                 <i className="bi bi-person" aria-hidden="true"></i>
-                <div className="info-div">{userMeInfo[0]?.nickname}</div>
+                <div className="info-div">{myInfo?.nickname}</div>
               </div>
               <div className="info-container">
                 <i className="bi bi-phone" aria-hidden="true"></i>
-                <div className="info-div">{userMeInfo[0]?.phoneNumber}</div>
+                <div className="info-div">{myInfo?.phoneNumber}</div>
               </div>
               {passWordCheck ? (
                 <PassWordCheck
@@ -347,55 +343,22 @@ const Profile = () => {
                   setPassWordCheck={setPassWordCheck}
                 />
               ) : (
-                <div className="user-pw-edit">
-                  <button
-                    className="edit-btn"
-                    onClick={() => setPassWordCheck(true)}
-                  >
-                    중복 확인
-                  </button>
-                </div>
-                {msgs.phoneMsg ? (
-                  <span className="msgs">{msgs.phoneMsg}</span>
-                ) : null}
-                <div className="info-edit-container">
-                  <Link
-                    to="/profile/changepassword/"
-                    className="edit-password-btn"
-                  >
-                    비밀번호 재설정
-                  </Link>
-                </div>
-                <div className="user-pw-edit">
-                  <button className="edit-btn" onClick={submitInfo}>
-                    적용
-                  </button>
-                  <button className="edit-btn" onClick={() => setEdit(false)}>
-                    취소
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <div>
-                <div className="info-edit-container">
-                  <i className="bi bi-person" aria-hidden="true"></i>
-                  <div className="info-edit-input">{myInfo.nickname}</div>
-                </div>
-                <div className="info-edit-container">
-                  <i className="bi bi-phone" aria-hidden="true"></i>
-                  <div className="info-edit-input">{myInfo.phoneNumber}</div>
-                </div>
-                <div className="user-pw-edit">
-                  <button className="edit-btn" onClick={() => setEdit(true)}>
-                    프로필 수정하기
-                  </button>
-                  <button
-                    className="edit-btn exit-red"
-                    onClick={() => setExitModal(true)}
-                  >
-                    회원 탈퇴하기
-                  </button>
-                </div>
+                <>
+                  <div className="user-pw-edit">
+                    <button
+                      className="edit-btn"
+                      onClick={() => setPassWordCheck(true)}
+                    >
+                      프로필 수정하기
+                    </button>
+                    <button
+                      className="edit-btn exit-red"
+                      onClick={() => setExitModal(true)}
+                    >
+                      회원 탈퇴하기
+                    </button>
+                  </div>
+                </>
               )}
             </div>
           )}
