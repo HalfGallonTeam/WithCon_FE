@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-// import SockJS from "sockjs-client";
-// import Stomp from "stompjs";
 import { BiBell } from "react-icons/bi";
 import instance from "../../assets/constants/instance";
 import { EventSourcePolyfill } from "event-source-polyfill";
+import { useNavigate } from "react-router-dom";
 
 const Notification = () => {
   const [alarmListOpen, setAlarmListOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
   const listRef = useRef(null);
+  const navigate = useNavigate();
+
   const clickOutSide = (e) => {
     if (listRef.current && !listRef.current.contains(e.target)) {
       setAlarmListOpen(false);
@@ -33,49 +33,49 @@ const Notification = () => {
   };
   //SSE관련 콬드
   const [notifications, setNotifications] = useState([]);
-  const clickDelete = (list) => {
-    setNotifications((prev) => prev.filter((item) => item !== list));
-  };
+
   //테스트
   const accessToken = JSON.parse(localStorage.getItem("withcon_token"));
   useEffect(() => {
     // SSE 접속 => feat/api에 사용
-    const lastEventId = localStorage.getItem("chat");
     const EventSource = EventSourcePolyfill;
     if (accessToken) {
-      const eventSource = new EventSource("/api/notification/subscribe", {
+      let eventSource = new EventSource("/api/notification/subscribe", {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
-          // "Last-Event-ID": lastEventId,
+          Authorization: accessToken,
           "Content-Type": "text/event-stream",
-          heartbeatTimeout: 6000000,
         },
+        heartbeatTimeout: 1800000,
       });
-
-      // const eventSource = new EventSource("/api/notification/subscribe", {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //     "Last-Event-ID": lastEventId,
-      //     "Content-Type": "text/event-stream; charset=UTF-8",
-      //   },
-      // });
-      // const eventSource = new EventSource(
-      //   "http://localhost:3001/notification/subscribe"
-      // );
-
+      eventSource.onopen = () => {
+        fetchPrevNotifications();
+        console.log("SSE 연결했음");
+      };
       eventSource.onmessage = (event) => {
-        const newNotification = event.data;
-
-        // const newNotification = JSON.parse(event.data).message;
-        setNotifications((prevNotifications) => [
-          ...prevNotifications,
-          newNotification,
-        ]);
-
-        console.log(newNotification);
+        console.log("메세지왔음", event.data);
+        if (event.data !== `SSE 구독 완료 memberId: ${event.data.memberId}`) {
+          return;
+        } else {
+          const newNotification = event.data;
+          notifications.push(newNotification);
+        }
       };
 
       eventSource.onerror = (error) => {
+        console.log(error.readyState);
+        if (error.readyState === EventSource.CLOSED) {
+          console.log("Reconnecting...");
+          eventSource = new EventSource("/api/notification/subscribe", {
+            headers: {
+              Authorization: accessToken,
+              "Content-Type": "text/event-stream",
+            },
+            heartbeatTimeout: 1800000,
+          });
+          eventSource.onopen = () => {
+            console.log("재연결 ㄱㄱ");
+          };
+        }
         console.error("SSE Error:", error);
         eventSource.close();
       };
@@ -85,34 +85,63 @@ const Notification = () => {
         eventSource.close();
       };
     }
-  }, [accessToken]);
+  }, []);
 
-  //알림설정 부분
   const fetchPrevNotifications = async () => {
     try {
       const response = await instance.get("/notifications");
-      console.log(response);
-      const data = await response.data.message;
-      setNotifications(data);
+      console.log(response, "데이터 있음?");
+
+      const data = await response.data;
+
+      const dataList = await data.filter((x) => !Array.isArray(x));
+
+      setNotifications(dataList);
     } catch (error) {
       console.error("에러난다 SSE", error);
+    }
+  };
+
+  //알림설정 부분
+  const handleMessage = (e, item) => {
+    e.preventDefault();
+    navigate(item.url);
+    window.location.reload();
+  };
+  const handleDelete = async (item) => {
+    try {
+      const response = await instance.put(
+        `/notification/${item.notificationId}`
+      );
+      console.log(response.status);
+      setNotifications((lists) =>
+        lists.filter((list) => list.notificationId !== item.notificationId)
+      );
+    } catch (error) {
+      console.error("check error", error);
     }
   };
 
   return (
     <div className="alarm-area" onClick={clickAlarm} ref={listRef}>
       <BiBell size={24} className="bell" />
-      <span>{notifications.length}</span>
+      <span>{notifications?.length}</span>
       {alarmListOpen === true ? (
         <div className="alarm-list-container">
           <div className="list-top">지난 알림 목록</div>
+
           <ul className="alarm-list" onClick={liClick}>
-            {notifications?.map((list, idx) => (
-              <li className="alarm-contents" key={idx}>
-                <div className="alarm-text">{list}</div>
+            {notifications?.map((item) => (
+              <li className="alarm-contents" key={item.notificationId}>
+                <div
+                  className="alarm-text"
+                  onClick={(e) => handleMessage(e, item)}
+                >
+                  {item.message}
+                </div>
                 <button
                   className="delete-btn"
-                  onClick={() => clickDelete(list)}
+                  onClick={() => handleDelete(item)}
                 >
                   X
                 </button>
