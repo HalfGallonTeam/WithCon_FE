@@ -7,6 +7,7 @@ import PassWordCheck from "./PassWordCheck";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -25,12 +26,14 @@ const Profile = () => {
     password2Msg: "",
   });
   const [myInfo, setMyInfo] = useRecoilState(myInfoState);
+  console.log(myInfo);
   const [pw2, setPw2] = useState("");
   const [data, setData] = useState({
     nickname: myInfo.nickname,
     phoneNumber: myInfo.phoneNumber,
     newPassword: "",
   });
+  const navigate = useNavigate();
 
   //모바일 설정 기준으로 세팅 > min-width 설정을 통해서 큰 화면이 보이도록.
 
@@ -170,10 +173,16 @@ const Profile = () => {
       if (response.status === 200) {
         setModal(true);
         setModalText("성공적으로 탈퇴되었습니다.");
+
         setTimeout(() => {
           setModal(false);
           setModalText("");
+          localStorage.removeItem("withcon_token");
+          localStorage.removeItem("favorites");
+          sessionStorage.clear();
+          navigate("/login");
         }, 1000);
+        setExitModal(false);
       }
     } catch (error) {
       console.error("탈퇴에러", error);
@@ -183,8 +192,8 @@ const Profile = () => {
         setModal(false);
         setModalText("");
       }, 1000);
+      setExitModal(false);
     }
-    setExitModal(false);
   };
   const onClickExit = () => {
     deleteUser();

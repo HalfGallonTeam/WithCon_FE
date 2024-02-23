@@ -87,7 +87,9 @@ const Login = () => {
       <div className="middle-container">
         <div className="container">
           <div className="login-box">
-            <h1 className="title">위드콘</h1>
+            <h1 className="title" onClick={() => navigate("/")}>
+              위드콘
+            </h1>
             <form
               className="login-form"
               name="login-form"
