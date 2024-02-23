@@ -61,9 +61,7 @@ const ChatList = () => {
 
   const handleSearch = async () => {
     try {
-      const tag_id = 1;
-      //tag_id를 무엇으로 할 것인지 확인이 필요함.
-      let url = `/room/search/performance/${concertTitle}/tag/${tag_id}`;
+      let url = `/room/search/performance/${concertTitle}/tag/${searchHashtag}`;
       await setLists(url, setData, totalCount, setTotalCount);
     } catch (error) {
       console.error(error, "에러");

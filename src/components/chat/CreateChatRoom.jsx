@@ -52,12 +52,13 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
         setRoomMsg("채팅방 제목을 적어주세요");
         return;
       }
-      const num = Number(performanceId);
+      const performance_id = Number(performanceId);
       const data = {
-        name: roomName,
-        performance_id: num,
-        tags: tagLists,
+        roomName,
+        performance_id,
+        tagLists,
       };
+      console.log(data);
       const response = await instance.post("/chatRoom", data);
       if (response.status === 201) {
         const newChatroom = await response.data.id;
