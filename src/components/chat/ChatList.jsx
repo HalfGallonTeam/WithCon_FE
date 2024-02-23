@@ -14,7 +14,6 @@ const ChatList = () => {
   const [totalCount, setTotalCount] = useState(65);
   const [searchHashtag, setSearchHashtag] = useState("");
   const [data, setData] = useState(null);
-  const [filteredData, setFilteredData] = useState(null);
   const url = useLocation();
   const urlSearch = new URLSearchParams(url.search);
   const pages = urlSearch.get("page") || 1;
@@ -35,11 +34,12 @@ const ChatList = () => {
       );
       if (response.data.length) {
         setTagInfo(response.data);
-      } else {
+      }
+    } catch (error) {
+      if (error.response.status === 404) {
         const response2 = await instance.get("/tag/search");
         setTagInfo(response2.data);
       }
-    } catch (error) {
       console.error(error, "에러");
     }
   };
@@ -59,17 +59,17 @@ const ChatList = () => {
     setCurrentPage(pages);
   }, [url]);
 
-  const upDateFilterData = () => {
-    const filterData = data
-      ? searchHashtag
-        ? data.filter((data) => data.tags.includes(searchHashtag))
-        : data
-      : null;
-    setFilteredData(filterData);
+  const handleSearch = async () => {
+    try {
+      const tag_id = 1;
+      //tag_id를 무엇으로 할 것인지 확인이 필요함.
+      let url = `/room/search/performance/${concertTitle}/tag/${tag_id}`;
+      await setLists(url, setData, totalCount, setTotalCount);
+    } catch (error) {
+      console.error(error, "에러");
+    }
   };
-  const handleSearch = () => {
-    upDateFilterData();
-  };
+
   const handleSearchKeydown = (e) => {
     if (e.key === "Enter") {
       handleSearch();
@@ -116,8 +116,8 @@ const ChatList = () => {
         </div>
       </div>
       <div className="list-container">
-        {data && (filteredData || data).length > 0 ? (
-          (filteredData || data).map((searchData) => (
+        {data && data.length > 0 ? (
+          data.map((searchData) => (
             <ChatRoom searchData={searchData} key={searchData.id} />
           ))
         ) : (
