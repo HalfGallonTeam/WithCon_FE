@@ -28,8 +28,8 @@ const MyChat = () => {
   }, [url]);
 
   const chatRooms = [];
-  datas.map((data) => {
-    chatRooms.push(<ChatRoom searchData={data} key={data.id} />);
+  datas.map((data, index) => {
+    chatRooms.push(<ChatRoom searchData={data} key={index} />);
   });
 
   return (

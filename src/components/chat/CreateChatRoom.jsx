@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { format } from "date-fns";
 import instance from "../../assets/constants/instance";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -53,13 +52,11 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
         setRoomMsg("채팅방 제목을 적어주세요");
         return;
       }
-      const currentTime = new Date();
-      const formattedDate = format(currentTime, "yyyyMMddHHmm");
+      const num = Number(performanceId);
       const data = {
-        memberId: myId,
-        name: roomName,
-        tags: tagLists,
-        performanceId: performanceId,
+        roomName,
+        num,
+        tagLists,
       };
       const response = await instance.post("/chatRoom", data);
       if (response.status === 201) {
