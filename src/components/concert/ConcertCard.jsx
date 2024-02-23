@@ -1,14 +1,21 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import instance from "../../assets/constants/instance";
 
 const ConcertCard = (props) => {
-  const [likethis, setLikethis] = useState(props.like);
+  const url = useLocation();
+  const [likethis, setLikethis] = useState(false);
   const setFavorites = props.setLike;
   const navigate = useNavigate();
   const info = props.info;
   const className =
     info.status === "END" ? "hot" : info.status === "" ? "hidden" : "";
+
+  useEffect(() => {
+    if (props.like) {
+      setLikethis(true);
+    } else setLikethis(false);
+  });
 
   const likeChange = async (e) => {
     e.stopPropagation();

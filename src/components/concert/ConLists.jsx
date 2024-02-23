@@ -35,32 +35,7 @@ const ConLists = () => {
     };
     getInfos();
     setCurrentPage(pages);
-
-    //바뀐 정보로 카드를 그려요
-    infos.map((info, index) => {
-      let like = false;
-      if (favorites && favorites.includes(info.id + "")) {
-        like = true;
-      }
-      concertCards.push(
-        <ConcertCard
-          info={info}
-          key={index}
-          like={like}
-          setLike={setFavorites}
-        />
-      );
-    });
-    if (!infos.length) {
-      concertCards.push(
-        <div key="1">
-          <h2 className="notice">결과가 없습니다</h2>
-        </div>
-      );
-    }
   }, [url]);
-
-  const concertCards = [];
 
   return (
     <>
@@ -80,7 +55,7 @@ const ConLists = () => {
             <ConcertCard
               info={info}
               key={index}
-              like={true}
+              like={favorites && favorites.includes(info.id + "")}
               setLike={setFavorites}
             />
           ))}

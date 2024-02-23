@@ -3,7 +3,6 @@ import instance from "../constants/instance";
 const setLists = async (request, setInfos, totalCount, setTotalCount) => {
   const response = await instance.get(request);
   const datas = await response.data;
-  console.log(datas);
   setInfos(datas.content);
   const length = datas.totalElements;
   if (length !== totalCount) {
