@@ -37,7 +37,8 @@ instance.interceptors.response.use(
     if (response.data.status === 401) {
       if (
         response.data.errorCode === "REFRESH_TOKEN_EXPIRED" ||
-        response.data.errorCode === "NOT_EXIST_REFRESH_TOKEN"
+        response.data.errorCode === "REFRESH_TOKEN_COOKIE_IS_EMPTY" ||
+        response.data.errorCode === "MEMBER_NOT_FOUND"
       ) {
         console.log(response.data.message);
         localStorage.removeItem("withcon_token");
