@@ -4,8 +4,9 @@ import ButtonModal from "../common/modal";
 import { BsPersonFill } from "react-icons/bs";
 import { useRecoilState } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
+import { useMutation } from "react-query";
 
-const EditProfileImg = () => {
+const EditProfileImg = ({ edit }) => {
   const [myInfo, setMyInfo] = useRecoilState(myInfoState);
   const [imageUrl, setImageUrl] = useState(myInfo.profileImage);
   const [imgFile, setImgFile] = useState(null);
@@ -38,21 +39,18 @@ const EditProfileImg = () => {
       try {
         const formData = new FormData();
         formData.append("image", imgFile);
-        //formData 확인용 마지막에 지워야함(start)
-        for (let key of formData.keys()) {
-          console.log(key);
-        }
-        for (let value of formData.values()) {
-          console.log(value);
-        }
-        // (end)
         await instance.post("/member/profile-image", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+        setMsgModal(true);
+        setMsg("프로필 이미지 수정완료");
+        setTimeout(() => {
+          setMsgModal(false);
+          setMsg("");
+        }, 1000);
         await UpdateMyInfo();
-        console.log("수정완료");
       } catch (error) {
         console.error("이미지 업로드 에러", error);
       }
@@ -61,9 +59,7 @@ const EditProfileImg = () => {
 
   const UpdateMyInfo = async () => {
     try {
-      // console.log("작동 setuser");
       const response = await instance.get("/member/me");
-      // console.log(response);
       const data = await response.data;
       if (response.status === 200) {
         setMyInfo(data);
@@ -73,28 +69,17 @@ const EditProfileImg = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const getUserInfo = async () => {
-  //     try {
-  //       const response = await instance.get("/member/me");
-  //       const imgFile = await response.profileImage;
-  //       const imgUrl = await URL.createObjectURL(imgFile);
-  //       setImageUrl(imgUrl);
-  //       prevImageUrl(imgUrl);
-  //     } catch (error) {
-  //       console.error("에러", error);
-  //     }
-  //   };
-  //   getUserInfo();
-  // }, []);
   return (
     <div className="edit-img-container">
-      <div
-        className="cancel-btn"
-        onClick={() => setImageUrl(myInfo.profileImage)}
-      >
-        X
-      </div>
+      {edit ? (
+        <div
+          className="cancel-btn"
+          onClick={() => setImageUrl(myInfo.profileImage)}
+        >
+          X
+        </div>
+      ) : null}
+
       {imageUrl === null ? (
         <BsPersonFill className="profile-img border-img" />
       ) : (
