@@ -54,9 +54,9 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
       }
       const num = Number(performanceId);
       const data = {
-        roomName,
-        num,
-        tagLists,
+        name: roomName,
+        performance_id: num,
+        tags: tagLists,
       };
       const response = await instance.post("/chatRoom", data);
       if (response.status === 201) {
