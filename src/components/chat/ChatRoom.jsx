@@ -12,13 +12,14 @@ const ChatRoom = ({ searchData }) => {
       }
     >
       <div className="chat-top">
-        <span className="title">{searchData.roomName}</span>
+        <span className="title">{searchData.chatRoomName}</span>
       </div>
       <div className="chat-bottom">
         <div className="chat-tag">
-          {searchData.tags.map((tag, index) => (
-            <span key={index}>#{tag}</span>
-          ))}
+          {searchData.tags &&
+            searchData.tags.map((tag, index) => (
+              <span key={index}>#{tag}</span>
+            ))}
         </div>
         <div className="member-num-container">
           <span className="member-num">총 인원</span>
