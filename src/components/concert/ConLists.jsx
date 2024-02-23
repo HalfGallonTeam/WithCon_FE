@@ -4,7 +4,6 @@ import ConcertCard from "./ConcertCard";
 import Navigation from "../common/Navigation";
 import Paging from "../common/Paging";
 import PAGE from "../../assets/constants/page";
-import instance from "../../assets/constants/instance";
 import setLists from "../../assets/tools/setLists";
 
 const ConLists = () => {
@@ -18,8 +17,8 @@ const ConLists = () => {
     .get("category")
     ?.replace(/[a-z]/g, (x) => x.toUpperCase());
   let keyword = urlSearch.get("keyword");
-  const [favoritePerformances, setFavoritePerformances] = useState(
-    JSON.parse(localStorage.getItem("favorites")) || {}
+  const [favorites, setFavorites] = useState(
+    JSON.parse(localStorage.getItem("favorites"))
   );
 
   useEffect(() => {
@@ -28,7 +27,7 @@ const ConLists = () => {
         let url = `/performance?`;
         url += keyword ? `keyword=${keyword}&` : "";
         url += category ? `genre=${category}&` : "";
-        url += `_page=${pages}&_limit=${PAGE.limit}`;
+        url += `page=${pages - 1}&limit=${PAGE.limit}`;
         await setLists(url, setInfos, totalCount, setTotalCount);
       } catch (error) {
         console.error(error, "에러");
@@ -37,29 +36,6 @@ const ConLists = () => {
     getInfos();
     setCurrentPage(pages);
   }, [url]);
-
-  const concertCards = [];
-  infos.map((info, index) => {
-    let like = false;
-    if (favoritePerformances?.includes(info.id)) {
-      like = true;
-    }
-    concertCards.push(
-      <ConcertCard
-        info={info}
-        key={index}
-        like={like}
-        setLike={setFavoritePerformances}
-      />
-    );
-  });
-  if (!infos.length) {
-    concertCards.push(
-      <div key="1">
-        <h2 className="notice">결과가 없습니다</h2>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -74,7 +50,16 @@ const ConLists = () => {
           </>
         )}
 
-        <div className="concert-list">{concertCards}</div>
+        <div className="concert-list">
+          {infos.map((info, index) => (
+            <ConcertCard
+              info={info}
+              key={index}
+              like={favorites && favorites.includes(info.id + "")}
+              setLike={setFavorites}
+            />
+          ))}
+        </div>
         <Paging totalCount={totalCount} currentPage={currentPage} />
       </div>
     </>

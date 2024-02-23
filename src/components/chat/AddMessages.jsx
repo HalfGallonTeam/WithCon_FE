@@ -6,26 +6,26 @@ const AddMessages = (datas, parentNode, chatMembers, direction, me) => {
     let same = false;
     if (i) {
       if (
-        datas[i - 1].from === datas[i].from &&
-        datas[i].timeStamp - datas[i - 1].timeStamp < 10000
+        datas[i - 1].memberId === datas[i].memberId &&
+        datas[i].sendAt - datas[i - 1].sendAt < 10000
       ) {
         same = true;
       }
     }
 
-    let profileImage = "";
+    let memberdata = "";
     if (datas[i].memberId === me) {
-      datas[i].memberId = "me";
+      datas[i].memberId = 0;
     } else {
       for (const member of chatMembers) {
         if (member.username === datas[i].memberId) {
-          profileImage = member.profileImage;
+          memberdata = member;
           break;
         }
       }
     }
 
-    ChatMessageForm(datas[i], $fragment, same, profileImage);
+    ChatMessageForm(datas[i], $fragment, same, memberdata);
   }
 
   if (direction === "prepend") {

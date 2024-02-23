@@ -3,10 +3,13 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import instance from "../../assets/constants/instance";
 import ChatMessageForm from "./ChatMessageForm";
 import ChatToggle from "./ChatToggle";
-import AddMessages from "./AddMessages";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
+import {
+  ChatConcentration,
+  ChatMessageBundle,
+} from "../../assets/tools/chatFunctions";
 
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
@@ -16,6 +19,8 @@ const basic = {
   userCount: "1",
   members: [],
 };
+
+//const instance = axios.create({ baseURL: "http://localhost:3000" });
 
 const Chat = () => {
   const myId = useRecoilValue(myInfoState).username;
@@ -34,7 +39,15 @@ const Chat = () => {
   const chatMembersRef = useRef([]);
   const firstMessageRef = useRef(null);
   const lastMessageRef = useRef(null);
-  let firstSet = false;
+  const callBundle = new ChatMessageBundle(
+    firstMessageRef,
+    lastMessageRef,
+    messageRef,
+    chatMembersRef,
+    myId,
+    setIsPrev,
+    setPrevMessage
+  );
 
   //현재 채팅을 보낼 수 있는 상태인지 확인합니다.
   const checkSendable = () => {
@@ -45,29 +58,6 @@ const Chat = () => {
     }
   };
 
-  //이전 메세지 호출 함수. id 숫자 계산해서 요청.
-  const callMessageBefore = async () => {
-    if (firstMessageRef.current === 1) {
-      setIsPrev(false);
-      return;
-    }
-    let url = "/chatMessages";
-    url += `?_start=${Math.max(0, firstMessageRef.current - 11)}&_limit=10`;
-    const response = await instance.get(url);
-    const datas = await response.data;
-    /**
-     * 나중에는 datas.length < 10 이면 setIsPrev(false)
-     */
-    firstMessageRef.current = datas[0].id;
-    AddMessages(
-      datas,
-      messageRef.current,
-      chatMembersRef.current,
-      "prepend",
-      myId
-    );
-  };
-
   const toggleOpen = (e) => {
     e.stopPropagation();
     setToggle(true);
@@ -75,60 +65,23 @@ const Chat = () => {
 
   //사용자가 채팅방에 집중하는지 확인합니다.
   let enterRoomNow = true;
-  let hashHere = true;
   useEffect(() => {
-    const sendVisible = (visibleType) => {
-      const obj = {
-        performanceId: chatInitial.performanceId,
-        chatRoomId: chatRoomId,
-        visibleType: visibleType,
-      };
-      return obj;
-    };
-
+    const onView = new ChatConcentration(chatRoomId, myId, lastMessageRef);
     if (enterRoomNow) {
       enterRoomNow = false;
-      const data = {
-        performanceId: chatInitial.performanceId,
-        chatRoomId: chatRoomId,
-        targetId: myId,
-        messageType: "ENTER",
-      };
-      instance.post("/notification/chatRoom-event", data);
-      instance.post("/notification/visible", sendVisible("VISIBLE"));
+      onView.enterRoomNow();
     }
-    const changeVisibility = () => {
-      const visibility = document.hidden ? "HIDDEN" : "VISIBLE";
-      instance.post("/notification/visible", sendVisible(visibility));
-      if (document.hidden) {
-        const id = lastMessageRef.current;
-        localStorage.setItem("chat", JSON.stringify(id));
-      }
-    };
-    const beforeUnload = () => {
-      instance.post("/notification/visible", sendVisible("HIDDEN"));
-      const id = lastMessageRef.current;
-      localStorage.setItem("chat", JSON.stringify(id));
-    };
-    const hashChange = () => {
-      if (hashHere) {
-        hashHere = false;
-        instance.post("/notification/visible", sendVisible("HIDDEN"));
-        const id = lastMessageRef.current;
-        localStorage.setItem("chat", JSON.stringify(id));
-        window.removeEventListener("popstate", hashChange);
-      }
-    };
-    document.addEventListener("visibilitychange", changeVisibility);
-    window.addEventListener("beforeunload", beforeUnload);
-    window.addEventListener("popstate", hashChange);
+    document.addEventListener("visibilitychange", onView.changeVisibility);
+    window.addEventListener("beforeunload", onView.beforeUnload);
+    window.addEventListener("popstate", onView.hashChange);
     return () => {
-      document.removeEventListener("visibilitychange", changeVisibility);
-      window.removeEventListener("beforeunload", beforeUnload);
+      document.removeEventListener("visibilitychange", onView.changeVisibility);
+      window.removeEventListener("beforeunload", onView.beforeUnload);
     };
   }, []);
 
   //채팅방 초기설정
+  let firstSet = false;
   useEffect(() => {
     const enterChatRoom = async () => {
       if (firstSet) return;
@@ -136,47 +89,14 @@ const Chat = () => {
       try {
         //기본 채팅방 정보 설정
         const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
+        //const response = await instance.get(`/chatRoomEnter/${chatRoomId}`);
         const datas = await response.data;
         chatMembersRef.current = datas.members;
         datas.members = [];
         setChatInitial(datas);
 
         //입장 초기 메세지 설정
-        let startId = localStorage.getItem("chat");
-        let url = "/chatMessages";
-        url += startId
-          ? `?_start=${startId - 1}&_limit=30`
-          : "?_start=40&_limit=30";
-        const response2 = await instance.get(url);
-        const datas2 = await response2.data;
-
-        AddMessages(
-          datas2,
-          messageRef.current,
-          chatMembersRef.current,
-          "append",
-          myId
-        );
-        setPrevMessage(datas2[datas2.length - 1]);
-
-        //로컬스토리지용 아이디 세팅
-        firstMessageRef.current = datas2[0].id || 0;
-        lastMessageRef.current = datas2[datas2.length - 1].id;
-        setPrevMessage(datas2[datas2.length - 1]);
-
-        AddMessages(
-          datas2,
-          messageRef.current,
-          chatMembersRef.current,
-          "append",
-          myId
-        );
-        if (datas2.length < 10) {
-          await callMessageBefore();
-          messageRef.current.scrollIntoView(false);
-        } else {
-          messageRef.current.scrollIntoView(true);
-        }
+        callBundle.callInitialMessages();
 
         //데이터 그리기가 끝난 후 옵저버를 켭니다.
         const options = {
@@ -185,7 +105,7 @@ const Chat = () => {
           threshold: 0,
         };
         const callPrevMessages = new IntersectionObserver(
-          callMessageBefore,
+          callBundle.callMessageBefore,
           options
         );
         callPrevMessages.observe(observerRef.current);
@@ -205,31 +125,31 @@ const Chat = () => {
     const info = textRef.current.value;
     textRef.current.value = "";
     setSendButton(false);
+    //const time = new Date().getTime();
     const newMessage = {
       memberId: myId,
-      roomId: chatRoomId,
-      text: info,
+      message: info,
     };
     const response = await instance.post("/chatMessages", newMessage);
     const datas = await response.data;
     lastMessageRef.current = datas.id;
-    let same = false;
-    if (datas.memberId === myId) {
-      datas.memberId = "me";
-    } else {
-      if (
-        prevMessage.memberId === datas.memberId &&
-        datas.sendAt - prevMessage.sendAt < 10000
-      ) {
-        same = true;
-      }
-    }
     setPrevMessage(datas);
     let memberdata = null;
     for (const member of chatMembersRef.current) {
       if (member.username === datas.memberId) {
         memberdata = member;
         break;
+      }
+    }
+    let same = false;
+    if (datas.memberId === myId) {
+      datas.memberId = 0;
+    } else {
+      if (
+        prevMessage.memberId === datas.memberId &&
+        datas.sendAt - prevMessage.sendAt < 10000
+      ) {
+        same = true;
       }
     }
     ChatMessageForm(datas, messageRef.current, same, memberdata);

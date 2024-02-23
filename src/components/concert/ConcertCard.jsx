@@ -3,12 +3,18 @@ import { useEffect, useState } from "react";
 import instance from "../../assets/constants/instance";
 
 const ConcertCard = (props) => {
-  const [likethis, setLikethis] = useState(props.like);
+  const [likethis, setLikethis] = useState(false);
   const setFavorites = props.setLike;
   const navigate = useNavigate();
   const info = props.info;
   const className =
     info.status === "END" ? "hot" : info.status === "" ? "hidden" : "";
+
+  useEffect(() => {
+    if (props.like) {
+      setLikethis(true);
+    } else setLikethis(false);
+  }, [props.like]);
 
   const likeChange = async (e) => {
     e.stopPropagation();
@@ -27,8 +33,10 @@ const ConcertCard = (props) => {
         await instance.post(`/performance/${info.id}/like`);
         newFavorites = [...savedFavorites, info.id];
       }
+      if (setFavorites) {
+        setFavorites(newFavorites);
+      }
       setLikethis(!likethis);
-      setFavorites(newFavorites);
       localStorage.setItem("favorites", JSON.stringify(newFavorites));
     } catch (error) {
       console.error(error, "에러");

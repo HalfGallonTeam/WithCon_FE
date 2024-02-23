@@ -36,14 +36,13 @@ instance.interceptors.response.use(
     const { response } = error;
     if (response.data.status === 401) {
       if (
-        response.data.errorCode === "MISMATCH_REFRESH_TOKEN" ||
+        response.data.errorCode === "REFRESH_TOKEN_EXPIRED" ||
         response.data.errorCode === "NOT_EXIST_REFRESH_TOKEN"
       ) {
+        console.log(response.data.message);
         localStorage.removeItem("withcon_token");
         localStorage.removeItem("favorites");
         sessionStorage.clear();
-        window.alert("세션이 만료되었습니다. 로그인해주세요.");
-        useNavigate("/login/");
         return;
       }
     }
