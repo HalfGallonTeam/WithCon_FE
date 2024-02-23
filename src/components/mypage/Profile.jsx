@@ -10,7 +10,6 @@ import { myInfoState } from "../../assets/constants/userRecoilState";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  /**
   const [modalOpen, setModalOpen] = useState(false);
   const [submitModal, setSubmitModal] = useState(false);
   const [exitModal, setExitModal] = useState(false);
@@ -430,8 +429,7 @@ const Profile = () => {
       ) : null}
       {modal ? <ButtonModal text={modalText} buttonContainer="0" /> : null}
     </div>
-  );*/
-  return <div>프로필 에러나서 임시로</div>;
+  );
 };
 
 export default Profile;
