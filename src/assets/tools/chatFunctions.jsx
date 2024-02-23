@@ -1,6 +1,6 @@
-import axios from "axios";
 import AddMessages from "../../components/chat/AddMessages";
-const instance = axios.create({ baseURL: "http://localhost:3000" });
+import instance from "../constants/instance";
+//const instance = axios.create({ baseURL: "http://localhost:3000" });
 
 const ChatConcentration = class {
   constructor(chatRoomId, myId, lastMessageRef) {
@@ -63,7 +63,8 @@ const ChatMessageBundle = class {
     chatMembersRef,
     myId,
     setIsPrev,
-    setPrevMessage
+    setPrevMessage,
+    chatRoomId
   ) {
     this.firstMessageRef = firstMessageRef;
     this.lastMessageRef = lastMessageRef;
@@ -72,18 +73,19 @@ const ChatMessageBundle = class {
     this.myId = myId;
     this.setIsPrev = setIsPrev;
     this.setPrevMessage = setPrevMessage;
+    this.chatRoomId = chatRoomId;
   }
 
   //이전 메세지 호출 함수. id 숫자 계산해서 요청.
   callMessageBefore = async () => {
-    let url = "/chatMessages";
+    let url = `/chatRoom/${this.chatRoomId}/message`;
     url += `?_start=${Math.max(
       0,
       this.firstMessageRef.current - 11
     )}&_limit=10`;
     const response = await instance.get(url);
     const datas = await response.data;
-    //if (datas.length < 10) this.setIsPrev(false); //적절한 쿼리스트링 필요.
+    if (datas.length < 10) this.setIsPrev(false); //적절한 쿼리스트링 필요.
     this.firstMessageRef.current = datas[0].id;
     AddMessages(
       datas,
@@ -97,7 +99,7 @@ const ChatMessageBundle = class {
   callInitialMessages = async () => {
     try {
       let startId = localStorage.getItem("chat");
-      let url = "/chatMessages";
+      let url = `/chatRoom/${this.chatRoomId}/message`;
       url += startId
         ? `?_start=${startId - 1}&_limit=10`
         : "?_start=1&_limit=30";
