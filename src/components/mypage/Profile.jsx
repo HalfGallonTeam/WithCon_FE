@@ -7,10 +7,12 @@ import PassWordCheck from "./PassWordCheck";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   /**
   const [modalOpen, setModalOpen] = useState(false);
+  const [submitModal, setSubmitModal] = useState(false);
   const [exitModal, setExitModal] = useState(false);
   const [phoneNumberModal, setPhoneNumberModal] = useState(false);
   const [modal, setModal] = useState(false);
@@ -25,12 +27,14 @@ const Profile = () => {
     password2Msg: "",
   });
   const [myInfo, setMyInfo] = useRecoilState(myInfoState);
+  console.log(myInfo);
   const [pw2, setPw2] = useState("");
   const [data, setData] = useState({
     nickname: myInfo.nickname,
     phoneNumber: myInfo.phoneNumber,
     newPassword: "",
   });
+  const navigate = useNavigate();
 
   //모바일 설정 기준으로 세팅 > min-width 설정을 통해서 큰 화면이 보이도록.
 
@@ -136,7 +140,7 @@ const Profile = () => {
     setData((prev) => ({ ...prev, [`phoneNumber`]: inputValue }));
   };
 
-  const submitInfo = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (myInfo.phoneNumber !== data.phoneNumber && !usable) {
       setPhoneNumberModal(true);
@@ -148,16 +152,17 @@ const Profile = () => {
     try {
       const response = await instance.patch("/member", data);
       console.log(response);
-      setModalOpen(true);
 
       const response2 = await instance.get("/member/me");
       const data2 = await response2.data;
       setMyInfo(data2);
+      setSubmitModal(false);
+      setModalOpen(true);
 
       setTimeout(() => {
         setModalOpen(false);
         setEdit(false);
-      }, 3000);
+      }, 1000);
     } catch (error) {
       console.error("수정에러", error);
     }
@@ -169,10 +174,16 @@ const Profile = () => {
       if (response.status === 200) {
         setModal(true);
         setModalText("성공적으로 탈퇴되었습니다.");
+
         setTimeout(() => {
           setModal(false);
           setModalText("");
+          localStorage.removeItem("withcon_token");
+          localStorage.removeItem("favorites");
+          sessionStorage.clear();
+          navigate("/login");
         }, 1000);
+        setExitModal(false);
       }
     } catch (error) {
       console.error("탈퇴에러", error);
@@ -182,8 +193,8 @@ const Profile = () => {
         setModal(false);
         setModalText("");
       }, 1000);
+      setExitModal(false);
     }
-    setExitModal(false);
   };
   const onClickExit = () => {
     deleteUser();
@@ -235,6 +246,26 @@ const Profile = () => {
       }));
     }
   };
+  const handleSubmitClick = (e) => {
+    e.preventDefault();
+    setSubmitModal(true);
+    setMsgs((prev) => ({
+      ...prev,
+      ["nicknameMsg"]: "",
+    }));
+    setMsgs((prev) => ({
+      ...prev,
+      ["phoneMsg"]: "",
+    }));
+    setMsgs((prev) => ({
+      ...prev,
+      ["password2Msg"]: "",
+    }));
+    setMsgs((prev) => ({
+      ...prev,
+      ["passwordMsg"]: "",
+    }));
+  };
 
   return (
     <div className="container">
@@ -279,7 +310,9 @@ const Profile = () => {
               {msgs.phoneMsg ? (
                 <span
                   className={`msgs ${
-                    msgs.phoneMsg === "사용가능한 번호 입니다." ? "msgs-ok" : ""
+                    msgs.phoneMsg === "사용가능한 핸드폰 번호 입니다."
+                      ? "msgs-ok"
+                      : ""
                   }`}
                 >
                   {msgs.phoneMsg}
@@ -319,7 +352,8 @@ const Profile = () => {
                 <span className="msgs">{msgs.password2Msg}</span>
               ) : null}
               <div className="user-pw-edit">
-                <button className="edit-btn" onClick={submitInfo}>
+                {/* <button className="edit-btn" onClick={submitInfo}> */}
+                <button className="edit-btn" onClick={handleSubmitClick}>
                   적용
                 </button>
                 <button className="edit-btn" onClick={() => setEdit(false)}>
@@ -373,14 +407,14 @@ const Profile = () => {
           />
         ) : null}
       </div>
-      {modalOpen ? (
+      {submitModal ? (
         <ButtonModal
           text="수정하시겠습니까?"
           buttonContainer="2"
           button1="확인"
           button2="취소"
-          onClickButton1={() => setModalOpen(false)}
-          onClickButton2={() => setModalOpen(false)}
+          onClickButton1={handleSubmit}
+          onClickButton2={() => setSubmitModal(false)}
         />
       ) : null}
       {exitModal ? (
