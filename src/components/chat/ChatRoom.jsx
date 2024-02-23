@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 const ChatRoom = ({ searchData }) => {
   const navigate = useNavigate();
   const { concertTitle } = useParams();
+  console.log(searchData);
   return (
     <div
       className="chat-room"
