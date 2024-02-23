@@ -46,7 +46,8 @@ const Chat = () => {
     chatMembersRef,
     myId,
     setIsPrev,
-    setPrevMessage
+    setPrevMessage,
+    chatRoomId
   );
 
   //현재 채팅을 보낼 수 있는 상태인지 확인합니다.
@@ -89,7 +90,7 @@ const Chat = () => {
       try {
         //기본 채팅방 정보 설정
         const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
-        //const response = await instance.get(`/chatRoomEnter/${chatRoomId}`);
+        console.log(response, "채팅방 입장");
         const datas = await response.data;
         chatMembersRef.current = datas.members;
         datas.members = [];

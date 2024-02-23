@@ -48,9 +48,25 @@ const ChatToggle = (props) => {
     }
   };
 
-  const forceOut = (e) => {
-    window.alert(e.target.value + "를 강퇴합니다.");
-    return;
+  const forceOut = async (e) => {
+    try {
+      const num = Number(chatRoomId);
+      const memberId = e.target.value;
+      const data = {
+        num,
+        memberId,
+      };
+      const response = await instance.delete(
+        `/chatRoom/${chatRoomId}/Kick`,
+        data
+      );
+      if (response.data.chatRoomId) {
+        window.alert(e.target.value + "를 강퇴합니다.");
+        return;
+      }
+    } catch (error) {
+      console.error(error, "에러");
+    }
   };
 
   let chatMembers = [];
