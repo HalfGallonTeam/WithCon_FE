@@ -5,6 +5,7 @@ import KakaoMap from "./Map";
 
 const ConInfo = () => {
   const [infoData, setInfoData] = useState({});
+  const [detailData, setDetailData] = useState({});
   const { concertTitle } = useParams();
   let loading = false;
 
@@ -19,9 +20,28 @@ const ConInfo = () => {
         console.error(error, "에러");
       }
     };
+    const fetchDetailData = async () => {
+      try {
+        const response = await instance.get(
+          `/performanceDetail/${concertTitle}`
+        );
+        setDetailData(response.data);
+      } catch (error) {
+        console.error("performanceDetail관련에러 : ", error);
+      }
+    };
     fetchData();
+    fetchDetailData();
   }, []);
-
+  const formatPrice = (price) => {
+    const formatter = new Intl.NumberFormat("ko-KR", {
+      style: "currency",
+      currency: "KRW",
+      currencyDisplay: "narrowSymbol",
+    });
+    const formattedPrice = formatter.format(price);
+    return formattedPrice.replace("₩", "₩ ");
+  };
   return (
     <div className="info-container">
       <div className="info">
@@ -31,28 +51,27 @@ const ConInfo = () => {
         </div>
         <div className="description">
           <ul className="info-items">
-            <li className="info-item">
-              <span className="item-name">공연이름</span>
-              <div>
-                <span>{infoData.name}</span>
-              </div>
-            </li>
-            <li className="info-item">
-              <span className="item-name">공연자</span>
-              <div>
-                <span>아직몰라요 지워도 돼요</span>
-              </div>
-            </li>
+            <InfoContainer text="관람연령" data={detailData.age} />
+            <InfoContainer text="공연이름" data={infoData.name} />
+            <InfoContainer text="공연자" data={detailData.actors} />
+            <InfoContainer text="장르" data={detailData.genre} />
+            <InfoContainer text="공연 시간" data={detailData.run_time} />
+            <InfoContainer
+              text="공연 기간"
+              data={`${infoData.startDate} ~ ${infoData.endDate}`}
+            />
+            <InfoContainer text="날짜" data={detailData.time} />
+            <InfoContainer text="가격" data={formatPrice(detailData.price)} />
+            <InfoContainer text="주관" data={detailData.company} />
           </ul>
         </div>
       </div>
       <div className="map">
         <div className="contact">
           <span>위치: {infoData.facility}</span>
-          <span>Tel : 12 - 345 - 6789 아직몰라요지워도돼요</span>
         </div>
         <div className="map-img">
-          <KakaoMap />
+          <KakaoMap lat={detailData.lat} lot={detailData.lot} />
         </div>
       </div>
     </div>
@@ -60,3 +79,14 @@ const ConInfo = () => {
 };
 
 export default ConInfo;
+
+const InfoContainer = ({ text, data }) => {
+  return (
+    <li className="info-item">
+      <span className="item-name">{text}</span>
+      <div>
+        <span>{data}</span>
+      </div>
+    </li>
+  );
+};
