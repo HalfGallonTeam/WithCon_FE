@@ -19,7 +19,7 @@ const PassWordCheck = ({ setEdit, setPassWordCheck }) => {
       console.error("현재 비밀번호 입력관련 에러", error);
     }
   };
-  console.log(password);
+
   return (
     <div className="current-password-check">
       <label className="current-password-label">
@@ -35,14 +35,7 @@ const PassWordCheck = ({ setEdit, setPassWordCheck }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        {/* <button className="edit-btn" onClick={handleCheckCurrentPassWord}> */}
-        <button
-          className="edit-btn"
-          onClick={() => {
-            setEdit(true);
-            setPassWordCheck(false);
-          }}
-        >
+        <button className="edit-btn" onClick={handleCheckCurrentPassWord}>
           확인
         </button>
         <button className="edit-btn" onClick={() => setPassWordCheck(false)}>

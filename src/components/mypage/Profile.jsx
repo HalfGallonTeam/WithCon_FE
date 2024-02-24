@@ -26,7 +26,6 @@ const Profile = () => {
     password2Msg: "",
   });
   const [myInfo, setMyInfo] = useRecoilState(myInfoState);
-  console.log(myInfo);
   const [pw2, setPw2] = useState("");
   const [data, setData] = useState({
     nickname: myInfo.nickname,
@@ -75,8 +74,6 @@ const Profile = () => {
   };
 
   const checkDuplicationPhone = async (e) => {
-    //지우기
-    console.log(data);
     e.preventDefault();
     setUsable(false);
     await fetchDuplicatePhoneNumber();
@@ -149,8 +146,7 @@ const Profile = () => {
       }, 1000);
     }
     try {
-      const response = await instance.patch("/member", data);
-      console.log(response);
+      await instance.patch("/member", data);
 
       const response2 = await instance.get("/member/me");
       const data2 = await response2.data;
