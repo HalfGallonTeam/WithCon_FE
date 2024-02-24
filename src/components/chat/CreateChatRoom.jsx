@@ -60,21 +60,16 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
       console.log(data);
       const response = await instance.post("/chatRoom", data);
       if (response.status === 201) {
-        const newChatroom = await response.data.id;
-        const data2 = {
-          performanceId: performanceId,
-          chatRoomId: newChatroom,
-        };
+        const chatRoomId = await response.data.chatRoomId;
         const response2 = await instance.post(
-          "/notification/subscribe-channel",
-          data2
+          `/notification/subscribe-channel?chatRoomId=${chatRoomId}`
         );
         console.log("채팅방이 성공적으로 생성되었습니다.", response.data);
         setShowCompleteModal(true);
         setTimeout(() => {
           onClose();
           setShowCompleteModal(false);
-          navigate(`/title/${performanceId}/chat/${newChatroom}`);
+          navigate(`/title/${performanceId}/chat/${chatRoomId}`);
         }, 1500);
       }
     } catch (error) {
