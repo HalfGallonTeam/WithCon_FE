@@ -11,16 +11,16 @@ import {
   ChatMessageBundle,
 } from "../../assets/tools/chatFunctions";
 
+//json-server용 instance
+//const instance = axios.create({ baseURL: "http://localhost:3000" });
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
-  chatRoomId: 12,
-  roomName: "토요일 콘서트 같이 가자요... 제발요",
-  performanceName: "리렌더링용 공연이름",
+  chatRoomId: 0,
+  roomName: "채팅방",
+  performanceName: "공연",
   userCount: "1",
   members: [],
 };
-
-//const instance = axios.create({ baseURL: "http://localhost:3000" });
 
 const Chat = () => {
   const myId = useRecoilValue(myInfoState).username;
@@ -34,7 +34,6 @@ const Chat = () => {
   const observerRef = useRef(null);
   const messageRef = useRef(null);
   const scrollRef = useRef(null);
-  const enterRef = useRef(null);
   const textRef = useRef(null);
   const chatMembersRef = useRef([]);
   const firstMessageRef = useRef(null);
@@ -49,15 +48,6 @@ const Chat = () => {
     setPrevMessage,
     chatRoomId
   );
-
-  //현재 채팅을 보낼 수 있는 상태인지 확인합니다.
-  const checkSendable = () => {
-    if (textRef.current.value && !sendButton) {
-      setSendButton(true);
-    } else if (!textRef.current.value && sendButton) {
-      setSendButton(false);
-    }
-  };
 
   const toggleOpen = (e) => {
     e.stopPropagation();
@@ -122,6 +112,16 @@ const Chat = () => {
     if (talker === "me") setTalker("other");
     else setTalker("me");
   };
+
+  //현재 채팅을 보낼 수 있는 상태인지 확인합니다.
+  const checkSendable = () => {
+    if (textRef.current.value && !sendButton) {
+      setSendButton(true);
+    } else if (!textRef.current.value && sendButton) {
+      setSendButton(false);
+    }
+  };
+
   const sendMessage = async () => {
     const info = textRef.current.value;
     textRef.current.value = "";
@@ -132,6 +132,9 @@ const Chat = () => {
       message: info,
     };
     const response = await instance.post("/chatMessages", newMessage);
+    //(끝) 웹소켓으로 연결될 경우 여기까지가 post임.
+
+    //웹소켓으로 만들 경우 무조건 array화 시켜서 AddMessages로 받아올 것입니다.
     const datas = await response.data;
     lastMessageRef.current = datas.id;
     setPrevMessage(datas);
@@ -186,11 +189,12 @@ const Chat = () => {
             </div>
           )}
           <div className="messages" ref={messageRef}>
-            <div className="system-message" ref={enterRef}>
+            <hr aria-label="여기까지 읽었어요" />
+            {/**<div className="system-message">
               <div className="profile-img"></div>
               <div className="text">입장하였습니다.</div>
               <div className="message-time">nan:nan:nan</div>
-            </div>
+            </div>*/}
           </div>
         </div>
         <div className="send-area">
