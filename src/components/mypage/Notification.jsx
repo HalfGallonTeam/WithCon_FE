@@ -121,7 +121,8 @@ const Notification = () => {
 
   const handleMessage = (e, item) => {
     e.preventDefault();
-    navigate(item.url);
+    const url = item.url.replace("performanceDetail", "title");
+    navigate(url);
     window.location.reload();
   };
   const handleDelete = async (item) => {
