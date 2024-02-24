@@ -52,10 +52,9 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
         setRoomMsg("채팅방 제목을 적어주세요");
         return;
       }
-      const idToNum = Number(performanceId);
       const data = {
         roomName: roomName,
-        performanceId: idToNum,
+        performanceId: performanceId,
         tags: tagLists,
       };
       console.log(data);
