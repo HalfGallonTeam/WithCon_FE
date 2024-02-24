@@ -60,7 +60,7 @@ const ConLists = () => {
             />
           ))}
         </div>
-        <Paging totalCount={totalCount} currentPage={currentPage} />
+        <Paging totalCount={totalCount} currentPage={currentPage} limit={10} />
       </div>
     </>
   );

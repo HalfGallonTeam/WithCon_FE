@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import ChatRoom from "./ChatRoom";
 import Paging from "../common/Paging";
 import setLists from "../../assets/tools/setLists";
-import PAGE from "../../assets/constants/page";
 
 const MyChat = () => {
   const [datas, setData] = useState([]);
@@ -17,7 +16,7 @@ const MyChat = () => {
     const getData = async () => {
       try {
         let url = "/chatRoom/member";
-        url += `?page=${pages - 1}&limit=${PAGE.limit}`;
+        url += `?page=${pages - 1}`; //limit=5
         await setLists(url, setData, totalCount, setTotalCount);
       } catch (error) {
         console.error("데이터오류", error);
@@ -38,7 +37,7 @@ const MyChat = () => {
         user favorite으로 필터링한 결과물이 없어 임시로 3개만 끊어 그립니다.
       </p>
       <div className="list-container">{chatRooms}</div>
-      <Paging totalCount={totalCount} currentPage={currentPage} />
+      <Paging totalCount={totalCount} currentPage={currentPage} limit={5} />
     </div>
   );
 };
