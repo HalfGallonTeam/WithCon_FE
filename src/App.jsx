@@ -26,6 +26,8 @@ import SignupPage from "./components/pages/SignupPage";
 import ChatPage from "./components/pages/ChatPage";
 import FindPwPage from "./components/pages/FindPwPage";
 
+import WebSocket from "./components/common/WebSocket";
+
 function App() {
   let loading = false;
   const setMyinfo = useSetRecoilState(myInfoState);
@@ -80,6 +82,8 @@ function App() {
           path="/title/:concertTitle/chat/:chatRoomId"
           element={<ChatPage />}
         />
+
+        <Route path="/websocket" element={<WebSocket />} />
 
         <Route path="/login/" element={<LoginPage />} />
         <Route path="/kakao-login/" element={<KakaoLogin />} />

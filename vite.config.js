@@ -12,6 +12,13 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ""),
         secure: false,
       },
+      "/ws": {
+        target: "https://43.203.64.7/ws",
+        ws: true,
+      },
     },
+  },
+  define: {
+    global: {},
   },
 });
