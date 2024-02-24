@@ -23,9 +23,7 @@ const ConDetail = () => {
       if (loading) return;
       loading = true;
       try {
-        const response = await instance.get(
-          `/performanceDetail/${concertTitle}`
-        );
+        const response = await instance.get(`/performance/${concertTitle}`);
         setInfos(response.data);
       } catch (error) {
         console.error(error, "에러");
@@ -33,7 +31,6 @@ const ConDetail = () => {
     };
     getInfos();
   }, []);
-
   return (
     <div className="detail-container">
       <div className="con-title-container">
