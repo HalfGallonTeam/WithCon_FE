@@ -6,7 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 const Notification = () => {
   const [alarmListOpen, setAlarmListOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const accessToken = JSON.parse(localStorage.getItem("withcon_token"));
   const listRef = useRef(null);
+  const eventSourceRef = useRef(null);
   const navigate = useNavigate();
 
   const clickOutSide = (e) => {
@@ -17,7 +20,6 @@ const Notification = () => {
   const clickAlarm = () => {
     setAlarmListOpen(!alarmListOpen);
   };
-
   useEffect(() => {
     //마운트 될때 클릭 이벤트 추가 외부 클릭시 리스트 닫기
     document.addEventListener("mousedown", clickOutSide);
@@ -32,77 +34,91 @@ const Notification = () => {
     e.stopPropagation();
   };
   //SSE관련 콬드
-  const [notifications, setNotifications] = useState([]);
-
-  //테스트
-  const accessToken = JSON.parse(localStorage.getItem("withcon_token"));
   useEffect(() => {
-    // SSE 접속 => feat/api에 사용
+    const fetchPrevNotifications = async () => {
+      try {
+        const response = await instance.get("/notifications");
+        const data = await response.data;
+        setNotifications(data);
+      } catch (error) {
+        console.error("에러난다 SSE", error);
+      }
+    };
+    fetchPrevNotifications();
+  }, []);
+
+  /* const isJSONString = (str) => {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }; */
+  useEffect(() => {
     const EventSource = EventSourcePolyfill;
     if (accessToken) {
-      let eventSource = new EventSource("/api/notification/subscribe", {
-        headers: {
-          Authorization: accessToken,
-          "Content-Type": "text/event-stream",
-        },
-        heartbeatTimeout: 1800000,
-      });
-      eventSource.onopen = () => {
-        fetchPrevNotifications();
-        console.log("SSE 연결했음");
-      };
-      eventSource.onmessage = (event) => {
-        console.log("메세지왔음", event.data);
-        if (event.data !== `SSE 구독 완료 memberId: ${event.data.memberId}`) {
-          return;
-        } else {
-          const newNotification = event.data;
-          notifications.push(newNotification);
-        }
-      };
-
-      eventSource.onerror = (error) => {
-        console.log(error.readyState);
-        if (error.readyState === EventSource.CLOSED) {
-          console.log("Reconnecting...");
-          eventSource = new EventSource("/api/notification/subscribe", {
+      //지우기 끝
+      if (!eventSourceRef.current) {
+        eventSourceRef.current = new EventSource(
+          "/api/notification/subscribe",
+          {
             headers: {
               Authorization: accessToken,
               "Content-Type": "text/event-stream",
             },
             heartbeatTimeout: 1800000,
-          });
-          eventSource.onopen = () => {
-            console.log("재연결 ㄱㄱ");
-          };
-        }
-        console.error("SSE Error:", error);
-        eventSource.close();
-      };
+          }
+        );
+        eventSourceRef.current.onopen = () => {
+          console.log("SSE 연결했음");
+        };
+        //SSE 이벤트 수신
+        eventSourceRef.current.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          if (data.message.includes(`SSE`)) {
+            return;
+          } else {
+            setNotifications((prevNotifications) => [
+              ...prevNotifications,
+              data,
+            ]);
+          }
 
+          // }
+        };
+        eventSourceRef.current.onerror = (error) => {
+          console.log(error.readyState);
+          if (error.readyState === EventSource.CLOSED) {
+            console.log("Reconnecting...");
+            eventSourceRef.current = new EventSource(
+              "/api/notification/subscribe",
+              {
+                headers: {
+                  Authorization: accessToken,
+                  "Content-Type": "text/event-stream",
+                },
+                heartbeatTimeout: 1800000,
+              }
+            );
+            eventSourceRef.current.onopen = () => {
+              console.log("재연결 ㄱㄱ");
+            };
+          }
+          console.error("SSE Error:", error);
+          eventSourceRef.current.close();
+        };
+      }
       return () => {
         //SSE 연결 해제
-        eventSource.close();
+        if (eventSourceRef.current) {
+          eventSourceRef.current.close();
+          eventSourceRef.current = null;
+        }
       };
     }
-  }, []);
+  }, [accessToken, notifications]);
 
-  const fetchPrevNotifications = async () => {
-    try {
-      const response = await instance.get("/notifications");
-      console.log(response, "데이터 있음?");
-
-      const data = await response.data;
-
-      const dataList = await data.filter((x) => !Array.isArray(x));
-
-      setNotifications(dataList);
-    } catch (error) {
-      console.error("에러난다 SSE", error);
-    }
-  };
-
-  //알림설정 부분
   const handleMessage = (e, item) => {
     e.preventDefault();
     navigate(item.url);
@@ -113,7 +129,7 @@ const Notification = () => {
       const response = await instance.put(
         `/notification/${item.notificationId}`
       );
-      console.log(response.status);
+      console.log(response);
       setNotifications((lists) =>
         lists.filter((list) => list.notificationId !== item.notificationId)
       );
@@ -121,7 +137,6 @@ const Notification = () => {
       console.error("check error", error);
     }
   };
-
   return (
     <div className="alarm-area" onClick={clickAlarm} ref={listRef}>
       <BiBell size={24} className="bell" />
