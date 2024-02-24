@@ -5,7 +5,6 @@ import CreateChatRoom from "./CreateChatRoom";
 import Paging from "../common/Paging";
 import instance from "../../assets/constants/instance";
 import setLists from "../../assets/tools/setLists";
-import PAGE from "../../assets/constants/page";
 
 const ChatList = () => {
   const [tagInfo, setTagInfo] = useState([]);
@@ -49,7 +48,7 @@ const ChatList = () => {
       try {
         let url = "/chatRoom/performance/";
         url += concertTitle;
-        url += `?page=${pages - 1}&limit=${PAGE.limit}`;
+        url += `?page=${pages - 1}`; //limit=5
         await setLists(url, setData, totalCount, setTotalCount);
       } catch (error) {
         console.error("데이터오류", error);
@@ -61,9 +60,7 @@ const ChatList = () => {
 
   const handleSearch = async () => {
     try {
-      const tag_id = 1;
-      //tag_id를 무엇으로 할 것인지 확인이 필요함.
-      let url = `/room/search/performance/${concertTitle}/tag/${tag_id}`;
+      let url = `/room/search/performance/${concertTitle}/tag/${searchHashtag}`;
       await setLists(url, setData, totalCount, setTotalCount);
     } catch (error) {
       console.error(error, "에러");
@@ -126,7 +123,7 @@ const ChatList = () => {
           </div>
         )}
       </div>
-      <Paging totalCount={totalCount} currentPage={currentPage} />
+      <Paging totalCount={totalCount} currentPage={currentPage} limit={5} />
     </div>
   );
 };

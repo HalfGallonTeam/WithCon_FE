@@ -46,7 +46,7 @@ const MyConcert = () => {
       <div className="mypage-like-list">
         <div className="concert-list">{concertCards}</div>
       </div>
-      <Paging totalCount={totalCount} currentPage={currentPage} />
+      <Paging totalCount={totalCount} currentPage={currentPage} limit={10} />
     </div>
   );
 };

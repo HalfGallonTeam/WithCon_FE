@@ -37,21 +37,27 @@ const ChatConcentration = class {
     instance.post("/notification/visible", this.sendVisible(visibility));
     if (document.hidden) {
       const id = this.lastMessageRef.current;
-      localStorage.setItem("chat", JSON.stringify(id));
+      const chatIds = JSON.parse(localStorage.getItem("chat"));
+      chatIds[this.chatRoomId] = id;
+      localStorage.setItem("chat", JSON.stringify(chatIds));
     }
   };
 
   beforeUnload = () => {
     instance.post("/notification/visible", this.sendVisible("HIDDEN"));
     const id = this.lastMessageRef.current;
-    localStorage.setItem("chat", JSON.stringify(id));
+    const chatIds = JSON.parse(localStorage.getItem("chat"));
+    chatIds[this.chatRoomId] = id;
+    localStorage.setItem("chat", JSON.stringify(chatIds));
   };
 
   hashChange = () => {
     instance.post("/notification/visible", this.sendVisible("HIDDEN"));
-    const id = this.lastMessageRef.current;
-    localStorage.setItem("chat", JSON.stringify(id));
     window.removeEventListener("popstate", this.hashChange);
+    const id = this.lastMessageRef.current;
+    const chatIds = JSON.parse(localStorage.getItem("chat"));
+    chatIds[this.chatRoomId] = id;
+    localStorage.setItem("chat", JSON.stringify(chatIds));
   };
 };
 
@@ -79,13 +85,14 @@ const ChatMessageBundle = class {
   //이전 메세지 호출 함수. id 숫자 계산해서 요청.
   callMessageBefore = async () => {
     let url = `/chatRoom/${this.chatRoomId}/message`;
-    url += `?_start=${Math.max(
+    url += `?lastMsgId=${Math.max(
       0,
       this.firstMessageRef.current - 11
     )}&_limit=10`;
     const response = await instance.get(url);
     const datas = await response.data;
-    if (datas.length < 10) this.setIsPrev(false); //적절한 쿼리스트링 필요.
+    if (datas.length < 10 || this.firstMessageRef.current < 11)
+      this.setIsPrev(false); //적절한 쿼리스트링 필요.
     this.firstMessageRef.current = datas[0].id;
     AddMessages(
       datas,
@@ -98,11 +105,9 @@ const ChatMessageBundle = class {
 
   callInitialMessages = async () => {
     try {
-      let startId = localStorage.getItem("chat");
+      let lastMsgId = JSON.parse(localStorage.getItem("chat"))[this.chatRoomId];
       let url = `/chatRoom/${this.chatRoomId}/message`;
-      url += startId
-        ? `?_start=${startId - 1}&_limit=10`
-        : "?_start=1&_limit=30";
+      url += lastMsgId ? `?lastMsgId=${lastMsgId - 1}` : "";
       const response2 = await instance.get(url);
       const datas2 = await response2.data;
 

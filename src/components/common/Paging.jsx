@@ -13,7 +13,7 @@ import PAGE from "../../assets/constants/page";
  */
 
 const Paging = (props) => {
-  if (props.totalCount <= PAGE.limit) return;
+  if (props.totalCount <= props.limit) return;
   const navigate = useNavigate();
   const url = useLocation();
   const currentPageChange = (event) => {
@@ -33,7 +33,7 @@ const Paging = (props) => {
   const totalCount = props.totalCount;
   const pageCount = PAGE.pageCount;
   const currentPage = props.currentPage;
-  const limit = PAGE.limit;
+  const limit = props.limit;
   const totalPage = Math.ceil(totalCount / limit);
   const startPage = (Math.ceil(currentPage / pageCount) - 1) * pageCount + 1;
   const endPage = Math.ceil(currentPage / pageCount) * pageCount;

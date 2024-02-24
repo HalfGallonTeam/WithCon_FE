@@ -36,6 +36,11 @@ const ChatToggle = (props) => {
         "/notification/chatRoom-event",
         data
       );
+      if (members.length === 1) {
+        const response3 = await instance.post(
+          `/notification/unsubscribe-channel?chatRoomId=${chatRoomId}`
+        );
+      }
       if (response.status === 204) {
         window.alert("채팅방에서 퇴장했습니다.");
         navigate(`/title/${concertTitle}/chat`);
