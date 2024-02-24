@@ -69,7 +69,7 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
         setTimeout(() => {
           onClose();
           setShowCompleteModal(false);
-          navigate(`/title/${performanceId}/chat/${chatRoomId}`);
+          navigate(`/chat-room/${chatRoomId}`);
         }, 1500);
       }
     } catch (error) {

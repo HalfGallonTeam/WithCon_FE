@@ -7,9 +7,7 @@ const ChatRoom = ({ searchData }) => {
   return (
     <div
       className="chat-room"
-      onClick={() =>
-        navigate(`/title/${concertTitle}/chat/${searchData.chatRoomId}`)
-      }
+      onClick={() => navigate(`/chat-room/${searchData.chatRoomId}`)}
     >
       <div className="chat-top">
         <span className="title">{searchData.chatRoomName}</span>
