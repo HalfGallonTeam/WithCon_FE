@@ -53,17 +53,40 @@ const Chat = () => {
   const subscribe = () => {
     client.current?.subscribe(
       `/exchange/chat.exchange/room.${chatRoomId}`,
-      (message) => {
-        console.log("서버 메세지", message);
+      ({ body }) => {
+        const datas = JSON.parse(body);
+        let same = false;
+        if (
+          datas.memberId === prevMessage.memberId &&
+          datas.sendAt - prevMessage.sendAt < 10000
+        ) {
+          same = true;
+        }
+        let memberdata = "";
+        if (prevMessage.memberId === me) {
+          datas.memberId = 0;
+        } else {
+          for (const member of chatMembersRef.current) {
+            if (member.memberId === datas.memberId) {
+              memberdata = member;
+              break;
+            }
+          }
+        }
+        ChatMessageForm(datas, messageRef.current, same, memberdata);
+        lastMessageRef.current = datas.id;
+        setPrevMessage(datas);
+        scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
+        return true;
       }
     );
   };
   const connect = () => {
     client.current = new StompJs.Client({
       brokerURL: "ws://43.203.64.7:8080/ws",
-      debug(str) {
-        console.log(str);
-      },
+      //debug(str) {
+      //  console.log(str);
+      //},
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
@@ -83,14 +106,14 @@ const Chat = () => {
   const disconnect = () => {
     client.current?.deactivate();
   };
+
   const publish = (message) => {
-    console.log(client.current?.connected);
     client.current?.publish({
       destination: `/app/chat/message/${chatRoomId}`,
-      body: {
+      body: JSON.stringify({
         memberId: memberId,
         message: message,
-      },
+      }),
     });
   };
 
@@ -163,36 +186,6 @@ const Chat = () => {
     textRef.current.value = "";
     setSendButton(false);
     publish(info);
-
-    return;
-    const response = await instance.post("/chatMessages", newMessage);
-    //(끝) 웹소켓으로 연결될 경우 여기까지가 post임.
-
-    //웹소켓으로 만들 경우 무조건 array화 시켜서 AddMessages로 받아올 것입니다.
-    const datas = await response.data;
-    lastMessageRef.current = datas.id;
-    setPrevMessage(datas);
-    let memberdata = null;
-    for (const member of chatMembersRef.current) {
-      if (member.username === datas.memberId) {
-        memberdata = member;
-        break;
-      }
-    }
-    let same = false;
-    if (datas.memberId === myId) {
-      datas.memberId = 0;
-    } else {
-      if (
-        prevMessage.memberId === datas.memberId &&
-        datas.sendAt - prevMessage.sendAt < 10000
-      ) {
-        same = true;
-      }
-    }
-    ChatMessageForm(datas, messageRef.current, same, memberdata);
-    scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
-    return true;
   };
 
   return (
