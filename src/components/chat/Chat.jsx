@@ -23,8 +23,7 @@ const basic = {
 };
 
 const Chat = () => {
-  const myId = useRecoilValue(myInfoState).username;
-  const memberId = useRecoilValue(myInfoState).memberId;
+  const myId = useRecoilValue(myInfoState).memberId;
   const [isPrev, setIsPrev] = useState(true);
   const { chatRoomId } = useParams();
   const [prevMessage, setPrevMessage] = useState(null);
@@ -63,7 +62,7 @@ const Chat = () => {
           same = true;
         }
         let memberdata = "";
-        if (prevMessage.memberId === me) {
+        if (prevMessage.memberId === myId) {
           datas.memberId = 0;
         } else {
           for (const member of chatMembersRef.current) {
@@ -111,7 +110,7 @@ const Chat = () => {
     client.current?.publish({
       destination: `/app/chat/message/${chatRoomId}`,
       body: JSON.stringify({
-        memberId: memberId,
+        memberId: myId,
         message: message,
       }),
     });

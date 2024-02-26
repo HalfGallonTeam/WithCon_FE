@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
 
 const CreateChatRoom = ({ onClose, performanceId }) => {
-  const myId = useRecoilValue(myInfoState).username;
+  const myId = useRecoilValue(myInfoState).memberId;
   const navigate = useNavigate();
   const [roomName, setRoomName] = useState("");
   const [roomMsg, setRoomMsg] = useState("");

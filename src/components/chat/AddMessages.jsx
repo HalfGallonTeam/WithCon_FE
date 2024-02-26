@@ -18,7 +18,7 @@ const AddMessages = (datas, parentNode, chatMembers, direction, me) => {
       datas[i].memberId = 0;
     } else {
       for (const member of chatMembers) {
-        if (member.username === datas[i].memberId) {
+        if (member.memberId === datas[i].memberId) {
           memberdata = member;
           break;
         }
