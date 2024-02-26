@@ -137,6 +137,11 @@
       border-bottom: 2px solid $background-color;
       padding: 8px;
     }
+    .current-password-msg {
+      margin-top: 10px;
+      font-size: 10px;
+      color: red;
+    }
   }
 }
 

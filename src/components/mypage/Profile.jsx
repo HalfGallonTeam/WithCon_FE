@@ -138,16 +138,18 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (myInfo.phoneNumber !== data.phoneNumber && !usable) {
+    if (myInfo.phoneNumber !== data.phoneNumber && usable === false) {
       setPhoneNumberModal(true);
+      setModal(false);
+      setSubmitModal(false);
       setTimeout(() => {
-        setModal(false);
+        setPhoneNumberModal(false);
         setModalText("");
       }, 1000);
+      return;
     }
     try {
       await instance.patch("/member", data);
-
       const response2 = await instance.get("/member/me");
       const data2 = await response2.data;
       setMyInfo(data2);
