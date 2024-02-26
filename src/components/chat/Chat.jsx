@@ -51,9 +51,12 @@ const Chat = () => {
 
   const client = useRef(null);
   const subscribe = () => {
-    client.current?.subscribe("/exchange/chat.exchange/room", (message) => {
-      console.log(message);
-    });
+    client.current?.subscribe(
+      `/exchange/chat.exchange/room.${chatRoomId}`,
+      (message) => {
+        console.log("서버 메세지", message);
+      }
+    );
   };
   const connect = () => {
     client.current = new StompJs.Client({
@@ -94,6 +97,7 @@ const Chat = () => {
   //채팅방 내부에서만 동작하는 함수 설정.
   let enterRoomNow = true;
   useEffect(() => {
+    connect();
     const onView = new ChatConcentration(chatRoomId, myId, lastMessageRef);
     if (enterRoomNow) {
       enterRoomNow = false;
@@ -102,11 +106,10 @@ const Chat = () => {
     document.addEventListener("visibilitychange", onView.changeVisibility);
     window.addEventListener("beforeunload", onView.beforeUnload);
     window.addEventListener("popstate", onView.hashChange);
-    connect();
     return () => {
+      disconnect();
       document.removeEventListener("visibilitychange", onView.changeVisibility);
       window.removeEventListener("beforeunload", onView.beforeUnload);
-      disconnect();
     };
   }, []);
 
@@ -194,6 +197,8 @@ const Chat = () => {
 
   return (
     <div className="chat-container">
+      <button onClick={connect}>소켓 연결</button>
+      <button onClick={disconnect}>소켓 제거</button>
       <div className="chat-wrap">
         <div className="chat-header">
           <div className="chat-room-name">
