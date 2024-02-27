@@ -4,6 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
 import instance from "../../assets/constants/instance";
 import axios from "axios";
+import Loading from "../common/Loading";
 
 const NaverLogin = () => {
   const setMyinfo = useSetRecoilState(myInfoState);
@@ -52,7 +53,7 @@ const NaverLogin = () => {
     getWithconTokenFromNaver();
   }, []);
 
-  return <div></div>;
+  return <Loading />;
 };
 
 export default NaverLogin;
