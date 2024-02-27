@@ -78,10 +78,7 @@ function App() {
             <Route path="/profile/changepassword/" element={<ChangePW />} />
           </Route>
         </Route>
-        <Route
-          path="/title/:concertTitle/chat/:chatRoomId"
-          element={<ChatPage />}
-        />
+        <Route path="/chat-room/:chatRoomId" element={<ChatPage />} />
 
         <Route path="/websocket" element={<WebSocket />} />
 

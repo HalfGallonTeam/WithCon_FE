@@ -75,22 +75,22 @@ const ChatToggle = (props) => {
   };
 
   let chatMembers = [];
-  members.map((member) => {
+  members.map((member, index) => {
     const isCreator = props.creator === props.me ? "" : "hidden";
     const $element = (
-      <li key={member.username} className="member-info">
+      <li key={index} className="member-info">
         <img className="member-img" src={member.profileImage} alt="" />
         <p className="member-name">{member.nickName}</p>
         <button
           className={`force-out ${isCreator}`}
           onClick={forceOut}
-          value={member.username}
+          value={member.memberId}
         >
           강퇴
         </button>
       </li>
     );
-    if (member.username === props.me) {
+    if (member.memberId === props.me) {
       chatMembers = [$element, ...chatMembers];
     } else {
       chatMembers.push($element);
