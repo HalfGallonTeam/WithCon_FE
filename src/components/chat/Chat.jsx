@@ -56,12 +56,16 @@ const Chat = () => {
       ({ body }) => {
         const datas = JSON.parse(body);
         if (datas.messageType !== "CHAT") {
-          if (datas.messageType === "ENTER") {
+          if (
+            datas.messageType === "ENTER" &&
+            chatMembersRef.current.includes(datas.memberId)
+          ) {
             const memberInfo = {
               memberId: datas.memberId,
-              userProfile: "userProfile",
-              nickName: "위콘2",
+              userProfile: datas.userProfile,
+              nickName: datas.nickName,
             };
+            console.log("입장한 사람 프로필", memberInfo);
             chatMembersRef.current = [...chatMembersRef.current, memberInfo];
           } else {
             const newMembers = chatMembersRef.current.filter((member) => {

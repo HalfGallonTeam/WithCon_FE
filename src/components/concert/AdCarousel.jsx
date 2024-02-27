@@ -9,33 +9,24 @@ const AdCarousel = () => {
   const adList = [
     {
       title: "콘서트 광고",
-      desc: "사랑해요 아이유",
+      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, ea minus deleniti possimus, recusandae corrupti temporibus beatae quidem sunt nostrum placeat iste voluptates magnam voluptatem consectetur consequatur, inventore unde ipsam.",
       link: "ad-link-concert",
       imgSrc: imgBlack,
-    },
-    {
-      title: "콘서트 광고",
-      desc: "사랑해요 아이유",
-      link: "ad-link-concert",
-      imgSrc: imgLight,
+      textColor: "#E6E6E6",
     },
     {
       title: "뮤지컬 광고",
-      desc: "캣츠, 위키드, 아서왕의 전설",
+      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, ea minus deleniti possimus, recusandae corrupti temporibus beatae quidem sunt nostrum placeat iste voluptates magnam voluptatem consectetur consequatur, inventore unde ipsam.",
+      link: "ad-link-concert",
+      imgSrc: imgLight,
+      textColor: "#603535",
+    },
+    {
+      title: "연극 광고",
+      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, ea minus deleniti possimus, recusandae corrupti temporibus beatae quidem sunt nostrum placeat iste voluptates magnam voluptatem consectetur consequatur, inventore unde ipsam.",
       link: "ad-link-musical",
       imgSrc: imgBlack,
-    },
-    {
-      title: "연극 광고",
-      desc: "학교 연극동아리 공짜 연극 사랑함. 정규공연 감사함.",
-      link: "ad-link-play",
-      imgSrc: imgLight,
-    },
-    {
-      title: "연극 광고",
-      desc: "학교 연극동아리 공짜 연극 사랑함. 정규공연 감사함. multi-elipsis테스트용 긴 문장multi-elipsis테스트용 긴 문장multi-elipsis테스트용 긴 문장multi-elipsis테스트용 긴 문장multi-elipsis테스트용 긴 문장multi-elipsis테스트용 긴 문장multi-elipsis테스트용 긴 문장multi-elipsis테스트용 긴 문장",
-      link: "ad-link-play",
-      imgSrc: imgBlack,
+      textColor: "#E6E6E6",
     },
   ];
   const maxLength = adList.length;
@@ -52,13 +43,16 @@ const AdCarousel = () => {
         style={{
           width: `${movePercent}%`,
           backgroundImage: `url(${ad.imgSrc})`,
+          color: ad.textColor,
         }}
       >
         <h3 className="ad-title">{ad.title}</h3>
         <p className="ad-desc">{ad.desc}</p>
         <div className="ad-link">
           <Link to={`/title/${ad.link}`}>
-            <button className="ad-link-button">바로가기</button>
+            <button className="ad-link-button" style={{ color: ad.textColor }}>
+              바로가기
+            </button>
           </Link>
         </div>
       </div>

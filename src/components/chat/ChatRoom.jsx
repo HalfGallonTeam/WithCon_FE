@@ -19,10 +19,12 @@ const ChatRoom = ({ searchData }) => {
               <span key={index}>#{tag}</span>
             ))}
         </div>
-        <div className="member-num-container">
-          <span className="member-num">총 인원</span>
-          <span className="num">{searchData.userCount}</span>
-        </div>
+        {
+          // <div className="member-num-container">
+          //   <span className="member-num">총 인원</span>
+          //   <span className="num">{searchData.userCount}</span>
+          // </div>
+        }
       </div>
     </div>
   );
