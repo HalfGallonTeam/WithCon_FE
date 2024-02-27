@@ -65,6 +65,7 @@ const Chat = () => {
               userProfile: datas.userProfile,
               nickName: datas.nickName,
             };
+            console.log("입장한 사람 프로필", memberInfo);
             chatMembersRef.current = [...chatMembersRef.current, memberInfo];
           } else {
             const newMembers = chatMembersRef.current.filter((member) => {
