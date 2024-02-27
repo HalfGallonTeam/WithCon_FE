@@ -56,11 +56,14 @@ const Chat = () => {
       ({ body }) => {
         const datas = JSON.parse(body);
         if (datas.messageType !== "CHAT") {
-          if (datas.messageType === "ENTER") {
+          if (
+            datas.messageType === "ENTER" &&
+            chatMembersRef.current.includes(datas.memberId)
+          ) {
             const memberInfo = {
               memberId: datas.memberId,
-              userProfile: "userProfile",
-              nickName: "위콘2",
+              userProfile: datas.userProfile,
+              nickName: datas.nickName,
             };
             chatMembersRef.current = [...chatMembersRef.current, memberInfo];
           } else {
