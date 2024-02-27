@@ -19,7 +19,6 @@
 .category-buttons {
   margin-bottom: 10px;
   display: flex;
-  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.2);
   .category-button {
     display: block;
     position: relative;
@@ -29,7 +28,6 @@
   }
   .active {
     font-weight: 700;
-    box-shadow: 0 -2px 4px;
   }
   .active::after {
     content: "";
@@ -114,11 +112,9 @@
       .reservation-tip.waiting {
         color: purple;
         border-color: purple;
+      }
     }
   }
-}
-.concert-card:hover {
-  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 1016px) {
