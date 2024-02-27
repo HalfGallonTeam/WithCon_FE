@@ -3,7 +3,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import instance from "../../assets/constants/instance";
 import ChatMessageForm from "./ChatMessageForm";
 import ChatToggle from "./ChatToggle";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
 import {
@@ -23,6 +23,7 @@ const basic = {
 };
 
 const Chat = () => {
+  const navigate = useNavigate();
   const myId = useRecoilValue(myInfoState).memberId;
   const [isPrev, setIsPrev] = useState(true);
   const { chatRoomId } = useParams();
@@ -54,6 +55,27 @@ const Chat = () => {
       `/exchange/chat.exchange/room.${chatRoomId}`,
       ({ body }) => {
         const datas = JSON.parse(body);
+        if (datas.messageType !== "CHAT") {
+          if (datas.messageType === "ENTER") {
+            const memberInfo = {
+              memberId: datas.memberId,
+              userProfile: "userProfile",
+              nickName: "위콘2",
+            };
+            chatMembersRef.current = [...chatMembersRef.current, memberInfo];
+          } else {
+            const newMembers = chatMembersRef.current.filter((member) => {
+              member.memberId !== datas.memberId;
+            });
+            chatMembersRef.current = newMembers;
+            if (datas.messageType === "KICK" && datas.memberId === myId) {
+              window.alert("채팅방에서 퇴장당했습니다.");
+              navigate("/");
+              return;
+            }
+          }
+        }
+
         let memberdata = "";
         let same = false;
         if (datas.memberId === myId) {
@@ -76,7 +98,6 @@ const Chat = () => {
         lastMessageRef.current = datas.id;
         setPrevMessage(datas);
         scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
-        return true;
       }
     );
   };
@@ -91,6 +112,13 @@ const Chat = () => {
       heartbeatOutgoing: 4000,
       onConnect: () => {
         console.log("웹소켓 연결되었습니다");
+        client.current?.publish({
+          destination: `/app/chat/enter/${chatRoomId}`,
+          body: JSON.stringify({
+            memberId: myId,
+            message: "test",
+          }),
+        });
         subscribe();
       },
       onStompError: (frame) => {
@@ -114,29 +142,12 @@ const Chat = () => {
         message: message,
       }),
     });
+    instance.post(`/notification/event?=chatRoomId=${chatRoomId}`);
   };
-
-  //채팅방 내부에서만 동작하는 함수 설정.
-  let enterRoomNow = true;
-  useEffect(() => {
-    connect();
-    const onView = new ChatConcentration(chatRoomId, myId, lastMessageRef);
-    if (enterRoomNow) {
-      enterRoomNow = false;
-      onView.enterRoomNow();
-    }
-    document.addEventListener("visibilitychange", onView.changeVisibility);
-    window.addEventListener("beforeunload", onView.beforeUnload);
-    window.addEventListener("popstate", onView.hashChange);
-    return () => {
-      disconnect();
-      document.removeEventListener("visibilitychange", onView.changeVisibility);
-      window.removeEventListener("beforeunload", onView.beforeUnload);
-    };
-  }, []);
 
   //채팅방 초기설정
   let firstSet = false;
+  let enterRoomNow = true;
   useEffect(() => {
     const enterChatRoom = async () => {
       if (firstSet) return;
@@ -169,6 +180,20 @@ const Chat = () => {
       }
     };
     enterChatRoom();
+    connect();
+    const onView = new ChatConcentration(chatRoomId, myId, lastMessageRef);
+    if (enterRoomNow) {
+      enterRoomNow = false;
+      onView.enterRoomNow();
+    }
+    document.addEventListener("visibilitychange", onView.changeVisibility);
+    window.addEventListener("beforeunload", onView.beforeUnload);
+    window.addEventListener("popstate", onView.hashChange);
+    return () => {
+      disconnect();
+      document.removeEventListener("visibilitychange", onView.changeVisibility);
+      window.removeEventListener("beforeunload", onView.beforeUnload);
+    };
   }, []);
 
   //현재 채팅을 보낼 수 있는 상태인지 확인합니다.
@@ -189,8 +214,6 @@ const Chat = () => {
 
   return (
     <div className="chat-container">
-      <button onClick={connect}>소켓 연결</button>
-      <button onClick={disconnect}>소켓 제거</button>
       <div className="chat-wrap">
         <div className="chat-header">
           <div className="chat-room-name">
@@ -211,8 +234,9 @@ const Chat = () => {
               setToggle={setToggle}
               members={chatMembersRef.current}
               creator={chatInitial.managerId}
-              me={myId}
+              myId={myId}
               performanceId={chatInitial.performanceId}
+              websocket={client.current}
             />
           )}
         </div>

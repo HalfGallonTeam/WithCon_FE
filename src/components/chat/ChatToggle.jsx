@@ -9,6 +9,8 @@ const ChatToggle = (props) => {
   const setToggle = props.setToggle;
   const { concertTitle, chatRoomId } = useParams();
   const navigate = useNavigate();
+  const websocket = props.websocket;
+  const myId = props.myId;
 
   //토글 동작 함수
   useEffect(() => {
@@ -28,7 +30,7 @@ const ChatToggle = (props) => {
       const data = {
         performanceId: props.performanceId,
         chatRoomId: chatRoomId,
-        targetId: props.me,
+        targetId: myId,
         messageType: "EXIT",
       };
       const response = await instance.delete(`/chatRoom/${chatRoomId}/exit`);
@@ -42,6 +44,13 @@ const ChatToggle = (props) => {
         );
       }
       if (response.status === 204) {
+        websocket?.publish({
+          destination: `/app/chat/exit/${chatRoomId}`,
+          body: JSON.stringify({
+            memberId: myId,
+            message: "test",
+          }),
+        });
         window.alert("채팅방에서 퇴장했습니다.");
         navigate(`/title/${concertTitle}/chat`);
       }
@@ -65,10 +74,13 @@ const ChatToggle = (props) => {
         `/chatRoom/${chatRoomId}/Kick`,
         data
       );
-      if (response.data.chatRoomId) {
-        window.alert(e.target.value + "를 강퇴합니다.");
-        return;
-      }
+      websocket?.publish({
+        destination: `/app/chat/kick/${chatRoomId}`,
+        body: JSON.stringify({
+          memberId: memberId,
+          message: "test",
+        }),
+      });
     } catch (error) {
       console.error(error, "에러");
     }
@@ -76,10 +88,10 @@ const ChatToggle = (props) => {
 
   let chatMembers = [];
   members.map((member, index) => {
-    const isCreator = props.creator === props.me ? "" : "hidden";
+    const isCreator = props.creator === myId ? "" : "hidden";
     const $element = (
       <li key={index} className="member-info">
-        <img className="member-img" src={member.profileImage} alt="" />
+        <img className="member-img" src={member.userProfile} alt="" />
         <p className="member-name">{member.nickName}</p>
         <button
           className={`force-out ${isCreator}`}
@@ -90,7 +102,7 @@ const ChatToggle = (props) => {
         </button>
       </li>
     );
-    if (member.memberId === props.me) {
+    if (member.memberId === myId) {
       chatMembers = [$element, ...chatMembers];
     } else {
       chatMembers.push($element);
