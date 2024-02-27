@@ -7,7 +7,7 @@ import PAGE from "../../assets/constants/page";
 import setLists from "../../assets/tools/setLists";
 
 const ConLists = () => {
-  const [infos, setInfos] = useState([]);
+  const [infos, setInfos] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(65);
   const url = useLocation();

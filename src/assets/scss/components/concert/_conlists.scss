@@ -79,50 +79,56 @@
     height: 240px;
     margin: 0 auto;
   }
-  .concert-mini-info {
-    .info-top-line {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .concert-title {
-        font-size: 1em;
-        margin: 8px 0;
-        @include ellipsis;
-      }
-      .like {
-        cursor: pointer;
-        font-size: 1.2em;
-        margin-left: 4px;
-        font-weight: 700;
-        transition: none;
-      }
-      .like:hover {
-        background-color: transparent;
-      }
+  .info-top-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .concert-title {
+      font-size: 1em;
+      margin: 8px 0;
+      @include ellipsis;
     }
+    .like {
+      cursor: pointer;
+      font-size: 1.2em;
+      margin-left: 4px;
+      font-weight: 700;
+      transition: none;
+    }
+    .like:hover {
+      background-color: transparent;
+    }
+  }
 
-    .info-bottom-line {
-      .concert-place {@include ellipsis;}
-      .concert-date {@include ellipsis;}
-      .reservation-tip {
-        font-size: 0.8em;
-        display: inline-block;
-        padding: 2px;
-        margin-top: 6px;
-        font-weight: 700;
-        color: $main-color;
-        border: 1px solid $main-color;
-        border-radius: 2px;
-      }
-      .reservation-tip.end {
-        color: red;
-        border-color: red;
-      }
-      .reservation-tip.waiting {
-        color: purple;
-        border-color: purple;
-      }
+  .info-bottom-line {
+    .concert-place {@include ellipsis;}
+    .concert-date {@include ellipsis;}
+    .reservation-tip {
+      font-size: 0.8em;
+      display: inline-block;
+      padding: 2px;
+      margin-top: 6px;
+      font-weight: 700;
+      color: $main-color;
+      border: 1px solid $main-color;
+      border-radius: 2px;
     }
+    .reservation-tip.end {
+      color: red;
+      border-color: red;
+    }
+    .reservation-tip.waiting {
+      color: purple;
+      border-color: purple;
+    }
+  }
+}
+
+.concert-card.loading {
+  .concert-title, .concert-place, .concert-date, .reservation-tip{
+    color: $background-color;
+    background-color: $background-color;
+    border-color: $background-color;
   }
 }
 
