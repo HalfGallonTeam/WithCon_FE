@@ -26,7 +26,7 @@ const Chat = () => {
   const myId = useRecoilValue(myInfoState).memberId;
   const [isPrev, setIsPrev] = useState(true);
   const { chatRoomId } = useParams();
-  const [prevMessage, setPrevMessage] = useState(null);
+  const [prevMessage, setPrevMessage] = useState({});
   const [chatInitial, setChatInitial] = useState(basic);
   const [sendButton, setSendButton] = useState(false);
   const [toggle, setToggle] = useState(false);
@@ -54,15 +54,9 @@ const Chat = () => {
       `/exchange/chat.exchange/room.${chatRoomId}`,
       ({ body }) => {
         const datas = JSON.parse(body);
-        let same = false;
-        if (
-          datas.memberId === prevMessage.memberId &&
-          datas.sendAt - prevMessage.sendAt < 10000
-        ) {
-          same = true;
-        }
         let memberdata = "";
-        if (prevMessage.memberId === myId) {
+        let same = false;
+        if (datas.memberId === myId) {
           datas.memberId = 0;
         } else {
           for (const member of chatMembersRef.current) {
@@ -70,6 +64,12 @@ const Chat = () => {
               memberdata = member;
               break;
             }
+          }
+          if (
+            datas.memberId === prevMessage?.memberId &&
+            datas.sendAt - prevMessage?.sendAt < 10000
+          ) {
+            same = true;
           }
         }
         ChatMessageForm(datas, messageRef.current, same, memberdata);
@@ -146,7 +146,7 @@ const Chat = () => {
         const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
         console.log(response, "채팅방 입장");
         const datas = await response.data;
-        chatMembersRef.current = datas.members;
+        chatMembersRef.current = datas.chatParticipants;
         datas.members = [];
         setChatInitial(datas);
 
@@ -197,14 +197,20 @@ const Chat = () => {
             <h1>{chatInitial.performanceName}</h1>
             <h2>{chatInitial.roomName}</h2>
           </div>
-          <button className="toggle" onClick={() => setToggle(true)}>
+          <button
+            className="toggle"
+            onClick={(e) => {
+              e.stopPropagation();
+              setToggle(true);
+            }}
+          >
             <GiHamburgerMenu size={20} />
           </button>
           {toggle && (
             <ChatToggle
               setToggle={setToggle}
               members={chatMembersRef.current}
-              creator={chatInitial.managerName}
+              creator={chatInitial.managerId}
               me={myId}
               performanceId={chatInitial.performanceId}
             />
@@ -218,11 +224,6 @@ const Chat = () => {
           )}
           <div className="messages" ref={messageRef}>
             <hr aria-label="여기까지 읽었어요" />
-            {/**<div className="system-message">
-              <div className="profile-img"></div>
-              <div className="text">입장하였습니다.</div>
-              <div className="message-time">nan:nan:nan</div>
-            </div>*/}
           </div>
         </div>
         <div className="send-area">
