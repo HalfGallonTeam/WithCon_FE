@@ -4,6 +4,7 @@ import instance from "../../assets/constants/instance";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
+import Loading from "../common/Loading";
 
 const KakaoLogin = () => {
   const setMyinfo = useSetRecoilState(myInfoState);
@@ -42,6 +43,7 @@ const KakaoLogin = () => {
     };
     getToken();
   }, [code]);
+  return <Loading />;
 };
 
 export default KakaoLogin;
