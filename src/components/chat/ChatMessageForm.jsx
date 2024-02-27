@@ -8,16 +8,16 @@ const ChatMessageForm = (message, parentNode, same, memberdata) => {
   const $time = document.createElement("p");
 
   $node.className =
-    message.memberId === 0
+    message.messageType !== "CHAT"
+      ? "system-message"
+      : message.memberId === 0
       ? "member-me"
-      : message.messageType === "CHAT"
-      ? "member-other"
-      : "system-message";
+      : "member-other";
   $text.className = "text";
   $text.innerText = message.message;
 
   if (message.messageType === "CHAT") {
-    $img.src = memberdata.profileImage;
+    $img.src = memberdata.userProfile;
     $img.alt = "";
     $img.className = "profile-img";
     $chatTexts.className = "chat-texts";

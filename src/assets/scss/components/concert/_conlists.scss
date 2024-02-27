@@ -107,10 +107,13 @@
         border: 1px solid $main-color;
         border-radius: 2px;
       }
-      .reservation-tip.hot {
+      .reservation-tip.end {
         color: red;
         border-color: red;
       }
+      .reservation-tip.waiting {
+        color: purple;
+        border-color: purple;
     }
   }
 }
