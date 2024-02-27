@@ -8,7 +8,13 @@ const ConcertCard = (props) => {
   const navigate = useNavigate();
   const info = props.info;
   const className =
-    info.status === "END" ? "hot" : info.status === "" ? "hidden" : "";
+    info.status === "END" ? "end" : info.status === "WAITING" ? "waiting" : "";
+
+  const statusToKR = {
+    END: "공연종료",
+    RUNNING: "공연중",
+    WAITING: "예약중",
+  };
 
   useEffect(() => {
     if (props.like) {
@@ -58,7 +64,9 @@ const ConcertCard = (props) => {
         <div className="info-bottom-line">
           <p className="concert-place">{info.facility}</p>
           <p className="concert-date">{`${info.startDate}-${info.endDate}`}</p>
-          <p className={`reservation-tip ${className}`}>{info.status}</p>
+          <p className={`reservation-tip ${className}`}>
+            {statusToKR[info.status]}
+          </p>
         </div>
       </div>
     </div>

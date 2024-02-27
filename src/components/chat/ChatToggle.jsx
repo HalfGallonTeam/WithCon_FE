@@ -66,13 +66,8 @@ const ChatToggle = (props) => {
     try {
       const num = Number(chatRoomId);
       const memberId = e.target.value;
-      const data = {
-        num,
-        memberId,
-      };
       const response = await instance.delete(
-        `/chatRoom/${chatRoomId}/Kick`,
-        data
+        `/chatRoom/${chatRoomId}/kick/${memberId}`
       );
       websocket?.publish({
         destination: `/app/chat/kick/${chatRoomId}`,
