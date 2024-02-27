@@ -71,7 +71,7 @@ const ConInfo = () => {
           <span>위치: {infoData.facility}</span>
         </div>
         <div className="map-img">
-          <KakaoMap lat={detailData.lat} lot={detailData.lot} />
+          <KakaoMap detailData={detailData} />
         </div>
       </div>
     </div>
