@@ -25,11 +25,15 @@
     width: 25%;
     padding: 8px;
     letter-spacing: 2px;
+    border: 1px solid $background-color;
+  }
+  .category-button:hover {
+    background-color: inherit;
   }
   .active {
     font-weight: 700;
   }
-  .active::after {
+  .active::after, .category-button:hover::after{
     content: "";
     display: block;
     position: absolute;
@@ -41,6 +45,11 @@
     background-color: $main-color;
     border-radius: 2px;
   }
+  :not(.active).category-button:hover::after {
+    width: 20%;
+    height: 2px;
+  }
+ 
 }
 
 .concert-list {
