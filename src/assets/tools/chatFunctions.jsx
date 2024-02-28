@@ -69,7 +69,7 @@ const ChatMessageBundle = class {
     chatMembersRef,
     myId,
     setIsPrev,
-    setPrevMessage,
+    prevMessage,
     chatRoomId
   ) {
     this.firstMessageRef = firstMessageRef;
@@ -78,7 +78,7 @@ const ChatMessageBundle = class {
     this.chatMembersRef = chatMembersRef;
     this.myId = myId;
     this.setIsPrev = setIsPrev;
-    this.setPrevMessage = setPrevMessage;
+    this.prevMessage = prevMessage;
     this.chatRoomId = chatRoomId;
   }
 
@@ -114,7 +114,7 @@ const ChatMessageBundle = class {
       //로컬스토리지용 아이디 세팅
       this.firstMessageRef.current = datas2[0]?.id || 0;
       this.lastMessageRef.current = datas2[datas2.length - 1]?.id;
-      this.setPrevMessage(datas2[datas2.length - 1]);
+      this.prevMessage.current = datas2[datas2.length - 1];
 
       AddMessages(
         datas2,

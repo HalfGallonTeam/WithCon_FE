@@ -23,6 +23,7 @@ const basic = {
 };
 
 const Chat = () => {
+  const firstEnterRef = useRef(false);
   const navigate = useNavigate();
   const myId = useRecoilValue(myInfoState).memberId;
   const [isPrev, setIsPrev] = useState(true);
@@ -59,7 +60,7 @@ const Chat = () => {
         if (datas.messageType !== "CHAT") {
           if (
             datas.messageType === "ENTER" &&
-            chatMembersRef.current.includes(datas.memberId)
+            !chatMembersRef.current.includes(datas.memberId)
           ) {
             const memberInfo = {
               memberId: datas.memberId,
@@ -118,9 +119,7 @@ const Chat = () => {
       heartbeatIncoming: 10000,
       heartbeatOutgoing: 10000,
       onConnect: () => {
-        console.log("웹소켓 연결되었습니다");
-        if (chatInitial?.enterStatus === "NEW") {
-          console.log("enterstatus", chatInitial.enterStatus);
+        if (firstEnterRef.current) {
           client.current?.publish({
             destination: `/app/chat/enter/${chatRoomId}`,
             body: JSON.stringify({
@@ -165,10 +164,14 @@ const Chat = () => {
       try {
         //기본 채팅방 정보 설정
         const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
+        const status = await response.data.enterStatus;
+        if (status === "NEW") {
+          firstEnterRef.current = true;
+        }
         console.log(response, "채팅방 입장");
         const datas = await response.data;
         chatMembersRef.current = datas.chatParticipants;
-        datas.members = [];
+        datas.chatParticipants = [];
         setChatInitial(datas);
 
         //입장 초기 메세지 설정

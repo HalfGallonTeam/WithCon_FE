@@ -7,8 +7,7 @@ import { BsPersonFill } from "react-icons/bs";
 const ChatToggle = (props) => {
   const [exitModal, setExitModal] = useState(false);
   const [forceOutModal, setForceOutModal] = useState(false);
-  const [aggro, setAggro] = useState("");
-  const [aggroId, setAggroId] = useState("");
+  const aggroId = useRef(null);
   const memberRef = useRef(null);
   const toggleRef = useRef(null);
   const members = props.members;
@@ -90,9 +89,8 @@ const ChatToggle = (props) => {
   const exitModalOn = () => setExitModal(true);
   const exitModalOff = () => setExitModal(false);
   const forceOutModalOff = () => setForceOutModal(false);
-  const forceOutModalOn = (event) => {
-    setAggroId(event.target.value[0]);
-    setAggro(event.target.value[1]);
+  const forceOutModalOn = (e) => {
+    aggroId.current = e.target.value;
     setForceOutModal(true);
   };
 
@@ -110,8 +108,8 @@ const ChatToggle = (props) => {
         <p className="member-name">{member.nickName}</p>
         <button
           className={`force-out ${isCreator}`}
-          onClick={forceOutModalOn}
-          value={[member.memberId, member.nickName]}
+          onClick={forceOut}
+          value={member.memberId}
         >
           강퇴
         </button>
@@ -153,13 +151,13 @@ const ChatToggle = (props) => {
       )}
       {forceOutModal && (
         <ButtonModal
-          text={`${aggro}님을 강퇴하시겠습니까?`}
+          text={"정말로 강퇴하시겠습니까?"}
           buttonContainer="2"
           button1="예"
           button2="취소"
           onClickButton1={forceOut}
           onClickButton2={forceOutModalOff}
-          value={aggroId}
+          value={aggroId.current}
         />
       )}
     </>
