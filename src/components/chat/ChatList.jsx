@@ -56,7 +56,7 @@ const ChatList = () => {
         let url = "/chatRoom/performance/";
         url += concertTitle;
         url += `?page=${pages - 1}`; //limit=5
-        await setLists(url, setSearchData, setData, totalCount, setTotalCount);
+        await setLists(url, setData, totalCount, setTotalCount, setSearchData);
       } catch (error) {
         console.error("데이터오류", error);
       }

@@ -2,10 +2,10 @@ import instance from "../constants/instance";
 
 const setLists = async (
   request,
-  setDatas,
   setInfos,
   totalCount,
-  setTotalCount
+  setTotalCount,
+  setDatas
 ) => {
   const response = await instance.get(request);
   console.log(response, "setLists");
