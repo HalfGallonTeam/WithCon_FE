@@ -116,6 +116,7 @@
   margin: 10px 0;
   .chat-room {
     @include click-css;
+    height: 90px;
     cursor: pointer;
     border: 2px solid $main-color;
     border-radius: 16px;

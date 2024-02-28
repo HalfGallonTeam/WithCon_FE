@@ -144,7 +144,7 @@ const ChatToggle = (props) => {
       {exitModal && (
         <ButtonModal
           text="정말로 채팅방에서 퇴장하시겠습니까?"
-          buttonContainer={2}
+          buttonContainer="2"
           button1="예"
           button2="취소"
           onClickButton1={exitChatroom}
@@ -154,7 +154,7 @@ const ChatToggle = (props) => {
       {forceOutModal && (
         <ButtonModal
           text={`${aggro}님을 강퇴하시겠습니까?`}
-          buttonContainer={2}
+          buttonContainer="2"
           button1="예"
           button2="취소"
           onClickButton1={forceOut}

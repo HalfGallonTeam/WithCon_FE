@@ -20,13 +20,11 @@ const MyPageComponent = () => {
         <div className="breadcrumb-container">
           {category === "likes" ? (
             <>
-              <span className="category">찜한 공연 리스트</span>
               <span className="location-desc">마이페이지 &gt; 찜한 공연</span>
             </>
           ) : (
             <>
-              <span className="category">채팅방 리스트</span>
-              <span className="location-desc">마이페이지 &gt; 찜한 공연</span>
+              <span className="location-desc">마이페이지 &gt; 나의 채팅방</span>
             </>
           )}
         </div>

@@ -3,17 +3,8 @@ import ChatMessageForm from "./ChatMessageForm";
 const AddMessages = (datas, parentNode, chatMembers, direction, me) => {
   const $fragment = document.createDocumentFragment();
   for (let i = 0; i < datas.length; i++) {
-    let same = false;
-    if (i) {
-      if (
-        datas[i - 1].memberId === datas[i].memberId &&
-        datas[i].sendAt - datas[i - 1].sendAt < 10000
-      ) {
-        same = true;
-      }
-    }
-
     let memberdata = "";
+    let same = false;
     if (datas[i].memberId === me) {
       datas[i].memberId = 0;
     } else {
@@ -21,6 +12,14 @@ const AddMessages = (datas, parentNode, chatMembers, direction, me) => {
         if (member.memberId === datas[i].memberId) {
           memberdata = member;
           break;
+        }
+      }
+      if (i) {
+        if (
+          datas[i - 1].memberId === datas[i].memberId &&
+          datas[i].sendAt - datas[i - 1].sendAt < 10000
+        ) {
+          same = true;
         }
       }
     }

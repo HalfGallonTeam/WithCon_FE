@@ -55,6 +55,7 @@ const Chat = () => {
       `/exchange/chat.exchange/room.${chatRoomId}`,
       ({ body }) => {
         const datas = JSON.parse(body);
+        console.log("받은 메세지", datas);
         if (datas.messageType !== "CHAT") {
           if (
             datas.messageType === "ENTER" &&
@@ -75,7 +76,6 @@ const Chat = () => {
             if (datas.messageType === "KICK" && datas.memberId === myId) {
               window.alert("채팅방에서 퇴장당했습니다.");
               navigate("/");
-              return;
             }
           }
         }
@@ -108,15 +108,15 @@ const Chat = () => {
   const connect = () => {
     client.current = new StompJs.Client({
       brokerURL: "ws://43.203.64.7:8080/ws",
-      //debug(str) {
-      //  console.log(str);
-      //},
+      debug(str) {
+        console.log(str);
+      },
       connectHeaders: {
         Authorization: JSON.parse(localStorage.getItem("withcon_token")),
       },
       reconnectDelay: 5000,
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
+      heartbeatIncoming: 10000,
+      heartbeatOutgoing: 10000,
       onConnect: () => {
         console.log("웹소켓 연결되었습니다");
         if (chatInitial?.enterStatus === "NEW") {
@@ -152,7 +152,7 @@ const Chat = () => {
         message: message,
       }),
     });
-    instance.post(`/notification/event?=chatRoomId=${chatRoomId}`);
+    instance.post(`/notification/event?chatRoomId=${chatRoomId}`);
   };
 
   //채팅방 초기설정
@@ -191,7 +191,12 @@ const Chat = () => {
     };
     enterChatRoom();
     connect();
-    const onView = new ChatConcentration(chatRoomId, myId, lastMessageRef);
+    const onView = new ChatConcentration(
+      chatRoomId,
+      myId,
+      lastMessageRef,
+      disconnect
+    );
     if (enterRoomNow) {
       enterRoomNow = false;
       onView.enterRoomNow();
@@ -200,7 +205,6 @@ const Chat = () => {
     window.addEventListener("beforeunload", onView.beforeUnload);
     window.addEventListener("popstate", onView.hashChange);
     return () => {
-      disconnect();
       document.removeEventListener("visibilitychange", onView.changeVisibility);
       window.removeEventListener("beforeunload", onView.beforeUnload);
     };
@@ -227,8 +231,8 @@ const Chat = () => {
       <div className="chat-wrap">
         <div className="chat-header">
           <div className="chat-room-name">
-            <h1>{chatInitial.performanceName}</h1>
-            <h2>{chatInitial.roomName}</h2>
+            <h2>{chatInitial.performanceName}</h2>
+            <h3>{chatInitial.roomName}</h3>
           </div>
           <button
             className="toggle"
