@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import instance from "../../assets/constants/instance";
 import ButtonModal from "../common/modal";
+import { BsPersonFill } from "react-icons/bs";
 
 const ChatToggle = (props) => {
   const [exitModal, setExitModal] = useState(false);
@@ -101,7 +102,11 @@ const ChatToggle = (props) => {
       props.creator === myId && member.memberId !== myId ? "" : "hidden";
     const $element = (
       <li key={index} className="member-info">
-        <img className="member-img" src={member.userProfile} alt="" />
+        {!member.userProfile ? (
+          <BsPersonFill className="member-img img-null" alt="profileImg" />
+        ) : (
+          <img className="member-img" src={member.userProfile} alt="" />
+        )}
         <p className="member-name">{member.nickName}</p>
         <button
           className={`force-out ${isCreator}`}

@@ -49,10 +49,16 @@
           .member-img {
             width: 30px;
             height: 30px;
-            background-color: $main-color;
+            // background-color: $main-color;
+
             border-radius: 100%;
             text-align: center;
             margin-right: 10px;
+          }
+          .img-null {
+            border: 1px solid $text-color;
+            color: $main-color;
+            padding: 2px;
           }
           .member-name {
             flex-grow: 1;
@@ -87,7 +93,9 @@
       overflow-y: scroll;
       padding: 20px;
       background-color: $background-color;
-      .messages > * {margin: 8px 0;}
+      .messages > * {
+        margin: 8px 0;
+      }
       .profile-img {
         flex-shrink: 0;
         flex-grow: 0;
@@ -120,27 +128,30 @@
         font-size: 12px;
         margin: 0 4px;
       }
-      
+
       .member-other {
         display: flex;
       }
       .member-me {
-        .profile-img {display: none;}
+        .profile-img {
+          display: none;
+        }
         .chat-message-info {
           justify-content: flex-end;
         }
-       .text {
-        order: 1;
-        background-color: $main-color;
-        color: white;
-       }
+        .text {
+          order: 1;
+          background-color: $main-color;
+          color: white;
+        }
       }
       .system-message {
-        .profile-img, .message-time {
+        .profile-img,
+        .message-time {
           display: none;
         }
         .text {
-          font-size: 12px;  
+          font-size: 12px;
           border: none;
           text-align: center;
         }
