@@ -105,12 +105,13 @@ const ChatMessageBundle = class {
 
   callInitialMessages = async () => {
     try {
-      let lastMsgId = JSON.parse(localStorage.getItem("chat"))[this.chatRoomId];
+      let lastMsgId = JSON.parse(localStorage.getItem("chat"))?.this.chatRoomId;
       let url = `/chatRoom/${this.chatRoomId}/message`;
       url += lastMsgId ? `?lastMsgId=${lastMsgId - 1}` : "";
       const response2 = await instance.get(url);
-      const datas2 = await response2.data;
+      const datas2 = await response2.data.content;
 
+      console.log(response2, "채팅방 첫 진입");
       //로컬스토리지용 아이디 세팅
       this.firstMessageRef.current = datas2[0]?.id || 0;
       this.lastMessageRef.current = datas2[datas2.length - 1]?.id;
