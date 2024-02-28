@@ -46,15 +46,6 @@ const Notification = () => {
     };
     fetchPrevNotifications();
   }, []);
-
-  /* const isJSONString = (str) => {
-    try {
-      JSON.parse(str);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }; */
   useEffect(() => {
     const EventSource = EventSourcePolyfill;
     if (accessToken) {
@@ -121,7 +112,11 @@ const Notification = () => {
 
   const handleMessage = (e, item) => {
     e.preventDefault();
-    const url = item.url.replace("performanceDetail", "title");
+    const url = item.url
+      .replace("performanceDetail", "title")
+      .replace("/enter", "")
+      .replace("chatRoom", "chat-room");
+
     navigate(url);
     window.location.reload();
   };
