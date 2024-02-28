@@ -78,6 +78,7 @@
       margin-right: 30px;
       button {
         @include category-btn;
+        width: auto;
       }
       @media (max-width: 768px) {
         margin: 0 0 10px;
