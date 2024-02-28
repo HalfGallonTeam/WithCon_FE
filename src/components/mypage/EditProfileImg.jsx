@@ -5,13 +5,15 @@ import { BsPersonFill } from "react-icons/bs";
 import { useRecoilState } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
 import { useMutation } from "react-query";
+import Loading from "../common/Loading";
 
-const EditProfileImg = ({ edit }) => {
+const EditProfileImg = ({ edit, setEdit }) => {
   const [myInfo, setMyInfo] = useRecoilState(myInfoState);
   const [imageUrl, setImageUrl] = useState(myInfo.profileImage);
   const [imgFile, setImgFile] = useState(null);
   const [msg, setMsg] = useState("");
   const [msgModal, setMsgModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   //test
   const fileInputRef = useRef(null);
   const handleImgChange = (e) => {
@@ -37,6 +39,7 @@ const EditProfileImg = ({ edit }) => {
   const submitImg = async () => {
     if (imgFile) {
       try {
+        setLoading(true);
         const formData = new FormData();
         formData.append("image", imgFile);
         await instance.post("/member/profile-image", formData, {
@@ -49,8 +52,10 @@ const EditProfileImg = ({ edit }) => {
         setTimeout(() => {
           setMsgModal(false);
           setMsg("");
+          setEdit(false);
         }, 1000);
         await UpdateMyInfo();
+        setLoading(false);
       } catch (error) {
         console.error("이미지 업로드 에러", error);
       }
@@ -71,6 +76,7 @@ const EditProfileImg = ({ edit }) => {
 
   return (
     <div className="edit-img-container">
+      {loading ? <Loading /> : null}
       {edit ? (
         <div
           className="cancel-btn"

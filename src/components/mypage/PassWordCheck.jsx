@@ -1,15 +1,17 @@
 import { useState } from "react";
 import instance from "../../assets/constants/instance";
+import Loading from "../common/Loading";
 const PassWordCheck = ({ setEdit, setPassWordCheck }) => {
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
   const handleCheckCurrentPassWord = async () => {
     try {
+      setLoading(true);
       const response = await instance.post("/member/current-password-check", {
         password: password,
       });
       if (response.status === 200) {
-        console.log("현재 비밀번호가 맞아요");
         setEdit(true);
         setPassWordCheck(false);
       }
@@ -19,6 +21,7 @@ const PassWordCheck = ({ setEdit, setPassWordCheck }) => {
       }
       console.error("현재 비밀번호 입력관련 에러", error);
     }
+    setLoading(false);
   };
   const onChangeCurrentPassword = (e) => {
     setMsg("");
@@ -46,6 +49,7 @@ const PassWordCheck = ({ setEdit, setPassWordCheck }) => {
           취소
         </button>
       </div>
+      {loading ? <Loading /> : null}
       {msg ? <span className="current-password-msg">{msg}</span> : null}
     </div>
   );

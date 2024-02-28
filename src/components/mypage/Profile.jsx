@@ -268,7 +268,7 @@ const Profile = () => {
     <div className="container">
       <p className="location-desc">마이페이지 &gt; 프로필 변경</p>
       <div className="profile-edit-form">
-        <EditProfileImg edit={edit} />
+        <EditProfileImg edit={edit} setEdit={setEdit} />
         <div className="edit-user-info">
           {edit ? (
             <form>
