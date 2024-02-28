@@ -158,7 +158,6 @@ const Signup = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setShowModal(true);
 
     try {
       if (!usables.userId) {
@@ -186,6 +185,7 @@ const Signup = () => {
         const response = await axios.post("/api/auth/join", postData);
         console.log(response.data);
         setModalMsg("회원가입이 완료 되었습니다.");
+        setShowModal(true);
         setTimeout(() => {
           navigate("/login");
         }, 1000);
@@ -205,7 +205,9 @@ const Signup = () => {
     <div className="middle-container">
       <div className="container">
         <div className="login-box">
-          <h1 className="title">위드콘</h1>
+          <h1 className="title" onClick={() => navigate("/")}>
+            위드콘
+          </h1>
           <form
             className="login-form"
             name="signup"

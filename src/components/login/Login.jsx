@@ -136,9 +136,10 @@ const Login = () => {
               )}
               <button className="login-button">로그인하기</button>
             </form>
-            <Link to="/signup/">회원가입하기</Link>
-            <span aria-hidden="true">|</span>
-            <Link to="/findpassword/">비밀번호찾기</Link>
+            <span>아직 회원이 아니신가요? </span>
+            {/* <span aria-hidden="true">|</span> */}
+            <Link to="/signup/"> 회원가입하기</Link>
+            {/* <Link to="/findpassword/">비밀번호찾기</Link> */}
             <hr aria-hidden="true" />
             <p className="login-desc">소셜아이디로 간편로그인</p>
             <div className="social-login-box">
