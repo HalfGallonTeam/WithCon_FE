@@ -1,5 +1,9 @@
+@import url("https://fonts.googleapis.com/earlyaccess/notosanskr.css");
 body {
   overflow-x: hidden;
+}
+body * {
+  font-family: "Noto Sans KR", sans-serif !important;
 }
 
 button {
