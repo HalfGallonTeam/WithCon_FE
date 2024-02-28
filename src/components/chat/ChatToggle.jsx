@@ -1,14 +1,21 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import instance from "../../assets/constants/instance";
+import ButtonModal from "../common/modal";
 
 const ChatToggle = (props) => {
+  const [exitModal, setExitModal] = useState(false);
+  const [forceOutModal, setForceOutModal] = useState(false);
+  const [aggro, setAggro] = useState("");
+  const [aggroId, setAggroId] = useState("");
   const memberRef = useRef(null);
   const toggleRef = useRef(null);
   const members = props.members;
   const setToggle = props.setToggle;
   const { concertTitle, chatRoomId } = useParams();
   const navigate = useNavigate();
+  const websocket = props.websocket;
+  const myId = props.myId;
 
   //토글 동작 함수
   useEffect(() => {
@@ -28,7 +35,7 @@ const ChatToggle = (props) => {
       const data = {
         performanceId: props.performanceId,
         chatRoomId: chatRoomId,
-        targetId: props.me,
+        targetId: myId,
         messageType: "EXIT",
       };
       const response = await instance.delete(`/chatRoom/${chatRoomId}/exit`);
@@ -42,6 +49,13 @@ const ChatToggle = (props) => {
         );
       }
       if (response.status === 204) {
+        websocket?.publish({
+          destination: `/app/chat/exit/${chatRoomId}`,
+          body: JSON.stringify({
+            memberId: myId,
+            message: "test",
+          }),
+        });
         window.alert("채팅방에서 퇴장했습니다.");
         navigate(`/title/${concertTitle}/chat`);
       }
@@ -57,62 +71,93 @@ const ChatToggle = (props) => {
     try {
       const num = Number(chatRoomId);
       const memberId = e.target.value;
-      const data = {
-        num,
-        memberId,
-      };
       const response = await instance.delete(
-        `/chatRoom/${chatRoomId}/Kick`,
-        data
+        `/chatRoom/${chatRoomId}/kick/${memberId}`
       );
-      if (response.data.chatRoomId) {
-        window.alert(e.target.value + "를 강퇴합니다.");
-        return;
-      }
+      websocket?.publish({
+        destination: `/app/chat/kick/${chatRoomId}`,
+        body: JSON.stringify({
+          memberId: memberId,
+          message: "test",
+        }),
+      });
     } catch (error) {
       console.error(error, "에러");
     }
   };
 
+  const exitModalOn = () => setExitModal(true);
+  const exitModalOff = () => setExitModal(false);
+  const forceOutModalOff = () => setForceOutModal(false);
+  const forceOutModalOn = (event) => {
+    setAggroId(event.target.value[0]);
+    setAggro(event.target.value[1]);
+    setForceOutModal(true);
+  };
+
   let chatMembers = [];
-  members.map((member) => {
-    const isCreator = props.creator === props.me ? "" : "hidden";
+  members.map((member, index) => {
+    const isCreator =
+      props.creator === myId && member.memberId !== myId ? "" : "hidden";
     const $element = (
-      <li key={member.username} className="member-info">
-        <img className="member-img" src={member.profileImage} alt="" />
+      <li key={index} className="member-info">
+        <img className="member-img" src={member.userProfile} alt="" />
         <p className="member-name">{member.nickName}</p>
         <button
           className={`force-out ${isCreator}`}
-          onClick={forceOut}
-          value={member.username}
+          onClick={forceOutModalOn}
+          value={[member.memberId, member.nickName]}
         >
           강퇴
         </button>
       </li>
     );
-    if (member.username === props.me) {
+    if (member.memberId === myId) {
       chatMembers = [$element, ...chatMembers];
     } else {
       chatMembers.push($element);
     }
   });
   return (
-    <div className="toggle-lists" ref={toggleRef}>
-      <div>
-        <div className="toggle-close">
-          <button onClick={() => setToggle(false)}>X</button>
+    <>
+      <div className="toggle-lists" ref={toggleRef}>
+        <div>
+          <div className="toggle-close">
+            <button onClick={() => setToggle(false)}>X</button>
+          </div>
+          <div className="title" onClick={() => navigate("/")}>
+            위드콘
+          </div>
+          <ul className="member-lists" ref={memberRef}>
+            {chatMembers}
+          </ul>
         </div>
-        <div className="title" onClick={() => navigate("/")}>
-          위드콘
+        <div className="chat-exit">
+          <button onClick={exitModalOn}>채팅방 나가기</button>
         </div>
-        <ul className="member-lists" ref={memberRef}>
-          {chatMembers}
-        </ul>
       </div>
-      <div className="chat-exit">
-        <button onClick={exitChatroom}>채팅방 나가기</button>
-      </div>
-    </div>
+      {exitModal && (
+        <ButtonModal
+          text="정말로 채팅방에서 퇴장하시겠습니까?"
+          buttonContainer={2}
+          button1="예"
+          button2="취소"
+          onClickButton1={exitChatroom}
+          onClickButton2={exitModalOff}
+        />
+      )}
+      {forceOutModal && (
+        <ButtonModal
+          text={`${aggro}님을 강퇴하시겠습니까?`}
+          buttonContainer={2}
+          button1="예"
+          button2="취소"
+          onClickButton1={forceOut}
+          onClickButton2={forceOutModalOff}
+          value={aggroId}
+        />
+      )}
+    </>
   );
 };
 

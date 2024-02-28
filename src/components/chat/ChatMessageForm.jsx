@@ -8,36 +8,47 @@ const ChatMessageForm = (message, parentNode, same, memberdata) => {
   const $time = document.createElement("p");
 
   $node.className =
-    message.memberId === 0
-      ? "member-me"
-      : message.memberId === "system"
+    message.messageType !== "CHAT"
       ? "system-message"
+      : message.memberId === 0
+      ? "member-me"
       : "member-other";
-  $img.src = memberdata.profileImage;
-  $img.alt = "";
-  $img.className = "profile-img";
-  $chatTexts.className = "chat-texts";
-  $chatMessageInfo.className = "chat-message-info";
-  $username.className = "username";
-  $username.innerText = memberdata.nickName;
-  if (message.memberId === 0 || same) {
-    $img.classList.add("invisible");
-    $username.classList.add("hidden");
-  }
   $text.className = "text";
   $text.innerText = message.message;
-  $time.className = "message-time";
-  $time.innerText = timeToString(message.sendAt);
 
-  $chatMessageInfo.appendChild($text);
-  $chatMessageInfo.appendChild($time);
-  $chatTexts.appendChild($username);
-  $chatTexts.appendChild($chatMessageInfo);
-  $node.appendChild($img);
-  $node.appendChild($chatTexts);
+  if (message.messageType === "CHAT") {
+    $img.src = memberdata.userProfile;
+    $img.alt = "";
+    $img.className = "profile-img";
+    $chatTexts.className = "chat-texts";
+    $chatMessageInfo.className = "chat-message-info";
+    $username.className = "username";
+    $username.innerText = memberdata.nickName;
+    if (message.memberId === 0 || same) {
+      $img.classList.add("invisible");
+      $username.classList.add("hidden");
+    }
+    $time.className = "message-time";
+    $time.innerText = timeToString(message.sendAt);
+
+    $chatMessageInfo.appendChild($text);
+    $chatMessageInfo.appendChild($time);
+    $chatTexts.appendChild($username);
+    $chatTexts.appendChild($chatMessageInfo);
+    $node.appendChild($img);
+    $node.appendChild($chatTexts);
+  } else {
+    $node.appendChild($text);
+  }
 
   parentNode.appendChild($node);
   return true;
+
+  /**<div className="system-message">
+    <div className="profile-img"></div>
+    <div className="text">입장하였습니다.</div>
+    <div className="message-time">nan:nan:nan</div>
+  </div>
 
   <div className={className} key={index}>
     <img src="/" alt="프로필" className={`profile-img ${invisible}`}></img>
@@ -48,7 +59,7 @@ const ChatMessageForm = (message, parentNode, same, memberdata) => {
         <p className="message-time">{timeToString(message.timeStamp)}</p>
       </div>
     </div>
-  </div>;
+  </div>;*/
 };
 
 const timeToString = (num) => {

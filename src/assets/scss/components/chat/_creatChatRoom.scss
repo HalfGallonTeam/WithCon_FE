@@ -1,6 +1,5 @@
 @import "../../base/mixin";
 .create-room-container {
-  position: relative;
   z-index: 100;
   width: 400px;
   height: 500px;
@@ -8,10 +7,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed;
   left: 50%;
-  top: 10%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
   background-color: white;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
   border-radius: 16px;

@@ -3,16 +3,16 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import instance from "../../assets/constants/instance";
 import ChatMessageForm from "./ChatMessageForm";
 import ChatToggle from "./ChatToggle";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
 import {
   ChatConcentration,
   ChatMessageBundle,
 } from "../../assets/tools/chatFunctions";
+import * as StompJs from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
-//json-server용 instance
-//const instance = axios.create({ baseURL: "http://localhost:3000" });
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
   chatRoomId: 0,
@@ -23,13 +23,13 @@ const basic = {
 };
 
 const Chat = () => {
-  const myId = useRecoilValue(myInfoState).username;
+  const navigate = useNavigate();
+  const myId = useRecoilValue(myInfoState).memberId;
   const [isPrev, setIsPrev] = useState(true);
   const { chatRoomId } = useParams();
-  const [prevMessage, setPrevMessage] = useState(null);
+  const [prevMessage, setPrevMessage] = useState({});
   const [chatInitial, setChatInitial] = useState(basic);
   const [sendButton, setSendButton] = useState(false);
-  const [talker, setTalker] = useState("me"); //지울 것입니다.
   const [toggle, setToggle] = useState(false);
   const observerRef = useRef(null);
   const messageRef = useRef(null);
@@ -49,30 +49,109 @@ const Chat = () => {
     chatRoomId
   );
 
-  const toggleOpen = (e) => {
-    e.stopPropagation();
-    setToggle(true);
+  const client = useRef(null);
+  const subscribe = () => {
+    client.current?.subscribe(
+      `/exchange/chat.exchange/room.${chatRoomId}`,
+      ({ body }) => {
+        const datas = JSON.parse(body);
+        if (datas.messageType !== "CHAT") {
+          if (
+            datas.messageType === "ENTER" &&
+            chatMembersRef.current.includes(datas.memberId)
+          ) {
+            const memberInfo = {
+              memberId: datas.memberId,
+              userProfile: datas.userProfile,
+              nickName: datas.nickName,
+            };
+            console.log("입장한 사람 프로필", memberInfo);
+            chatMembersRef.current = [...chatMembersRef.current, memberInfo];
+          } else {
+            const newMembers = chatMembersRef.current.filter((member) => {
+              member.memberId !== datas.memberId;
+            });
+            chatMembersRef.current = newMembers;
+            if (datas.messageType === "KICK" && datas.memberId === myId) {
+              window.alert("채팅방에서 퇴장당했습니다.");
+              navigate("/");
+              return;
+            }
+          }
+        }
+
+        let memberdata = "";
+        let same = false;
+        if (datas.memberId === myId) {
+          datas.memberId = 0;
+        } else {
+          for (const member of chatMembersRef.current) {
+            if (member.memberId === datas.memberId) {
+              memberdata = member;
+              break;
+            }
+          }
+          if (
+            datas.memberId === prevMessage?.memberId &&
+            datas.sendAt - prevMessage?.sendAt < 10000
+          ) {
+            same = true;
+          }
+        }
+        ChatMessageForm(datas, messageRef.current, same, memberdata);
+        lastMessageRef.current = datas.id;
+        setPrevMessage(datas);
+        scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
+      }
+    );
+  };
+  const connect = () => {
+    client.current = new StompJs.Client({
+      brokerURL: "ws://43.203.64.7:8080/ws",
+      //debug(str) {
+      //  console.log(str);
+      //},
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+      onConnect: () => {
+        console.log("웹소켓 연결되었습니다");
+        client.current?.publish({
+          destination: `/app/chat/enter/${chatRoomId}`,
+          body: JSON.stringify({
+            memberId: myId,
+            message: "test",
+          }),
+        });
+        subscribe();
+      },
+      onStompError: (frame) => {
+        console.error(frame, "에러");
+      },
+    });
+    client.current.webSocketFactory = () => {
+      return new SockJS("http://43.203.64.7:8080/ws");
+    };
+    client.current.activate();
+  };
+  const disconnect = () => {
+    client.current?.deactivate();
   };
 
-  //사용자가 채팅방에 집중하는지 확인합니다.
-  let enterRoomNow = true;
-  useEffect(() => {
-    const onView = new ChatConcentration(chatRoomId, myId, lastMessageRef);
-    if (enterRoomNow) {
-      enterRoomNow = false;
-      onView.enterRoomNow();
-    }
-    document.addEventListener("visibilitychange", onView.changeVisibility);
-    window.addEventListener("beforeunload", onView.beforeUnload);
-    window.addEventListener("popstate", onView.hashChange);
-    return () => {
-      document.removeEventListener("visibilitychange", onView.changeVisibility);
-      window.removeEventListener("beforeunload", onView.beforeUnload);
-    };
-  }, []);
+  const publish = (message) => {
+    client.current?.publish({
+      destination: `/app/chat/message/${chatRoomId}`,
+      body: JSON.stringify({
+        memberId: myId,
+        message: message,
+      }),
+    });
+    instance.post(`/notification/event?=chatRoomId=${chatRoomId}`);
+  };
 
   //채팅방 초기설정
   let firstSet = false;
+  let enterRoomNow = true;
   useEffect(() => {
     const enterChatRoom = async () => {
       if (firstSet) return;
@@ -82,7 +161,7 @@ const Chat = () => {
         const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
         console.log(response, "채팅방 입장");
         const datas = await response.data;
-        chatMembersRef.current = datas.members;
+        chatMembersRef.current = datas.chatParticipants;
         datas.members = [];
         setChatInitial(datas);
 
@@ -105,13 +184,21 @@ const Chat = () => {
       }
     };
     enterChatRoom();
+    connect();
+    const onView = new ChatConcentration(chatRoomId, myId, lastMessageRef);
+    if (enterRoomNow) {
+      enterRoomNow = false;
+      onView.enterRoomNow();
+    }
+    document.addEventListener("visibilitychange", onView.changeVisibility);
+    window.addEventListener("beforeunload", onView.beforeUnload);
+    window.addEventListener("popstate", onView.hashChange);
+    return () => {
+      disconnect();
+      document.removeEventListener("visibilitychange", onView.changeVisibility);
+      window.removeEventListener("beforeunload", onView.beforeUnload);
+    };
   }, []);
-
-  const changeTalker = () => {
-    //이 버튼은 서버와 연결되면 사라질 것입니다.
-    if (talker === "me") setTalker("other");
-    else setTalker("me");
-  };
 
   //현재 채팅을 보낼 수 있는 상태인지 확인합니다.
   const checkSendable = () => {
@@ -126,39 +213,7 @@ const Chat = () => {
     const info = textRef.current.value;
     textRef.current.value = "";
     setSendButton(false);
-    //const time = new Date().getTime();
-    const newMessage = {
-      memberId: myId,
-      message: info,
-    };
-    const response = await instance.post("/chatMessages", newMessage);
-    //(끝) 웹소켓으로 연결될 경우 여기까지가 post임.
-
-    //웹소켓으로 만들 경우 무조건 array화 시켜서 AddMessages로 받아올 것입니다.
-    const datas = await response.data;
-    lastMessageRef.current = datas.id;
-    setPrevMessage(datas);
-    let memberdata = null;
-    for (const member of chatMembersRef.current) {
-      if (member.username === datas.memberId) {
-        memberdata = member;
-        break;
-      }
-    }
-    let same = false;
-    if (datas.memberId === myId) {
-      datas.memberId = 0;
-    } else {
-      if (
-        prevMessage.memberId === datas.memberId &&
-        datas.sendAt - prevMessage.sendAt < 10000
-      ) {
-        same = true;
-      }
-    }
-    ChatMessageForm(datas, messageRef.current, same, memberdata);
-    scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
-    return true;
+    publish(info);
   };
 
   return (
@@ -169,16 +224,23 @@ const Chat = () => {
             <h1>{chatInitial.performanceName}</h1>
             <h2>{chatInitial.roomName}</h2>
           </div>
-          <button className="toggle" onClick={toggleOpen}>
+          <button
+            className="toggle"
+            onClick={(e) => {
+              e.stopPropagation();
+              setToggle(true);
+            }}
+          >
             <GiHamburgerMenu size={20} />
           </button>
           {toggle && (
             <ChatToggle
               setToggle={setToggle}
               members={chatMembersRef.current}
-              creator={chatInitial.managerName}
-              me={myId}
+              creator={chatInitial.managerId}
+              myId={myId}
               performanceId={chatInitial.performanceId}
+              websocket={client.current}
             />
           )}
         </div>
@@ -190,11 +252,6 @@ const Chat = () => {
           )}
           <div className="messages" ref={messageRef}>
             <hr aria-label="여기까지 읽었어요" />
-            {/**<div className="system-message">
-              <div className="profile-img"></div>
-              <div className="text">입장하였습니다.</div>
-              <div className="message-time">nan:nan:nan</div>
-            </div>*/}
           </div>
         </div>
         <div className="send-area">
@@ -207,9 +264,6 @@ const Chat = () => {
             보내기
           </button>
         </div>
-        <button onClick={changeTalker}>
-          메세지 보내는 사람:&nbsp;{talker}
-        </button>
       </div>
     </div>
   );

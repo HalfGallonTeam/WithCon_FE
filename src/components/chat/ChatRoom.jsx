@@ -7,12 +7,10 @@ const ChatRoom = ({ searchData }) => {
   return (
     <div
       className="chat-room"
-      onClick={() =>
-        navigate(`/title/${concertTitle}/chat/${searchData.chatRoomId}`)
-      }
+      onClick={() => navigate(`/chat-room/${searchData.chatRoomId}`)}
     >
       <div className="chat-top">
-        <span className="title">{searchData.chatRoomName}</span>
+        <span className="title">{searchData.roomName}</span>
       </div>
       <div className="chat-bottom">
         <div className="chat-tag">
@@ -21,10 +19,12 @@ const ChatRoom = ({ searchData }) => {
               <span key={index}>#{tag}</span>
             ))}
         </div>
-        <div className="member-num-container">
-          <span className="member-num">총 인원</span>
-          <span className="num">{searchData.userCount}</span>
-        </div>
+        {
+          // <div className="member-num-container">
+          //   <span className="member-num">총 인원</span>
+          //   <span className="num">{searchData.userCount}</span>
+          // </div>
+        }
       </div>
     </div>
   );
