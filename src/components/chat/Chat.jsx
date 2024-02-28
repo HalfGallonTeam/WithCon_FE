@@ -111,18 +111,24 @@ const Chat = () => {
       //debug(str) {
       //  console.log(str);
       //},
+      connectHeaders: {
+        Authorization: JSON.parse(localStorage.getItem("withcon_token")),
+      },
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
       onConnect: () => {
         console.log("웹소켓 연결되었습니다");
-        client.current?.publish({
-          destination: `/app/chat/enter/${chatRoomId}`,
-          body: JSON.stringify({
-            memberId: myId,
-            message: "test",
-          }),
-        });
+        if (chatInitial?.enterStatus === "NEW") {
+          console.log("enterstatus", chatInitial.enterStatus);
+          client.current?.publish({
+            destination: `/app/chat/enter/${chatRoomId}`,
+            body: JSON.stringify({
+              memberId: myId,
+              message: "test",
+            }),
+          });
+        }
         subscribe();
       },
       onStompError: (frame) => {

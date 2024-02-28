@@ -10,7 +10,7 @@
   margin: 20px 10px 10px 10px;
   .search-keyword {
     display: inline-block;
-    color: $main-color;
+    color: $main-color-dark;
     font-weight: 700;
     font-size: 2rem;
   }
@@ -59,7 +59,7 @@
 }
 
 .concert-category {
-  color: $main-color;
+  color: $main-color-dark;
   text-indent: 20px;
   margin: 24px 0 8px 8px;
 }

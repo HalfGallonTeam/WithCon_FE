@@ -11,7 +11,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid $text-color;
     margin-bottom: 20px;
   }
   .breadcrumb-container{
@@ -20,17 +19,12 @@
     margin-left: 20px;
     .location-desc{
       margin: 10px 0;
-    }
-    .category {
-      font-size: 28px;
-      font-weight: 700;
-    }
-  
+    }  
   }
   .btn-container {
     button{
       @include category-btn;
-      width: 100px;
+      width: auto;
       margin-right: 20px;
     }
   }
