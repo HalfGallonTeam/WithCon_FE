@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/earlyaccess/notosanskr.css");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
@@ -131,6 +132,10 @@ textarea::-webkit-outer-spin-button {
 
 body {
   overflow-x: hidden;
+}
+
+body * {
+  font-family: "Noto Sans KR", sans-serif !important;
 }
 
 button {
@@ -1234,10 +1239,14 @@ input {
 }
 .chat-list-container .chat-list-header .header-right .hashtag-search {
   display: flex;
+  position: relative;
   border-radius: 4px;
   margin-right: 10px;
 }
-.chat-list-container .chat-list-header .header-right .hashtag-search button {
+.chat-list-container .chat-list-header .header-right .hashtag-search .hashtag-search-inner {
+  display: flex;
+}
+.chat-list-container .chat-list-header .header-right .hashtag-search .hashtag-search-inner button {
   color: #36DA93;
   font-size: small;
   font-weight: bold;
@@ -1247,29 +1256,46 @@ input {
   text-align: center;
   width: 50px;
   border: 2px solid #603535;
-  border-left: 1px solid #603535;
+  border-left: none;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   color: #603535;
   font-weight: 700;
 }
-.chat-list-container .chat-list-header .header-right .hashtag-search button:hover {
+.chat-list-container .chat-list-header .header-right .hashtag-search .hashtag-search-inner button:hover {
   background-color: #36DA93;
   color: white;
 }
-.chat-list-container .chat-list-header .header-right .hashtag-search button:active {
+.chat-list-container .chat-list-header .header-right .hashtag-search .hashtag-search-inner button:active {
   background-color: #03875F;
   position: relative;
   top: 2px;
 }
-.chat-list-container .chat-list-header .header-right .hashtag-search input {
+.chat-list-container .chat-list-header .header-right .hashtag-search .hashtag-search-inner input {
   padding: 5px;
   min-width: 160px;
   border: 2px solid #603535;
-  border-right: 1px solid #603535;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
   font-size: 14px;
+}
+.chat-list-container .chat-list-header .header-right .hashtag-search .search-tag-lists {
+  position: absolute;
+  top: 29px;
+  left: 0;
+  background-color: white;
+  min-width: 160px;
+  border: 2px solid #603535;
+  border-top: none;
+}
+.chat-list-container .chat-list-header .header-right .hashtag-search .search-tag-lists li {
+  padding: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  opacity: 0.8;
+}
+.chat-list-container .chat-list-header .header-right .hashtag-search .search-tag-lists li:hover {
+  background-color: #eeeeee;
 }
 .chat-list-container .chat-list-header .header-right .chat-btn-container {
   display: flex;
@@ -1307,6 +1333,7 @@ input {
   margin: 10px 0;
 }
 .list-container .chat-room {
+  height: 90px;
   cursor: pointer;
   border: 2px solid #36DA93;
   border-radius: 16px;

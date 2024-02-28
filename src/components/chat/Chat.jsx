@@ -27,7 +27,7 @@ const Chat = () => {
   const myId = useRecoilValue(myInfoState).memberId;
   const [isPrev, setIsPrev] = useState(true);
   const { chatRoomId } = useParams();
-  const [prevMessage, setPrevMessage] = useState({});
+  const prevMessage = useRef(null);
   const [chatInitial, setChatInitial] = useState(basic);
   const [sendButton, setSendButton] = useState(false);
   const [toggle, setToggle] = useState(false);
@@ -45,7 +45,7 @@ const Chat = () => {
     chatMembersRef,
     myId,
     setIsPrev,
-    setPrevMessage,
+    prevMessage,
     chatRoomId
   );
 
@@ -92,15 +92,15 @@ const Chat = () => {
             }
           }
           if (
-            datas.memberId === prevMessage?.memberId &&
-            datas.sendAt - prevMessage?.sendAt < 10000
+            datas.memberId === prevMessage.current?.memberId &&
+            datas.sendAt - prevMessage.current?.sendAt < 10000
           ) {
             same = true;
           }
         }
         ChatMessageForm(datas, messageRef.current, same, memberdata);
         lastMessageRef.current = datas.id;
-        setPrevMessage(datas);
+        prevMessage.current = datas;
         scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
       }
     );
@@ -108,9 +108,9 @@ const Chat = () => {
   const connect = () => {
     client.current = new StompJs.Client({
       brokerURL: "ws://43.203.64.7:8080/ws",
-      debug(str) {
-        console.log(str);
-      },
+      // debug(str) {
+      //   console.log(str);
+      // },
       connectHeaders: {
         Authorization: JSON.parse(localStorage.getItem("withcon_token")),
       },
@@ -205,6 +205,7 @@ const Chat = () => {
     window.addEventListener("beforeunload", onView.beforeUnload);
     window.addEventListener("popstate", onView.hashChange);
     return () => {
+      disconnect();
       document.removeEventListener("visibilitychange", onView.changeVisibility);
       window.removeEventListener("beforeunload", onView.beforeUnload);
     };
