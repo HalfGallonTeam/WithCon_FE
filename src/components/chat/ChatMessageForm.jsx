@@ -17,7 +17,8 @@ const ChatMessageForm = (message, parentNode, same, memberdata) => {
   $text.innerText = message.message;
 
   if (message.messageType === "CHAT") {
-    $img.src = memberdata.userProfile;
+    $img.src =
+      memberdata.userProfile || "https://dummyimage.com/50/36da93/#36DA9.jpg";
     $img.alt = "";
     $img.className = "profile-img";
     $chatTexts.className = "chat-texts";
