@@ -81,6 +81,7 @@ const ChatToggle = (props) => {
           message: "test",
         }),
       });
+      setToggle(false);
     } catch (error) {
       console.error(error, "에러");
     }

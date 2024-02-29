@@ -119,15 +119,15 @@ const Chat = () => {
       heartbeatIncoming: 10000,
       heartbeatOutgoing: 10000,
       onConnect: () => {
-        if (firstEnterRef.current) {
-          client.current?.publish({
-            destination: `/app/chat/enter/${chatRoomId}`,
-            body: JSON.stringify({
-              memberId: myId,
-              message: "test",
-            }),
-          });
-        }
+        //if (firstEnterRef.current) {
+        client.current?.publish({
+          destination: `/app/chat/enter/${chatRoomId}`,
+          body: JSON.stringify({
+            memberId: myId,
+            message: "test",
+          }),
+        });
+        //}
         subscribe();
       },
       onStompError: (frame) => {
@@ -153,6 +153,16 @@ const Chat = () => {
     });
     instance.post(`/notification/event?chatRoomId=${chatRoomId}`);
   };
+
+  /**useEffect(() => {
+    client.current?.publish({
+      destination: `/app/chat/exit/${chatRoomId}`,
+      body: JSON.stringify({
+        memberId: myId,
+        message: "exit",
+      }),
+    });
+  }, [publishOut]);*/
 
   //채팅방 초기설정
   let firstSet = false;
@@ -194,12 +204,7 @@ const Chat = () => {
     };
     enterChatRoom();
     connect();
-    const onView = new ChatConcentration(
-      chatRoomId,
-      myId,
-      lastMessageRef,
-      disconnect
-    );
+    const onView = new ChatConcentration(chatRoomId, myId, lastMessageRef);
     if (enterRoomNow) {
       enterRoomNow = false;
       onView.enterRoomNow();

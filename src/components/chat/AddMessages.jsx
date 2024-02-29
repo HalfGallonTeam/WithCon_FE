@@ -1,30 +1,36 @@
 import ChatMessageForm from "./ChatMessageForm";
 
 const AddMessages = (datas, parentNode, chatMembers, direction, me) => {
+  console.log("addmessage 돌아요");
+  const newDatas = [];
+  for (let i = datas.length - 1; i >= 0; i--) {
+    newDatas[newDatas.length] = datas[i];
+  }
+
   const $fragment = document.createDocumentFragment();
-  for (let i = 0; i < datas.length; i++) {
+  for (let i = 0; i < newDatas.length; i++) {
     let memberdata = "";
     let same = false;
-    if (datas[i].memberId === me) {
-      datas[i].memberId = 0;
+    if (newDatas[i].memberId === me) {
+      newDatas[i].memberId = 0;
     } else {
       for (const member of chatMembers) {
-        if (member.memberId === datas[i].memberId) {
+        if (member.memberId === newDatas[i].memberId) {
           memberdata = member;
           break;
         }
       }
       if (i) {
         if (
-          datas[i - 1].memberId === datas[i].memberId &&
-          datas[i].sendAt - datas[i - 1].sendAt < 10000
+          newDatas[i - 1].memberId === newDatas[i].memberId &&
+          newDatas[i].sendAt - newDatas[i - 1].sendAt < 10000
         ) {
           same = true;
         }
       }
     }
 
-    ChatMessageForm(datas[i], $fragment, same, memberdata);
+    ChatMessageForm(newDatas[i], $fragment, same, memberdata);
   }
 
   if (direction === "prepend") {

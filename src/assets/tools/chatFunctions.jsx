@@ -29,35 +29,34 @@ const ChatConcentration = class {
 
   changeVisibility = () => {
     const visibility = document.hidden ? "HIDDEN" : "VISIBLE";
-    /**instance.post("/notification", sendVisible(visibility));
-      navigator.sendBeacon(
-        "http://localhost:3000/notification",
-        sendVisible(visibility)
-      );*/
     instance.post("/notification/visible", this.sendVisible(visibility));
-    if (document.hidden) {
+    /**if (document.hidden) {
       const id = this.lastMessageRef.current;
       const chatIds = JSON.parse(localStorage.getItem("chat"));
       chatIds[this.chatRoomId] = id;
       localStorage.setItem("chat", JSON.stringify(chatIds));
-    }
+    }*/
   };
 
   beforeUnload = () => {
+    /**
     instance.post("/notification/visible", this.sendVisible("HIDDEN"));
     const id = this.lastMessageRef.current;
     const chatIds = JSON.parse(localStorage.getItem("chat"));
     chatIds[this.chatRoomId] = id;
     localStorage.setItem("chat", JSON.stringify(chatIds));
+     */
   };
 
   hashChange = () => {
+    /**
     instance.post("/notification/visible", this.sendVisible("HIDDEN"));
     window.removeEventListener("popstate", this.hashChange);
     const id = this.lastMessageRef.current;
     const chatIds = JSON.parse(localStorage.getItem("chat"));
     chatIds[this.chatRoomId] = id;
     localStorage.setItem("chat", JSON.stringify(chatIds));
+     */
   };
 };
 
@@ -85,15 +84,13 @@ const ChatMessageBundle = class {
   //이전 메세지 호출 함수. id 숫자 계산해서 요청.
   callMessageBefore = async () => {
     let url = `/chatRoom/${this.chatRoomId}/message`;
-    url += `?lastMsgId=${Math.max(
-      0,
-      this.firstMessageRef.current - 11
-    )}&_limit=10`;
+    url += `?lastMsgId=${this.firstMessageRef.current - 1}&_limit=10`;
     const response = await instance.get(url);
-    const datas = await response.data;
-    if (datas.length < 10 || this.firstMessageRef.current < 11)
-      this.setIsPrev(false); //적절한 쿼리스트링 필요.
-    this.firstMessageRef.current = datas[0].id;
+    const datas = await response.data.content;
+    if (datas.length < 10) {
+      this.setIsPrev(false);
+    }
+    this.firstMessageRef.current = await datas[datas.length - 1]?.messageId;
     AddMessages(
       datas,
       this.messageRef.current,
@@ -101,21 +98,21 @@ const ChatMessageBundle = class {
       "prepend",
       this.myId
     );
+    return true;
   };
 
   callInitialMessages = async () => {
     try {
-      let lastMsgId = JSON.parse(localStorage.getItem("chat"))?.this.chatRoomId;
+      //let lastMsgId = JSON.parse(localStorage.getItem("chat"))?.this.chatRoomId;
       let url = `/chatRoom/${this.chatRoomId}/message`;
-      url += lastMsgId ? `?lastMsgId=${lastMsgId - 1}` : "";
       const response2 = await instance.get(url);
       const datas2 = await response2.data.content;
 
       console.log(response2, "채팅방 첫 진입");
       //로컬스토리지용 아이디 세팅
-      this.firstMessageRef.current = datas2[0]?.id || 0;
-      this.lastMessageRef.current = datas2[datas2.length - 1]?.id;
-      this.prevMessage.current = datas2[datas2.length - 1];
+      //this.firstMessageRef.current = datas2[0]?.id || 0;
+      this.firstMessageRef.current = await datas2[datas2.length - 1]?.messageId;
+      //this.prevMessage.current = datas2[datas2.length - 1];
 
       AddMessages(
         datas2,
@@ -124,12 +121,8 @@ const ChatMessageBundle = class {
         "append",
         this.myId
       );
-      if (datas2.length < 10) {
-        await this.callMessageBefore();
-        this.messageRef.current.scrollIntoView(false);
-      } else {
-        this.messageRef.current.scrollIntoView(true);
-      }
+      await this.callMessageBefore();
+      this.messageRef.current.scrollIntoView(false);
     } catch (error) {
       console.error(error, "에러");
     }
