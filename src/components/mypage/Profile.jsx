@@ -135,7 +135,6 @@ const Profile = () => {
 
     setData((prev) => ({ ...prev, [`phoneNumber`]: inputValue }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (myInfo.phoneNumber !== data.phoneNumber && usable === false) {
@@ -160,6 +159,7 @@ const Profile = () => {
         setModalOpen(false);
         setEdit(false);
       }, 1000);
+      setUsable(false);
     } catch (error) {
       console.error("수정에러", error);
     }

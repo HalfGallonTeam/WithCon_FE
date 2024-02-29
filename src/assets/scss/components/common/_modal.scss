@@ -17,6 +17,9 @@
   .text-container {
     font-size: 1.2rem;
     font-weight: 700;
+    .modal-black {
+      color: $text-color;
+    }
     .modal-text {
       color: $text-color;
     }

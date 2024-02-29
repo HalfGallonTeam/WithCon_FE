@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { validateInput } from "./Validate";
 import SignUpInput, { onInputChange } from "./SignupForm";
 import axios from "axios";
+import Loading from "../common/Loading";
 
 const Signup = () => {
   const [disUsable, setDisUsable] = useState({
@@ -31,9 +32,11 @@ const Signup = () => {
   });
   const [modalMsg, setModalMsg] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const fetchDuplicateUserName = async () => {
+    setLoading(true);
     try {
       const response = await axios.post(
         "/api/auth/username-duplication-check",
@@ -80,8 +83,10 @@ const Signup = () => {
         console.error("Network error:", error.message);
       }
     }
+    setLoading(false);
   };
   const fetchDuplicatePhoneNumber = async () => {
+    setLoading(true);
     try {
       const response = await axios.post(
         "/api/auth/phone-number-duplication-check",
@@ -117,6 +122,7 @@ const Signup = () => {
         console.error("Network error:", error.message);
       }
     }
+    setLoading(false);
   };
 
   const checkDuplicationId = async (e) => {
@@ -158,23 +164,31 @@ const Signup = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      if (!usables.userId) {
-        setModalMsg("아이디를 확인해 주세요.");
-      } else if (!usables.pw || data.pw !== data.pw2) {
-        setModalMsg("비밀번호를 확인해주세요");
-      } else if (!usables.phone) {
-        setModalMsg("핸드폰 번호를 확인해 주세요");
-      } else if (!usables.nickname) {
-        setModalMsg("닉네임을 확인해 주세요");
-      } else if (
-        usables.nickname &&
-        usables.phone &&
-        usables.pw &&
-        usables.userId &&
-        data.pw === data.pw2
-      ) {
+    if (!usables.userId) {
+      setModalMsg("아이디를 확인해 주세요.");
+      setShowModal(true);
+      setTimeout(() => setShowModal(false), 1000);
+    } else if (!usables.pw || data.pw !== data.pw2) {
+      setModalMsg("비밀번호를 확인해주세요");
+      setShowModal(true);
+      setTimeout(() => setShowModal(false), 1000);
+    } else if (!usables.phone) {
+      setModalMsg("핸드폰 번호를 확인해 주세요");
+      setShowModal(true);
+      setTimeout(() => setShowModal(false), 1000);
+    } else if (!usables.nickname) {
+      setModalMsg("닉네임을 확인해 주세요");
+      setShowModal(true);
+      setTimeout(() => setShowModal(false), 1000);
+    } else if (
+      usables.nickname &&
+      usables.phone &&
+      usables.pw &&
+      usables.userId &&
+      data.pw === data.pw2
+    ) {
+      try {
+        setLoading(true);
         const postData = {
           username: data.userId,
           password: data.pw,
@@ -184,18 +198,17 @@ const Signup = () => {
         };
         const response = await axios.post("/api/auth/join", postData);
         console.log(response.data);
+        setLoading(false);
         setModalMsg("회원가입이 완료 되었습니다.");
         setShowModal(true);
         setTimeout(() => {
           navigate("/login");
+          setShowModal(false);
+          setModalMsg("");
         }, 1000);
+      } catch (error) {
+        console.error("error");
       }
-      setTimeout(() => {
-        setShowModal(false);
-        setModalMsg("");
-      }, 1000);
-    } catch (error) {
-      console.error("error");
     }
   };
   useEffect(() => {
@@ -208,12 +221,13 @@ const Signup = () => {
           <h1 className="title" onClick={() => navigate("/")}>
             위드콘
           </h1>
+          {loading ? <Loading /> : null}
           <form
             className="login-form"
             name="signup"
             action=""
             method="POST"
-            onSubmit={onSubmit}
+            // onSubmit={onSubmit}
           >
             <div className="signup-container">
               <SignUpInput
@@ -276,7 +290,7 @@ const Signup = () => {
                 minLength={2}
                 maxLength={10}
               />
-              <button type="submit" className="login-button">
+              <button type="button" className="login-button" onClick={onSubmit}>
                 회원가입하기
               </button>
             </div>
