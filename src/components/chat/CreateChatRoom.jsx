@@ -4,6 +4,7 @@ import instance from "../../assets/constants/instance";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
+import Loading from "../common/Loading";
 
 const CreateChatRoom = ({ onClose, performanceId }) => {
   const myId = useRecoilValue(myInfoState).memberId;
@@ -13,6 +14,7 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
   const [inputValue, setInputValue] = useState("");
   const [tagLists, setTagLists] = useState([]);
   const [showTagModal, setShowTagModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
 
   const roomNameInputRef = useRef(null);
@@ -47,6 +49,7 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
 
   const handleCreateRoom = async () => {
     try {
+      setLoading(true);
       if (!roomName) {
         roomNameInputRef.current.focus();
         setRoomMsg("채팅방 제목을 적어주세요");
@@ -65,6 +68,7 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
           `/notification/subscribe-channel?chatRoomId=${chatRoomId}`
         );
         console.log("채팅방이 성공적으로 생성되었습니다.", response.data);
+        setLoading(false);
         setShowCompleteModal(true);
         setTimeout(() => {
           onClose();
@@ -74,11 +78,14 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
       }
     } catch (error) {
       console.error("채팅방 생성 오류", error);
+
+      setLoading(false);
     }
   };
   return (
     <div className="create-room-container">
       <h1>채팅방 생성</h1>
+      {loading ? <Loading /> : null}
       <div className="create-room">
         <div className="input-container">
           <div className="label-wrap">
