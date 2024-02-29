@@ -16,7 +16,7 @@ const ChatToggle = (props) => {
   const navigate = useNavigate();
   const websocket = props.websocket;
   const myId = props.myId;
-
+  console.log(props);
   //토글 동작 함수
   useEffect(() => {
     const toggleClose = (e) => {
@@ -57,7 +57,7 @@ const ChatToggle = (props) => {
           }),
         });
         window.alert("채팅방에서 퇴장했습니다.");
-        navigate(`/title/${concertTitle}/chat`);
+        navigate(`/`);
       }
     } catch (error) {
       console.error(error, "에러");

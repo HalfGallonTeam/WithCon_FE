@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ChatRoom from "./ChatRoom";
 import CreateChatRoom from "./CreateChatRoom";
 import Paging from "../common/Paging";
 import instance from "../../assets/constants/instance";
 import setLists from "../../assets/tools/setLists";
+import ButtonModal from "../common/modal";
 
 const ChatList = () => {
   const [tagInfo, setTagInfo] = useState([]);
@@ -18,9 +19,18 @@ const ChatList = () => {
   const urlSearch = new URLSearchParams(url.search);
   const pages = urlSearch.get("page") || 1;
   const { concertTitle } = useParams();
-
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
   const openModal = () => {
-    setIsModalOpen(true);
+    if (!localStorage.getItem("withcon_token")) {
+      setShowModal(true);
+      setTimeout(() => {
+        setShowModal(false);
+        navigate("/login");
+      }, 1000);
+    } else {
+      setIsModalOpen(true);
+    }
   };
   const closeModal = () => {
     setIsModalOpen(false);
@@ -137,6 +147,12 @@ const ChatList = () => {
         </div>
       </div>
       <div className="list-container">
+        {showModal ? (
+          <ButtonModal
+            buttonContainer="0"
+            text="로그인한 사용자만 가능합니다"
+          />
+        ) : null}
         {data && data.length > 0 ? (
           data.map((searchData) => (
             <ChatRoom searchData={searchData} key={searchData.id} />

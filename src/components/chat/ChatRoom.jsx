@@ -1,14 +1,25 @@
 import { useNavigate, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useState } from "react";
+import ButtonModal from "../common/modal";
 
 const ChatRoom = ({ searchData }) => {
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const { concertTitle } = useParams();
+  const chatRoomClick = () => {
+    if (!localStorage.getItem("withcon_token")) {
+      setShowModal(true);
+      setTimeout(() => {
+        setShowModal(false);
+        navigate("/login");
+      }, 1000);
+    } else {
+      navigate(`/chat-room/${searchData.chatRoomId}`);
+    }
+  };
   return (
-    <div
-      className="chat-room"
-      onClick={() => navigate(`/chat-room/${searchData.chatRoomId}`)}
-    >
+    <div className="chat-room" onClick={chatRoomClick}>
       <div className="chat-top">
         <span className="title">{searchData.roomName}</span>
       </div>
@@ -26,6 +37,13 @@ const ChatRoom = ({ searchData }) => {
           // </div>
         }
       </div>
+      {showModal ? (
+        <ButtonModal
+          buttonContainer="0"
+          text={"로그인한 사용자만 가능합니다."}
+          textColor={"black"}
+        />
+      ) : null}
     </div>
   );
 };

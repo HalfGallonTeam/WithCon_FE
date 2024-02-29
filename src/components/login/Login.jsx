@@ -6,12 +6,14 @@ import kakaoBtn from "../../assets/images/kakao-login.png";
 import naverBtn from "../../assets/images/naver-login.png";
 import axios from "axios";
 import instance from "../../assets/constants/instance";
+import Loading from "../common/Loading";
 
 const Login = () => {
   const navigate = useNavigate();
   const [wrongPW, setWrongPW] = useState(false);
   const [naverURI, setNaverURI] = useState("");
   const setMyinfo = useSetRecoilState(myInfoState);
+  const [loading, setLoading] = useState(false);
 
   //잘못된 접근 차단
   let isLogined = localStorage.getItem("withcon_token");
@@ -55,6 +57,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const id = e.target.username.value;
       const pw = e.target.password.value;
       const response = await axios.post("/api/auth/login", {
@@ -69,10 +72,13 @@ const Login = () => {
       const response3 = await instance.get("/performance/favorite-id");
       localStorage.setItem("favorites", JSON.stringify(response3.data));
       navigate("/");
+      setLoading(false);
     } catch (error) {
+      setLoading(true);
       if (error.response.status === 400) {
         console.error(error, "에러");
         setWrongPW(true);
+        setLoading(false);
         return;
       } else {
         window.alert(
@@ -85,6 +91,7 @@ const Login = () => {
   return (
     <>
       <div className="middle-container">
+        {loading ? <Loading /> : null}
         <div className="container">
           <div className="login-box">
             <h1 className="title" onClick={() => navigate("/")}>
