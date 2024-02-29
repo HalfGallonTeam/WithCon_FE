@@ -117,7 +117,7 @@ const ChatMessageBundle = class {
         datas2,
         this.messageRef.current,
         this.chatMembersRef.current,
-        "append",
+        "prepend",
         this.myId
       );
       await this.callMessageBefore();
