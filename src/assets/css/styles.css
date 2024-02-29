@@ -1805,6 +1805,9 @@ input {
   visibility: visible;
   border-bottom-right-radius: 24px;
 }
+.chat-container .observer .loading-container {
+  position: relative;
+}
 
 .middle-container {
   display: flex;
@@ -2371,4 +2374,4 @@ input {
 .profile-modal-container .logout-btn {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-}/*# sourceMappingURL=styles.css.map */
+}

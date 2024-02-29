@@ -1,7 +1,7 @@
 import ChatMessageForm from "./ChatMessageForm";
 
 const AddMessages = (datas, parentNode, chatMembers, direction, me) => {
-  console.log("addmessage 돌아요");
+  console.log(datas, "addmessage");
   const newDatas = [];
   for (let i = datas.length - 1; i >= 0; i--) {
     newDatas[newDatas.length] = datas[i];

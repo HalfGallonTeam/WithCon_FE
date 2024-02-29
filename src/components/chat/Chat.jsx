@@ -57,7 +57,6 @@ const Chat = () => {
       `/exchange/chat.exchange/room.${chatRoomId}`,
       ({ body }) => {
         const datas = JSON.parse(body);
-        console.log("받은 메세지", datas);
         if (datas.messageType !== "CHAT") {
           if (datas.messageType === "ENTER") {
             const memberInfo = {
@@ -68,11 +67,6 @@ const Chat = () => {
             console.log("입장한 사람 프로필", memberInfo);
             chatMembersRef.current = [...chatMembersRef.current, memberInfo];
           } else {
-            console.log(
-              "chatMembers",
-              chatMembersRef.current,
-              Array.isArray(chatMembersRef.current)
-            );
             const newMembers = [];
             for (let i = 0; i < chatMembersRef.current.length; i++) {
               if (chatMembersRef.current[i]?.memberId !== datas.memberId) {
@@ -184,7 +178,6 @@ const Chat = () => {
         const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
         const status = await response.data.enterStatus;
         firstEnterRef.current = status;
-        console.log(response, "채팅방 입장");
         const datas = await response.data;
         chatMembersRef.current = datas.chatParticipants;
         datas.chatParticipants = [];

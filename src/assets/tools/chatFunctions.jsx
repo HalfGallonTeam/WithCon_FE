@@ -82,22 +82,28 @@ const ChatMessageBundle = class {
 
   //이전 메세지 호출 함수. id 숫자 계산해서 요청.
   callMessageBefore = async () => {
-    let url = `/chatRoom/${this.chatRoomId}/message`;
-    url += `?lastMsgId=${this.firstMessageRef.current - 1}&_limit=10`;
-    const response = await instance.get(url);
-    const datas = await response.data.content;
-    if (datas.length < 10) {
+    try {
+      let url = `/chatRoom/${this.chatRoomId}/message`;
+      url += `?lastMsgId=${this.firstMessageRef.current - 1}&_limit=10`;
+      const response = await instance.get(url);
+      const datas = await response.data.content;
+      this.firstMessageRef.current = await datas[datas.length - 1]?.messageId;
+      AddMessages(
+        datas,
+        this.messageRef.current,
+        this.chatMembersRef.current,
+        "prepend",
+        this.myId
+      );
+      console.log(datas.length, "datas length");
+      if (datas.length && datas.length < 10) {
+        this.setIsPrev(false);
+      }
+      return true;
+    } catch (error) {
       this.setIsPrev(false);
+      console.error(error, "에러");
     }
-    this.firstMessageRef.current = await datas[datas.length - 1]?.messageId;
-    AddMessages(
-      datas,
-      this.messageRef.current,
-      this.chatMembersRef.current,
-      "prepend",
-      this.myId
-    );
-    return true;
   };
 
   callInitialMessages = async () => {
@@ -107,7 +113,6 @@ const ChatMessageBundle = class {
       const response2 = await instance.get(url);
       const datas2 = await response2.data.content;
 
-      console.log(response2, "채팅방 첫 진입");
       //로컬스토리지용 아이디 세팅
       //this.firstMessageRef.current = datas2[0]?.id || 0;
       this.firstMessageRef.current = await datas2[datas2.length - 1]?.messageId;
