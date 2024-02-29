@@ -143,15 +143,6 @@ button {
   color: #603535;
 }
 
-button:hover {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-@media (max-device-width: 800px) {
-  button:hover {
-    background-color: transparent;
-  }
-}
 .container {
   max-width: 1020px;
   margin: 0 auto;
@@ -169,11 +160,13 @@ input {
 .header {
   border-bottom: 1px solid #E6E6E6;
   padding-top: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: white;
 }
 .header .container {
-  margin: 0 auto;
   padding: 10px;
-  max-width: 1280px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -186,10 +179,13 @@ input {
   font-size: 32px;
   letter-spacing: 0.2em;
 }
+.header .title a {
+  display: flex;
+  align-items: center;
+}
 .header .title .logo {
   height: 32px;
-  margin-left: 4px;
-  margin-top: -2px;
+  margin-right: 8px;
   color: transparent;
 }
 .header .login-area {
@@ -311,6 +307,7 @@ input {
   width: 36px;
   font-size: 22px;
   color: #03875F;
+  padding-bottom: 4px;
 }
 
 @media (max-width: 1050px) {
@@ -345,9 +342,7 @@ input {
   background-color: #E6E6E6;
 }
 .footer .container {
-  margin: 0 auto;
   padding: 10px;
-  max-width: 1020px;
 }
 .footer .footer-desc {
   text-align: center;
@@ -536,11 +531,6 @@ input {
     transform: translateY(15px);
   }
 }
-.container {
-  margin: 0 auto;
-  max-width: 1020px;
-}
-
 .search-desc {
   text-align: center;
   margin: 20px 10px 10px 10px;
@@ -594,16 +584,16 @@ input {
 }
 
 .concert-category {
-  color: #03875F;
+  color: #603535;
   text-indent: 20px;
   margin: 24px 0 8px 8px;
+  text-align: center;
 }
 
 .concert-card {
-  width: 200px;
-  height: 380px;
+  width: 240px;
   margin: 10px 0;
-  padding: 12px;
+  padding: 20px 12px;
   border-radius: 8px;
 }
 .concert-card .poster-box {
@@ -611,25 +601,31 @@ input {
 }
 .concert-card .concert-poster {
   display: inline-block;
-  max-width: 180px;
-  height: 240px;
+  height: 280px;
+  max-width: 210px;
   margin: 0 auto;
+  border-radius: 8px;
 }
 .concert-card .info-top-line {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: relative;
 }
 .concert-card .info-top-line .concert-title {
-  font-size: 1em;
   margin: 8px 0;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 1em;
+  line-height: 1.2em;
+  max-height: 2.4em;
   overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; /* autoprefixer: off */
+  margin-right: 30px;
 }
 .concert-card .info-top-line .like {
+  position: absolute;
+  top: 0;
+  right: 0;
   cursor: pointer;
-  font-size: 1.2em;
+  font-size: 1.5em;
   margin-left: 4px;
   font-weight: 700;
   transition: none;
@@ -701,29 +697,19 @@ input {
   transition: transform 1s;
 }
 .ad-carousel .ad-list .slide {
+  height: 400px;
   display: inline-block;
-  padding: 20vw 10vw 10vw 10vw;
+  padding-right: 20vw;
+  padding-top: 300px;
   background-size: cover;
   background-position: center;
-}
-.ad-carousel .ad-list .ad-desc {
-  margin: 20px 0;
-  height: 50px;
-  font-size: 1em;
-  line-height: 1.2em;
-  max-height: 2.4em;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical; /* autoprefixer: off */
-}
-.ad-carousel .ad-list .ad-link {
   text-align: right;
 }
-.ad-carousel .ad-list .ad-link .ad-link-button {
+.ad-carousel .ad-list .ad-link-button {
   padding: 5px 10px;
   font-weight: 700;
   border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .ad-carousel .ad-bullets {
   position: absolute;
@@ -735,7 +721,6 @@ input {
   display: inline-block;
   width: 8px;
   height: 8px;
-  border: 1px solid #E6E6E6;
   background-color: rgba(0, 0, 0, 0.2);
   margin: 0 4px;
   border-radius: 50%;
@@ -745,12 +730,15 @@ input {
 }
 .ad-carousel .ad-button-left, .ad-carousel .ad-button-right {
   position: absolute;
-  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 1;
-  height: 100%;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   font-weight: 700;
-  color: white;
+  color: #603535;
+  background-color: white;
+  border-radius: 50%;
 }
 .ad-carousel .ad-button-left {
   left: 0;
@@ -799,23 +787,12 @@ input {
   margin-bottom: 4px;
 }
 .main-carousel-container .responsible-carousel .concert-list {
-  width: 1020px;
+  display: flex;
+  flex-wrap: nowrap;
 }
 .main-carousel-container .responsible-carousel .concert-card {
-  margin: 6px 0;
-}
-.main-carousel-container .responsible-carousel .concert-card:first-child {
-  margin-left: 8px;
-}
-
-@media (max-width: 1016px) {
-  .main-carousel-container {
-    padding: 0 10px;
-  }
-}
-.container {
-  margin: 0 auto;
-  max-width: 1020px;
+  margin: 0;
+  flex-shrink: 0;
 }
 
 .search-desc {
@@ -871,16 +848,16 @@ input {
 }
 
 .concert-category {
-  color: #03875F;
+  color: #603535;
   text-indent: 20px;
   margin: 24px 0 8px 8px;
+  text-align: center;
 }
 
 .concert-card {
-  width: 200px;
-  height: 380px;
+  width: 240px;
   margin: 10px 0;
-  padding: 12px;
+  padding: 20px 12px;
   border-radius: 8px;
 }
 .concert-card .poster-box {
@@ -888,25 +865,31 @@ input {
 }
 .concert-card .concert-poster {
   display: inline-block;
-  max-width: 180px;
-  height: 240px;
+  height: 280px;
+  max-width: 210px;
   margin: 0 auto;
+  border-radius: 8px;
 }
 .concert-card .info-top-line {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: relative;
 }
 .concert-card .info-top-line .concert-title {
-  font-size: 1em;
   margin: 8px 0;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 1em;
+  line-height: 1.2em;
+  max-height: 2.4em;
   overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; /* autoprefixer: off */
+  margin-right: 30px;
 }
 .concert-card .info-top-line .like {
+  position: absolute;
+  top: 0;
+  right: 0;
   cursor: pointer;
-  font-size: 1.2em;
+  font-size: 1.5em;
   margin-left: 4px;
   font-weight: 700;
   transition: none;
@@ -1950,7 +1933,6 @@ input {
   font-weight: bold;
   padding: 0.5rem;
   border: 1px solid #36DA93;
-  width: 55px;
   display: flex;
   align-items: center;
   justify-content: center;
