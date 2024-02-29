@@ -39,8 +39,8 @@ const ChatConcentration = class {
   };
 
   beforeUnload = () => {
-    /**
     instance.post("/notification/visible", this.sendVisible("HIDDEN"));
+    /**
     const id = this.lastMessageRef.current;
     const chatIds = JSON.parse(localStorage.getItem("chat"));
     chatIds[this.chatRoomId] = id;
@@ -49,14 +49,13 @@ const ChatConcentration = class {
   };
 
   hashChange = () => {
-    /**
     instance.post("/notification/visible", this.sendVisible("HIDDEN"));
     window.removeEventListener("popstate", this.hashChange);
-    const id = this.lastMessageRef.current;
+    /**const id = this.lastMessageRef.current;
     const chatIds = JSON.parse(localStorage.getItem("chat"));
     chatIds[this.chatRoomId] = id;
     localStorage.setItem("chat", JSON.stringify(chatIds));
-     */
+    */
   };
 };
 

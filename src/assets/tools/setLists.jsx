@@ -11,7 +11,9 @@ const setLists = async (
   console.log(response, "setLists");
   const datas = await response.data;
   setInfos(datas.content);
-  setDatas(datas.content);
+  if (setDatas) {
+    setDatas(datas.content);
+  }
   const length = datas.totalElements;
   if (length !== totalCount) {
     setTotalCount(length);
