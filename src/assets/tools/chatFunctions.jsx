@@ -112,7 +112,9 @@ const ChatMessageBundle = class {
       let url = `/chatRoom/${this.chatRoomId}/message`;
       const response2 = await instance.get(url);
       const datas2 = await response2.data.content;
-
+      if (datas2.length && datas2.length < 10) {
+        this.setIsPrev(false);
+      }
       //로컬스토리지용 아이디 세팅
       //this.firstMessageRef.current = datas2[0]?.id || 0;
       this.firstMessageRef.current = await datas2[datas2.length - 1]?.messageId;
