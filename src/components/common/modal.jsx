@@ -6,6 +6,7 @@ const ButtonModal = ({
   onClickButton1,
   onClickButton2,
   textColor,
+  value,
 }) => {
   return (
     <div className="modal-container">
@@ -22,6 +23,7 @@ const ButtonModal = ({
             type="button"
             className="modal-button"
             onClick={onClickButton1}
+            value={value || ""}
           >
             {button1}
           </button>

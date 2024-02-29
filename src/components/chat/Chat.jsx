@@ -12,6 +12,7 @@ import {
 } from "../../assets/tools/chatFunctions";
 import * as StompJs from "@stomp/stompjs";
 import SockJS from "sockjs-client";
+import Loading from "../common/Loading";
 
 //컴포넌트 리렌더링을 막기 위한 조치
 const basic = {
@@ -52,16 +53,23 @@ const Chat = () => {
 
   const client = useRef(null);
   const subscribe = () => {
+    console.log(firstEnterRef.current, "firstEnterRef");
+    if (firstEnterRef.current == "NEW") {
+      client.current?.publish({
+        destination: `/app/chat/enter/${chatRoomId}`,
+        body: JSON.stringify({
+          memberId: myId,
+          message: "test",
+        }),
+      });
+    }
     client.current?.subscribe(
       `/exchange/chat.exchange/room.${chatRoomId}`,
       ({ body }) => {
         const datas = JSON.parse(body);
         console.log("받은 메세지", datas);
         if (datas.messageType !== "CHAT") {
-          if (
-            datas.messageType === "ENTER" &&
-            !chatMembersRef.current.includes(datas.memberId)
-          ) {
+          if (datas.messageType === "ENTER") {
             const memberInfo = {
               memberId: datas.memberId,
               userProfile: datas.userProfile,
@@ -119,15 +127,7 @@ const Chat = () => {
       heartbeatIncoming: 10000,
       heartbeatOutgoing: 10000,
       onConnect: () => {
-        //if (firstEnterRef.current) {
-        client.current?.publish({
-          destination: `/app/chat/enter/${chatRoomId}`,
-          body: JSON.stringify({
-            memberId: myId,
-            message: "test",
-          }),
-        });
-        //}
+        console.log("웹소켓 연결됨");
         subscribe();
       },
       onStompError: (frame) => {
@@ -175,9 +175,7 @@ const Chat = () => {
         //기본 채팅방 정보 설정
         const response = await instance.get(`/chatRoom/${chatRoomId}/enter`);
         const status = await response.data.enterStatus;
-        if (status === "NEW") {
-          firstEnterRef.current = true;
-        }
+        firstEnterRef.current = status;
         console.log(response, "채팅방 입장");
         const datas = await response.data;
         chatMembersRef.current = datas.chatParticipants;
@@ -266,12 +264,10 @@ const Chat = () => {
         <div className="text-area" ref={scrollRef}>
           {isPrev && (
             <div className="observer" ref={observerRef}>
-              옵저버입니다. 드러나면 로딩해요.
+              <Loading />
             </div>
           )}
-          <div className="messages" ref={messageRef}>
-            <hr aria-label="여기까지 읽었어요" />
-          </div>
+          <div className="messages" ref={messageRef}></div>
         </div>
         <div className="send-area">
           <textarea

@@ -7,7 +7,7 @@ import { BsPersonFill } from "react-icons/bs";
 const ChatToggle = (props) => {
   const [exitModal, setExitModal] = useState(false);
   const [forceOutModal, setForceOutModal] = useState(false);
-  const aggroId = useRef(null);
+  const [aggroId, setAggroId] = useState(null);
   const memberRef = useRef(null);
   const toggleRef = useRef(null);
   const members = props.members;
@@ -91,7 +91,7 @@ const ChatToggle = (props) => {
   const exitModalOff = () => setExitModal(false);
   const forceOutModalOff = () => setForceOutModal(false);
   const forceOutModalOn = (e) => {
-    aggroId.current = e.target.value;
+    setAggroId(e.target.value);
     setForceOutModal(true);
   };
 
@@ -109,7 +109,7 @@ const ChatToggle = (props) => {
         <p className="member-name">{member.nickName}</p>
         <button
           className={`force-out ${isCreator}`}
-          onClick={forceOut}
+          onClick={forceOutModalOn}
           value={member.memberId}
         >
           강퇴
@@ -158,7 +158,7 @@ const ChatToggle = (props) => {
           button2="취소"
           onClickButton1={forceOut}
           onClickButton2={forceOutModalOff}
-          value={aggroId.current}
+          value={aggroId}
         />
       )}
     </>
