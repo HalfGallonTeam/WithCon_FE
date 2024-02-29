@@ -78,9 +78,17 @@ const Chat = () => {
             console.log("입장한 사람 프로필", memberInfo);
             chatMembersRef.current = [...chatMembersRef.current, memberInfo];
           } else {
-            const newMembers = chatMembersRef.current.filter((member) => {
-              member.memberId !== datas.memberId;
-            });
+            console.log(
+              "chatMembers",
+              chatMembersRef.current,
+              Array.isArray(chatMembersRef.current)
+            );
+            const newMembers = [];
+            for (let i = 0; i < chatMembersRef.current.length; i++) {
+              if (chatMembersRef.current[i]?.memberId !== datas.memberId) {
+                newMembers[newMembers.length] = chatMembersRef.current[i];
+              }
+            }
             chatMembersRef.current = newMembers;
             if (datas.messageType === "KICK" && datas.memberId === myId) {
               window.alert("채팅방에서 퇴장당했습니다.");
