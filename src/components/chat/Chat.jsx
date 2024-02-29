@@ -53,6 +53,16 @@ const Chat = () => {
 
   const client = useRef(null);
   const subscribe = () => {
+    console.log(firstEnterRef.current, "firstEnterRef");
+    if (firstEnterRef.current == "NEW") {
+      client.current?.publish({
+        destination: `/app/chat/enter/${chatRoomId}`,
+        body: JSON.stringify({
+          memberId: myId,
+          message: "test",
+        }),
+      });
+    }
     client.current?.subscribe(
       `/exchange/chat.exchange/room.${chatRoomId}`,
       ({ body }) => {
@@ -105,16 +115,6 @@ const Chat = () => {
         scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
       }
     );
-    console.log(firstEnterRef.current, "firstEnterRef");
-    if (firstEnterRef.current == "NEW") {
-      client.current?.publish({
-        destination: `/app/chat/enter/${chatRoomId}`,
-        body: JSON.stringify({
-          memberId: myId,
-          message: "test",
-        }),
-      });
-    }
   };
   const connect = () => {
     client.current = new StompJs.Client({
