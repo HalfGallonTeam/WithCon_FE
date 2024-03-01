@@ -30,14 +30,13 @@
 	width: 100%;
 	.responsible-carousel {
 		margin-bottom: 4px;
-		.concert-list {width: 1020px;}
-		.concert-card {margin: 6px 0;}
-		.concert-card:first-child {margin-left: 8px;}
-	}
-}
-
-@media (max-width:1016px) {
-	.main-carousel-container {
-		padding: 0 10px;
+		.concert-list {
+			display: flex;
+			flex-wrap: nowrap;
+		}
+		.concert-card {
+			margin: 0;
+			flex-shrink: 0;
+		}
 	}
 }

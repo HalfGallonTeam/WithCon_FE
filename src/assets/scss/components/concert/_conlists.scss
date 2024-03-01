@@ -1,9 +1,5 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
-
-.container {
-  margin: 0 auto;
-  max-width: 1020px;
-}
+@import "../../base/mixin";
 
 .search-desc {
   text-align: center;
@@ -59,38 +55,40 @@
 }
 
 .concert-category {
-  color: $main-color-dark;
+  color: $text-color;
   text-indent: 20px;
   margin: 24px 0 8px 8px;
+  text-align: center;
 }
 
 .concert-card {
-  width: 200px;
-  height: 380px;
+  width: 240px;
   margin: 10px 0;
-  padding: 12px;
+  padding: 20px 12px;
   border-radius: 8px;
   .poster-box {
     text-align: center;
   }
   .concert-poster {
     display: inline-block;
-    max-width: 180px;
-    height: 240px;
+    height: 280px;
+    max-width: 210px;
     margin: 0 auto;
+    border-radius: 8px;
   }
   .info-top-line {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    position: relative;
     .concert-title {
-      font-size: 1em;
       margin: 8px 0;
-      @include ellipsis;
+      @include multi-ellipsis(1em, 1.2em, 2);
+      margin-right: 30px;
     }
     .like {
+      position: absolute;
+      top: 0;
+      right: 0;
       cursor: pointer;
-      font-size: 1.2em;
+      font-size: 1.5em;
       margin-left: 4px;
       font-weight: 700;
       transition: none;

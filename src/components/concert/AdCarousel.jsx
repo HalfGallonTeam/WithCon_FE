@@ -1,31 +1,26 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import imgBlack from "../../assets/images/ad-background.jpg";
-import imgLight from "../../assets/images/ad-background-light.jpg";
+import ad1 from "../../assets/images/ad1.png";
+import ad2 from "../../assets/images/ad2.png";
+import ad3 from "../../assets/images/ad3.png";
 
 const AdCarousel = () => {
   const [activeNum, setActiveNum] = useState(0);
 
   const adList = [
     {
-      title: "콘서트 광고",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, ea minus deleniti possimus, recusandae corrupti temporibus beatae quidem sunt nostrum placeat iste voluptates magnam voluptatem consectetur consequatur, inventore unde ipsam.",
-      link: "ad-link-concert",
-      imgSrc: imgBlack,
+      link: "1",
+      imgSrc: ad1,
       textColor: "#E6E6E6",
     },
     {
-      title: "뮤지컬 광고",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, ea minus deleniti possimus, recusandae corrupti temporibus beatae quidem sunt nostrum placeat iste voluptates magnam voluptatem consectetur consequatur, inventore unde ipsam.",
-      link: "ad-link-concert",
-      imgSrc: imgLight,
+      link: "2",
+      imgSrc: ad2,
       textColor: "#603535",
     },
     {
-      title: "연극 광고",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, ea minus deleniti possimus, recusandae corrupti temporibus beatae quidem sunt nostrum placeat iste voluptates magnam voluptatem consectetur consequatur, inventore unde ipsam.",
-      link: "ad-link-musical",
-      imgSrc: imgBlack,
+      link: "3",
+      imgSrc: ad3,
       textColor: "#E6E6E6",
     },
   ];
@@ -46,15 +41,11 @@ const AdCarousel = () => {
           color: ad.textColor,
         }}
       >
-        <h3 className="ad-title">{ad.title}</h3>
-        <p className="ad-desc">{ad.desc}</p>
-        <div className="ad-link">
-          <Link to={`/title/${ad.link}`}>
-            <button className="ad-link-button" style={{ color: ad.textColor }}>
-              바로가기
-            </button>
-          </Link>
-        </div>
+        <Link to={`/title/${ad.link}`}>
+          <button className="ad-link-button" style={{ color: ad.textColor }}>
+            바로가기
+          </button>
+        </Link>
       </div>
     );
     const bullet = <div key={`b${index}`} className={`bullet ${className}`} />;

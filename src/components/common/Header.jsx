@@ -47,8 +47,8 @@ const Header = () => {
         <div className="container">
           <h1 className="title">
             <Link to="/">
-              <span className="mobile-hidden">위드콘</span>
-              <img className="logo" src={logo} alt="위드콘" />
+              <img className="logo" src={logo} alt="" />
+              <span>위드콘</span>
             </Link>
           </h1>
           <div className="login-area">
