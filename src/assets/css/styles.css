@@ -144,15 +144,16 @@ button {
 }
 
 .container {
-  max-width: 1020px;
+  max-width: 1050px;
   margin: 0 auto;
+  padding: 10px;
 }
 
 input {
   outline: none;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 650px) {
   .mobile-hidden {
     display: none !important;
   }
@@ -173,7 +174,6 @@ input {
   justify-content: space-between;
 }
 .header .title {
-  order: 1;
   margin-right: 10px;
   color: #03875F;
   font-size: 32px;
@@ -185,11 +185,12 @@ input {
 }
 .header .title .logo {
   height: 32px;
-  margin-right: 8px;
   color: transparent;
 }
+.header .title .mobile-hidden {
+  margin-left: 8px;
+}
 .header .login-area {
-  order: 6;
   margin-left: 10px;
   position: relative;
 }
@@ -205,6 +206,9 @@ input {
 .header .login-area .login-button:hover {
   background-color: #36DA93;
   color: white;
+}
+.header .login-area .member-img {
+  font-size: 1.5em;
 }
 .header .login-area .alarm-area {
   position: relative;
@@ -267,7 +271,6 @@ input {
   font-size: 10px;
 }
 .header .category-buttons {
-  order: 3;
   margin: 10px auto 10px 0;
 }
 .header .category-buttons .category-button {
@@ -275,11 +278,10 @@ input {
   border: none;
 }
 .header .search-area {
-  order: 5;
+  flex-grow: 1;
   display: block flex;
   align-items: center;
   justify-content: space-between;
-  width: 400px;
   margin-left: auto;
   padding: 0 10px;
   border: 2px solid #36DA93;
@@ -310,20 +312,28 @@ input {
   padding-bottom: 4px;
 }
 
-@media (max-width: 1050px) {
-  .header .login-area {
-    order: 4;
-  }
-  .header .search-area {
-    width: 100%;
-  }
-}
 @media (max-width: 650px) {
   .header .login-area {
-    order: 2;
+    margin: 0;
+  }
+  .header .login-area .login-text {
+    display: none;
+  }
+  .header .search-area {
+    width: calc(100vw - 124px);
+  }
+}
+@media (max-width: 900px) {
+  .header .category-buttons {
+    order: 1;
   }
   .header .category-buttons .category-button {
     width: calc((100vw - 20px) / 4);
+  }
+}
+@media (min-width: 651px) {
+  .header .login-area .member-img {
+    display: none;
   }
 }
 #root {
@@ -338,6 +348,7 @@ input {
 }
 
 .footer {
+  margin-top: 50px;
   width: 100vw;
   background-color: #E6E6E6;
 }
@@ -359,6 +370,11 @@ input {
   text-align: center;
 }
 
+@media (max-width: 800px) {
+  .footer {
+    display: none;
+  }
+}
 .paging-box {
   align-items: center;
   width: 320px;
@@ -1436,14 +1452,14 @@ input {
 }
 @media (max-width: 480px) {
   .create-room-container {
-    width: 300px;
+    width: 375px;
+    height: 667px;
   }
 }
 .create-room-container h1 {
   color: #03875F;
   text-align: center;
   font-size: 32px;
-  margin-top: 30px;
 }
 .create-room-container .create-room {
   padding-bottom: 45px;

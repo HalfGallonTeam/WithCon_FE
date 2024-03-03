@@ -12,14 +12,16 @@ button {
 }
 
 .container {
-  max-width: 1020px;
+  max-width: 1050px;
   margin: 0 auto;
+  padding: 10px;
 }
+
 input {
   outline: none;
 }
 
-@media (max-width:500px) {
+@media (max-width:650px) {
   .mobile-hidden {
       display: none !important;
     }

@@ -6,6 +6,7 @@ import logo from "../../assets/images/withconLogo.png";
 import Notification from "../mypage/Notification";
 import { useRecoilValue } from "recoil";
 import { myInfoState } from "../../assets/constants/userRecoilState";
+import { BsPersonFill } from "react-icons/bs";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -47,10 +48,26 @@ const Header = () => {
         <div className="container">
           <h1 className="title">
             <Link to="/">
-              <img className="logo" src={logo} alt="" />
-              <span>위드콘</span>
+              <img className="logo" src={logo} alt="위드콘" />
+              <span className="mobile-hidden" aria-hidden="true">
+                위드콘
+              </span>
             </Link>
           </h1>
+          <Navigation />
+          <form className="search-area" onSubmit={keywordIn}>
+            <div className="search-keyword-box">
+              <input
+                className="search-keyword-input"
+                type="text"
+                name="keyword"
+                placeholder="관심있는 공연을 검색해보세요"
+              />
+              <button className="submit">
+                <i className="bi bi-search"></i>
+              </button>
+            </div>
+          </form>
           <div className="login-area">
             {userdata ? (
               <div className="login-me">
@@ -65,7 +82,11 @@ const Header = () => {
                   className="login-button"
                   onClick={() => navigate("/login")}
                 >
-                  로그인
+                  <span className="login-text">로그인</span>
+                  <BsPersonFill
+                    className="member-img img-null"
+                    alt="profileImg"
+                  />
                 </button>
                 <button
                   className="login-button mobile-hidden"
@@ -83,20 +104,6 @@ const Header = () => {
               />
             )}
           </div>
-          <Navigation />
-          <form className="search-area" onSubmit={keywordIn}>
-            <div className="search-keyword-box">
-              <input
-                className="search-keyword-input"
-                type="text"
-                name="keyword"
-                placeholder="관심있는 공연을 검색해보세요"
-              />
-              <button className="submit">
-                <i className="bi bi-search"></i>
-              </button>
-            </div>
-          </form>
         </div>
       </header>
     </>

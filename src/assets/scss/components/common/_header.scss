@@ -16,7 +16,6 @@
   }
 
   .title {
-    order: 1;
     margin-right: 10px;
     color: $main-color-dark;
     font-size: 32px;
@@ -27,13 +26,14 @@
     }
     .logo {
       height: 32px;
-      margin-right: 8px;
       color: transparent;
+    }
+    .mobile-hidden {
+      margin-left: 8px;
     }
   }
 
   .login-area {
-    order: 6;
     margin-left: 10px;
     position: relative;
     .login-me {
@@ -48,6 +48,9 @@
     .login-button:hover {
       background-color: $main-color;
       color: white;
+    }
+    .member-img {
+      font-size: 1.5em;
     }
     .alarm-area {
       position: relative;
@@ -114,7 +117,6 @@
   }
 
   .category-buttons {
-    order: 3;
     margin: 10px auto 10px 0;
     .category-button {
       width: 70px;
@@ -123,11 +125,10 @@
   }
 
   .search-area {
-    order: 5;
+    flex-grow: 1;
     display: block flex;
     align-items: center;
     justify-content: space-between;
-    width: 400px;
     margin-left: auto;
     padding: 0 10px;
     border: 2px solid $main-color;
@@ -160,25 +161,37 @@
   }
 }
 
-@media (max-width: 1050px) {
+@media (max-width: 650px) {
   .header {
     .login-area {
-      order: 4;
+      margin: 0;
+      .login-text {
+        display: none;
+      }
     }
     .search-area {
-      width: 100%;
+      width: calc(100vw - 124px);
+    }
+    
+  }
+}
+
+@media (max-width: 900px) {
+  .header{
+    .category-buttons {
+      order: 1;
+      .category-button {
+        width: calc((100vw - 20px) / 4);
+      }
     }
   }
 }
 
-@media (max-width: 650px) {
+@media (min-width: 651px) {
   .header {
     .login-area {
-      order: 2;
-    }
-    .category-buttons {
-      .category-button {
-        width: calc((100vw - 20px) / 4);
+      .member-img {
+        display: none;
       }
     }
   }
