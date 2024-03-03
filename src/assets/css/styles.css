@@ -151,6 +151,7 @@ button {
 
 input {
   outline: none;
+  text-indent: 8px;
 }
 
 @media (max-width: 650px) {
@@ -305,7 +306,6 @@ input {
 .header .search-area .search-keyword-box .search-keyword-input {
   height: 36px;
   flex-grow: 1;
-  text-indent: 8px;
   background-color: transparent;
 }
 .header .search-area .search-keyword-box .submit {
@@ -1422,34 +1422,21 @@ input {
 
 .create-room-container {
   z-index: 100;
-  width: 400px;
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  max-width: 400px;
   position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 60px 40px;
   background-color: white;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 100vh rgba(0, 0, 0, 0.3);
   border-radius: 16px;
-}
-@media (max-width: 480px) {
-  .create-room-container {
-    width: 375px;
-    height: 667px;
-  }
 }
 .create-room-container h1 {
   color: #03875F;
   text-align: center;
   font-size: 32px;
-}
-.create-room-container .create-room {
-  padding-bottom: 45px;
-  width: 300px;
 }
 .create-room-container .create-room .input-container {
   border: 1px solid #36DA93;
@@ -1457,23 +1444,16 @@ input {
   padding: 10px;
   margin-top: 30px;
 }
-.create-room-container .create-room .input-container .label-wrap {
-  margin-bottom: 3px;
-}
-.create-room-container .create-room .input-container .label-wrap span {
-  font-size: 14px;
-  margin-left: 20px;
-  color: red;
-}
 .create-room-container .create-room .input-container label {
-  font-size: 14px;
-}
-.create-room-container .create-room .input-container input {
-  outline: none;
-  width: 100%;
+  margin-right: 8px;
+  word-break: keep-all;
 }
 .create-room-container .create-room .hashtag-lists-container {
-  margin: 5px;
+  margin-top: 8px;
+  padding: 4px;
+  background-color: #E6E6E6;
+  min-height: 30px;
+  border-radius: 8px;
 }
 .create-room-container .create-room .hashtag-lists-container .hashtag-lists {
   display: flex;
@@ -1488,6 +1468,7 @@ input {
   font-weight: 700;
   padding: 2px;
   margin: 1px;
+  background-color: white;
 }
 .create-room-container .create-room .hashtag-lists-container .hashtag-lists .hashtag span {
   margin-right: 5px;
@@ -1846,7 +1827,6 @@ input {
 .login-box .login-form td input {
   width: 90%;
   padding: 6px;
-  text-indent: 8px;
   line-height: 2em;
 }
 .login-box .login-form .login-button {
