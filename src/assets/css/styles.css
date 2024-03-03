@@ -597,6 +597,7 @@ input {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  min-height: 60vh;
 }
 
 .concert-category {
@@ -728,6 +729,7 @@ input {
   font-weight: 700;
   border-radius: 4px;
   background-color: #03875F;
+  border: 1px solid #36DA93;
 }
 .ad-carousel .ad-bullets {
   position: absolute;
@@ -816,6 +818,7 @@ input {
 .main-carousel-container .responsible-carousel .concert-list {
   display: flex;
   flex-wrap: nowrap;
+  min-height: auto;
 }
 .main-carousel-container .responsible-carousel .concert-card {
   margin: 0;
@@ -872,6 +875,7 @@ input {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  min-height: 60vh;
 }
 
 .concert-category {
@@ -1305,6 +1309,7 @@ input {
   max-width: 700px;
   padding: 0 10px;
   margin: 10px auto;
+  min-height: 60vh;
 }
 .list-container .chat-room {
   cursor: pointer;
