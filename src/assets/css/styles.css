@@ -1187,14 +1187,9 @@ input {
 }
 
 .chat-list-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
   position: relative;
-  max-width: 600px;
-  align-items: center;
   max-width: 800px;
+  margin: 10px auto;
 }
 .chat-list-container .chat-list-header {
   width: 100%;
@@ -1314,12 +1309,11 @@ input {
   margin: 10px 0;
 }
 .list-container .chat-room {
-  height: 90px;
   cursor: pointer;
   border: 2px solid #36DA93;
   border-radius: 16px;
-  margin: 16px 0 0;
-  padding: 16px 0 0;
+  margin: 8px 0;
+  padding: 8px 10px;
 }
 .list-container .chat-room:hover {
   background-color: #36DA93;
@@ -1330,38 +1324,19 @@ input {
   position: relative;
   top: 2px;
 }
-@media (max-width: 769px) {
-  .list-container .chat-room {
-    padding: 2px 10px;
-  }
-}
 .list-container .chat-room .chat-top {
   width: 100%;
   display: flex;
   justify-content: center;
 }
-.list-container .chat-room .chat-top span {
-  font-size: 20px;
-  font-weight: bold;
-}
-@media (max-width: 768px) {
-  .list-container .chat-room .chat-top span {
-    font-size: 18px;
-    padding: 10px;
-  }
-}
-@media (max-width: 480px) {
-  .list-container .chat-room .chat-top span {
-    font-size: 16px;
-    padding: 0;
-  }
-}
 .list-container .chat-room .chat-bottom {
+  height: 40px;
   padding: 10px;
   margin: 0 16px;
   display: flex;
   justify-content: space-between;
   font-size: 16px;
+  overflow: hidden;
 }
 @media (max-width: 768px) {
   .list-container .chat-room .chat-bottom {
@@ -1949,31 +1924,21 @@ input {
   box-shadow: 0 0 3px #603535;
 }
 
-.mypage-container {
-  margin: 0 auto;
-  padding: 10px;
-  max-width: 1020px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 20px;
-}
-.mypage-container .title-container {
-  width: 100%;
+.container .title-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
-.mypage-container .breadcrumb-container {
+.container .breadcrumb-container {
   display: flex;
   flex-direction: column;
   margin-left: 20px;
 }
-.mypage-container .breadcrumb-container .location-desc {
+.container .breadcrumb-container .location-desc {
   margin: 10px 0;
 }
-.mypage-container .btn-container button {
+.container .btn-container button {
   width: 90px;
   color: #603535;
   font-size: small;
@@ -1984,53 +1949,14 @@ input {
   width: auto;
   margin-right: 20px;
 }
-.mypage-container .btn-container button:hover {
+.container .btn-container button:hover {
   background-color: #603535;
   color: white;
 }
-.mypage-container .btn-container button:active {
+.container .btn-container button:active {
   background-color: black;
   position: relative;
   top: 2px;
-}
-.mypage-container .mypage-like-list {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-@media (max-width: 1036px) {
-  .mypage-container .mypage-like-list {
-    width: 800px;
-  }
-}
-@media (max-width: 1016px) {
-  .mypage-container .mypage-like-list .concert-card {
-    margin: 10px 0;
-  }
-}
-@media (max-width: 830px) {
-  .mypage-container .mypage-like-list {
-    width: 600px;
-  }
-}
-@media (max-width: 630px) {
-  .mypage-container .mypage-like-list {
-    width: 400px;
-  }
-}
-@media (max-width: 450px) {
-  .mypage-container .mypage-like-list {
-    width: 200px;
-  }
-}
-
-.like-list-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 40px;
 }
 
 .location-desc {

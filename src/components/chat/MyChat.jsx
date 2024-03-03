@@ -27,14 +27,14 @@ const MyChat = () => {
   }, [url]);
 
   return (
-    <div className="mychat-container">
-      <div className="list-container">
+    <div className="chat-list-container">
+      <section className="list-container">
         {Array.isArray(datas) ? (
           datas.map((data, index) => <ChatRoom searchData={data} key={index} />)
         ) : (
           <p className="room-msg-container">참여한 채팅방이 없습니다</p>
         )}
-      </div>
+      </section>
       <Paging totalCount={totalCount} currentPage={currentPage} limit={5} />
     </div>
   );

@@ -15,7 +15,7 @@ const MyPageComponent = () => {
   };
 
   return (
-    <div className="mypage-container">
+    <div className="container">
       <div className="title-container">
         <div className="breadcrumb-container">
           {category === "likes" ? (

@@ -50,7 +50,7 @@ const ConLists = () => {
           </>
         )}
 
-        <div className="concert-list">
+        <section className="concert-list">
           {Array.isArray(infos) ? (
             infos.map((info, index) => (
               <ConcertCard
@@ -63,7 +63,7 @@ const ConLists = () => {
           ) : (
             <p className="room-msg-container">해당하는 공연이 없습니다</p>
           )}
-        </div>
+        </section>
         <Paging totalCount={totalCount} currentPage={currentPage} limit={10} />
       </div>
     </>

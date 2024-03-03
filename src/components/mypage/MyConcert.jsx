@@ -29,20 +29,18 @@ const MyConcert = () => {
   }, [url]);
 
   return (
-    <div className="like-list-container">
-      <div className="mypage-like-list">
-        <div className="concert-list">
-          {Array.isArray(infos) ? (
-            infos.map((info, index) => (
-              <ConcertCard info={info} key={index} like={true} />
-            ))
-          ) : (
-            <p className="room-msg-container">찜한 공연 목록이 없습니다</p>
-          )}
-        </div>
-      </div>
+    <>
+      <section className="concert-list">
+        {Array.isArray(infos) ? (
+          infos.map((info, index) => (
+            <ConcertCard info={info} key={index} like={true} />
+          ))
+        ) : (
+          <p className="room-msg-container">찜한 공연 목록이 없습니다</p>
+        )}
+      </section>
       <Paging totalCount={totalCount} currentPage={currentPage} limit={10} />
-    </div>
+    </>
   );
 };
 

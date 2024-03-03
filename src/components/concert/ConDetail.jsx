@@ -35,7 +35,7 @@ const ConDetail = () => {
     <div className="detail-container">
       <div className="con-title-container">
         <div className="con-title">
-          <h1 className="title">{info.name}</h1>
+          <h2 className="title">{info.name}</h2>
           <div className="con-category">
             <div className="mini-data">
               <span className="date">{`${info.startDate}-${info.endDate}`}</span>

@@ -104,9 +104,9 @@ const ChatList = () => {
     setSearchHashtag("");
   };
   return (
-    <div className="chat-list-container">
-      <div className="chat-list-header">
-        <h1>채팅방 목록</h1>
+    <section className="chat-list-container">
+      <header className="chat-list-header">
+        <h3>채팅방 목록</h3>
         <div className="header-right">
           <div className="hashtag-search">
             <div className="hashtag-search-inner">
@@ -145,8 +145,8 @@ const ChatList = () => {
             )}
           </div>
         </div>
-      </div>
-      <div className="list-container">
+      </header>
+      <section className="list-container">
         {showModal ? (
           <ButtonModal
             buttonContainer="0"
@@ -160,9 +160,9 @@ const ChatList = () => {
         ) : (
           <p className="room-msg-container">채팅방이 없습니다.</p>
         )}
-      </div>
+      </section>
       <Paging totalCount={totalCount} currentPage={currentPage} limit={5} />
-    </div>
+    </section>
   );
 };
 

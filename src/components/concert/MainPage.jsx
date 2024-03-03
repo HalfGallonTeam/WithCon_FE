@@ -65,36 +65,42 @@ const MainPage = () => {
     <>
       <AdCarousel />
       <div className="container">
-        <h2 className="concert-category">
-          <Link to={"/performance?category=concert"}>콘서트</Link>
-        </h2>
-        <div className="main-carousel-container">
-          <div className="responsible-carousel scroll-x">
-            <div className="container">
-              <div className="concert-list">{concertArr}</div>
+        <section>
+          <h2 className="concert-category">
+            <Link to={"/performance?category=concert"}>콘서트</Link>
+          </h2>
+          <div className="main-carousel-container">
+            <div className="responsible-carousel scroll-x">
+              <div className="container">
+                <div className="concert-list">{concertArr}</div>
+              </div>
             </div>
           </div>
-        </div>
-        <h2 className="concert-category">
-          <Link to={"/performance?category=musical"}>뮤지컬</Link>
-        </h2>
-        <div className="main-carousel-container">
-          <div className="responsible-carousel scroll-x">
-            <div className="container">
-              <div className="concert-list">{musicalArr}</div>
+        </section>
+        <section>
+          <h2 className="concert-category">
+            <Link to={"/performance?category=musical"}>뮤지컬</Link>
+          </h2>
+          <div className="main-carousel-container">
+            <div className="responsible-carousel scroll-x">
+              <div className="container">
+                <div className="concert-list">{musicalArr}</div>
+              </div>
             </div>
           </div>
-        </div>
-        <h2 className="concert-category">
-          <Link to={"performance?category=theater"}>연극</Link>
-        </h2>
-        <div className="main-carousel-container">
-          <div className="responsible-carousel scroll-x">
-            <div className="container">
-              <div className="concert-list">{playArr}</div>
+        </section>
+        <section>
+          <h2 className="concert-category">
+            <Link to={"performance?category=theater"}>연극</Link>
+          </h2>
+          <div className="main-carousel-container">
+            <div className="responsible-carousel scroll-x">
+              <div className="container">
+                <div className="concert-list">{playArr}</div>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </>
   );

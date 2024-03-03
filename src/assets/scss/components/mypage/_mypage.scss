@@ -1,13 +1,5 @@
-@import "../../base/mixin";
-
-.mypage-container {
-  @include container;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 20px;
+.container {
   .title-container{
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -28,35 +20,4 @@
       margin-right: 20px;
     }
   }
-  .mypage-like-list {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    @media (max-width: 1036px) {
-      width: 800px;
-    }
-    @media (max-width: 1016px) {
-      .concert-card {
-        margin: 10px 0;
-      }
-    }
-    @media (max-width: 830px) {
-      width: 600px;
-    }
-    @media (max-width: 630px) {
-      width: 400px;
-    }
-    @media (max-width: 450px) {
-      width: 200px;
-    }
-  }
-}
-
-.like-list-container{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 40px;
 }
