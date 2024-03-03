@@ -168,8 +168,12 @@
       }
     }
   }
-  .room-msg-container {
-    text-align: center;
-    padding: 205px 50px;
-  }
+}
+
+.room-msg-container {
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 50px;
+  padding: 0 40px;
+  word-break: keep-all;
 }

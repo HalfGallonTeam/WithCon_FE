@@ -13,7 +13,7 @@ const ChatList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(1);
   const [searchHashtag, setSearchHashtag] = useState("");
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [searchData, setSearchData] = useState(null);
   const url = useLocation();
   const urlSearch = new URLSearchParams(url.search);
@@ -153,14 +153,12 @@ const ChatList = () => {
             text="로그인한 사용자만 가능합니다"
           />
         ) : null}
-        {data && data.length > 0 ? (
+        {Array.isArray(data) ? (
           data.map((searchData) => (
             <ChatRoom searchData={searchData} key={searchData.id} />
           ))
         ) : (
-          <div className="room-msg-container">
-            <span>채팅방이 없습니다.</span>
-          </div>
+          <p className="room-msg-container">채팅방이 없습니다.</p>
         )}
       </div>
       <Paging totalCount={totalCount} currentPage={currentPage} limit={5} />

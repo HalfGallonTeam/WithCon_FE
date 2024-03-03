@@ -10,7 +10,11 @@ const setLists = async (
   const response = await instance.get(request);
   console.log(response, "setLists");
   const datas = await response.data;
-  setInfos(datas.content);
+  if (datas.content.length !== 0) {
+    setInfos(datas.content);
+  } else {
+    setInfos(0);
+  }
   if (setDatas) {
     setDatas(datas.content);
   }

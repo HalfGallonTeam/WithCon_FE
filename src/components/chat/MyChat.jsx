@@ -7,7 +7,7 @@ import setLists from "../../assets/tools/setLists";
 const MyChat = () => {
   const [datas, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(1); //나중에 data.length로 바꿔서 정리하기.
+  const [totalCount, setTotalCount] = useState(1);
   const url = useLocation();
   const urlSearch = new URLSearchParams(url.search);
   let pages = urlSearch.get("page") || 1;
@@ -26,14 +26,15 @@ const MyChat = () => {
     setCurrentPage(pages);
   }, [url]);
 
-  const chatRooms = [];
-  datas.map((data, index) => {
-    chatRooms.push(<ChatRoom searchData={data} key={index} />);
-  });
-
   return (
     <div className="mychat-container">
-      <div className="list-container">{chatRooms}</div>
+      <div className="list-container">
+        {Array.isArray(datas) ? (
+          datas.map((data, index) => <ChatRoom searchData={data} key={index} />)
+        ) : (
+          <p className="room-msg-container">참여한 채팅방이 없습니다</p>
+        )}
+      </div>
       <Paging totalCount={totalCount} currentPage={currentPage} limit={5} />
     </div>
   );

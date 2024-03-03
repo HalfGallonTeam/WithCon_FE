@@ -51,14 +51,18 @@ const ConLists = () => {
         )}
 
         <div className="concert-list">
-          {infos.map((info, index) => (
-            <ConcertCard
-              info={info}
-              key={index}
-              like={favorites && favorites.includes(info.id + "")}
-              setLike={setFavorites}
-            />
-          ))}
+          {Array.isArray(infos) ? (
+            infos.map((info, index) => (
+              <ConcertCard
+                info={info}
+                key={index}
+                like={favorites && favorites.includes(info.id + "")}
+                setLike={setFavorites}
+              />
+            ))
+          ) : (
+            <p className="room-msg-container">해당하는 공연이 없습니다</p>
+          )}
         </div>
         <Paging totalCount={totalCount} currentPage={currentPage} limit={10} />
       </div>

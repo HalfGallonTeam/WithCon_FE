@@ -1389,9 +1389,13 @@ input {
 .list-container .chat-room .chat-bottom .member-num-container .member-num {
   padding-right: 20px;
 }
-.list-container .room-msg-container {
+
+.room-msg-container {
+  font-size: 1.5em;
   text-align: center;
-  padding: 205px 50px;
+  margin-top: 50px;
+  padding: 0 40px;
+  word-break: keep-all;
 }
 
 .mychat-container {
