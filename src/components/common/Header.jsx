@@ -55,54 +55,63 @@ const Header = () => {
             </Link>
           </h1>
           <Navigation />
-          <form className="search-area" onSubmit={keywordIn}>
-            <div className="search-keyword-box">
-              <input
-                className="search-keyword-input"
-                type="text"
-                name="keyword"
-                placeholder="관심있는 공연을 검색해보세요"
-              />
-              <button className="submit">
-                <i className="bi bi-search"></i>
-              </button>
-            </div>
-          </form>
-          <div className="login-area">
-            {userdata ? (
-              <div className="login-me">
-                <button className="login-button" onClick={() => setOpen(!open)}>
-                  {userdata.nickname}
+          <div className="header-top-fix">
+            <form className="search-area" onSubmit={keywordIn}>
+              <div className="search-keyword-box">
+                <input
+                  className="search-keyword-input"
+                  type="text"
+                  name="keyword"
+                  placeholder="관심있는 공연을 검색해보세요"
+                />
+                <button className="submit">
+                  <i className="bi bi-search"></i>
                 </button>
-                <Notification />
               </div>
-            ) : (
-              <>
-                <button
-                  className="login-button"
-                  onClick={() => navigate("/login")}
-                >
-                  <span className="login-text">로그인</span>
-                  <BsPersonFill
-                    className="member-img img-null"
-                    alt="profileImg"
-                  />
-                </button>
-                <button
-                  className="login-button mobile-hidden"
-                  onClick={() => navigate("/signup")}
-                >
-                  회원가입
-                </button>
-              </>
-            )}
-            {open && (
-              <ProfileModal
-                logout={logoutFunc}
-                modalOpen={setOpen}
-                info={JSON.stringify(userdata)}
-              />
-            )}
+            </form>
+            <div className="login-area">
+              {userdata ? (
+                <div className="login-me">
+                  <button
+                    className="login-button"
+                    onClick={() => setOpen(!open)}
+                  >
+                    <span className="login-text">{userdata.nickname}</span>
+                    <BsPersonFill
+                      className="member-img img-null"
+                      alt="profileImg"
+                    />
+                  </button>
+                  <Notification />
+                </div>
+              ) : (
+                <>
+                  <button
+                    className="login-button"
+                    onClick={() => navigate("/login")}
+                  >
+                    <span className="login-text">로그인</span>
+                    <BsPersonFill
+                      className="member-img img-null"
+                      alt="profileImg"
+                    />
+                  </button>
+                  <button
+                    className="login-button mobile-hidden"
+                    onClick={() => navigate("/signup")}
+                  >
+                    회원가입
+                  </button>
+                </>
+              )}
+              {open && (
+                <ProfileModal
+                  logout={logoutFunc}
+                  modalOpen={setOpen}
+                  info={JSON.stringify(userdata)}
+                />
+              )}
+            </div>
           </div>
         </div>
       </header>

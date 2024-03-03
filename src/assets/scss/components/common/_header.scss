@@ -33,6 +33,12 @@
     }
   }
 
+  .header-top-fix {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
   .login-area {
     margin-left: 10px;
     position: relative;
@@ -42,7 +48,7 @@
       align-items: center;
     }
     .login-button {
-      padding: 5px 10px;
+      padding: 4px 6px;
       font-weight: 700;
     }
     .login-button:hover {
@@ -53,14 +59,13 @@
       font-size: 1.5em;
     }
     .alarm-area {
-      position: relative;
       .bell {
         cursor: pointer;
       }
       span {
         position: absolute;
         top: -2px;
-        left: 11px;
+        right: 0;
         border-radius: 16px;
         border: 1px solid red;
         font-size: 7px;
@@ -130,7 +135,7 @@
     align-items: center;
     justify-content: space-between;
     margin-left: auto;
-    padding: 0 10px;
+    padding: 0 6px;
     border: 2px solid $main-color;
     border-radius: 16px;
     .filter-category {
@@ -142,6 +147,7 @@
 
     .search-keyword-box {
       flex-grow: 1;
+      flex-shrink: 1;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -149,10 +155,11 @@
         height: 36px;
         flex-grow: 1;
         text-indent: 8px;
+        background-color: transparent;
       }
       .submit {
         height: 36px;
-        width: 36px;
+        width: 32px;
         font-size: 22px;
         color: $main-color-dark;
         padding-bottom: 4px;
@@ -163,16 +170,15 @@
 
 @media (max-width: 650px) {
   .header {
+    .header-top-fix {
+      width: calc(100vw - 64px);
+    }
     .login-area {
       margin: 0;
       .login-text {
         display: none;
       }
-    }
-    .search-area {
-      width: calc(100vw - 124px);
-    }
-    
+    }    
   }
 }
 

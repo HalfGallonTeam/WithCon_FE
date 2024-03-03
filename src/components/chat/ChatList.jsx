@@ -134,7 +134,7 @@ const ChatList = () => {
           <div className="chat-btn-container">
             <div className="create-chat">
               <button className="create-chat-btn" onClick={openModal}>
-                채팅방 만들기
+                만들기
               </button>
             </div>
             {isModalOpen && (

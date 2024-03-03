@@ -13,7 +13,7 @@ const AdCarousel = () => {
       position: "left 50% bottom 0",
     },
     {
-      link: "2",
+      link: "10",
       imgSrc:
         "https://www.kopis.or.kr/upload/pfmPoster/PF_PF234853_240202_100411.gif",
       textColor: "white",

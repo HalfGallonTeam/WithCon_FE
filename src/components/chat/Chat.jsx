@@ -53,7 +53,12 @@ const Chat = () => {
 
   const client = useRef(null);
   const subscribe = () => {
-    console.log(firstEnterRef.current, "firstEnterRef");
+    while (!firstEnterRef.current) {
+      console.log(
+        "최초 입장인지 확인중입니다. firstEnterRef.current = ",
+        firstEnterRef.current
+      );
+    }
     if (firstEnterRef.current == "NEW") {
       client.current?.publish({
         destination: `/app/chat/enter/${chatRoomId}`,

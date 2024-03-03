@@ -36,15 +36,15 @@ const ConDetail = () => {
       <div className="con-title-container">
         <div className="con-title">
           <h1 className="title">{info.name}</h1>
-          <div className="mini-data">
-            <span className="date">{`${info.startDate}-${info.endDate}`}</span>
-            <span className="location">{info.facility}</span>
+          <div className="con-category">
+            <div className="mini-data">
+              <span className="date">{`${info.startDate}-${info.endDate}`}</span>
+              <span className="location">{info.facility}</span>
+            </div>
+            <button onClick={categoryClick}>
+              {category === "detail" ? "채팅방 목록" : "공연 상세정보"}
+            </button>
           </div>
-        </div>
-        <div className="con-category">
-          <button onClick={categoryClick}>
-            {category === "detail" ? "채팅방 목록" : "공연 상세정보"}
-          </button>
         </div>
       </div>
       <div className="con-info">

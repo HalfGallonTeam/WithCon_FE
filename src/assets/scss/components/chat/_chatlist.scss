@@ -4,17 +4,11 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 40px;
+  margin-top: 10px;
   position: relative;
-  padding: 0 100px;
+  max-width: 600px;
   align-items: center;
   max-width: 800px;
-  @media (max-width: 768px) {
-    padding: 0 50px;
-  }
-  @media (max-width: 500px) {
-    padding: 0;
-  }
   .chat-list-header {
     width: 100%;
     display: flex;
