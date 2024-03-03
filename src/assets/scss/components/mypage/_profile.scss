@@ -57,7 +57,7 @@
         padding: 8px;
       }
       .edit-btn {
-        flex-grow: 0.2;
+        flex-shrink: 0;
       }
 
       .edit-password-btn {
@@ -141,6 +141,9 @@
       margin-top: 10px;
       font-size: 10px;
       color: red;
+    }
+    .confirm-buttons {
+      text-align: center;
     }
   }
 }

@@ -2023,7 +2023,7 @@ input {
   padding: 8px;
 }
 .profile-edit-form .edit-user-info .info-edit-container .edit-btn {
-  flex-grow: 0.2;
+  flex-shrink: 0;
 }
 .profile-edit-form .edit-user-info .info-edit-container .edit-password-btn {
   color: #03875F;
@@ -2129,6 +2129,9 @@ input {
   margin-top: 10px;
   font-size: 10px;
   color: red;
+}
+.profile-edit-form .current-password-check .confirm-buttons {
+  text-align: center;
 }
 
 @media (max-width: 800px) {

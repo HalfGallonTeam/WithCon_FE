@@ -32,7 +32,7 @@ const PassWordCheck = ({ setEdit, setPassWordCheck }) => {
       <label className="current-password-label">
         현재 비밀번호를 입력해주세요.
       </label>
-      <div>
+      <div className="password-check-box">
         <input
           name="password"
           type="password"
@@ -42,12 +42,14 @@ const PassWordCheck = ({ setEdit, setPassWordCheck }) => {
           value={password}
           onChange={onChangeCurrentPassword}
         />
-        <button className="edit-btn" onClick={handleCheckCurrentPassWord}>
-          확인
-        </button>
-        <button className="edit-btn" onClick={() => setPassWordCheck(false)}>
-          취소
-        </button>
+        <div className="confirm-buttons">
+          <button className="edit-btn" onClick={handleCheckCurrentPassWord}>
+            확인
+          </button>
+          <button className="edit-btn" onClick={() => setPassWordCheck(false)}>
+            취소
+          </button>
+        </div>
       </div>
       {loading ? <Loading /> : null}
       {msg ? <span className="current-password-msg">{msg}</span> : null}
