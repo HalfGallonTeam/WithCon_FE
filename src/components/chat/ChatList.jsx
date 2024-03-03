@@ -106,7 +106,7 @@ const ChatList = () => {
   return (
     <section className="chat-list-container">
       <header className="chat-list-header">
-        <h3>채팅방 목록</h3>
+        <h3 className="chat-list-title">채팅방 목록</h3>
         <div className="header-right">
           <div className="hashtag-search">
             <div className="hashtag-search-inner">

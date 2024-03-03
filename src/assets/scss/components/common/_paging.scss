@@ -11,8 +11,10 @@
 		transition: none;
 	}
 	button.active {
-		color: $main-color;
+		color: $point-color;
 		font-weight: 700;
+		border: 1px solid $point-color;
+		border-radius: 4px;
 	}
 	
 	.prev {float: left;}

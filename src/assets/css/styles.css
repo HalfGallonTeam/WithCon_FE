@@ -210,7 +210,7 @@ input {
   font-weight: 700;
 }
 .header .login-area .login-button:hover {
-  background-color: #36DA93;
+  background-color: #03875F;
   color: white;
 }
 .header .login-area .member-img {
@@ -287,13 +287,13 @@ input {
   justify-content: space-between;
   margin-left: auto;
   padding: 0 6px;
-  border: 2px solid #36DA93;
+  border: 2px solid #03875F;
   border-radius: 16px;
 }
 .header .search-area .filter-category {
   width: 70px;
   height: 36px;
-  border-right: 1px solid #36DA93;
+  border-right: 1px solid #03875F;
   text-indent: 8px;
 }
 .header .search-area .search-keyword-box {
@@ -394,6 +394,8 @@ input {
 .paging-box button.active {
   color: #36DA93;
   font-weight: 700;
+  border: 1px solid #36DA93;
+  border-radius: 4px;
 }
 .paging-box .prev {
   float: left;
@@ -487,7 +489,7 @@ input {
 }
 
 .spinner {
-  border: 20px solid #36DA93;
+  border: 20px solid #03875F;
   border-top: 20px solid #d09aff;
   border-left: 20px solid #47e1a8;
   border-right: 20px solid pink;
@@ -664,8 +666,8 @@ input {
   padding: 2px;
   margin-top: 6px;
   font-weight: 700;
-  color: #36DA93;
-  border: 1px solid #36DA93;
+  color: #03875F;
+  border: 1px solid #03875F;
   border-radius: 2px;
 }
 .concert-card .info-bottom-line .reservation-tip.end {
@@ -685,22 +687,22 @@ input {
 
 @media (max-width: 1050px) {
   .concert-card {
-    margin: 0 calc((100vw - 980px) / 8);
+    margin: 10px calc((50vw - 500px) / 4);
   }
 }
-@media (max-width: 980px) {
+@media (max-width: 990px) {
   .concert-card {
-    margin: 0 calc((100vw - 740px) / 6);
+    margin: 10px calc((50vw - 380px) / 3);
   }
 }
-@media (max-width: 740px) {
+@media (max-width: 750px) {
   .concert-card {
-    margin: 10px calc((100vw - 500px) / 4);
+    margin: 10px calc((50vw - 260px) / 2);
   }
 }
-@media (max-width: 500px) {
+@media (max-width: 510px) {
   .concert-card {
-    margin: 10px calc((100vw - 260px) / 2);
+    margin: 10px calc(50vw - 140px);
   }
 }
 .ad-carousel {
@@ -725,7 +727,7 @@ input {
   padding: 10px 20px;
   font-weight: 700;
   border-radius: 4px;
-  background-color: #36DA93;
+  background-color: #03875F;
 }
 .ad-carousel .ad-bullets {
   position: absolute;
@@ -793,7 +795,7 @@ input {
 }
 
 .scroll-x:hover.scroll-x::-webkit-scrollbar-thumb {
-  background-color: #36DA93;
+  background-color: #03875F;
 }
 
 @media (max-device-width: 800px) {
@@ -939,8 +941,8 @@ input {
   padding: 2px;
   margin-top: 6px;
   font-weight: 700;
-  color: #36DA93;
-  border: 1px solid #36DA93;
+  color: #03875F;
+  border: 1px solid #03875F;
   border-radius: 2px;
 }
 .concert-card .info-bottom-line .reservation-tip.end {
@@ -960,22 +962,22 @@ input {
 
 @media (max-width: 1050px) {
   .concert-card {
-    margin: 0 calc((100vw - 980px) / 8);
+    margin: 10px calc((50vw - 500px) / 4);
   }
 }
-@media (max-width: 980px) {
+@media (max-width: 990px) {
   .concert-card {
-    margin: 0 calc((100vw - 740px) / 6);
+    margin: 10px calc((50vw - 380px) / 3);
   }
 }
-@media (max-width: 740px) {
+@media (max-width: 750px) {
   .concert-card {
-    margin: 10px calc((100vw - 500px) / 4);
+    margin: 10px calc((50vw - 260px) / 2);
   }
 }
-@media (max-width: 500px) {
+@media (max-width: 510px) {
   .concert-card {
-    margin: 10px calc((100vw - 260px) / 2);
+    margin: 10px calc(50vw - 140px);
   }
 }
 .detail-container {
@@ -1188,6 +1190,7 @@ input {
 
 .chat-list-container {
   position: relative;
+  width: 100%;
   max-width: 800px;
   margin: 10px auto;
 }
@@ -1197,18 +1200,13 @@ input {
   align-items: center;
   justify-content: space-between;
 }
-.chat-list-container .chat-list-header h1 {
-  font-size: 24px;
-  text-align: center;
-}
 @media (max-width: 768px) {
   .chat-list-container .chat-list-header {
     flex-direction: column;
   }
-  .chat-list-container .chat-list-header h1 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
+}
+.chat-list-container .chat-list-header .chat-list-title {
+  margin: 10px;
 }
 .chat-list-container .chat-list-header .header-right {
   display: flex;
@@ -1223,7 +1221,7 @@ input {
   display: flex;
 }
 .chat-list-container .chat-list-header .header-right .hashtag-search .hashtag-search-inner button {
-  color: #36DA93;
+  color: #03875F;
   font-size: small;
   font-weight: bold;
   padding: 0.5rem;
@@ -1243,7 +1241,7 @@ input {
   color: white;
 }
 .chat-list-container .chat-list-header .header-right .hashtag-search .hashtag-search-inner button:active {
-  background-color: #03875F;
+  background-color: #36DA93;
   position: relative;
   top: 2px;
 }
@@ -1298,15 +1296,15 @@ input {
   color: white;
 }
 .chat-list-container .chat-list-header .header-right .chat-btn-container .create-chat .create-chat-btn:active {
-  background-color: #03875F;
+  background-color: #36DA93;
   position: relative;
   top: 2px;
 }
 
 .list-container {
-  width: 100%;
+  max-width: 700px;
   padding: 0 10px;
-  margin: 10px 0;
+  margin: 10px auto;
 }
 .list-container .chat-room {
   cursor: pointer;
@@ -1320,7 +1318,7 @@ input {
   color: white;
 }
 .list-container .chat-room:active {
-  background-color: #03875F;
+  background-color: #36DA93;
   position: relative;
   top: 2px;
 }
@@ -1412,7 +1410,7 @@ input {
   font-size: 32px;
 }
 .create-room-container .create-room .input-container {
-  border: 1px solid #36DA93;
+  border: 1px solid #03875F;
   border-radius: 4px;
   padding: 10px;
   margin-top: 30px;
@@ -1457,20 +1455,20 @@ input {
   margin-top: 30px;
 }
 .create-room-container .create-room .submit-btn-container button {
-  color: #36DA93;
+  color: #03875F;
   font-size: small;
   font-weight: bold;
   padding: 0.5rem;
   border: 1px solid #36DA93;
   margin: 0 10px;
-  border: 1px solid #36DA93;
+  border: 1px solid #03875F;
 }
 .create-room-container .create-room .submit-btn-container button:hover {
   background-color: #36DA93;
   color: white;
 }
 .create-room-container .create-room .submit-btn-container button:active {
-  background-color: #03875F;
+  background-color: #36DA93;
   position: relative;
   top: 2px;
 }
@@ -1482,7 +1480,7 @@ input {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #36DA93;
+  background-color: #03875F;
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -1521,7 +1519,7 @@ input {
   padding: 10px;
 }
 .chat-container .chat-header .toggle {
-  color: #36DA93;
+  color: #03875F;
   font-size: small;
   font-weight: bold;
   padding: 0.5rem;
@@ -1534,7 +1532,7 @@ input {
   color: white;
 }
 .chat-container .chat-header .toggle:active {
-  background-color: #03875F;
+  background-color: #36DA93;
   position: relative;
   top: 2px;
 }
@@ -1564,7 +1562,7 @@ input {
   color: white;
 }
 .chat-container .chat-header .toggle-lists .toggle-close button:active {
-  background-color: #03875F;
+  background-color: #36DA93;
   position: relative;
   top: 2px;
 }
@@ -1585,14 +1583,14 @@ input {
 }
 .chat-container .chat-header .toggle-lists .member-lists .member-info .img-null {
   border: 1px solid #603535;
-  color: #36DA93;
+  color: #03875F;
   padding: 2px;
 }
 .chat-container .chat-header .toggle-lists .member-lists .member-info .member-name {
   flex-grow: 1;
 }
 .chat-container .chat-header .toggle-lists .member-lists .member-info .force-out {
-  border: 1px solid #36DA93;
+  border: 1px solid #03875F;
   border-radius: 4px;
   padding: 4px;
   font-size: 0.8em;
@@ -1604,7 +1602,7 @@ input {
   margin-bottom: 20px;
 }
 .chat-container .chat-header .toggle-lists .chat-exit button {
-  color: #36DA93;
+  color: #03875F;
   font-size: small;
   font-weight: bold;
   padding: 0.5rem;
@@ -1617,7 +1615,7 @@ input {
   color: white;
 }
 .chat-container .chat-header .toggle-lists .chat-exit button:active {
-  background-color: #03875F;
+  background-color: #36DA93;
   position: relative;
   top: 2px;
 }
@@ -1641,7 +1639,7 @@ input {
 }
 .chat-container .chat-wrap .text-area::-webkit-scrollbar-thumb {
   height: 30%;
-  background: #36DA93;
+  background: #03875F;
   border-radius: 10px;
 }
 .chat-container .chat-wrap .text-area::-webkit-scrollbar-track {
@@ -1672,7 +1670,7 @@ input {
 }
 .chat-container .chat-wrap .text-area .text {
   word-break: break-all;
-  border: 1px solid #36DA93;
+  border: 1px solid #03875F;
   border-radius: 10px;
   padding: 4px 8px;
   background-color: white;
@@ -1693,7 +1691,7 @@ input {
 }
 .chat-container .chat-wrap .text-area .member-me .text {
   order: 1;
-  background-color: #36DA93;
+  background-color: #03875F;
   color: white;
 }
 .chat-container .chat-wrap .text-area .system-message .profile-img,
@@ -1720,7 +1718,7 @@ input {
   resize: none;
 }
 .chat-container .chat-wrap .send-area button {
-  color: #36DA93;
+  color: #03875F;
   font-size: small;
   font-weight: bold;
   padding: 0.5rem;
@@ -1730,7 +1728,7 @@ input {
   visibility: hidden;
 }
 .chat-container .chat-wrap .send-area button:hover {
-  background-color: #36DA93;
+  background-color: #03875F;
   color: white;
 }
 .chat-container .chat-wrap .send-area button.active {
@@ -1823,7 +1821,7 @@ input {
 .login-box .find-password-modal {
   width: 320px;
   padding: 20px;
-  border: 2px solid #36DA93;
+  border: 2px solid #03875F;
   border-radius: 10px;
   font-size: 1rem;
   text-align: center;
@@ -1833,7 +1831,7 @@ input {
   padding: 8px;
   color: white;
   font-weight: 700;
-  background-color: #36DA93;
+  background-color: #03875F;
   border-radius: 4px;
 }
 .login-box .have-to-check {
@@ -1847,9 +1845,9 @@ input {
   transition: none;
   font-size: 0.8em;
   font-weight: 700;
-  color: #36DA93;
+  color: #03875F;
   padding: 6px;
-  border: 1px solid #36DA93;
+  border: 1px solid #03875F;
   border-radius: 4px;
   background-color: white;
 }
@@ -1861,7 +1859,7 @@ input {
   flex-grow: 1;
 }
 .input-container button {
-  color: #36DA93;
+  color: #03875F;
   font-size: small;
   font-weight: bold;
   padding: 0.5rem;
@@ -1880,7 +1878,7 @@ input {
   color: white;
 }
 .input-container button:active {
-  background-color: #03875F;
+  background-color: #36DA93;
   position: relative;
   top: 2px;
 }
@@ -1997,8 +1995,8 @@ input {
 }
 .profile-edit-form .edit-img-container .border-img {
   padding: 5px;
-  border: 2px solid #36DA93;
-  color: #36DA93;
+  border: 2px solid #03875F;
+  color: #03875F;
 }
 .profile-edit-form .edit-user-info {
   width: 100%;
@@ -2023,7 +2021,7 @@ input {
   flex-grow: 0.2;
 }
 .profile-edit-form .edit-user-info .info-edit-container .edit-password-btn {
-  color: #36DA93;
+  color: #03875F;
   font-size: small;
   font-weight: bold;
   padding: 0.5rem;
@@ -2040,7 +2038,7 @@ input {
   color: white;
 }
 .profile-edit-form .edit-user-info .info-edit-container .edit-password-btn:active {
-  background-color: #03875F;
+  background-color: #36DA93;
   position: relative;
   top: 2px;
 }
@@ -2073,13 +2071,13 @@ input {
   color: #e52b50;
 }
 .profile-edit-form .edit-user-info .msgs-ok {
-  color: #36DA93;
+  color: #03875F;
 }
 .profile-edit-form .img-input {
   display: none;
 }
 .profile-edit-form .edit-btn {
-  color: #36DA93;
+  color: #03875F;
   font-size: small;
   font-weight: bold;
   padding: 0.5rem;
@@ -2094,7 +2092,7 @@ input {
   color: white;
 }
 .profile-edit-form .edit-btn:active {
-  background-color: #03875F;
+  background-color: #36DA93;
   position: relative;
   top: 2px;
 }
@@ -2232,7 +2230,7 @@ input {
   font-size: 12px;
 }
 .profile-modal-container .profile-modal-btn:hover {
-  background-color: #36DA93;
+  background-color: #03875F;
   color: white;
 }
 .profile-modal-container .profile-modal-btn:active {
