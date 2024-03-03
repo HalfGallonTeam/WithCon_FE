@@ -11,7 +11,7 @@ const ChatList = () => {
   const [tagInfo, setTagInfo] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(65);
+  const [totalCount, setTotalCount] = useState(1);
   const [searchHashtag, setSearchHashtag] = useState("");
   const [data, setData] = useState(null);
   const [searchData, setSearchData] = useState(null);

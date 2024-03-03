@@ -7,7 +7,7 @@ import setLists from "../../assets/tools/setLists";
 const MyChat = () => {
   const [datas, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(65); //나중에 data.length로 바꿔서 정리하기.
+  const [totalCount, setTotalCount] = useState(1); //나중에 data.length로 바꿔서 정리하기.
   const url = useLocation();
   const urlSearch = new URLSearchParams(url.search);
   let pages = urlSearch.get("page") || 1;
