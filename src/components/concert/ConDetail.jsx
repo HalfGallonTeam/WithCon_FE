@@ -3,7 +3,12 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import instance from "../../assets/constants/instance";
 
 const ConDetail = () => {
-  const [info, setInfos] = useState({});
+  const [info, setInfos] = useState({
+    name: "공연이름",
+    startDate: "0000-00-00",
+    endDate: "0000-00-00",
+    facility: "00000",
+  });
   const navigate = useNavigate();
   const { concertTitle } = useParams();
   const [category, setCategory] = useState("detail");
