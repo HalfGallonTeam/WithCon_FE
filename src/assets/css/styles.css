@@ -608,6 +608,7 @@ input {
 
 .concert-card {
   width: 240px;
+  height: 456px;
   margin: 10px 8px;
   padding: 20px 12px;
   border-radius: 8px;
@@ -713,19 +714,20 @@ input {
   transition: transform 1s;
 }
 .ad-carousel .ad-list .slide {
-  height: 400px;
+  position: relative;
+  height: 140vw;
   display: inline-block;
-  padding-right: 20vw;
-  padding-top: 300px;
   background-size: cover;
-  background-position: center;
   text-align: right;
 }
 .ad-carousel .ad-list .ad-link-button {
-  padding: 5px 10px;
+  position: absolute;
+  bottom: 20vw;
+  right: 20vw;
+  padding: 10px 20px;
   font-weight: 700;
   border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #36DA93;
 }
 .ad-carousel .ad-bullets {
   position: absolute;
@@ -763,6 +765,12 @@ input {
   right: 0;
 }
 
+@media (min-width: 800px) {
+  .ad-carousel .ad-list .slide {
+    height: 800px;
+    background-position: center;
+  }
+}
 .scroll-x {
   overflow-x: scroll;
   overflow-y: hidden;
@@ -801,6 +809,9 @@ input {
 }
 .main-carousel-container .responsible-carousel {
   margin-bottom: 4px;
+}
+.main-carousel-container .responsible-carousel .container {
+  height: 476px;
 }
 .main-carousel-container .responsible-carousel .concert-list {
   display: flex;
@@ -872,6 +883,7 @@ input {
 
 .concert-card {
   width: 240px;
+  height: 456px;
   margin: 10px 8px;
   padding: 20px 12px;
   border-radius: 8px;

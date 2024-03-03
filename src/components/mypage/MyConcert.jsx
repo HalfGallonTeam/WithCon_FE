@@ -7,7 +7,7 @@ import PAGE from "../../assets/constants/page";
 import setLists from "../../assets/tools/setLists";
 
 const MyConcert = () => {
-  const [infos, setInfos] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [infos, setInfos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(1);
   const url = useLocation();

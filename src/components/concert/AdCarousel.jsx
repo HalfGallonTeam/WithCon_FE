@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ad1 from "../../assets/images/ad1.png";
-import ad2 from "../../assets/images/ad2.png";
-import ad3 from "../../assets/images/ad3.png";
 
 const AdCarousel = () => {
   const [activeNum, setActiveNum] = useState(0);
@@ -10,18 +7,24 @@ const AdCarousel = () => {
   const adList = [
     {
       link: "1",
-      imgSrc: ad1,
-      textColor: "#E6E6E6",
+      imgSrc:
+        "https://www.kopis.or.kr/upload/pfmPoster/PF_PF233882_240115_105255.gif",
+      textColor: "white",
+      position: "left 50% bottom 0",
     },
     {
       link: "2",
-      imgSrc: ad2,
-      textColor: "#603535",
+      imgSrc:
+        "https://www.kopis.or.kr/upload/pfmPoster/PF_PF234853_240202_100411.gif",
+      textColor: "white",
+      position: "50% 25%",
     },
     {
       link: "3",
-      imgSrc: ad3,
-      textColor: "#E6E6E6",
+      imgSrc:
+        "https://www.kopis.or.kr/upload/pfmPoster/PF_PF234570_240129_095812.png",
+      textColor: "white",
+      position: "50% 15%",
     },
   ];
   const maxLength = adList.length;
@@ -39,6 +42,7 @@ const AdCarousel = () => {
           width: `${movePercent}%`,
           backgroundImage: `url(${ad.imgSrc})`,
           color: ad.textColor,
+          "background-position": ad.position,
         }}
       >
         <Link to={`/title/${ad.link}`}>

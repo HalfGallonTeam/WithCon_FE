@@ -8,9 +8,9 @@ const MainPage = () => {
   const [favorites, setFavorites] = useState(
     JSON.parse(localStorage.getItem("favorites"))
   );
-  const [concert, setConcert] = useState([0, 0, 0, 0, 0]);
-  const [musical, setMusical] = useState([0, 0, 0, 0, 0]);
-  const [play, setPlay] = useState([0, 0, 0, 0, 0]);
+  const [concert, setConcert] = useState([]);
+  const [musical, setMusical] = useState([]);
+  const [play, setPlay] = useState([]);
   let loading = false;
 
   useEffect(() => {
