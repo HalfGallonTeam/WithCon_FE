@@ -12,35 +12,42 @@ const SignUpInput = ({
   minLength,
 }) => {
   return (
-    <div className="signup-box">
-      <div className="label-box">
-        <label htmlFor={name} className="required">
-          {label}
-        </label>
-        <span
-          className={msg === `사용가능한 ${label} 입니다.` ? "available" : ""}
+    <>
+      <tr>
+        <td>
+          <label htmlFor={name}>{label}</label>
+        </td>
+        <td>
+          <div className="input-container">
+            <input
+              type={type}
+              id={name}
+              name={name}
+              autoComplete={name}
+              value={value}
+              onChange={onChange}
+              maxLength={maxLength}
+              minLength={minLength}
+            />
+            {onClick && (
+              <button type="button" onClick={onClick}>
+                중복확인
+              </button>
+            )}
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td
+          colSpan={2}
+          className={
+            msg === `사용가능한 ${label} 입니다.` ? "msg available" : "msg"
+          }
         >
-          {msg}
-        </span>
-      </div>
-      <div className="input-container">
-        <input
-          type={type}
-          id={name}
-          name={name}
-          autoComplete={name}
-          value={value}
-          onChange={onChange}
-          maxLength={maxLength}
-          minLength={minLength}
-        />
-        {onClick && (
-          <button type="button" onClick={onClick}>
-            중복확인
-          </button>
-        )}
-      </div>
-    </div>
+          *{msg}
+        </td>
+      </tr>
+    </>
   );
 };
 

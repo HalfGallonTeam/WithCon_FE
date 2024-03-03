@@ -229,71 +229,73 @@ const Signup = () => {
             method="POST"
             // onSubmit={onSubmit}
           >
-            <div className="signup-container">
-              <SignUpInput
-                label="아이디"
-                name="username"
-                msg={msgs.userIdMsg}
-                value={data.userId}
-                onChange={(e) =>
-                  onInputChange(e, setData, setMsgs, setUsables, "userId")
-                }
-                type="text"
-                maxLength={12}
-                onClick={checkDuplicationId}
-              />
+            <table>
+              <tbody>
+                <SignUpInput
+                  label="아이디"
+                  name="username"
+                  msg={msgs.userIdMsg}
+                  value={data.userId}
+                  onChange={(e) =>
+                    onInputChange(e, setData, setMsgs, setUsables, "userId")
+                  }
+                  type="text"
+                  maxLength={12}
+                  onClick={checkDuplicationId}
+                />
 
-              <SignUpInput
-                label="비밀번호"
-                name="password"
-                msg={msgs.pwMsg}
-                value={data.pw}
-                onChange={(e) =>
-                  onInputChange(e, setData, setMsgs, setUsables, "pw")
-                }
-                type="password"
-                maxLength={12}
-                minLength={8}
-              />
+                <SignUpInput
+                  label="비밀번호"
+                  name="password"
+                  msg={msgs.pwMsg}
+                  value={data.pw}
+                  onChange={(e) =>
+                    onInputChange(e, setData, setMsgs, setUsables, "pw")
+                  }
+                  type="password"
+                  maxLength={12}
+                  minLength={8}
+                />
 
-              <SignUpInput
-                label="비밀번호 확인"
-                name="password2"
-                msg={msgs.pw2Msg}
-                value={data.pw2}
-                onChange={checkPw}
-                type="password"
-              />
+                <SignUpInput
+                  label="비밀번호확인"
+                  name="password2"
+                  msg={msgs.pw2Msg}
+                  value={data.pw2}
+                  onChange={checkPw}
+                  type="password"
+                />
 
-              <SignUpInput
-                label="핸드폰 번호"
-                name="phone"
-                msg={msgs.phoneMsg}
-                value={data.phone}
-                onChange={(e) =>
-                  onInputChange(e, setData, setMsgs, setUsables, "phone")
-                }
-                onClick={checkDuplicationPhone}
-                type="tel"
-                maxLength={13}
-              />
+                <SignUpInput
+                  label="핸드폰번호"
+                  name="phone"
+                  msg={msgs.phoneMsg}
+                  value={data.phone}
+                  onChange={(e) =>
+                    onInputChange(e, setData, setMsgs, setUsables, "phone")
+                  }
+                  onClick={checkDuplicationPhone}
+                  type="tel"
+                  maxLength={13}
+                />
 
-              <SignUpInput
-                label="닉네임"
-                name="nickname"
-                msg={msgs.nicknameMsg}
-                value={data.nickname}
-                onChange={(e) =>
-                  onInputChange(e, setData, setMsgs, setUsables, "nickname")
-                }
-                type="text"
-                minLength={2}
-                maxLength={10}
-              />
-              <button type="button" className="login-button" onClick={onSubmit}>
-                회원가입하기
-              </button>
-            </div>
+                <SignUpInput
+                  label="닉네임"
+                  name="nickname"
+                  msg={msgs.nicknameMsg}
+                  value={data.nickname}
+                  onChange={(e) =>
+                    onInputChange(e, setData, setMsgs, setUsables, "nickname")
+                  }
+                  type="text"
+                  minLength={2}
+                  maxLength={10}
+                />
+              </tbody>
+            </table>
+            <button type="button" className="login-button" onClick={onSubmit}>
+              회원가입하기
+            </button>
           </form>
           {showModal === true ? (
             <div className="signup-modal">{modalMsg}</div>

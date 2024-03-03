@@ -37,19 +37,17 @@
       border: 1px solid $background-color;
       border-right: 0;
       border-radius: 4px 0 0 4px;
+      word-break: keep-all;
     }
     tr td:last-child {
+      flex-grow: 1;
       border: 1px solid $background-color;
       border-left: 0;
       border-radius: 0 4px 4px 0;
     }
-    td.required::after {
-      content: "*";
-      color: red;
-    }
     td {
       input {
-        width: 95%;
+        width: 90%;
         padding: 6px;
         text-indent: 8px;
         line-height: 2em;
@@ -112,60 +110,40 @@
     }
   }
 }
-.signup-container {
+
+.input-container {
   display: flex;
-  flex-direction: column;
-  min-width: 300px;
-  padding: 0 20px;
-
-  .signup-box {
+  input {
+    flex-grow: 1;
+  }
+  button {
+    @include btn-square;
+    word-break: keep-all;
     display: flex;
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 4px 1px;
+    margin: 2px;
+    border: 1px solid $background-color;
+  }
+}
 
-    padding-top: 10px;
-
-    .required {
-      &::after {
-        content: "*";
-        color: red;
-      }
-    }
-    .input-container {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      height: 31px;
-      padding: 0 5px;
-      border-bottom: 1px solid $background-color;
-      input {
-        outline: none;
-        font-size: 14px;
-      }
-      button {
-        @include btn-square;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 4px;
-        padding: 4px 1px;
-        margin: 2px;
-        border: 1px solid $background-color;
-      }
-    }
-    span {
+.login-box {
+  .msg {
       vertical-align: middle;
       margin-left: 5px;
       font-size: 10px;
       font-weight: 500;
       color: red;
+      border: none !important;
     }
-    .available {
+  .msg.available {
       color: blue;
-    }
   }
 }
-.social-login-box {
+
+  .social-login-box {
   display: flex;
   justify-content: center;
   align-items: center;
