@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import ConcertCard from "./ConcertCard";
 import Navigation from "../common/Navigation";
 import Paging from "../common/Paging";
 import PAGE from "../../assets/constants/page";
 import setLists from "../../assets/tools/setLists";
+import Loading from "../common/Loading";
+
+const ConcertCard = lazy(() => import("./ConcertCard"));
 
 const ConLists = () => {
   const [infos, setInfos] = useState([]);
@@ -49,22 +51,27 @@ const ConLists = () => {
             <Navigation search={true} />
           </>
         )}
-
-        <section className="concert-list">
-          {Array.isArray(infos) ? (
-            infos.map((info, index) => (
-              <ConcertCard
-                info={info}
-                key={index}
-                like={favorites && favorites.includes(info.id + "")}
-                setLike={setFavorites}
-              />
-            ))
-          ) : (
-            <p className="room-msg-container">해당하는 공연이 없습니다</p>
-          )}
-        </section>
-        <Paging totalCount={totalCount} currentPage={currentPage} limit={10} />
+        <Suspense fallback={<Loading />}>
+          <section className="concert-list">
+            {Array.isArray(infos) ? (
+              infos.map((info, index) => (
+                <ConcertCard
+                  info={info}
+                  key={index}
+                  like={favorites && favorites.includes(info.id + "")}
+                  setLike={setFavorites}
+                />
+              ))
+            ) : (
+              <p className="room-msg-container">해당하는 공연이 없습니다</p>
+            )}
+          </section>
+          <Paging
+            totalCount={totalCount}
+            currentPage={currentPage}
+            limit={10}
+          />
+        </Suspense>
       </div>
     </>
   );

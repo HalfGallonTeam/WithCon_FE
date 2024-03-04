@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useLocation } from "react-router-dom";
-import ConcertCard from "../concert/ConcertCard";
 import Paging from "../common/Paging";
 import PAGE from "../../assets/constants/page";
 import setLists from "../../assets/tools/setLists";
+import Loading from "../common/Loading";
+
+const ConcertCard = lazy(() => import("../concert/ConcertCard"));
 
 const MyConcert = () => {
   const [infos, setInfos] = useState([]);
@@ -29,7 +31,7 @@ const MyConcert = () => {
   }, [url]);
 
   return (
-    <>
+    <Suspense fallback={<Loading />}>
       <section className="concert-list">
         {Array.isArray(infos) ? (
           infos.map((info, index) => (
@@ -40,7 +42,7 @@ const MyConcert = () => {
         )}
       </section>
       <Paging totalCount={totalCount} currentPage={currentPage} limit={10} />
-    </>
+    </Suspense>
   );
 };
 

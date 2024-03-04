@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import instance from "../../assets/constants/instance";
 import AdCarousel from "./AdCarousel";
-import ConcertCard from "./ConcertCard";
+import Loading from "../common/Loading";
 
+const ConcertCard = lazy(() => {
+  import("./ConcertCard");
+});
 const MainPage = () => {
   const [favorites, setFavorites] = useState(
     JSON.parse(localStorage.getItem("favorites"))
@@ -65,42 +68,44 @@ const MainPage = () => {
     <>
       <AdCarousel />
       <div className="container">
-        <section>
-          <h2 className="concert-category">
-            <Link to={"/performance?category=concert"}>콘서트</Link>
-          </h2>
-          <div className="main-carousel-container">
-            <div className="responsible-carousel scroll-x">
-              <div className="container">
-                <div className="concert-list">{concertArr}</div>
+        <Suspense fallback={<Loading />}>
+          <section>
+            <h2 className="concert-category">
+              <Link to={"/performance?category=concert"}>콘서트</Link>
+            </h2>
+            <div className="main-carousel-container">
+              <div className="responsible-carousel scroll-x">
+                <div className="container">
+                  <div className="concert-list">{concertArr}</div>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-        <section>
-          <h2 className="concert-category">
-            <Link to={"/performance?category=musical"}>뮤지컬</Link>
-          </h2>
-          <div className="main-carousel-container">
-            <div className="responsible-carousel scroll-x">
-              <div className="container">
-                <div className="concert-list">{musicalArr}</div>
+          </section>
+          <section>
+            <h2 className="concert-category">
+              <Link to={"/performance?category=musical"}>뮤지컬</Link>
+            </h2>
+            <div className="main-carousel-container">
+              <div className="responsible-carousel scroll-x">
+                <div className="container">
+                  <div className="concert-list">{musicalArr}</div>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-        <section>
-          <h2 className="concert-category">
-            <Link to={"performance?category=theater"}>연극</Link>
-          </h2>
-          <div className="main-carousel-container">
-            <div className="responsible-carousel scroll-x">
-              <div className="container">
-                <div className="concert-list">{playArr}</div>
+          </section>
+          <section>
+            <h2 className="concert-category">
+              <Link to={"performance?category=theater"}>연극</Link>
+            </h2>
+            <div className="main-carousel-container">
+              <div className="responsible-carousel scroll-x">
+                <div className="container">
+                  <div className="concert-list">{playArr}</div>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </Suspense>
       </div>
     </>
   );
