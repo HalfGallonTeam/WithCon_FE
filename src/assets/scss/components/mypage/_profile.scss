@@ -57,7 +57,7 @@
         padding: 8px;
       }
       .edit-btn {
-        flex-grow: 0.2;
+        flex-shrink: 0;
       }
 
       .edit-password-btn {
@@ -131,7 +131,7 @@
     align-items: center;
     .current-password-label {
       margin: 10px 0;
-      color: $main-color-dark;
+      color: $main-color;
     }
     .current-password {
       border-bottom: 2px solid $background-color;
@@ -141,6 +141,9 @@
       margin-top: 10px;
       font-size: 10px;
       color: red;
+    }
+    .confirm-buttons {
+      text-align: center;
     }
   }
 }

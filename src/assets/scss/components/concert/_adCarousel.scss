@@ -7,19 +7,21 @@
 	.ad-list {
 		transition: transform 1s;
 		.slide {
-			height: 400px;
+			position: relative;
+			height: 140vw;
 			display: inline-block;
-			padding-right: 20vw;
-			padding-top: 300px;
 			background-size: cover;
-			background-position: center;
 			text-align: right;
 		}
 		.ad-link-button {
-			padding: 5px 10px;
+			position: absolute;
+			bottom: 20vw;
+			right: 20vw;
+			padding: 10px 20px;
 			font-weight: 700;
 			border-radius: 4px;
-			background-color: rgba(0,0,0,0.2);
+			background-color: $main-color;
+			border: 1px solid $point-color;
 		}
 	}
 	
@@ -58,5 +60,12 @@
 	}
 	.ad-button-right {
 		right: 0;
+	}
+}
+
+@media(min-width: 800px) {
+	.ad-carousel .ad-list .slide {
+		height: 800px;
+		background-position: center;
 	}
 }

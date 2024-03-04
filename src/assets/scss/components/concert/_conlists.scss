@@ -6,7 +6,7 @@
   margin: 20px 10px 10px 10px;
   .search-keyword {
     display: inline-block;
-    color: $main-color-dark;
+    color: $main-color;
     font-weight: 700;
     font-size: 2rem;
   }
@@ -38,7 +38,7 @@
     bottom: 0;
     width: 40%;
     height: 4px;
-    background-color: $main-color;
+    background-color: $point-color;
     border-radius: 2px;
   }
   :not(.active).category-button:hover::after {
@@ -52,6 +52,7 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  min-height: 60vh;
 }
 
 .concert-category {
@@ -63,7 +64,8 @@
 
 .concert-card {
   width: 240px;
-  margin: 10px 0;
+  height: 456px;
+  margin: 10px 8px;
   padding: 20px 12px;
   border-radius: 8px;
   .poster-box {
@@ -130,23 +132,23 @@
   }
 }
 
-@media (max-width: 1016px) {
+@media (max-width: 1050px) {
   .concert-card {
-    margin: 0 calc((50vw - 416px) / 4);
+    margin: 10px calc((50vw - 500px) / 4);
   }
 }
-@media (max-width: 800px) {
+@media (max-width: 990px) {
   .concert-card {
-    margin: 0 calc((50vw - 312px) / 3);
+    margin: 10px calc((50vw - 380px) / 3);
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 750px) {
   .concert-card {
-    margin: 0 calc((50vw - 210px) / 2);
+    margin: 10px calc((50vw - 260px) / 2);
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 510px) {
   .concert-card {
-    margin: 0 calc(50vw - 104px);
+    margin: 10px calc(50vw - 140px);
   }
 }

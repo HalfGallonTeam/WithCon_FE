@@ -1,38 +1,22 @@
 @import "../../base/mixin";
 
 .chat-list-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-top: 40px;
   position: relative;
-  padding: 0 100px;
-  align-items: center;
+  width: 100%;
   max-width: 800px;
-  @media (max-width: 768px) {
-    padding: 0 50px;
-  }
-  @media (max-width: 500px) {
-    padding: 0;
-  }
+  margin: 10px auto;
   .chat-list-header {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    h1 {
-      font-size: 24px;
-      text-align: center;
-    }
     @media (max-width: 768px) {
       flex-direction: column;
-
-      h1 {
-        font-size: 20px;
-        margin-bottom: 10px;
-      }
     }
 
+    .chat-list-title {
+      margin: 10px;
+    }
     .header-right {
       display: flex;
       .hashtag-search {
@@ -111,43 +95,30 @@
   }
 }
 .list-container {
-  width: 100%;
+  max-width: 700px;
   padding: 0 10px;
-  margin: 10px 0;
+  margin: 10px auto;
+  min-height: 60vh;
   .chat-room {
     @include click-css;
-    height: 90px;
     cursor: pointer;
-    border: 2px solid $main-color;
+    border: 2px solid $point-color;
     border-radius: 16px;
-    margin: 16px 0 0;
-    padding: 16px 0 0;
-    @media (max-width: 769px) {
-      padding: 2px 10px;
-    }
+    margin: 8px 0;
+    padding: 8px 10px;
     .chat-top {
       width: 100%;
       display: flex;
       justify-content: center;
-      span {
-        font-size: 20px;
-        font-weight: bold;
-        @media (max-width: 768px) {
-          font-size: 18px;
-          padding: 10px;
-        }
-        @media (max-width: 480px) {
-          font-size: 16px;
-          padding: 0;
-        }
-      }
     }
     .chat-bottom {
+      height: 40px;
       padding: 10px;
       margin: 0 16px;
       display: flex;
       justify-content: space-between;
       font-size: 16px;
+      overflow: hidden;
       @media (max-width: 768px) {
         font-size: 14px;
         margin: 0 10px;
@@ -174,8 +145,12 @@
       }
     }
   }
-  .room-msg-container {
-    text-align: center;
-    padding: 205px 50px;
-  }
+}
+
+.room-msg-container {
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 50px;
+  padding: 0 40px;
+  word-break: keep-all;
 }

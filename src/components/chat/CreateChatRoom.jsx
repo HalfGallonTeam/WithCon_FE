@@ -10,7 +10,6 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
   const myId = useRecoilValue(myInfoState).memberId;
   const navigate = useNavigate();
   const [roomName, setRoomName] = useState("");
-  const [roomMsg, setRoomMsg] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [tagLists, setTagLists] = useState([]);
   const [showTagModal, setShowTagModal] = useState(false);
@@ -24,7 +23,6 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
 
   const handleRoomNameChange = (e) => {
     setRoomName(e.target.value);
-    setRoomMsg("");
   };
 
   const tagDown = (e) => {
@@ -50,11 +48,6 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
   const handleCreateRoom = async () => {
     try {
       setLoading(true);
-      if (!roomName) {
-        roomNameInputRef.current.focus();
-        setRoomMsg("채팅방 제목을 적어주세요");
-        return;
-      }
       const data = {
         roomName: roomName,
         performanceId: performanceId,
@@ -88,10 +81,7 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
       {loading ? <Loading /> : null}
       <div className="create-room">
         <div className="input-container">
-          <div className="label-wrap">
-            <label htmlFor="room-name">채팅방 제목</label>
-            {roomMsg ? <span>{roomMsg}</span> : null}
-          </div>
+          <label htmlFor="room-name">제목</label>
           <input
             ref={roomNameInputRef}
             type="text"
@@ -100,6 +90,7 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
             onChange={handleRoomNameChange}
             maxLength="30"
             placeholder="30글자까지 입력 가능합니다."
+            required
           />
         </div>
 
@@ -112,7 +103,7 @@ const CreateChatRoom = ({ onClose, performanceId }) => {
               maxLength="10"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="태그할 글자를 입력해주세요."
+              placeholder="태그 입력 후 엔터를 눌러주세요."
               onKeyDown={tagDown}
             />
           </div>

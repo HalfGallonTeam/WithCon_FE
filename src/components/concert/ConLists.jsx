@@ -7,9 +7,9 @@ import PAGE from "../../assets/constants/page";
 import setLists from "../../assets/tools/setLists";
 
 const ConLists = () => {
-  const [infos, setInfos] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [infos, setInfos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(65);
+  const [totalCount, setTotalCount] = useState(1);
   const url = useLocation();
   const urlSearch = new URLSearchParams(url.search);
   let pages = urlSearch.get("page") || 1;
@@ -50,16 +50,20 @@ const ConLists = () => {
           </>
         )}
 
-        <div className="concert-list">
-          {infos.map((info, index) => (
-            <ConcertCard
-              info={info}
-              key={index}
-              like={favorites && favorites.includes(info.id + "")}
-              setLike={setFavorites}
-            />
-          ))}
-        </div>
+        <section className="concert-list">
+          {Array.isArray(infos) ? (
+            infos.map((info, index) => (
+              <ConcertCard
+                info={info}
+                key={index}
+                like={favorites && favorites.includes(info.id + "")}
+                setLike={setFavorites}
+              />
+            ))
+          ) : (
+            <p className="room-msg-container">해당하는 공연이 없습니다</p>
+          )}
+        </section>
         <Paging totalCount={totalCount} currentPage={currentPage} limit={10} />
       </div>
     </>

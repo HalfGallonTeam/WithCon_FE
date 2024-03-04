@@ -53,8 +53,8 @@ const Chat = () => {
 
   const client = useRef(null);
   const subscribe = () => {
-    console.log(firstEnterRef.current, "firstEnterRef");
-    if (firstEnterRef.current == "NEW") {
+    console.log(firstEnterRef.current, "firstEnterRef.current");
+    if (firstEnterRef.current !== "ALREADY") {
       client.current?.publish({
         destination: `/app/chat/enter/${chatRoomId}`,
         body: JSON.stringify({

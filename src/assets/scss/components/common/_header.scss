@@ -16,9 +16,8 @@
   }
 
   .title {
-    order: 1;
     margin-right: 10px;
-    color: $main-color-dark;
+    color: $main-color;
     font-size: 32px;
     letter-spacing: 0.2em;
     a {
@@ -27,13 +26,20 @@
     }
     .logo {
       height: 32px;
-      margin-right: 8px;
       color: transparent;
+    }
+    .mobile-hidden {
+      margin-left: 8px;
     }
   }
 
+  .header-top-fix {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
   .login-area {
-    order: 6;
     margin-left: 10px;
     position: relative;
     .login-me {
@@ -42,22 +48,24 @@
       align-items: center;
     }
     .login-button {
-      padding: 5px 10px;
+      padding: 4px 6px;
       font-weight: 700;
     }
     .login-button:hover {
       background-color: $main-color;
       color: white;
     }
+    .member-img {
+      font-size: 1.5em;
+    }
     .alarm-area {
-      position: relative;
       .bell {
         cursor: pointer;
       }
       span {
         position: absolute;
         top: -2px;
-        left: 11px;
+        right: 0;
         border-radius: 16px;
         border: 1px solid red;
         font-size: 7px;
@@ -114,8 +122,7 @@
   }
 
   .category-buttons {
-    order: 3;
-    margin: 10px auto 10px 0;
+    margin: 0;
     .category-button {
       width: 70px;
       border: none;
@@ -123,13 +130,12 @@
   }
 
   .search-area {
-    order: 5;
+    flex-grow: 1;
     display: block flex;
     align-items: center;
     justify-content: space-between;
-    width: 400px;
     margin-left: auto;
-    padding: 0 10px;
+    padding: 0 6px;
     border: 2px solid $main-color;
     border-radius: 16px;
     .filter-category {
@@ -141,44 +147,56 @@
 
     .search-keyword-box {
       flex-grow: 1;
+      flex-shrink: 1;
       display: flex;
       align-items: center;
       justify-content: space-between;
       .search-keyword-input {
         height: 36px;
         flex-grow: 1;
-        text-indent: 8px;
+        background-color: transparent;
       }
       .submit {
         height: 36px;
-        width: 36px;
+        width: 32px;
         font-size: 22px;
-        color: $main-color-dark;
+        color: $main-color;
         padding-bottom: 4px;
       }
     }
   }
 }
 
-@media (max-width: 1050px) {
+@media (max-width: 650px) {
   .header {
-    .login-area {
-      order: 4;
+    .header-top-fix {
+      width: calc(100vw - 64px);
     }
-    .search-area {
-      width: 100%;
+    .login-area {
+      margin: 0;
+      .login-text {
+        display: none;
+      }
+    }    
+  }
+}
+
+@media (max-width: 900px) {
+  .header{
+    .category-buttons {
+      order: 1;
+      .category-button {
+        width: calc((100vw - 20px) / 4);
+      }
     }
   }
 }
 
-@media (max-width: 650px) {
+@media (min-width: 651px) {
   .header {
     .login-area {
-      order: 2;
-    }
-    .category-buttons {
-      .category-button {
-        width: calc((100vw - 20px) / 4);
+      .member-img {
+        display: none;
       }
     }
   }

@@ -14,7 +14,7 @@
   text-align: center;
   .profile-modal-title {
     margin-bottom: 5px;
-    color: $main-color-dark;
+    color: $main-color;
   }
   .profile-modal-info {
     display: flex;
@@ -51,7 +51,7 @@
       color: white;
     }
     &:active {
-      background-color: $main-color-dark;
+      background-color: $main-color;
       position: relative;
       top: 2px;
     }

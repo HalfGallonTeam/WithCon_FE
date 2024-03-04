@@ -77,7 +77,7 @@ const ConcertCard = (props) => {
   };
 
   return (
-    <div className={`concert-card ${loading}`} onClick={goDetail}>
+    <article className={`concert-card ${loading}`} onClick={goDetail}>
       <div className="poster-box">
         <img className="concert-poster" src={info.poster} alt={info.name} />
       </div>
@@ -96,7 +96,7 @@ const ConcertCard = (props) => {
           </p>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

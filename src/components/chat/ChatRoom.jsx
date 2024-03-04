@@ -19,10 +19,10 @@ const ChatRoom = ({ searchData }) => {
     }
   };
   return (
-    <div className="chat-room" onClick={chatRoomClick}>
-      <div className="chat-top">
-        <span className="title">{searchData.roomName}</span>
-      </div>
+    <article className="chat-room" onClick={chatRoomClick}>
+      <header className="chat-top">
+        <h4 className="title">{searchData.roomName}</h4>
+      </header>
       <div className="chat-bottom">
         <div className="chat-tag">
           {searchData.tags &&
@@ -44,7 +44,7 @@ const ChatRoom = ({ searchData }) => {
           textColor={"black"}
         />
       ) : null}
-    </div>
+    </article>
   );
 };
 ChatRoom.propTypes = {

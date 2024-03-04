@@ -11,9 +11,9 @@ const ChatList = () => {
   const [tagInfo, setTagInfo] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(65);
+  const [totalCount, setTotalCount] = useState(1);
   const [searchHashtag, setSearchHashtag] = useState("");
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [searchData, setSearchData] = useState(null);
   const url = useLocation();
   const urlSearch = new URLSearchParams(url.search);
@@ -104,9 +104,9 @@ const ChatList = () => {
     setSearchHashtag("");
   };
   return (
-    <div className="chat-list-container">
-      <div className="chat-list-header">
-        <h1>채팅방 목록</h1>
+    <section className="chat-list-container">
+      <header className="chat-list-header">
+        <h3 className="chat-list-title">채팅방 목록</h3>
         <div className="header-right">
           <div className="hashtag-search">
             <div className="hashtag-search-inner">
@@ -134,7 +134,7 @@ const ChatList = () => {
           <div className="chat-btn-container">
             <div className="create-chat">
               <button className="create-chat-btn" onClick={openModal}>
-                채팅방 만들기
+                만들기
               </button>
             </div>
             {isModalOpen && (
@@ -145,26 +145,24 @@ const ChatList = () => {
             )}
           </div>
         </div>
-      </div>
-      <div className="list-container">
+      </header>
+      <section className="list-container">
         {showModal ? (
           <ButtonModal
             buttonContainer="0"
             text="로그인한 사용자만 가능합니다"
           />
         ) : null}
-        {data && data.length > 0 ? (
+        {Array.isArray(data) ? (
           data.map((searchData) => (
             <ChatRoom searchData={searchData} key={searchData.id} />
           ))
         ) : (
-          <div className="room-msg-container">
-            <span>채팅방이 없습니다.</span>
-          </div>
+          <p className="room-msg-container">채팅방이 없습니다.</p>
         )}
-      </div>
+      </section>
       <Paging totalCount={totalCount} currentPage={currentPage} limit={5} />
-    </div>
+    </section>
   );
 };
 
